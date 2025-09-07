@@ -1,0 +1,93 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/tabs/tab4" text="Volver"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Detalle De La Ficha</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<div class="detalle-container">
+  <ion-content class="detalle-content">
+    <!-- Card principal -->
+    <ion-card *ngIf="paciente" class="detalle-card">
+      <ion-card-content>
+        <div class="info-header">
+          <div class="avatar">
+            {{ getIniciales(paciente.nombre) }}
+          </div>
+          <div class="datos">
+            <h2>{{ paciente.nombre }}</h2>
+            <p><strong>RUT:</strong> {{ paciente.rut }}</p>
+            <p><strong>Edad:</strong> {{ paciente.edad }} años</p>
+            <p><strong>Tipo Sanguíneo:</strong> {{ paciente.tipoSangre }}</p>
+            <p><strong>Teléfono:</strong> {{ paciente.telefono }}</p>
+            <p><strong>Email:</strong> {{ paciente.correo }}</p>
+            <p>
+              <strong>Paciente crítico:</strong>
+              <span [style.color]="paciente.critico ? 'red' : 'green'">
+                {{ paciente.critico ? 'Sí' : 'No' }}
+              </span>
+            </p>
+            <p><strong>Última atención:</strong> {{ paciente.ultimaAtencion }}</p>
+          </div>
+        </div>
+
+        <div class="acciones-card">
+          <ion-button expand="block" fill="solid" color="primary" size="small">
+            Registrar nueva atención
+          </ion-button>
+        </div>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- Dropdown -->
+    <div class="acciones-dropdown">
+      <ion-item lines="full">
+        <ion-label>Ver información</ion-label>
+        <ion-select interface="popover" placeholder="Seleccione opción" [(ngModel)]="opcionSeleccionada">
+          <ion-select-option value="consultas">Consultas pasadas</ion-select-option>
+          <ion-select-option value="medicamentos">Medicamentos</ion-select-option>
+          <ion-select-option value="enfermedades">Enfermedades crónicas</ion-select-option>
+          <ion-select-option value="alergias">Alergias</ion-select-option>
+        </ion-select>
+      </ion-item>
+    </div>
+
+    <!-- Consultas -->
+    <div *ngIf="opcionSeleccionada === 'consultas'">
+      <div *ngFor="let consulta of paciente.consultas" class="extra-card consulta">
+        <h3>{{ consulta.titulo }}</h3>
+        <p>{{ consulta.detalle }}</p>
+        <p><small>{{ consulta.fecha }}</small></p>
+      </div>
+    </div>
+
+    <!-- Medicamentos -->
+    <div *ngIf="opcionSeleccionada === 'medicamentos'">
+      <div *ngFor="let med of paciente.medicamentos" class="extra-card medicamento">
+        <h3>{{ med.titulo }}</h3>
+        <p>{{ med.detalle }}</p>
+        <p><small>Desde: {{ med.fecha }}</small></p>
+      </div>
+    </div>
+
+    <!-- Enfermedades -->
+    <div *ngIf="opcionSeleccionada === 'enfermedades'">
+      <div *ngFor="let enf of paciente.enfermedades" class="extra-card enfermedad">
+        <h3>{{ enf.titulo }}</h3>
+        <p>{{ enf.detalle }}</p>
+        <p><small>Dx: {{ enf.fecha }}</small></p>
+      </div>
+    </div>
+
+    <!-- Alergias -->
+    <div *ngIf="opcionSeleccionada === 'alergias'">
+      <div *ngFor="let al of paciente.alergias" class="extra-card alergia">
+        <h3>{{ al.titulo }}</h3>
+        <p>{{ al.detalle }}</p>
+        <p><small>Registrada: {{ al.fecha }} | Nivel: {{ al.nivel }}</small></p>
+      </div>
+    </div>
+  </ion-content>
+</div>

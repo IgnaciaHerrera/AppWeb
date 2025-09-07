@@ -1,0 +1,94 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>Nuevo paciente</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <!-- Texto explicativo -->
+  <ion-text color="medium">
+    <p style="text-align: justify; margin-bottom: 16px;">
+      Para registrar un nuevo paciente, por favor complete el formulario con los datos solicitados:
+      nombre, apellido, RUT, sexo, fecha de nacimiento, tipo sanguíneo, teléfono y correo electrónico.
+      Una vez terminado, presione <strong>Guardar</strong> para almacenar la información.
+    </p>
+  </ion-text>
+
+  <!-- Botón que abre el modal -->
+  <ion-button id="open-modal" expand="block" color="primary">
+    Registrar paciente
+  </ion-button>
+
+  <ion-modal trigger="open-modal" (willDismiss)="onWillDismiss($event)">
+    <ng-template>
+      <ion-header>
+        <ion-toolbar>
+          <ion-buttons slot="start">
+            <ion-button (click)="cancel()">Cancelar</ion-button>
+          </ion-buttons>
+          <ion-title>Nuevo paciente</ion-title>
+          <ion-buttons slot="end">
+            <ion-button (click)="confirm()" [strong]="true">Guardar</ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+
+      <ion-content class="ion-padding">
+        <ion-item>
+          <ion-input label="Nombre" labelPlacement="stacked" type="text" [(ngModel)]="nuevoPaciente.nombre"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-input label="Apellido" labelPlacement="stacked" type="text" [(ngModel)]="nuevoPaciente.apellido"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-input label="RUT" labelPlacement="stacked" type="text" [(ngModel)]="nuevoPaciente.rut"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-select label="Sexo" labelPlacement="stacked" [(ngModel)]="nuevoPaciente.sexo">
+            <ion-select-option value="F">Femenino</ion-select-option>
+            <ion-select-option value="M">Masculino</ion-select-option>
+          </ion-select>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="stacked">Fecha de nacimiento</ion-label>
+          <ion-datetime-button datetime="nacimiento"></ion-datetime-button>
+          <ion-modal keepContentsMounted="true">
+            <ng-template>
+              <ion-datetime
+                id="nacimiento"
+                presentation="date"
+                [(ngModel)]="nuevoPaciente.cumpleanos">
+              </ion-datetime>
+            </ng-template>
+          </ion-modal>
+        </ion-item>
+
+        <ion-item>
+          <ion-select label="Tipo sanguíneo" labelPlacement="stacked" [(ngModel)]="nuevoPaciente.tipoSangre">
+            <ion-select-option value="A+">A+</ion-select-option>
+            <ion-select-option value="A-">A-</ion-select-option>
+            <ion-select-option value="B+">B+</ion-select-option>
+            <ion-select-option value="B-">B-</ion-select-option>
+            <ion-select-option value="AB+">AB+</ion-select-option>
+            <ion-select-option value="AB-">AB-</ion-select-option>
+            <ion-select-option value="O+">O+</ion-select-option>
+            <ion-select-option value="O-">O-</ion-select-option>
+          </ion-select>
+        </ion-item>
+
+        <ion-item>
+          <ion-input label="Teléfono" labelPlacement="stacked" type="tel" [(ngModel)]="nuevoPaciente.telefono"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-input label="Email" labelPlacement="stacked" type="email" [(ngModel)]="nuevoPaciente.gmail"></ion-input>
+        </ion-item>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+</ion-content>

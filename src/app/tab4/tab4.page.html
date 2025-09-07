@@ -1,0 +1,45 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>Fichas médicas</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<div class="fichas-container">
+  <ion-content class="fichas-content">
+    <h3 class="titulo-buscador">Buscar paciente</h3>
+    <div class="buscador">
+      <ion-searchbar
+        [(ngModel)]="searchTerm"
+        placeholder="Buscar paciente por nombre o RUT">
+      </ion-searchbar>
+    </div>
+
+    <!-- Lista de pacientes -->
+    <div class="lista-pacientes">
+      <ion-card
+        *ngFor="let paciente of pacientesFiltrados()"
+        class="paciente-card"
+        [routerLink]="['/detalle-ficha', paciente.rut]"
+      >
+        <ion-card-content>
+          <div class="paciente-info">
+            <!-- Izquierda -->
+            <div class="izquierda">
+              <h2>{{ paciente.nombre }}</h2>
+              <p>{{ paciente.rut }}</p>
+              <small>Última atención: {{ paciente.ultimaAtencion }}</small>
+            </div>
+
+            <!-- Derecha -->
+            <div class="derecha">
+              <div class="sangre">
+                <span>{{ paciente.tipoSangre }}</span>
+              </div>
+              <ion-icon name="chevron-forward-outline" class="flecha"></ion-icon>
+            </div>
+          </div>
+        </ion-card-content>
+      </ion-card>
+    </div>
+  </ion-content>
+</div>

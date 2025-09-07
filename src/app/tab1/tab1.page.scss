@@ -1,0 +1,149 @@
+.home-container {
+  display: flex;
+  justify-content: center;
+}
+
+.home-content {
+  max-width: 400px;
+  margin: 0 auto;
+  min-height: 100vh;
+  background: var(--ion-background-color);
+  display: flex;
+  flex-direction: column;
+  padding-top: 8px !important;  
+}
+
+.saludo {
+  text-align: left;
+  width: 100%;
+  margin-bottom: 20px; 
+
+  h2 {
+    font-weight: bold;
+    color: var(--ion-text-color); 
+    margin-bottom: 6px; 
+  }
+
+  p {
+    font-size: 0.9rem;
+    color: var(--ion-text-color, #555);
+    margin: 0;
+  }
+}
+
+.accesos-rapidos {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin: 8px 0 20px 0; 
+
+  .acceso {
+    flex: 1;
+    margin: 0 4px;
+    text-align: center;
+    border-radius: 12px;
+    background: var(--ion-color-light, #ede7f6);
+    color: var(--ion-text-color); 
+
+    ion-card-content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 8px; 
+    }
+
+    .icono {
+      font-size: 28px; 
+      margin-bottom: 4px;
+      color: var(--ion-text-color); 
+    }
+
+    p {
+      font-size: 0.75rem;
+      margin: 0;
+      color: var(--ion-text-color); 
+    }
+  }
+}
+
+.resumen-header {
+  width: 100%;
+  margin: 4px 0; 
+
+  h3 {
+    margin: 0 0 4px 4px;
+    font-weight: bold;
+    color: var(--ion-text-color); 
+  }
+}
+
+.resumen-numeros {
+  display: flex;
+  justify-content: space-between;
+  gap: 6px; 
+  margin-bottom: 8px; 
+
+  .numero-card {
+    flex: 1;
+    border-radius: 10px;
+    background: var(--ion-card-background, #fff);
+    color: var(--ion-text-color, #000);
+
+    ion-card-content {
+      padding: 8px; 
+      text-align: center;
+    }
+
+    p {
+      margin: 0 0 2px 0;
+      font-size: 0.75rem;
+      color: var(--ion-text-color-step-600, #555);
+    }
+
+    h2 {
+      margin: 0;
+      font-weight: bold;
+      font-size: 1.2rem; 
+      color: var(--ion-text-color, #000);
+
+      &.criticos {
+        color: red; 
+      }
+    }
+  }
+}
+
+.resumen-card {
+  width: 100%;
+  margin: 8px 0; 
+  border-radius: 12px;
+  background: var(--ion-card-background, #fff);
+  color: var(--ion-text-color, #000);
+
+  ion-card-content {
+    padding: 8px; 
+  }
+
+  .grafico-header {
+    margin-bottom: 6px; 
+
+    h4 {
+      margin: 0;
+      font-weight: bold;
+      font-size: 1rem;
+      color: var(--ion-text-color); 
+      text-align: center;
+    }
+  }
+
+  .resumen-grafico {
+    height: 150px; 
+  }
+}
+
+canvas {
+  width: 100% !important;
+  height: auto !important;
+  max-height: 160px;
+  display: block;
+}

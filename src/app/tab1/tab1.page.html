@@ -1,0 +1,80 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title slot="start">Home</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="goTo('/tabs/tab6')" fill="clear">
+        <ion-icon name="person-circle-outline" style="font-size: 26px;"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<div class="home-container">
+  <ion-content [fullscreen]="true" class="ion-padding home-content">
+
+    <div class="saludo">
+      <h2>¡Hola!</h2>
+      <p>Hoy es Lunes 8 de septiembre</p>
+    </div>
+
+    <div class="accesos-rapidos">
+      <!-- Fichas médicas-->
+      <ion-card button (click)="goTo('/tabs/tab4')" class="acceso">
+        <ion-card-content>
+          <ion-icon name="documents-outline" class="icono"></ion-icon>
+          <p>Fichas médicas</p>
+        </ion-card-content>
+      </ion-card>
+
+      <!-- Dashboard-->
+      <ion-card button (click)="goTo('/tabs/tab2')" class="acceso">
+        <ion-card-content>
+          <ion-icon name="stats-chart-outline" class="icono"></ion-icon>
+          <p>Dashboard</p>
+        </ion-card-content>
+      </ion-card>
+      <!-- Reporte-->
+      <ion-card button (click)="goTo('/tabs/tab5')" class="acceso">
+        <ion-card-content>
+          <ion-icon name="document-text-outline" class="icono"></ion-icon>
+          <p>Reportes</p>
+        </ion-card-content>
+      </ion-card>
+    </div>
+
+    <!-- Resumen -->
+    <div class="resumen-header">
+      <h3>Resumen</h3>
+    </div>
+
+    <!-- Tarjetas de números -->
+    <div class="resumen-numeros">
+      <ion-card class="numero-card">
+        <ion-card-content>
+          <p>Total Pacientes</p>
+          <h2>4</h2>
+        </ion-card-content>
+      </ion-card>
+      
+      <ion-card class="numero-card">
+        <ion-card-content>
+          <p>Pacientes críticos</p>
+          <h2 class="criticos">2</h2>
+        </ion-card-content>
+      </ion-card>
+    </div>
+
+    <!-- Gráfico-->
+    <ion-card class="resumen-card">
+      <ion-card-content>
+        <div class="grafico-header">
+          <h4>Distribución por Grupos</h4>
+        </div>
+        <div class="resumen-grafico">
+          <canvas id="resumenChart"></canvas>
+        </div>
+      </ion-card-content>
+    </ion-card>
+
+  </ion-content>
+</div>

@@ -1,0 +1,107 @@
+.fichas-container {
+  display: flex;
+  justify-content: center;
+}
+
+.fichas-content {
+  --background: var(--ion-background-color);
+  max-width: 400px;
+  margin: 0 auto;
+  min-height: 100vh;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+}
+
+.titulo-buscador {
+  font-weight: bold;
+  font-size: 1rem;
+  margin: 16px 0 8px 0px;
+  padding-left: 12px;
+  color: var(--ion-text-color);
+}
+
+.buscador {
+  margin-bottom: 12px;
+}
+
+.lista-pacientes {
+  display: flex;
+  flex-direction: column;
+  gap: 10px; 
+}
+
+.paciente-card {
+  border-radius: 12px;
+  cursor: pointer;
+  width: 92%;       
+  margin: 0 auto;   
+  position: relative;
+  overflow: visible;
+  padding-left: 6px;
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 6px;
+    height: 100%;
+    background: linear-gradient(180deg, #6a5acd, #7b2cbf);
+    border-radius: 12px 0 0 12px;
+  }
+}
+
+.paciente-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: stretch;
+}
+
+.izquierda {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.izquierda h2 {
+  margin: 0;
+  font-size: 0.95rem;
+  font-weight: bold;
+  color: var(--ion-text-color);
+}
+
+.izquierda p {
+  margin: 0;
+  font-size: 0.8rem;
+  color: var(--ion-text-color-step-600);
+}
+
+.izquierda small {
+  font-size: 0.7rem;
+  color: var(--ion-text-color-step-600);
+  margin-top: 7px;
+}
+
+.derecha {
+  display: flex;
+  flex-direction: column; 
+  justify-content: space-between;
+  align-items: flex-end;
+  padding: 0;
+}
+
+.sangre {
+  background: linear-gradient(135deg, #6a5acd, #7b2cbf);
+  color: #fff;
+  border-radius: 20px;
+  padding: 4px 10px;
+  font-size: 0.75rem;
+  font-weight: bold;
+  margin-top: -4px;
+}
+
+.flecha {
+  font-size: 1.2rem;
+  color: var(--ion-text-color-step-600);
+}
