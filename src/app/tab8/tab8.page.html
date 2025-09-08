@@ -1,0 +1,17 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>Noticias</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ion-card *ngFor="let noticia of noticias">
+    <ion-card-header>
+      <ion-card-title>{{ noticia.titulo }}</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <p>{{ noticia.descripcion }}</p>
+      <ion-button fill="outline" color="primary">Leer más</ion-button>
+    </ion-card-content>
+  </ion-card>
+</ion-content>
