@@ -5,5 +5,55 @@
 </ion-header>
 
 <ion-content class="ion-padding">
-  <p>Contenido de los reportes.</p>
+
+  <p class="titulo">
+    Selecciona que reporte quieres generar
+  </p>
+
+  <ion-accordion-group class="elAcordeon">
+
+    <ion-accordion value="first">
+  <ion-item slot="header" color="light">
+    <ion-label>Pacientes Actuales</ion-label>
+  </ion-item>
+
+  <div class="ion-padding" slot="content">
+    <p>Lista de pacientes que están actualmente en el hospital</p>
+
+    <ion-button expand="block" color="primary" (click)="goPacientes()">
+      Ver Detalles
+    </ion-button>
+  </div>
+</ion-accordion>
+
+
+    <ion-accordion value="second">
+      <ion-item slot="header" color="light">
+        <ion-label>Estadísticas</ion-label>
+      </ion-item>
+      <div class="ion-padding" slot="content">
+        Estadísticas de pacientes
+      </div>
+      <div class="ion-padding" slot="content">
+        <ion-button expand="block" color="secondary" routerLink="/estadisticas-graficos">
+          Ver Gráficos
+        </ion-button>
+      </div>
+    </ion-accordion>
+
+    <ion-accordion value="third">
+      <ion-item slot="header" color="light">
+        <ion-label>Reportes de Medicación</ion-label>
+      </ion-item>
+      <div class="ion-padding" slot="content">
+        Lista de medicamentos administrados
+      </div>
+      <div class="ion-padding" slot="content">
+        <ion-button expand="block" color="tertiary" routerLink="/medicacion">
+          Ver Reporte
+        </ion-button>
+      </div>
+    </ion-accordion>
+
+  </ion-accordion-group>
 </ion-content>

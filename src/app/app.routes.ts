@@ -12,4 +12,9 @@ export const routes: Routes = [
         (m) => m.DetalleFichaPage
       ),
   },
+  {
+    path: 'pacientes-actuales',
+    loadComponent: () => import('./pacientes-actuales/pacientes-actuales.page').then( m => m.PacientesActualesPage)
+  },
+
 ];

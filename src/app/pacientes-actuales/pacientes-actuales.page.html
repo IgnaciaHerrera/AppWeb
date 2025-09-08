@@ -1,0 +1,20 @@
+<ion-accordion-group #accordionGroup value="first">
+  <ion-accordion value="first">
+    <ion-item slot="header" color="light">
+      <ion-label>Pacientes Actuales</ion-label>
+    </ion-item>
+
+    <div class="ion-padding" slot="content">
+      <ion-list>
+        <ion-item *ngFor="let paciente of pacientes">
+          <ion-label>
+            <h2>{{ paciente.nombre }} ({{ paciente.edad }} años)</h2>
+            <p>Habitación: {{ paciente.habitacion }}</p>
+            <p>Diagnóstico: {{ paciente.diagnostico }}</p>
+          </ion-label>
+        </ion-item>
+      </ion-list>
+    </div>
+    
+  </ion-accordion>
+</ion-accordion-group>
