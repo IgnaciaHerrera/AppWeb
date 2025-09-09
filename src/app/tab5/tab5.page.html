@@ -1,59 +1,64 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>Reportes</ion-title>
+    <ion-title>Mi Ficha</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="ion-padding">
+<ion-content class="detalle-content">
+  <!-- Cards-->
+  <ion-card class="perfil-card">
+    <ion-card-content>
+      <ion-grid>
+        <ion-row>
+          <ion-col size="3" class="perfil-avatar">
+            <ion-icon name="person-circle-outline"></ion-icon>
+          </ion-col>
+          <ion-col size="9" class="perfil-datos">
+            <h2>María Elena Rodríguez</h2>
+            <p>RUT: 12.345.678-9</p>
+            <p>Última atención: 19/08/2025</p>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-card-content>
+  </ion-card>
+  <h3 class="seccion-titulo">Mi Ficha Médica</h3>
 
-  <p class="titulo">
-    Selecciona que reporte quieres generar
-  </p>
+  <!-- Lista de secciones -->
+  <ion-list lines="none" class="lista-secciones">
+    <ion-item button detail class="card-item blue" (click)="goTo('datos-personales')">
+      <div class="icon-circle blue"><ion-icon name="person-outline"></ion-icon></div>
+      <ion-label>Datos Personales</ion-label>
+    </ion-item>
 
-  <ion-accordion-group class="elAcordeon">
+    <ion-item button detail class="card-item green">
+      <div class="icon-circle green"><ion-icon name="pulse-outline"></ion-icon></div>
+      <ion-label>Historial Médico</ion-label>
+    </ion-item>
 
-    <ion-accordion value="first">
-  <ion-item slot="header" color="light">
-    <ion-label>Pacientes Actuales</ion-label>
-  </ion-item>
+    <ion-item button detail class="card-item purple">
+      <div class="icon-circle purple"><ion-icon name="document-text-outline"></ion-icon></div>
+      <ion-label>Exámenes</ion-label>
+    </ion-item>
 
-  <div class="ion-padding" slot="content">
-    <p>Lista de pacientes que están actualmente en el hospital</p>
+    <ion-item button detail class="card-item orange">
+      <div class="icon-circle orange"><ion-icon name="medkit-outline"></ion-icon></div>
+      <ion-label>Recetas y Medicamentos</ion-label>
+    </ion-item>
 
-    <ion-button expand="block" color="primary" (click)="goPacientes()">
-      Ver Detalles
-    </ion-button>
-  </div>
-</ion-accordion>
+    <ion-item button detail class="card-item red">
+      <div class="icon-circle red"><ion-icon name="alert-circle-outline"></ion-icon></div>
+      <ion-label>Alergias</ion-label>
+    </ion-item>
 
+    <ion-item button detail class="card-item teal">
+      <div class="icon-circle teal"><ion-icon name="bandage-outline"></ion-icon></div>
+      <ion-label>Procedimientos</ion-label>
+    </ion-item>
 
-    <ion-accordion value="second">
-      <ion-item slot="header" color="light">
-        <ion-label>Estadísticas</ion-label>
-      </ion-item>
-      <div class="ion-padding" slot="content">
-        Estadísticas de pacientes
-      </div>
-      <div class="ion-padding" slot="content">
-        <ion-button expand="block" color="secondary" routerLink="/estadisticas-graficos">
-          Ver Gráficos
-        </ion-button>
-      </div>
-    </ion-accordion>
-
-    <ion-accordion value="third">
-      <ion-item slot="header" color="light">
-        <ion-label>Reportes de Medicación</ion-label>
-      </ion-item>
-      <div class="ion-padding" slot="content">
-        Lista de medicamentos administrados
-      </div>
-      <div class="ion-padding" slot="content">
-        <ion-button expand="block" color="tertiary" routerLink="/medicacion">
-          Ver Reporte
-        </ion-button>
-      </div>
-    </ion-accordion>
-
-  </ion-accordion-group>
+    <ion-item button detail class="card-item pink">
+      <div class="icon-circle pink"><ion-icon name="heart-outline"></ion-icon></div>
+      <ion-label>Diagnósticos</ion-label>
+    </ion-item>
+  </ion-list>
 </ion-content>

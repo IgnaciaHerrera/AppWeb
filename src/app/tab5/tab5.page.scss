@@ -1,13 +1,179 @@
-.elAcordeon {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-left: 40rem;
-  margin-right: 40rem;
+.detalle-content {
+  --background: var(--ion-background-color);
 }
 
-.titulo{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+/* Card perfil */
+.perfil-card {
+  margin: 16px;
+  border-radius: 12px;
+  background: var(--ion-card-background);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border: none;
+}
+
+.perfil-avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  ion-icon {
+    font-size: 60px;
+    color: var(--ion-color-medium);
+  }
+}
+
+.perfil-datos {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.perfil-datos h2 {
+  margin: 0 0 4px 0;
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--ion-text-color);
+}
+
+.perfil-datos p {
+  margin: 2px 0;
+  font-size: 0.9rem;
+  color: var(--ion-color-medium);
+}
+
+/* Título */
+.seccion-titulo {
+  margin: 24px 16px 16px;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--ion-text-color);
+}
+
+/* Lista de secciones */
+.lista-secciones {
+  margin: 0 16px;
+  background: transparent;
+}
+
+.card-item {
+  --background: var(--ion-card-background);
+  --border-radius: 12px;
+  --padding-start: 0;
+  --padding-end: 16px;
+  --min-height: 60px;
+  
+  margin: 12px 0;
+  border-radius: 12px;
+  background: var(--ion-card-background);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  border: none;
+  border-left: 4px solid transparent;
+  overflow: hidden;
+}
+
+.card-item:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+  transform: translateY(-1px);
+  transition: all 0.2s ease;
+}
+
+ion-item ion-label {
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--ion-text-color);
+  margin-left: 12px;
+}
+
+/* Flechas*/
+ion-item::part(detail-icon) {
+  font-size: 18px;
+  color: var(--ion-color-medium);
+  opacity: 0.7;
+}
+
+/* Círculos de íconos */
+.icon-circle {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 16px;
+  margin-right: 0;
+  flex-shrink: 0;
+
+  ion-icon {
+    font-size: 20px;
+    color: #fff;
+  }
+}
+
+/* Colores para los círculos de íconos */
+.icon-circle.blue { 
+  background: linear-gradient(135deg, #4dabf7, #339af0);
+}
+.icon-circle.green { 
+  background: linear-gradient(135deg, #20c997, #12b886);
+}
+.icon-circle.purple { 
+  background: linear-gradient(135deg, #b197fc, #9775fa);
+}
+.icon-circle.orange { 
+  background: linear-gradient(135deg, #f59f00, #fd7e14);
+}
+.icon-circle.red { 
+  background: linear-gradient(135deg, #e03131, #c92a2a);
+}
+.icon-circle.teal { 
+  background: linear-gradient(135deg, #12b886, #0ca678);
+}
+.icon-circle.pink { 
+  background: linear-gradient(135deg, #e64980, #d6336c);
+}
+
+/* Bordes izquierdos de las cards*/
+.card-item.blue { 
+  border-left-color: #4dabf7;
+  border-left-width: 4px;
+}
+.card-item.green { 
+  border-left-color: #20c997;
+  border-left-width: 4px;
+}
+.card-item.purple { 
+  border-left-color: #b197fc;
+  border-left-width: 4px;
+}
+.card-item.orange { 
+  border-left-color: #f59f00;
+  border-left-width: 4px;
+}
+.card-item.red { 
+  border-left-color: #e03131;
+  border-left-width: 4px;
+}
+.card-item.teal { 
+  border-left-color: #12b886;
+  border-left-width: 4px;
+}
+.card-item.pink { 
+  border-left-color: #e64980;
+  border-left-width: 4px;
+}
+
+
+/* Modo oscuro */
+@media (prefers-color-scheme: dark) {
+  .card-item {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  }
+  
+  .card-item:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  }
+  
+  .perfil-card {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  }
 }

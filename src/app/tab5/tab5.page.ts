@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Router } from '@angular/router'; 
-import { 
-  IonHeader, IonToolbar, IonTitle, IonContent, 
-  IonCard, IonCardContent, IonIcon, IonButton, IonButtons, IonAccordion, IonAccordionGroup, IonItem, IonLabel
+import { Router } from '@angular/router';
+import {
+  IonHeader, IonToolbar, IonTitle, IonContent,
+  IonCard, IonCardContent, IonIcon,
+  IonGrid, IonRow, IonCol, IonItem, IonLabel, IonList
 } from '@ionic/angular/standalone';
 
 @Component({
@@ -13,8 +14,10 @@ import {
   styleUrls: ['./tab5.page.scss'],
   standalone: true,
   imports: [
+    CommonModule, FormsModule,
     IonHeader, IonToolbar, IonTitle, IonContent,
-    IonCard, IonCardContent, IonIcon, IonButton, IonButtons, IonAccordion, IonAccordionGroup, IonItem, IonLabel
+    IonCard, IonCardContent, IonIcon,
+    IonGrid, IonRow, IonCol, IonItem, IonLabel, IonList
   ],
 })
 export class Tab5Page implements OnInit {
@@ -24,9 +27,6 @@ export class Tab5Page implements OnInit {
   ngOnInit() {}
 
   goTo(path: string) {
-    this.router.navigateByUrl(path, { replaceUrl: true });
+    this.router.navigateByUrl(path);
   }
-  goPacientes() {
-  this.router.navigate(['/pacientes-actuales']);
-
-}};
+}

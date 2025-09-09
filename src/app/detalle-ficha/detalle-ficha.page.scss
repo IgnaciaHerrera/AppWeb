@@ -121,3 +121,34 @@
 .medicamento { border-left: 4px solid #20c997; }
 .enfermedad { border-left: 4px solid #f59f00; }
 .alergia { border-left: 4px solid #e03131; }
+
+/* Datos personales con iconos en círculo */
+.datos-personales {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.dato-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.9rem;
+  padding: 6px 0;
+}
+
+.icon-circle {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #6a5acd, #7b2cbf); 
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.icon-circle ion-icon {
+  font-size: 1.1rem;
+  color: white;
+}

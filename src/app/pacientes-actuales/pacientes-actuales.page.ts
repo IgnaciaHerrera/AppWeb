@@ -1,16 +1,14 @@
-import { Component, OnInit,ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonContent, IonHeader, IonTitle, IonToolbar, IonAccordion, IonAccordionGroup, IonButton, IonItem, IonLabel, IonList } from '@ionic/angular/standalone';
+import { IonAccordion, IonAccordionGroup, IonItem, IonLabel, IonList } from '@ionic/angular/standalone';
 
 @Component({
   selector: 'app-pacientes-actuales',
   templateUrl: './pacientes-actuales.page.html',
   styleUrls: ['./pacientes-actuales.page.scss'],
   standalone: true,
-  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonAccordion, IonAccordionGroup, IonButton, IonItem, IonLabel,
-    IonList
-  ]
+  imports: [CommonModule, FormsModule, IonAccordion, IonAccordionGroup, IonItem, IonLabel, IonList]
 })
 export class PacientesActualesPage implements OnInit {
 
@@ -22,7 +20,7 @@ export class PacientesActualesPage implements OnInit {
     { nombre: 'Carlos Ramírez', edad: 60, habitacion: '103C', diagnostico: 'Insuficiencia Cardíaca' },
   ];
 
-  constructor() { }
+  constructor() {}
 
   ngOnInit() {}
 

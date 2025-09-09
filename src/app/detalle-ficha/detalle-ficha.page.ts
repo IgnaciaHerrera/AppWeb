@@ -5,7 +5,7 @@ import { FormsModule } from '@angular/forms';
 import {
   IonContent, IonHeader, IonTitle, IonToolbar,
   IonButtons, IonBackButton, IonCard, IonCardContent,
-  IonButton, IonSelect, IonSelectOption, IonItem, IonLabel
+  IonButton, IonSelect, IonSelectOption, IonItem, IonLabel, IonIcon
 } from '@ionic/angular/standalone';
 
 @Component({
@@ -20,12 +20,12 @@ import {
     IonButtons, IonBackButton,
     IonCard, IonCardContent,
     IonButton, IonSelect, IonSelectOption,
-    IonItem, IonLabel
+    IonItem, IonLabel, IonIcon
   ]
 })
 export class DetalleFichaPage implements OnInit {
   paciente: any;
-  opcionSeleccionada: string = ''; 
+  opcionSeleccionada: string = 'datos'; // siempre inicia en Datos personales
 
   constructor(private route: ActivatedRoute) {}
 

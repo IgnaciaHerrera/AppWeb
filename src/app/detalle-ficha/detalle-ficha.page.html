@@ -9,7 +9,7 @@
 
 <div class="detalle-container">
   <ion-content class="detalle-content">
-    <!-- Card principal -->
+    <!-- Card principal (solo nombre, rut y crítico) -->
     <ion-card *ngIf="paciente" class="detalle-card">
       <ion-card-content>
         <div class="info-header">
@@ -19,17 +19,12 @@
           <div class="datos">
             <h2>{{ paciente.nombre }}</h2>
             <p><strong>RUT:</strong> {{ paciente.rut }}</p>
-            <p><strong>Edad:</strong> {{ paciente.edad }} años</p>
-            <p><strong>Tipo Sanguíneo:</strong> {{ paciente.tipoSangre }}</p>
-            <p><strong>Teléfono:</strong> {{ paciente.telefono }}</p>
-            <p><strong>Email:</strong> {{ paciente.correo }}</p>
             <p>
               <strong>Paciente crítico:</strong>
               <span [style.color]="paciente.critico ? 'red' : 'green'">
                 {{ paciente.critico ? 'Sí' : 'No' }}
               </span>
             </p>
-            <p><strong>Última atención:</strong> {{ paciente.ultimaAtencion }}</p>
           </div>
         </div>
 
@@ -45,13 +40,42 @@
     <div class="acciones-dropdown">
       <ion-item lines="full">
         <ion-label>Ver información</ion-label>
-        <ion-select interface="popover" placeholder="Seleccione opción" [(ngModel)]="opcionSeleccionada">
+        <ion-select interface="popover" [(ngModel)]="opcionSeleccionada">
+          <ion-select-option value="datos">Datos personales</ion-select-option>
           <ion-select-option value="consultas">Consultas pasadas</ion-select-option>
           <ion-select-option value="medicamentos">Medicamentos</ion-select-option>
           <ion-select-option value="enfermedades">Enfermedades crónicas</ion-select-option>
           <ion-select-option value="alergias">Alergias</ion-select-option>
         </ion-select>
       </ion-item>
+    </div>
+
+    <!-- Datos personales -->
+    <div *ngIf="opcionSeleccionada === 'datos'" class="extra-card datos-personales">
+      <div class="dato-item">
+        <div class="icon-circle"><ion-icon name="calendar-outline"></ion-icon></div>
+        <span><strong>Edad:</strong> {{ paciente.edad }} años</span>
+      </div>
+
+      <div class="dato-item">
+        <div class="icon-circle"><ion-icon name="water-outline"></ion-icon></div>
+        <span><strong>Tipo Sanguíneo:</strong> {{ paciente.tipoSangre }}</span>
+      </div>
+
+      <div class="dato-item">
+        <div class="icon-circle"><ion-icon name="call-outline"></ion-icon></div>
+        <span><strong>Teléfono:</strong> {{ paciente.telefono }}</span>
+      </div>
+
+      <div class="dato-item">
+        <div class="icon-circle"><ion-icon name="mail-outline"></ion-icon></div>
+        <span><strong>Email:</strong> {{ paciente.correo }}</span>
+      </div>
+
+      <div class="dato-item">
+        <div class="icon-circle"><ion-icon name="time-outline"></ion-icon></div>
+        <span><strong>Última atención:</strong> {{ paciente.ultimaAtencion }}</span>
+      </div>
     </div>
 
     <!-- Consultas -->

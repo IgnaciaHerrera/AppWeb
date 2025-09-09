@@ -39,7 +39,11 @@ export const routes: Routes = [
   {
     path: 'tab-more',
     loadComponent: () => import('./tab-more/tab-more.page').then( m => m.TabMorePage)
+  },  {
+    path: 'datos-personales',
+    loadComponent: () => import('./datos-personales/datos-personales.page').then( m => m.DatosPersonalesPage)
   },
+
 
 
 
