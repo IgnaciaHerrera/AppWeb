@@ -1,0 +1,260 @@
+:host {
+  --pink-primary: #e91e63; 
+  --pink-light: #f8bbd9;
+  --green-success: #20c997;
+  --orange-warning: #fd7e14;
+  --red-danger: #fa5252;
+  --dark-critical: #495057;
+  --gray-medium: #6c757d;
+}
+
+// Títulos y secciones
+.section-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--ion-text-color);
+  margin: 16px 16px 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.section-title ion-icon {
+  color: var(--pink-primary);
+}
+
+// Listas y contenedores
+ion-list {
+  background: transparent;
+  margin: 0 16px;
+}
+
+// Cards de diagnósticos
+.diagnostico-item {
+  background: var(--ion-card-background);
+  margin-bottom: 12px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  border-left: 4px solid transparent;
+  transition: all 0.3s ease;
+}
+.diagnostico-item.severity-leve {
+  border-left-color: var(--green-success);
+}
+.diagnostico-item.severity-moderado {
+  border-left-color: var(--orange-warning);
+}
+.diagnostico-item.severity-severo {
+  border-left-color: var(--red-danger);
+}
+.diagnostico-item.severity-critico {
+  border-left-color: var(--dark-critical);
+}
+.diagnostico-item:hover {
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+}
+.diagnostico-item ion-item {
+  --background: transparent;
+  --padding-start: 16px;
+  --padding-end: 16px;
+  --inner-padding-end: 0;
+}
+
+// Información de fecha
+.date-info {
+  font-size: 0.75rem;
+  color: var(--ion-color-medium);
+  margin-top: 2px;
+}
+
+// Columna de badges
+.badge-col {
+  display: flex;
+  justify-content: flex-start;
+  padding-left: 8px;
+}
+
+// Badge con espacio
+.severity-badge-spaced {
+  margin-left: 16px;
+}
+
+// Detalles expandidos
+.diagnostico-expanded-row {
+  padding-top: 12px;
+  padding-left: 16px;
+  padding-right: 16px;
+}
+.diagnostico-expanded-row ion-col {
+  padding: 0 2px;
+}
+
+// Card de detalle
+.detail-card {
+  background: rgba(0, 0, 0, 0.02);
+  padding: 12px;
+  border-radius: 8px;
+  margin-bottom: 8px;
+}
+.detail-card .detail-label {
+  font-size: 0.75rem;
+  color: var(--ion-color-medium);
+  margin: 0 0 4px 0;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.detail-card .detail-value {
+  font-size: 0.9rem;
+  color: var(--ion-text-color);
+  font-weight: 500;
+  margin: 0;
+}
+
+// Sección de tratamiento
+.treatment-row {
+  padding-top: 8px;
+  padding-left: 16px;
+  padding-right: 16px;
+}
+.treatment-row ion-col {
+  padding: 0;
+}
+.treatment-section {
+  background: rgba(233, 30, 99, 0.05); 
+  border-left: 3px solid var(--pink-primary);
+  border-radius: 8px;
+  padding: 12px;
+  margin-bottom: 8px;
+}
+.treatment-section .treatment-title {
+  font-size: 0.75rem;
+  color: var(--pink-primary);
+  font-weight: 600;
+  margin: 0 0 6px 0;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.treatment-section .treatment-text {
+  font-size: 0.85rem;
+  color: var(--ion-text-color);
+  line-height: 1.4;
+  margin: 0;
+}
+
+// Estado vacío
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 20px;
+  text-align: center;
+}
+.empty-state .empty-icon {
+  font-size: 4rem;
+  color: var(--ion-color-medium);
+  margin-bottom: 16px;
+}
+.empty-state h3 {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--ion-text-color);
+  margin: 0 0 8px 0;
+}
+.empty-state p {
+  font-size: 0.9rem;
+  color: var(--ion-color-medium);
+  margin: 0 0 24px 0;
+  line-height: 1.4;
+}
+.empty-state ion-button {
+  --color: var(--pink-primary);
+  --border-color: var(--pink-primary);
+}
+
+// Fab button
+ion-fab-button {
+  --background: var(--pink-primary);
+  --color: white;
+  --box-shadow: 0 4px 16px rgba(233, 30, 99, 0.3);
+}
+ion-fab-button:hover {
+  --box-shadow: 0 6px 20px rgba(233, 30, 99, 0.4);
+}
+
+// Iconos de expansión
+.expand-icon {
+  color: var(--ion-color-medium);
+  transition: transform 0.2s ease;
+}
+
+// Responsive design
+@media (max-width: 576px) {
+  .section-title {
+    margin: 16px 12px 8px;
+    font-size: 1rem;
+  }
+  ion-list {
+    margin: 0 12px;
+  }
+  .diagnostico-expanded-row {
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+  .diagnostico-expanded-row ion-col {
+    padding: 0 1px;
+  }
+  .treatment-row {
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+  .consultation-row {
+    padding-left: 12px;
+    padding-right: 12px;
+    padding-bottom: 8px;
+  }
+  .detail-card {
+    margin-bottom: 6px;
+    padding: 10px;
+  }
+  .empty-state {
+    padding: 40px 16px;
+  }
+  .empty-state .empty-icon {
+    font-size: 3rem;
+  }
+  .empty-state h3 {
+    font-size: 1.1rem;
+  }
+}
+
+// Modo oscuro
+@media (prefers-color-scheme: dark) {
+  :host {
+    --pink-primary: #f06292; // Rosa más claro para modo oscuro
+    --pink-light: #fce4ec;
+    --green-success: #51cf66;
+    --orange-warning: #ffb84d;
+    --red-danger: #ff6b6b;
+    --dark-critical: #868e96;
+  }
+  .diagnostico-item {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  }
+  .detail-card {
+    background: rgba(255, 255, 255, 0.03);
+  }
+  .treatment-section {
+    background: rgba(240, 98, 146, 0.1);
+    border-color: var(--pink-primary);
+  }
+  .consultation-section {
+    background: rgba(240, 98, 146, 0.05);
+    border-color: rgba(240, 98, 146, 0.3);
+  }
+  ion-fab-button {
+    --box-shadow: 0 4px 16px rgba(240, 98, 146, 0.3);
+  }
+  ion-fab-button:hover {
+    --box-shadow: 0 6px 20px rgba(240, 98, 146, 0.4);
+  }
+}

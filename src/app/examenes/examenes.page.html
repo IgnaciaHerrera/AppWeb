@@ -1,0 +1,176 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/tabs/tab5" text="Volver"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Exámenes</ion-title>
+    <ion-buttons slot="end">
+      <ion-button fill="clear">
+        <ion-icon name="calendar-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Exámenes</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <!-- Búsqueda -->
+  <ion-grid>
+    <ion-row class="search-row">
+      <ion-col size="12">
+        <ion-searchbar 
+          [(ngModel)]="terminoBusqueda" 
+          (ionInput)="buscarExamenes()" 
+          placeholder="Buscar exámenes..."
+          class="search-bar">
+        </ion-searchbar>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <!-- Lista de exámenes en grid -->
+  <ion-grid class="examenes-grid">
+    <ion-row>
+      <ion-col 
+        size="12" 
+        *ngFor="let examen of examenesFiltrados"
+        class="examen-col">
+        
+        <ion-card 
+          class="examen-card"
+          button
+          (click)="verDetalleExamen(examen)">
+          
+          <ion-card-content>
+            <ion-grid>
+              <ion-row class="ion-align-items-center">
+                <!-- Información principal -->
+                <ion-col size="12">
+                  <h3 class="examen-nombre">{{ examen.nombre }}</h3>
+                  <p class="examen-fecha">{{ examen.fecha }}</p>
+                  <p class="examen-tipo">{{ examen.tipo }}</p>
+                </ion-col>
+              </ion-row>
+              
+              <!-- Información adicional -->
+              <ion-row *ngIf="examen.resultados">
+                <ion-col size="12">
+                  <div class="resultados-preview">
+                    <div class="resultado-item" *ngFor="let resultado of examen.resultados.slice(0, 2)">
+                      <span class="resultado-nombre">{{ resultado.nombre }}:</span>
+                      <span 
+                        class="resultado-valor" 
+                        [ngClass]="resultado.estado">
+                        {{ resultado.valor }} {{ resultado.unidad }}
+                      </span>
+                    </div>
+                    <p *ngIf="examen.resultados.length > 2" class="mas-resultados">
+                      +{{ examen.resultados.length - 2 }} resultados más
+                    </p>
+                  </div>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+          </ion-card-content>
+          
+          <!-- Acciones rápidas -->
+          <div class="card-actions">
+            <ion-button 
+              fill="clear" 
+              size="small"
+              (click)="verDetalleExamen(examen); $event.stopPropagation()">
+              <ion-icon name="eye-outline" slot="start"></ion-icon>
+              Ver Detalle
+            </ion-button>
+          </div>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <!-- Modal de detalle del examen -->
+  <ion-modal [isOpen]="mostrarDetalleModal" (didDismiss)="cerrarDetalleModal()">
+    <ng-template>
+      <ion-header>
+        <ion-toolbar>
+          <ion-title>{{ examenSeleccionado?.nombre }}</ion-title>
+          <ion-buttons slot="end">
+            <ion-button (click)="cerrarDetalleModal()">
+              <ion-icon name="close-outline"></ion-icon>
+            </ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+      
+      <ion-content *ngIf="examenSeleccionado">
+        <!-- Información general del examen -->
+        <ion-card>
+          <ion-card-header>
+            <ion-card-title class="detalle-titulo">
+              {{ examenSeleccionado.nombre }}
+            </ion-card-title>
+            <ion-card-subtitle>{{ examenSeleccionado.tipo }}</ion-card-subtitle>
+          </ion-card-header>
+          <ion-card-content>
+            <ion-grid>
+              <ion-row>
+                <ion-col size="12">
+                  <div class="info-item">
+                    <p class="info-label">Fecha</p>
+                    <p class="info-value">{{ examenSeleccionado.fecha }}</p>
+                  </div>
+                </ion-col>
+              </ion-row>
+              <ion-row *ngIf="examenSeleccionado.medico">
+                <ion-col size="12">
+                  <div class="info-item">
+                    <p class="info-label">Médico Solicitante</p>
+                    <p class="info-value">{{ examenSeleccionado.medico }}</p>
+                  </div>
+                </ion-col>
+              </ion-row>
+              <ion-row *ngIf="examenSeleccionado.descripcion">
+                <ion-col size="12">
+                  <div class="info-item">
+                    <p class="info-label">Descripción</p>
+                    <p class="info-value">{{ examenSeleccionado.descripcion }}</p>
+                  </div>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+          </ion-card-content>
+        </ion-card>
+
+        <!-- Resultados detallados -->
+        <ion-card *ngIf="examenSeleccionado.resultados">
+          <ion-card-header>
+            <ion-card-title>Resultados</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <div class="resultado-detalle" *ngFor="let resultado of examenSeleccionado.resultados">
+              <div class="resultado-header">
+                <h4>{{ resultado.nombre }}</h4>
+                <span 
+                  class="resultado-valor-grande" 
+                  [ngClass]="resultado.estado">
+                  {{ resultado.valor }} {{ resultado.unidad }}
+                </span>
+              </div>
+              <div class="rango-referencia" *ngIf="resultado.rangoReferencia">
+                <p>Rango de referencia: {{ resultado.rangoReferencia }}</p>
+              </div>
+              <div class="observaciones" *ngIf="resultado.observaciones">
+                <p>{{ resultado.observaciones }}</p>
+              </div>
+            </div>
+          </ion-card-content>
+        </ion-card>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+</ion-content>

@@ -13,6 +13,14 @@ import { IonicModule } from '@ionic/angular';
 export class Tab6Page implements OnInit {
 
   darkMode: boolean = false;
+  
+  paciente = {
+    nombre: 'María Elena Rodríguez',
+    rut: '12.345.678-9',
+    email: 'maria.rodriguez@email.com',
+    telefono: '+56 9 8765 4321',
+    ultimoAcceso: '07/09/2025 14:35'
+  };
 
   constructor() {}
 
@@ -31,5 +39,17 @@ export class Tab6Page implements OnInit {
 
   onDarkModeToggle() {
     document.body.classList.toggle('dark', this.darkMode);
+  }
+
+  cambiarIdioma(): void {
+    alert('Función para cambiar idioma - próximamente');
+  }
+
+  verPoliticasPrivacidad(): void {
+    alert('Función para ver políticas de privacidad - próximamente');
+  }
+
+  editarFoto(): void {
+    alert('Función para cambiar foto de perfil - próximamente');
   }
 }

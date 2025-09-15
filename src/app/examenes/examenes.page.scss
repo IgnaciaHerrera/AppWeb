@@ -1,0 +1,273 @@
+// Variables del tema verde
+:host {
+  --primary-color: #12b886;
+  --primary-light: #8ce99a;
+  --primary-dark: #0ca678;
+  --success-color: #20c997;
+  --warning-color: #f59f00;
+  --danger-color: #e03131;
+}
+
+// Búsqueda
+.search-row {
+  margin: 0 16px;
+  align-items: center;
+}
+
+.search-bar {
+  --background: var(--ion-card-background);
+  --box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  --border-radius: 12px;
+  --color: var(--primary-color);
+}
+
+// Grid de exámenes
+.examenes-grid {
+  margin: 0 16px;
+}
+
+.examen-col {
+  padding: 6px;
+}
+
+.examen-card {
+  border-radius: 16px;
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08);
+  border-left: 4px solid var(--primary-color);
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  margin: 0;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+  }
+
+  ion-card-content {
+    padding: 16px;
+  }
+}
+
+// Contenido de las cards
+.examen-nombre {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--ion-text-color);
+  margin: 0 0 4px 0;
+}
+
+.examen-fecha {
+  font-size: 0.85rem;
+  color: var(--ion-color-medium);
+  margin: 0 0 2px 0;
+}
+
+.examen-tipo {
+  font-size: 0.8rem;
+  color: var(--ion-color-medium);
+  margin: 0;
+}
+
+// Resultados preview
+.resultados-preview {
+  background: rgba(0, 0, 0, 0.02);
+  border-radius: 8px;
+  padding: 12px;
+  margin-top: 8px;
+
+  .resultado-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 4px 0;
+    font-size: 0.85rem;
+
+    .resultado-nombre {
+      color: var(--ion-color-medium);
+      font-weight: 500;
+    }
+
+    .resultado-valor {
+      font-weight: 600;
+      
+      &.normal { color: var(--success-color); }
+      &.alto { color: var(--danger-color); }
+      &.bajo { color: var(--warning-color); }
+      &.critico { 
+        color: var(--danger-color); 
+        animation: blink 1s infinite;
+      }
+    }
+  }
+
+  .mas-resultados {
+    font-size: 0.75rem;
+    color: var(--ion-color-medium);
+    margin: 8px 0 0 0;
+    text-align: center;
+    font-style: italic;
+  }
+}
+
+@keyframes blink {
+  0%, 50% { opacity: 1; }
+  51%, 100% { opacity: 0.5; }
+}
+
+// Acciones de las cards
+.card-actions {
+  padding: 12px 16px 16px;
+  border-top: 1px solid rgba(0, 0, 0, 0.05);
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+
+  ion-button {
+    --color: var(--primary-color);
+    font-size: 0.8rem;
+    flex: 1;
+    min-width: fit-content;
+  }
+}
+
+// Modal de detalle
+.detalle-titulo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 1.1rem;
+}
+
+.info-item {
+  margin-bottom: 12px;
+
+  .info-label {
+    font-size: 0.8rem;
+    color: var(--ion-color-medium);
+    margin: 0 0 4px 0;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .info-value {
+    font-size: 0.9rem;
+    color: var(--ion-text-color);
+    font-weight: 500;
+    margin: 0;
+  }
+}
+
+// Resultados detallados
+.resultado-detalle {
+  background: rgba(0, 0, 0, 0.02);
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 16px;
+  border-left: 4px solid transparent;
+
+  &:has(.resultado-valor-grande.critico) {
+    border-left-color: var(--danger-color);
+    background: rgba(224, 49, 49, 0.05);
+  }
+
+  &:has(.resultado-valor-grande.alto) {
+    border-left-color: var(--warning-color);
+    background: rgba(245, 159, 0, 0.05);
+  }
+
+  &:has(.resultado-valor-grande.normal) {
+    border-left-color: var(--success-color);
+    background: rgba(32, 201, 151, 0.05);
+  }
+
+  .resultado-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+
+    h4 {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--ion-text-color);
+      margin: 0;
+    }
+
+    .resultado-valor-grande {
+      font-size: 1.2rem;
+      font-weight: 700;
+
+      &.normal { color: var(--success-color); }
+      &.alto { color: var(--warning-color); }
+      &.bajo { color: var(--warning-color); }
+      &.critico { 
+        color: var(--danger-color);
+        animation: pulse-text 2s infinite;
+      }
+    }
+  }
+
+  .rango-referencia {
+    font-size: 0.8rem;
+    color: var(--ion-color-medium);
+    margin: 4px 0;
+
+    p {
+      margin: 0;
+      font-style: italic;
+    }
+  }
+
+  .observaciones {
+    font-size: 0.85rem;
+    color: var(--ion-text-color);
+    background: rgba(18, 184, 134, 0.05);
+    padding: 8px;
+    border-radius: 6px;
+    margin-top: 8px;
+
+    p {
+      margin: 0;
+    }
+  }
+}
+
+@keyframes pulse-text {
+  0%, 50% { opacity: 1; }
+  51%, 100% { opacity: 0.7; }
+}
+
+// Responsive
+@media (max-width: 576px) {
+  .search-row {
+    margin: 0 12px;
+  }
+
+  .examenes-grid {
+    margin: 0 12px;
+  }
+
+  .card-actions {
+    flex-direction: column;
+    
+    ion-button {
+      flex: none;
+    }
+  }
+}
+
+// Modo oscuro
+@media (prefers-color-scheme: dark) {
+  .examen-card {
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.3);
+    
+    &:hover {
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+    }
+  }
+
+  .resultados-preview, .resultado-detalle {
+    background: rgba(255, 255, 255, 0.03);
+  }
+}

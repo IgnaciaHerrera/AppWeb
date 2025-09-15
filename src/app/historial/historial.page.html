@@ -1,0 +1,213 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/tabs/tab5" text="Volver"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Historial Médico</ion-title>
+    <ion-buttons slot="end">
+      <ion-button fill="clear" (click)="toggleFilters()">
+        <ion-icon name="filter-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Historial Médico</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <!-- Filtros expandibles -->
+  <div class="filters-container" *ngIf="showFilters">
+    <ion-grid>
+      <ion-row>
+        <ion-col size="12">
+          <ion-searchbar 
+            [(ngModel)]="searchTerm"
+            (ionInput)="onSearchChange($event)"
+            placeholder="Buscar en historial..."
+            class="custom-searchbar">
+          </ion-searchbar>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col size="6">
+          <ion-select 
+            [(ngModel)]="selectedType" 
+            (ionChange)="applyFilters()"
+            placeholder="Tipo"
+            class="filter-select">
+            <ion-select-option value="">Todos</ion-select-option>
+            <ion-select-option value="consulta">Consultas</ion-select-option>
+            <ion-select-option value="examen">Exámenes</ion-select-option>
+            <ion-select-option value="hospitalizacion">Ingresos</ion-select-option>
+            <ion-select-option value="cirugia">Cirugías</ion-select-option>
+            <ion-select-option value="receta">Recetas</ion-select-option>
+          </ion-select>
+        </ion-col>
+        <ion-col size="6">
+          <ion-datetime
+            [(ngModel)]="selectedDate"
+            (ionChange)="applyFilters()"
+            presentation="month-year"
+            placeholder="Mes/Año"
+            class="filter-date">
+          </ion-datetime>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
+
+  <!-- Sección principal -->
+  <ion-grid>
+    <ion-row>
+      <ion-col size="12">
+        <h2 class="section-title">
+          <ion-icon name="time-outline"></ion-icon>
+          Mi Historial Clínico
+        </h2>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <!-- Resumen de estadísticas -->
+  <div class="stats-container" *ngIf="historialFiltrado.length > 0">
+    <ion-grid>
+      <ion-row>
+        <ion-col size="3">
+          <div class="stat-card">
+            <p class="stat-number">{{ getEventCount('consulta') }}</p>
+            <p class="stat-label">Consultas</p>
+          </div>
+        </ion-col>
+        <ion-col size="3">
+          <div class="stat-card">
+            <p class="stat-number">{{ getEventCount('examen') }}</p>
+            <p class="stat-label">Exámenes</p>
+          </div>
+        </ion-col>
+        <ion-col size="3">
+          <div class="stat-card">
+            <p class="stat-number">{{ getEventCount('hospitalizacion') }}</p>
+            <p class="stat-label">Ingresos</p>
+          </div>
+        </ion-col>
+        <ion-col size="3">
+          <div class="stat-card">
+            <p class="stat-number">{{ getEventCount('cirugia') }}</p>
+            <p class="stat-label">Cirugías</p>
+          </div>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
+
+  <!-- Lista de historial -->
+  <ion-list lines="none" *ngIf="historialFiltrado.length > 0">
+    <ion-item 
+      *ngFor="let evento of historialFiltrado" 
+      button 
+      (click)="toggleEvento(evento)"
+      class="historial-item"
+      [ngClass]="getEventTypeClass(evento)">
+      
+      <ion-grid>
+        <ion-row class="ion-align-items-center">
+          <ion-col size="12">
+            <div class="event-header">
+              <div class="event-main-info">
+                <h3>{{ evento.titulo }}</h3>
+                <p>{{ evento.descripcion }}</p>
+                <p class="date-info">{{ evento.fecha }}</p>
+              </div>
+              <div class="event-badge-container">
+                <ion-badge [color]="getEventBadgeColor(evento.tipo)" class="event-badge">
+                  {{ getEventTypeLabel(evento.tipo) }}
+                </ion-badge>
+                <ion-icon 
+                  [name]="evento.expanded ? 'chevron-up-outline' : 'chevron-down-outline'"
+                  class="expand-icon">
+                </ion-icon>
+              </div>
+            </div>
+          </ion-col>
+        </ion-row>
+
+        <!-- Detalles expandidos -->
+        <ion-row *ngIf="evento.expanded" class="historial-expanded-row">
+          <ion-col size="6" *ngIf="evento.medico">
+            <div class="detail-card">
+              <p class="detail-label">Médico</p>
+              <p class="detail-value">{{ evento.medico }}</p>
+            </div>
+          </ion-col>
+          <ion-col size="6" *ngIf="evento.especialidad">
+            <div class="detail-card">
+              <p class="detail-label">Especialidad</p>
+              <p class="detail-value">{{ evento.especialidad }}</p>
+            </div>
+          </ion-col>
+          <ion-col size="6" *ngIf="evento.centro">
+            <div class="detail-card">
+              <p class="detail-label">Centro Médico</p>
+              <p class="detail-value">{{ evento.centro }}</p>
+            </div>
+          </ion-col>
+          <ion-col size="6" *ngIf="evento.duracion">
+            <div class="detail-card">
+              <p class="detail-label">Duración</p>
+              <p class="detail-value">{{ evento.duracion }}</p>
+            </div>
+          </ion-col>
+        </ion-row>
+
+        <!-- Detalles específicos del evento -->
+        <ion-row *ngIf="evento.expanded && evento.detalles" class="details-row">
+          <ion-col size="12">
+            <div class="details-section">
+              <div class="details-info">
+                <p class="details-title">{{ getDetailsTitle(evento.tipo) }}</p>
+                <p class="details-text">{{ evento.detalles }}</p>
+              </div>
+            </div>
+          </ion-col>
+        </ion-row>
+
+        <!-- Resultados o documentos -->
+        <ion-row *ngIf="evento.expanded && evento.resultados && evento.resultados.length > 0" class="results-row">
+          <ion-col size="12">
+            <div class="results-section">
+              <p class="results-title">Documentos y Resultados</p>
+              <div class="results-chips">
+                <ion-chip *ngFor="let resultado of evento.resultados" outline="true" (click)="verDocumento(resultado)">
+                  <ion-icon name="document-text-outline"></ion-icon>
+                  <ion-label>{{ resultado }}</ion-label>
+                </ion-chip>
+              </div>
+            </div>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-item>
+  </ion-list>
+
+  <!-- Estado vacío -->
+  <div *ngIf="historialFiltrado.length === 0 && !isLoading" class="empty-state">
+    <ion-icon name="document-outline" class="empty-icon"></ion-icon>
+    <h3>{{ getEmptyStateTitle() }}</h3>
+    <p>{{ getEmptyStateMessage() }}</p>
+    <ion-button fill="outline" (click)="clearFilters()" *ngIf="hasActiveFilters()">
+      <ion-icon name="refresh-outline" slot="start"></ion-icon>
+      Limpiar Filtros
+    </ion-button>
+  </div>
+
+  <!-- Loading state -->
+  <div *ngIf="isLoading" class="loading-state">
+    <ion-spinner name="circular"></ion-spinner>
+    <p>Cargando historial médico...</p>
+  </div>
+
+</ion-content>

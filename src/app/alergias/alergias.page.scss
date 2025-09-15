@@ -1,0 +1,244 @@
+:host {
+  --orange-accent: #f59f00;
+  --green-success: #20c997;
+  --red-danger: #fa5252;
+  --yellow-warning: #fd7e14;
+  --gray-medium: #6c757d;
+}
+
+/* títulos y secciones */
+.section-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--ion-text-color);
+  margin: 16px 16px 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.section-title ion-icon {
+  color: var(--red-danger);
+}
+
+ion-list {
+  background: transparent;
+  margin: 0 16px;
+}
+
+/* card de alergia */
+.alergia-item {
+  background: var(--ion-card-background);
+  margin-bottom: 12px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  border-left: 4px solid transparent;
+  transition: all 0.3s ease;
+}
+
+.alergia-item.grade-leve {
+  border-left-color: var(--green-success);
+}
+
+.alergia-item.grade-moderado {
+  border-left-color: var(--yellow-warning);
+}
+
+.alergia-item.grade-severo {
+  border-left-color: var(--red-danger);
+}
+
+.alergia-item:hover {
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+}
+
+.alergia-item > ion-item {
+  --padding-start: 0;
+  --padding-end: 0;
+  --inner-padding-start: 0;
+  --inner-padding-end: 0;
+  --inner-padding-top: 12px;
+  --inner-padding-bottom: 12px;
+}
+
+.alergia-item ion-grid {
+  padding: 0 16px;
+  width: 100%;
+  padding-top: 8px;
+  padding-bottom: 8px;
+}
+
+.alergia-item ion-col {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+
+/* badge */
+.badge-col {
+  display: flex;
+  justify-content: flex-start;
+  padding-left: 8px;
+}
+
+.grade-badge-spaced {
+  margin-left: 16px;
+}
+
+/* detalles expandidos */
+.alergia-expanded-row {
+  padding-top: 12px;
+  display: flex;
+  flex-wrap: nowrap;
+}
+
+.alergia-expanded-row ion-col {
+  flex: 1;
+  max-width: calc(50% - 6px);
+}
+
+.alergia-expanded-row ion-col:first-child {
+  margin-right: 12px;
+}
+
+.detail-card {
+  background: rgba(0, 0, 0, 0.02);
+  padding: 12px;
+  border-radius: 8px;
+}
+
+.detail-card .detail-label {
+  font-size: 0.75rem;
+  color: var(--ion-color-medium);
+  margin: 0 0 4px 0;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.detail-card .detail-value {
+  font-size: 0.9rem;
+  color: var(--ion-text-color);
+  font-weight: 500;
+  margin: 0;
+}
+
+/* recomendaciones */
+.recommendations-row {
+  padding-top: 8px;
+  padding-bottom: 12px;
+}
+
+.recommendations-section {
+  background: rgba(245, 159, 0, 0.05);
+  border-left: 3px solid var(--orange-accent);
+  border-radius: 8px;
+  padding: 12px;
+}
+
+.recommendations-section .recommendations-title {
+  font-size: 0.75rem;
+  color: var(--orange-accent);
+  font-weight: 600;
+  margin: 0 0 6px 0;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.recommendations-section .recommendations-text {
+  font-size: 0.85rem;
+  color: var(--ion-text-color);
+  line-height: 1.4;
+  margin: 0;
+}
+
+/* estado vacío */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 20px;
+  text-align: center;
+}
+
+.empty-state .empty-icon {
+  font-size: 4rem;
+  color: var(--ion-color-medium);
+  margin-bottom: 16px;
+}
+
+.empty-state h3 {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--ion-text-color);
+  margin: 0 0 8px 0;
+}
+
+.empty-state p {
+  font-size: 0.9rem;
+  color: var(--ion-color-medium);
+  margin: 0 0 24px 0;
+  line-height: 1.4;
+}
+
+.empty-state ion-button {
+  --color: var(--orange-accent);
+  --border-color: var(--orange-accent);
+}
+
+/* icono expandir */
+.expand-icon {
+  color: var(--ion-color-medium);
+  transition: transform 0.2s ease;
+}
+
+/* responsive */
+@media (max-width: 576px) {
+  .section-title {
+    margin: 16px 12px 8px;
+    font-size: 1rem;
+  }
+  ion-list {
+    margin: 0 12px;
+  }
+  .alergia-item ion-grid {
+    padding: 0 12px;
+  }
+  .detail-card {
+    padding: 10px;
+  }
+  .empty-state {
+    padding: 40px 16px;
+  }
+  .empty-state .empty-icon {
+    font-size: 3rem;
+  }
+  .empty-state h3 {
+    font-size: 1.1rem;
+  }
+}
+
+/* modo oscuro */
+@media (prefers-color-scheme: dark) {
+  :host {
+    --orange-accent: #ffa94d;
+    --green-success: #51cf66;
+    --red-danger: #ff6b6b;
+    --yellow-warning: #ffb84d;
+  }
+  .alergia-item {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  }
+  .detail-card {
+    background: rgba(255, 255, 255, 0.03);
+  }
+  .recommendations-section {
+    background: rgba(255, 169, 77, 0.1);
+    border-color: var(--orange-accent);
+  }
+  ion-fab-button {
+    --box-shadow: 0 4px 16px rgba(255, 169, 77, 0.3);
+  }
+  ion-fab-button:hover {
+    --box-shadow: 0 6px 20px rgba(255, 169, 77, 0.4);
+  }
+}

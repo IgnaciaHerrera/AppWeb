@@ -1,0 +1,243 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/tabs/tab5" text="Volver"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Procedimientos</ion-title>
+    <ion-buttons slot="end">
+      <ion-button fill="clear">
+        <ion-icon name="calendar-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Procedimientos</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <!-- Búsqueda -->
+  <ion-grid>
+    <ion-row class="search-row">
+      <ion-col size="12">
+        <ion-searchbar 
+          [(ngModel)]="terminoBusqueda" 
+          (ionInput)="buscarProcedimientos()" 
+          placeholder="Buscar procedimientos..."
+          class="search-bar">
+        </ion-searchbar>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <!-- Lista de procedimientos en grid -->
+  <ion-grid class="procedimientos-grid">
+    <ion-row>
+      <ion-col 
+        size="12" 
+        *ngFor="let procedimiento of procedimientosFiltrados"
+        class="procedimiento-col">
+        
+        <ion-card 
+          class="procedimiento-card"
+          button
+          (click)="verDetalleProcedimiento(procedimiento)">
+          
+          <ion-card-content>
+            <ion-grid>
+              <ion-row class="ion-align-items-center">
+                <!-- Información principal -->
+                <ion-col size="12">
+                  <h3 class="procedimiento-nombre">{{ procedimiento.tratamiento }}</h3>
+                  <p class="procedimiento-tipo">{{ procedimiento.procedimiento }}</p>
+                  <p class="procedimiento-descripcion">{{ procedimiento.descripcion }}</p>
+                </ion-col>
+              </ion-row>
+              
+              <!-- Información de la consulta -->
+              <ion-row>
+                <ion-col size="12">
+                  <div class="info-consulta">
+                    <div class="detalle-consulta">
+                      <ion-icon name="calendar-outline"></ion-icon>
+                      <span>{{ procedimiento.fechaConsulta }}</span>
+                    </div>
+                    <div class="detalle-consulta">
+                      <ion-icon name="person-outline"></ion-icon>
+                      <span>{{ procedimiento.nombreMedico }}</span>
+                    </div>
+                    <div class="detalle-consulta" *ngIf="procedimiento.especialidad">
+                      <ion-icon name="medical-outline"></ion-icon>
+                      <span>{{ procedimiento.especialidad }}</span>
+                    </div>
+                  </div>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+          </ion-card-content>
+          
+          <!-- Acciones rápidas -->
+          <div class="card-actions">
+            <ion-button 
+              fill="clear" 
+              size="small"
+              (click)="verDetalleProcedimiento(procedimiento); $event.stopPropagation()">
+              <ion-icon name="eye-outline" slot="start"></ion-icon>
+              Ver Detalle
+            </ion-button>
+          </div>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <!-- Modal de detalle del procedimiento -->
+  <ion-modal [isOpen]="mostrarDetalleModal" (didDismiss)="cerrarDetalleModal()">
+    <ng-template>
+      <ion-header>
+        <ion-toolbar>
+          <ion-title>{{ procedimientoSeleccionado?.tratamiento }}</ion-title>
+          <ion-buttons slot="end">
+            <ion-button (click)="cerrarDetalleModal()">
+              <ion-icon name="close-outline"></ion-icon>
+            </ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+      
+      <ion-content *ngIf="procedimientoSeleccionado">
+        <!-- Información general del procedimiento -->
+        <ion-card>
+          <ion-card-header>
+            <ion-card-title class="detalle-titulo">
+              {{ procedimientoSeleccionado.tratamiento }}
+            </ion-card-title>
+            <ion-card-subtitle>{{ procedimientoSeleccionado.procedimiento }}</ion-card-subtitle>
+          </ion-card-header>
+          <ion-card-content>
+            <ion-grid>
+              <ion-row>
+                <ion-col size="12">
+                  <div class="info-item">
+                    <p class="info-label">Descripción</p>
+                    <p class="info-value">{{ procedimientoSeleccionado.descripcion }}</p>
+                  </div>
+                </ion-col>
+              </ion-row>
+              <ion-row>
+                <ion-col size="6">
+                  <div class="info-item">
+                    <p class="info-label">Fecha de Consulta</p>
+                    <p class="info-value">{{ procedimientoSeleccionado.fechaConsulta }}</p>
+                  </div>
+                </ion-col>
+                <ion-col size="6">
+                  <div class="info-item">
+                    <p class="info-label">Tipo de Consulta</p>
+                    <p class="info-value">{{ procedimientoSeleccionado.tipoConsulta }}</p>
+                  </div>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+          </ion-card-content>
+        </ion-card>
+
+        <!-- Información del médico -->
+        <ion-card>
+          <ion-card-header>
+            <ion-card-title>Médico Tratante</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <ion-grid>
+              <ion-row>
+                <ion-col size="12">
+                  <div class="info-item">
+                    <p class="info-label">Nombre</p>
+                    <p class="info-value">{{ procedimientoSeleccionado.nombreMedico }} {{ procedimientoSeleccionado.apellidoMedico }}</p>
+                  </div>
+                </ion-col>
+              </ion-row>
+              <ion-row *ngIf="procedimientoSeleccionado.especialidad">
+                <ion-col size="12">
+                  <div class="info-item">
+                    <p class="info-label">Especialidad</p>
+                    <p class="info-value">{{ procedimientoSeleccionado.especialidad }}</p>
+                  </div>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+          </ion-card-content>
+        </ion-card>
+
+        <!-- Diagnósticos asociados -->
+        <ion-card *ngIf="procedimientoSeleccionado.diagnosticos && procedimientoSeleccionado.diagnosticos.length > 0">
+          <ion-card-header>
+            <ion-card-title>Diagnósticos Asociados</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <div class="diagnostico-item" *ngFor="let diagnostico of procedimientoSeleccionado.diagnosticos">
+              <h4>{{ diagnostico.descripcion }}</h4>
+              <p *ngIf="diagnostico.enfermedad" class="enfermedad-info">
+                <strong>Enfermedad:</strong> {{ diagnostico.enfermedad.nombre }}
+              </p>
+              <p *ngIf="diagnostico.enfermedad?.fase" class="fase-info">
+                <strong>Fase:</strong> {{ diagnostico.enfermedad?.fase }}
+              </p>
+              <p *ngIf="diagnostico.enfermedad?.severidad" class="severidad-info">
+                <strong>Severidad:</strong> {{ diagnostico.enfermedad?.severidad }}
+              </p>
+            </div>
+          </ion-card-content>
+        </ion-card>
+
+        <!-- Medicamentos prescritos -->
+        <ion-card *ngIf="procedimientoSeleccionado.recetas && procedimientoSeleccionado.recetas.length > 0">
+          <ion-card-header>
+            <ion-card-title>Medicamentos Prescritos</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <div class="medicamento-item" *ngFor="let receta of procedimientoSeleccionado.recetas">
+              <h4>{{ receta.medicamento.nombre }}</h4>
+              <p class="medicamento-descripcion">{{ receta.medicamento.descripcion }}</p>
+              <p class="medicamento-cantidad"><strong>Cantidad:</strong> {{ receta.cantidadMedicamento }}</p>
+            </div>
+          </ion-card-content>
+        </ion-card>
+
+        <!-- Información de hospitalización (si aplica) -->
+        <ion-card *ngIf="procedimientoSeleccionado.hospitalizacion">
+          <ion-card-header>
+            <ion-card-title>Información de Hospitalización</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <ion-grid>
+              <ion-row>
+                <ion-col size="12">
+                  <div class="info-item">
+                    <p class="info-label">Descripción</p>
+                    <p class="info-value">{{ procedimientoSeleccionado.hospitalizacion.descripcion }}</p>
+                  </div>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+          </ion-card-content>
+        </ion-card>
+
+        <!-- Cirugías asociadas -->
+        <ion-card *ngIf="procedimientoSeleccionado.cirugias && procedimientoSeleccionado.cirugias.length > 0">
+          <ion-card-header>
+            <ion-card-title>Cirugías Asociadas</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <div class="cirugia-item" *ngFor="let cirugia of procedimientoSeleccionado.cirugias">
+              <h4>{{ cirugia.descripcion }}</h4>
+            </div>
+          </ion-card-content>
+        </ion-card>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+</ion-content>

@@ -1,0 +1,435 @@
+:host {
+  --orange-accent: #f59f00;
+  --green-success: #20c997;
+  --blue-info: #4dabf7;
+  --red-danger: #fa5252;
+}
+
+/* segment de navegación */
+.segment-container {
+  padding: 16px;
+  background: var(--ion-background-color);
+}
+
+.custom-segment {
+  background: var(--ion-card-background);
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.custom-segment ion-segment-button {
+  --background: transparent;
+  --background-checked: var(--orange-accent);
+  --color: var(--ion-color-medium);
+  --color-checked: white;
+  --indicator-color: transparent;
+  --border-radius: 8px;
+  font-weight: 500;
+  font-size: 0.9rem;
+  margin: 4px;
+  min-height: 40px;
+}
+
+.custom-segment ion-segment-button ion-label {
+  margin: 0;
+}
+
+.custom-segment ion-segment-button.segment-button-checked {
+  font-weight: 600;
+}
+
+/* títulos */
+.section-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--ion-text-color);
+  margin: 16px 16px 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.section-title ion-icon {
+  color: var(--orange-accent);
+}
+
+.subsection-title {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--ion-color-medium);
+  margin: 12px 16px 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* listas */
+ion-list {
+  background: transparent;
+  margin: 0 16px;
+}
+
+/* cards de medicamentos */
+.medicamento-item {
+  background: var(--ion-card-background);
+  margin-bottom: 12px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  border-left: 4px solid transparent;
+  transition: all 0.3s ease;
+}
+
+.medicamento-item.cronico {
+  border-left-color: var(--green-success);
+}
+
+.medicamento-item.corta-duracion {
+  border-left-color: var(--orange-accent);
+}
+
+.medicamento-item.finalizado {
+  border-left-color: var(--gray-medium);
+}
+
+.medicamento-item:hover {
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+}
+
+.medicamento-item ion-item {
+  --background: transparent;
+  --padding-start: 16px;
+  --padding-end: 16px;
+  --inner-padding-end: 0;
+}
+
+/* badges */
+.badge-col {
+  display: flex;
+  justify-content: flex-start;
+  padding-left: 8px;
+}
+
+.type-badge-spaced {
+  margin-left: 16px;
+}
+
+/* detalles de medicamentos */
+.medicamento-details {
+  padding: 12px 16px 0;
+  background: rgba(0, 0, 0, 0.01);
+}
+
+.medicamento-details ion-grid {
+  padding: 0;
+}
+
+.medicamento-details ion-row {
+  margin: 0;
+}
+
+.medicamento-details ion-col {
+  padding: 0 4px;
+}
+
+/* tarjeta de detalle */
+.detail-card {
+  background: rgba(0, 0, 0, 0.02);
+  padding: 12px;
+  border-radius: 8px;
+  margin: 0 0 8px;
+}
+
+.detail-card .detail-label {
+  font-size: 0.75rem;
+  color: var(--ion-color-medium);
+  margin: 0 0 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.detail-card .detail-value {
+  font-size: 0.9rem;
+  color: var(--ion-text-color);
+  font-weight: 500;
+  margin: 0;
+}
+
+/* progreso */
+.progress-section {
+  margin: 12px 0 0;
+}
+
+.progress-section .schedule-title {
+  font-size: 0.85rem;
+  color: var(--ion-color-medium);
+  margin: 0 0 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.progress-section ion-progress-bar {
+  --color: var(--orange-accent);
+  --buffer-color: rgba(245, 159, 0, 0.1);
+  height: 8px;
+  border-radius: 4px;
+}
+
+.progress-section .progress-text {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.75rem;
+  color: var(--ion-color-medium);
+  margin-top: 4px;
+}
+
+/* recetas */
+.receta-item-simple {
+  background: var(--ion-card-background);
+  margin: 0 16px 16px;
+  border-radius: 16px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  border-left: 4px solid var(--orange-accent);
+}
+
+.receta-item-simple ion-item {
+  --background: transparent;
+  --padding-start: 16px;
+  --padding-end: 16px;
+}
+
+.receta-header-simple {
+  margin-bottom: 12px;
+}
+
+.receta-header-simple .receta-info h3 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--ion-text-color);
+  margin: 0 0 4px 0;
+}
+
+.receta-header-simple .receta-info p {
+  font-size: 0.85rem;
+  color: var(--ion-color-medium);
+  margin: 0;
+}
+
+.doctor-info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  background: rgba(0, 0, 0, 0.02);
+  border-radius: 8px;
+  margin-bottom: 12px;
+}
+
+.doctor-info ion-icon {
+  color: var(--orange-accent);
+}
+
+.doctor-info .doctor-name {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--ion-text-color);
+  margin: 0;
+}
+
+.doctor-info .doctor-specialty {
+  font-size: 0.75rem;
+  color: var(--ion-color-medium);
+  margin: 0;
+}
+
+.medicamentos-preview .preview-title {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--ion-color-medium);
+  margin: 0 0 8px 0;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.medicamentos-preview .medicamentos-chips {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.medicamentos-preview .medicamentos-chips ion-chip {
+  margin: 0;
+  --background: rgba(var(--ion-color-primary-rgb), 0.1);
+  --color: var(--ion-color-primary);
+}
+
+.medicamentos-preview .medicamentos-chips ion-chip ion-icon {
+  color: var(--ion-color-primary);
+}
+
+/* modal */
+.doctor-simple {
+  text-align: center;
+  padding: 16px 0;
+}
+
+.doctor-simple h3 {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--ion-text-color);
+  margin: 0 0 8px;
+}
+
+.doctor-simple p {
+  font-size: 0.9rem;
+  color: var(--ion-color-medium);
+  margin: 0;
+}
+
+.patient-name-clean {
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: var(--ion-text-color);
+  margin: 0 0 12px;
+  text-align: center;
+}
+
+.meta-card-simple {
+  background: rgba(245, 159, 0, 0.05);
+  margin: 16px;
+  text-align: center;
+  border: 1px solid rgba(245, 159, 0, 0.2);
+}
+
+.meta-card-simple .receta-number-only .meta-label {
+  font-size: 0.8rem;
+  color: var(--ion-color-medium);
+  margin: 0 0 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.meta-card-simple .receta-number-only .meta-value {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--orange-accent);
+  margin: 0;
+}
+
+.medication-prescription {
+  background: rgba(0, 0, 0, 0.02);
+  border-radius: 8px;
+  padding: 12px;
+  margin-bottom: 12px;
+  border-left: 3px solid var(--green-success);
+}
+
+.medication-prescription h4 {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--ion-text-color);
+  margin: 0 0 8px;
+}
+
+.medication-prescription .detail-item {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 8px;
+}
+
+.medication-prescription .detail-item .detail-label {
+  font-size: 0.7rem;
+  color: var(--ion-color-medium);
+  margin: 0 0 2px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.medication-prescription .detail-item .detail-value {
+  font-size: 0.8rem;
+  color: var(--ion-text-color);
+  font-weight: 500;
+  margin: 0;
+}
+
+.medication-prescription ion-chip {
+  --background: rgba(var(--ion-color-primary-rgb), 0.1);
+  --color: var(--ion-color-primary);
+  margin-top: 8px;
+}
+
+/* responsive */
+@media (max-width: 576px) {
+  .section-title {
+    margin: 16px 12px 8px;
+    font-size: 1rem;
+  }
+
+  .subsection-title {
+    margin: 12px 12px 8px;
+  }
+
+  ion-list {
+    margin: 0 12px;
+  }
+
+  .receta-item-simple {
+    margin: 0 12px 12px;
+  }
+
+  .segment-container {
+    padding: 12px;
+  }
+
+  .medicamento-expanded-row {
+    padding-top: 8px;
+  }
+
+  .medicamento-expanded-row ion-col {
+    padding: 0 2px;
+  }
+
+  .progress-row {
+    padding-top: 8px;
+  }
+
+  .progress-row ion-col {
+    padding: 0 12px;
+  }
+
+  .detail-card {
+    margin-bottom: 6px;
+    padding: 10px;
+  }
+
+  .meta-card-simple {
+    margin: 12px;
+  }
+}
+
+/* modo oscuro */
+@media (prefers-color-scheme: dark) {
+  :host {
+    --orange-accent: #ffa94d;
+    --green-success: #51cf66;
+    --blue-info: #74c0fc;
+  }
+
+  .medicamento-item,
+  .receta-item-simple {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  }
+
+  .detail-card,
+  .medication-prescription,
+  .doctor-info {
+    background: rgba(255, 255, 255, 0.03);
+  }
+
+  .custom-segment {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  }
+
+  .meta-card-simple {
+    background: rgba(255, 169, 77, 0.1);
+    border-color: rgba(255, 169, 77, 0.3);
+  }
+}

@@ -26,39 +26,58 @@
 
   <!-- Lista de secciones -->
   <ion-list lines="none" class="lista-secciones">
+    <!-- 1. Datos Personales -->
     <ion-item button detail class="card-item blue" (click)="goTo('datos-personales')">
       <div class="icon-circle blue"><ion-icon name="person-outline"></ion-icon></div>
       <ion-label>Datos Personales</ion-label>
     </ion-item>
 
-    <ion-item button detail class="card-item green">
-      <div class="icon-circle green"><ion-icon name="pulse-outline"></ion-icon></div>
-      <ion-label>Historial Médico</ion-label>
-    </ion-item>
-
-    <ion-item button detail class="card-item purple">
-      <div class="icon-circle purple"><ion-icon name="document-text-outline"></ion-icon></div>
-      <ion-label>Exámenes</ion-label>
-    </ion-item>
-
-    <ion-item button detail class="card-item orange">
-      <div class="icon-circle orange"><ion-icon name="medkit-outline"></ion-icon></div>
-      <ion-label>Recetas y Medicamentos</ion-label>
-    </ion-item>
-
-    <ion-item button detail class="card-item red">
+    <!-- 2. Alergias -->
+    <ion-item button detail class="card-item red" (click)="goTo('alergias')">
       <div class="icon-circle red"><ion-icon name="alert-circle-outline"></ion-icon></div>
       <ion-label>Alergias</ion-label>
     </ion-item>
 
-    <ion-item button detail class="card-item teal">
-      <div class="icon-circle teal"><ion-icon name="bandage-outline"></ion-icon></div>
+    <!-- 3. Historial Médico -->
+    <ion-item button detail class="card-item green" (click)="goTo('historial')">
+      <div class="icon-circle green"><ion-icon name="pulse-outline"></ion-icon></div>
+      <ion-label>Historial Médico</ion-label>
+    </ion-item>
+
+    <!-- 4. Diagnósticos -->
+    <ion-item button detail class="card-item pink" (click)="goTo('diagnosticos')">
+      <div class="icon-circle pink"><ion-icon name="heart-outline"></ion-icon></div>
+      <ion-label>Diagnósticos</ion-label>
+    </ion-item>
+
+    <!-- 5. Recetas y Medicamentos -->
+    <ion-item button detail class="card-item orange" (click)="goTo('recetas-medicamentos')">
+      <div class="icon-circle orange"><ion-icon name="medkit-outline"></ion-icon></div>
+      <ion-label>Recetas y Medicamentos</ion-label>
+    </ion-item>
+
+    <!-- 6. Exámenes -->
+    <ion-item button detail class="card-item teal" (click)="goTo('examenes')">
+      <div class="icon-circle teal"><ion-icon name="document-text-outline"></ion-icon></div>
+      <ion-label>Exámenes</ion-label>
+    </ion-item>
+
+    <!-- 7. Procedimientos -->
+    <ion-item button detail class="card-item purple" (click)="goTo('procedimientos')">
+      <div class="icon-circle purple"><ion-icon name="bandage-outline"></ion-icon></div>
       <ion-label>Procedimientos</ion-label>
     </ion-item>
 
-    <ion-item button detail class="card-item pink">
-      <div class="icon-circle pink"><ion-icon name="heart-outline"></ion-icon></div>
-      <ion-label>Diagnósticos</ion-label>
+    <!-- 8. Hospitalizaciones -->
+    <ion-item button detail class="card-item cyan" (click)="goTo('hospitalizaciones')">
+      <div class="icon-circle cyan"><ion-icon name="bed-outline"></ion-icon></div>
+      <ion-label>Hospitalizaciones</ion-label>
+    </ion-item>
+
+    <!-- 9. Cirugías -->
+    <ion-item button detail class="card-item brown" (click)="goTo('cirugias')">
+      <div class="icon-circle brown"><ion-icon name="cut-outline"></ion-icon></div>
+      <ion-label>Cirugías</ion-label>
     </ion-item>
   </ion-list>
 </ion-content>

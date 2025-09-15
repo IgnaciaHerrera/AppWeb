@@ -6,45 +6,31 @@ export const routes: Routes = [
     loadChildren: () => import('./tabs/tabs.routes').then((m) => m.routes),
   },
   {
-    path: 'detalle-ficha/:rut',
-    loadComponent: () =>
-      import('./detalle-ficha/detalle-ficha.page').then(
-        (m) => m.DetalleFichaPage
-      ),
-  },
-  {
-    path: 'pacientes-actuales',
-    loadComponent: () => import('./pacientes-actuales/pacientes-actuales.page').then( m => m.PacientesActualesPage)
-  },
-  {
-    path: 'tab8',
-    loadComponent: () => import('./tab8/tab8.page').then( m => m.Tab8Page)
-  },
-  {
-    path: 'tab9',
-    loadComponent: () => import('./tab9/tab9.page').then( m => m.Tab9Page)
-  },
-  {
-    path: 'tab10',
-    loadComponent: () => import('./tab10/tab10.page').then( m => m.Tab10Page)
-  },
-  {
-    path: 'tab11',
-    loadComponent: () => import('./tab11/tab11.page').then( m => m.Tab11Page)
-  },
-  {
-    path: 'tab12',
-    loadComponent: () => import('./tab12/tab12.page').then( m => m.Tab12Page)
-  },
-  {
-    path: 'tab-more',
-    loadComponent: () => import('./tab-more/tab-more.page').then( m => m.TabMorePage)
-  },  {
     path: 'datos-personales',
     loadComponent: () => import('./datos-personales/datos-personales.page').then( m => m.DatosPersonalesPage)
   },
-
-
-
-
+  {
+    path: 'recetas-medicamentos',
+    loadComponent: () => import('./recetas-medicamentos/recetas-medicamentos.page').then( m => m.RecetasMedicamentosPage)
+  },
+  {
+    path: 'alergias',
+    loadComponent: () => import('./alergias/alergias.page').then( m => m.AlergiasPage)
+  },
+  {
+    path: 'diagnosticos',
+    loadComponent: () => import('./diagnosticos/diagnosticos.page').then( m => m.DiagnosticosPage)
+  },
+  {
+    path: 'historial',
+    loadComponent: () => import('./historial/historial.page').then( m => m.HistorialPage)
+  },
+  {
+    path: 'examenes',
+    loadComponent: () => import('./examenes/examenes.page').then( m => m.ExamenesPage)
+  },
+  {
+    path: 'procedimientos',
+    loadComponent: () => import('./procedimientos/procedimientos.page').then( m => m.ProcedimientosPage)
+  },
 ];

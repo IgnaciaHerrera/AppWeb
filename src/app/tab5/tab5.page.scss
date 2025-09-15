@@ -131,6 +131,12 @@ ion-item::part(detail-icon) {
 .icon-circle.pink { 
   background: linear-gradient(135deg, #e64980, #d6336c);
 }
+.icon-circle.cyan { 
+  background: linear-gradient(135deg, #22b8cf, #15aabf);
+}
+.icon-circle.brown { 
+  background: linear-gradient(135deg, #a07965, #8c5e3c);
+}
 
 /* Bordes izquierdos de las cards*/
 .card-item.blue { 
@@ -161,7 +167,14 @@ ion-item::part(detail-icon) {
   border-left-color: #e64980;
   border-left-width: 4px;
 }
-
+.card-item.cyan { 
+  border-left-color: #22b8cf;
+  border-left-width: 4px;
+}
+.card-item.brown { 
+  border-left-color: #a07965;
+  border-left-width: 4px;
+}
 
 /* Modo oscuro */
 @media (prefers-color-scheme: dark) {

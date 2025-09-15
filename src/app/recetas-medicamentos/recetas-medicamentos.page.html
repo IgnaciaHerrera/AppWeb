@@ -1,0 +1,383 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/tabs/tab5" text="Volver"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Recetas y Medicamentos</ion-title>
+    <ion-buttons slot="end">
+      <ion-button fill="clear">
+        <ion-icon name="alarm-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Recetas y Medicamentos</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <!-- Tabs -->
+  <div class="segment-container">
+    <ion-segment [(ngModel)]="selectedTab" (ionChange)="onTabChange($event)" class="custom-segment">
+      <ion-segment-button value="medicamentos">
+        <ion-label>Medicamentos</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="recetas">
+        <ion-label>Recetas</ion-label>
+      </ion-segment-button>
+    </ion-segment>
+  </div>
+
+  <!-- SECCIÓN MEDICAMENTOS -->
+  <div *ngIf="selectedTab === 'medicamentos'">
+    <ion-grid>
+      <ion-row>
+        <ion-col size="12">
+          <h2 class="section-title">
+            <ion-icon name="medical-outline"></ion-icon>
+            Mis Medicamentos
+          </h2>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+
+    <!-- Activos -->
+    <ion-grid>
+      <ion-row>
+        <ion-col size="12">
+          <h3 class="subsection-title">Activos</h3>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+
+    <ion-list lines="none">
+      <ion-item 
+        *ngFor="let medicamento of medicamentosActivos" 
+        button 
+        (click)="toggleMedicamento(medicamento)"
+        class="medicamento-item"
+        [ngClass]="getMedicamentoTypeClass(medicamento)">
+        
+        <ion-grid>
+          <ion-row class="ion-align-items-center">
+            <ion-col size="7">
+              <ion-label>
+                <h3>{{ medicamento.nombre }}</h3>
+                <p>{{ medicamento.dosis }} - {{ medicamento.presentacion }}</p>
+                <p class="schedule">{{ medicamento.horario }}</p>
+              </ion-label>
+            </ion-col>
+            
+            <ion-col size="4" class="badge-col">
+              <ion-badge [color]="getBadgeColor(medicamento)" class="type-badge-spaced">
+                {{ getBadgeLabel(medicamento) }}
+              </ion-badge>
+            </ion-col>
+            
+            <ion-col size="1">
+              <ion-icon 
+                [name]="medicamento.expanded ? 'chevron-up-outline' : 'chevron-down-outline'"
+                class="expand-icon">
+              </ion-icon>
+            </ion-col>
+          </ion-row>
+
+          <!-- Crónicos -->
+          <ion-row *ngIf="medicamento.expanded && medicamento.tipo === 'cronico'">
+            <ion-col size="6">
+              <div class="detail-card">
+                <p class="detail-label">Inicio</p>
+                <p class="detail-value">{{ medicamento.fechaInicio }}</p>
+              </div>
+            </ion-col>
+            <ion-col size="6">
+              <div class="detail-card">
+                <p class="detail-label">Tipo</p>
+                <p class="detail-value">Tratamiento crónico</p>
+              </div>
+            </ion-col>
+          </ion-row>
+
+          <!-- Corta duración -->
+          <ion-row *ngIf="medicamento.expanded && medicamento.tipo === 'corta-duracion'">
+            <ion-col size="6">
+              <div class="detail-card">
+                <p class="detail-label">Inicio</p>
+                <p class="detail-value">{{ medicamento.fechaInicio }}</p>
+              </div>
+            </ion-col>
+            <ion-col size="6">
+              <div class="detail-card">
+                <p class="detail-label">Finaliza</p>
+                <p class="detail-value">{{ medicamento.fechaFin }}</p>
+              </div>
+            </ion-col>
+          </ion-row>
+
+          <!-- Progreso -->
+          <ion-row *ngIf="medicamento.expanded && medicamento.tipo === 'corta-duracion' && medicamento.progreso">
+            <ion-col size="12">
+              <div class="progress-section">
+                <p class="schedule-title">Progreso del tratamiento</p>
+                <ion-progress-bar [value]="medicamento.progreso.porcentaje"></ion-progress-bar>
+                <div class="progress-text">
+                  <span>{{ medicamento.progreso.diasTomados }}</span>
+                  <span>{{ medicamento.progreso.diasRestantes }}</span>
+                </div>
+              </div>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-item>
+    </ion-list>
+
+    <!-- Finalizados -->
+    <ion-grid>
+      <ion-row>
+        <ion-col size="12">
+          <h3 class="subsection-title">Finalizados</h3>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+
+    <ion-list lines="none">
+      <ion-item 
+        *ngFor="let medicamento of medicamentosFinalizados" 
+        button 
+        (click)="toggleMedicamento(medicamento)"
+        class="medicamento-item finalizado">
+        
+        <ion-grid>
+          <ion-row class="ion-align-items-center">
+            <ion-col size="7">
+              <ion-label>
+                <h3>{{ medicamento.nombre }}</h3>
+                <p>{{ medicamento.dosis }} - {{ medicamento.presentacion }}</p>
+                <p class="schedule">Finalizado el {{ medicamento.fechaFin }}</p>
+              </ion-label>
+            </ion-col>
+            
+            <ion-col size="4" class="badge-col">
+              <ion-badge color="medium" class="type-badge-spaced">Completado</ion-badge>
+            </ion-col>
+            
+            <ion-col size="1">
+              <ion-icon 
+                [name]="medicamento.expanded ? 'chevron-up-outline' : 'chevron-down-outline'"
+                class="expand-icon">
+              </ion-icon>
+            </ion-col>
+          </ion-row>
+
+          <!-- Detalles finalizados -->
+          <ion-row *ngIf="medicamento.expanded" class="medicamento-expanded-row">
+            <ion-col size="6">
+              <div class="detail-card">
+                <p class="detail-label">Inicio</p>
+                <p class="detail-value">{{ medicamento.fechaInicio }}</p>
+              </div>
+            </ion-col>
+            <ion-col size="6">
+              <div class="detail-card">
+                <p class="detail-label">Duración</p>
+                <p class="detail-value">{{ medicamento.duracion }}</p>
+              </div>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-item>
+    </ion-list>
+  </div>
+
+  <!-- SECCIÓN RECETAS -->
+  <div *ngIf="selectedTab === 'recetas'">
+    <ion-grid>
+      <ion-row>
+        <ion-col size="12">
+          <h2 class="section-title">
+            <ion-icon name="document-text-outline"></ion-icon>
+            Mis Recetas
+          </h2>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+
+    <ion-list lines="none">
+      <ion-item 
+        *ngFor="let receta of recetas" 
+        button 
+        (click)="verRecetaCompleta(receta)"
+        class="receta-item-simple">
+        
+        <ion-grid>
+          <ion-row class="ion-align-items-center">
+            <ion-col size="12">
+              <div class="receta-header-simple">
+                <div class="receta-info">
+                  <h3>{{ receta.titulo }}</h3>
+                  <p>{{ receta.fecha }}</p>
+                </div>
+              </div>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col size="12">
+              <div class="doctor-info">
+                <ion-icon name="person-outline"></ion-icon>
+                <div>
+                  <p class="doctor-name">{{ receta.doctor.nombre }}</p>
+                  <p class="doctor-specialty">{{ receta.doctor.especialidad }}</p>
+                </div>
+              </div>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col size="12">
+              <div class="medicamentos-preview">
+                <p class="preview-title">Medicamentos ({{ receta.medicamentos.length }})</p>
+                <div class="medicamentos-chips">
+                  <ion-chip *ngFor="let med of receta.medicamentos" outline="true">
+                    <ion-icon name="medical-outline"></ion-icon>
+                    <ion-label>{{ med.nombre }}</ion-label>
+                  </ion-chip>
+                </div>
+              </div>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col size="12">
+              <ion-button 
+                fill="clear" 
+                size="small" 
+                (click)="verRecetaCompleta(receta); $event.stopPropagation()">
+                <ion-icon name="eye-outline" slot="start"></ion-icon>
+                Ver Receta Completa
+              </ion-button>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-item>
+    </ion-list>
+  </div>
+
+  <!-- Modal -->
+  <ion-modal [isOpen]="mostrarRecetaModal" (didDismiss)="cerrarRecetaModal()">
+    <ng-template>
+      <ion-header>
+        <ion-toolbar>
+          <ion-title>Receta Médica Oficial</ion-title>
+          <ion-buttons slot="end">
+            <ion-button (click)="cerrarRecetaModal()">
+              <ion-icon name="close-outline"></ion-icon>
+            </ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+      
+      <ion-content *ngIf="recetaSeleccionada">
+        <!-- Doctor -->
+        <ion-card>
+          <ion-card-content>
+            <div class="doctor-simple">
+              <h3>{{ recetaSeleccionada.doctor.nombre }}</h3>
+              <p>{{ recetaSeleccionada.doctor.especialidad }}</p>
+            </div>
+          </ion-card-content>
+        </ion-card>
+
+        <!-- Paciente -->
+        <ion-card>
+          <ion-card-header>
+            <ion-card-subtitle>Datos del Paciente</ion-card-subtitle>
+          </ion-card-header>
+          <ion-card-content>
+            <h2 class="patient-name-clean">{{ recetaSeleccionada.paciente.nombre }}</h2>
+            <ion-grid>
+              <ion-row>
+                <ion-col size="6">
+                  <span>RUT: {{ recetaSeleccionada.paciente.rut }}</span>
+                </ion-col>
+                <ion-col size="6">
+                  <span>Fecha: {{ recetaSeleccionada.fecha }}</span>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+          </ion-card-content>
+        </ion-card>
+
+        <!-- Número de receta -->
+        <ion-card class="meta-card-simple">
+          <ion-card-content>
+            <div class="receta-number-only">
+              <p class="meta-label">Número de Receta</p>
+              <p class="meta-value">{{ recetaSeleccionada.numero }}</p>
+            </div>
+          </ion-card-content>
+        </ion-card>
+
+        <!-- Medicamentos -->
+        <ion-card>
+          <ion-card-header>
+            <ion-card-title>
+              <ion-icon name="medical-outline"></ion-icon>
+              Medicamentos Prescritos
+            </ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <div *ngFor="let medicamento of recetaSeleccionada.medicamentos" class="medication-prescription">
+              <h4>{{ medicamento.nombre }}</h4>
+              <ion-grid>
+                <ion-row>
+                  <ion-col size="6">
+                    <div class="detail-item">
+                      <span class="detail-label">Dosis</span>
+                      <span class="detail-value">{{ medicamento.dosis }}</span>
+                    </div>
+                  </ion-col>
+                  <ion-col size="6">
+                    <div class="detail-item">
+                      <span class="detail-label">Frecuencia</span>
+                      <span class="detail-value">{{ medicamento.frecuencia }}</span>
+                    </div>
+                  </ion-col>
+                </ion-row>
+                <ion-row>
+                  <ion-col size="6">
+                    <div class="detail-item">
+                      <span class="detail-label">Duración</span>
+                      <span class="detail-value">{{ medicamento.duracion }}</span>
+                    </div>
+                  </ion-col>
+                  <ion-col size="6">
+                    <div class="detail-item">
+                      <span class="detail-label">Cantidad</span>
+                      <span class="detail-value">{{ medicamento.cantidad }}</span>
+                    </div>
+                  </ion-col>
+                </ion-row>
+              </ion-grid>
+              <ion-chip color="primary">
+                <ion-label>Vía: {{ medicamento.via }}</ion-label>
+              </ion-chip>
+            </div>
+          </ion-card-content>
+        </ion-card>
+
+        <!-- Descargar -->
+        <ion-grid>
+          <ion-row>
+            <ion-col size="12">
+              <ion-button expand="block" (click)="descargarReceta(recetaSeleccionada)">
+                <ion-icon name="download-outline" slot="start"></ion-icon>
+                Descargar PDF
+              </ion-button>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+</ion-content>

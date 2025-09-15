@@ -1,0 +1,426 @@
+// Variables globales - tema historial (verde médico)
+:host {
+  --green-primary: #20c997;
+  --green-light: #d1ecf1;
+  --blue-secondary: #4f46e5;
+  --purple-secondary: #7c3aed;
+  --orange-warning: #f59e0b;
+  --red-danger: #ef4444;
+  --gray-medium: #6b7280;
+}
+
+// Títulos y secciones
+.section-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--ion-text-color);
+  margin: 16px 16px 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.section-title ion-icon {
+  color: var(--green-primary);
+}
+
+// Filtros
+.filters-container {
+  background: var(--ion-card-background);
+  padding: 16px;
+  margin: 0 16px 16px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  border-left: 4px solid var(--green-primary);
+}
+.custom-searchbar {
+  --background: rgba(32, 201, 151, 0.05);
+  --color: var(--ion-text-color);
+  --placeholder-color: var(--ion-color-medium);
+  --icon-color: var(--green-primary);
+  --border-radius: 8px;
+  margin-bottom: 12px;
+}
+.filter-select {
+  --placeholder-color: var(--ion-color-medium);
+  --color: var(--ion-text-color);
+  background: rgba(32, 201, 151, 0.03);
+  border-radius: 8px;
+  padding: 8px 12px;
+  font-size: 0.9rem;
+}
+.filter-date {
+  --placeholder-color: var(--ion-color-medium);
+  --color: var(--ion-text-color);
+  background: rgba(32, 201, 151, 0.03);
+  border-radius: 8px;
+  padding: 8px 12px;
+  font-size: 0.9rem;
+}
+
+// Estadísticas
+.stats-container {
+  margin: 0 16px 16px;
+}
+.stat-card {
+  background: var(--ion-card-background);
+  border-radius: 8px;
+  padding: 12px 8px;
+  text-align: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  border-top: 3px solid var(--green-primary);
+}
+.stat-card .stat-number {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--green-primary);
+  margin: 0 0 4px 0;
+}
+.stat-card .stat-label {
+  font-size: 0.7rem;
+  color: var(--ion-color-medium);
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+// Listas y contenedores
+ion-list {
+  background: transparent;
+  margin: 0 16px;
+}
+
+// Cards de historial
+.historial-item {
+  background: var(--ion-card-background);
+  margin-bottom: 12px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  border-left: 4px solid transparent;
+  transition: all 0.3s ease;
+}
+.historial-item.event-consulta {
+  border-left-color: var(--green-primary);
+}
+.historial-item.event-examen {
+  border-left-color: var(--purple-secondary);
+}
+.historial-item.event-hospitalizacion {
+  border-left-color: var(--orange-warning);
+}
+.historial-item.event-cirugia {
+  border-left-color: var(--red-danger);
+}
+.historial-item.event-receta {
+  border-left-color: var(--green-primary);
+}
+.historial-item:hover {
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+}
+.historial-item ion-item {
+  --background: transparent;
+  --padding-start: 16px;
+  --padding-end: 16px;
+  --inner-padding-end: 0;
+}
+
+// Header de evento optimizado para móvil
+.event-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  width: 100%;
+  gap: 12px;
+}
+.event-main-info {
+  flex: 1;
+}
+.event-main-info h3 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--ion-text-color);
+  margin: 0 0 4px 0;
+  line-height: 1.3;
+}
+.event-main-info p {
+  font-size: 0.85rem;
+  color: var(--ion-color-medium);
+  margin: 0 0 2px 0;
+  line-height: 1.3;
+}
+.event-badge-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 8px;
+  flex-shrink: 0;
+}
+.event-badge {
+  font-size: 0.7rem;
+  padding: 4px 8px;
+  border-radius: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+.date-info {
+  font-size: 0.75rem;
+  color: var(--ion-color-medium);
+  margin-top: 2px;
+}
+
+// Detalles expandidos
+.historial-expanded-row {
+  padding-top: 12px;
+  padding-left: 16px;
+  padding-right: 16px;
+}
+.historial-expanded-row ion-col {
+  padding: 0 2px;
+}
+.detail-card {
+  background: rgba(0, 0, 0, 0.02);
+  padding: 12px;
+  border-radius: 8px;
+  margin-bottom: 8px;
+}
+.detail-card .detail-label {
+  font-size: 0.75rem;
+  color: var(--ion-color-medium);
+  margin: 0 0 4px 0;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.detail-card .detail-value {
+  font-size: 0.9rem;
+  color: var(--ion-text-color);
+  font-weight: 500;
+  margin: 0;
+}
+
+// Sección de detalles
+.details-row {
+  padding-top: 8px;
+  padding-left: 16px;
+  padding-right: 16px;
+}
+.details-row ion-col {
+  padding: 0;
+}
+.details-section {
+  background: rgba(32, 201, 151, 0.03);
+  border: 1px solid rgba(32, 201, 151, 0.2);
+  border-radius: 8px;
+  padding: 12px;
+  margin-bottom: 8px;
+}
+.details-section .details-info .details-title {
+  font-size: 0.75rem;
+  color: var(--green-primary);
+  font-weight: 600;
+  margin: 0 0 4px 0;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.details-section .details-info .details-text {
+  font-size: 0.85rem;
+  color: var(--ion-text-color);
+  line-height: 1.4;
+  margin: 0;
+}
+
+// Sección de resultados
+.results-row {
+  padding-top: 4px;
+  padding-left: 16px;
+  padding-right: 16px;
+  padding-bottom: 12px;
+}
+.results-row ion-col {
+  padding: 0;
+}
+.results-section .results-title {
+  font-size: 0.75rem;
+  color: var(--ion-color-medium);
+  font-weight: 600;
+  margin: 0 0 8px 0;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+.results-section .results-chips {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.results-section .results-chips ion-chip {
+  margin: 0;
+  --background: rgba(32, 201, 151, 0.1);
+  --color: var(--green-primary);
+  cursor: pointer;
+}
+.results-section .results-chips ion-chip ion-icon {
+  color: var(--green-primary);
+}
+.results-section .results-chips ion-chip:hover {
+  --background: rgba(32, 201, 151, 0.15);
+}
+
+// Estados especiales
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 20px;
+  text-align: center;
+}
+.empty-state .empty-icon {
+  font-size: 4rem;
+  color: var(--ion-color-medium);
+  margin-bottom: 16px;
+}
+.empty-state h3 {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--ion-text-color);
+  margin: 0 0 8px 0;
+}
+.empty-state p {
+  font-size: 0.9rem;
+  color: var(--ion-color-medium);
+  margin: 0 0 24px 0;
+  line-height: 1.4;
+}
+.empty-state ion-button {
+  --color: var(--green-primary);
+  --border-color: var(--green-primary);
+}
+.loading-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 20px;
+  text-align: center;
+}
+.loading-state ion-spinner {
+  --color: var(--green-primary);
+  margin-bottom: 16px;
+}
+.loading-state p {
+  font-size: 0.9rem;
+  color: var(--ion-color-medium);
+  margin: 0;
+}
+
+// Iconos de expansión
+.expand-icon {
+  color: var(--ion-color-medium);
+  transition: transform 0.2s ease;
+  font-size: 1.2rem;
+}
+
+// Responsive design
+@media (max-width: 576px) {
+  .section-title {
+    margin: 16px 12px 8px;
+    font-size: 1rem;
+  }
+  .filters-container {
+    margin: 0 12px 12px;
+    padding: 12px;
+  }
+  .stats-container {
+    margin: 0 12px 12px;
+  }
+  .stat-card {
+    padding: 8px 4px;
+  }
+  .stat-card .stat-number {
+    font-size: 1.2rem;
+  }
+  .stat-card .stat-label {
+    font-size: 0.65rem;
+  }
+  ion-list {
+    margin: 0 12px;
+  }
+  .event-header {
+    gap: 8px;
+  }
+  .event-main-info h3 {
+    font-size: 0.95rem;
+  }
+  .event-main-info p {
+    font-size: 0.8rem;
+  }
+  .event-badge {
+    font-size: 0.65rem;
+    padding: 3px 6px;
+  }
+  .historial-expanded-row {
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+  .historial-expanded-row ion-col {
+    padding: 0 1px;
+  }
+  .details-row {
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+  .results-row {
+    padding-left: 12px;
+    padding-right: 12px;
+    padding-bottom: 8px;
+  }
+  .detail-card {
+    margin-bottom: 6px;
+    padding: 10px;
+  }
+  .empty-state {
+    padding: 40px 16px;
+  }
+  .empty-state .empty-icon {
+    font-size: 3rem;
+  }
+  .empty-state h3 {
+    font-size: 1.1rem;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  :host {
+    --green-primary: #34d399;
+    --green-light: #065f46;
+    --blue-secondary: #6366f1;
+    --purple-secondary: #8b5cf6;
+    --orange-warning: #fbbf24;
+    --red-danger: #f87171;
+  }
+  .historial-item {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  }
+  .filters-container {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  }
+  .stat-card {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  }
+  .detail-card {
+    background: rgba(255, 255, 255, 0.03);
+  }
+  .details-section {
+    background: rgba(52, 211, 153, 0.1);
+    border-color: rgba(52, 211, 153, 0.3);
+  }
+  .custom-searchbar {
+    --background: rgba(52, 211, 153, 0.08);
+  }
+  .filter-select {
+    background: rgba(52, 211, 153, 0.05);
+  }
+  .filter-date {
+    background: rgba(52, 211, 153, 0.05);
+  }
+}
