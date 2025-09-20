@@ -116,9 +116,6 @@ ion-item::part(detail-icon) {
 .icon-circle.green { 
   background: linear-gradient(135deg, #20c997, #12b886);
 }
-.icon-circle.purple { 
-  background: linear-gradient(135deg, #b197fc, #9775fa);
-}
 .icon-circle.orange { 
   background: linear-gradient(135deg, #f59f00, #fd7e14);
 }
@@ -134,8 +131,8 @@ ion-item::part(detail-icon) {
 .icon-circle.cyan { 
   background: linear-gradient(135deg, #22b8cf, #15aabf);
 }
-.icon-circle.brown { 
-  background: linear-gradient(135deg, #a07965, #8c5e3c);
+.icon-circle.purple { 
+  background: linear-gradient(135deg, #9b59b6, #8e44ad);;
 }
 
 /* Bordes izquierdos de las cards*/
@@ -145,10 +142,6 @@ ion-item::part(detail-icon) {
 }
 .card-item.green { 
   border-left-color: #20c997;
-  border-left-width: 4px;
-}
-.card-item.purple { 
-  border-left-color: #b197fc;
   border-left-width: 4px;
 }
 .card-item.orange { 
@@ -171,8 +164,8 @@ ion-item::part(detail-icon) {
   border-left-color: #22b8cf;
   border-left-width: 4px;
 }
-.card-item.brown { 
-  border-left-color: #a07965;
+.card-item.purple { 
+  border-left-color: #9b59b6;
   border-left-width: 4px;
 }
 

@@ -28,9 +28,13 @@ export const routes: Routes = [
   {
     path: 'examenes',
     loadComponent: () => import('./examenes/examenes.page').then( m => m.ExamenesPage)
+  },  {
+    path: 'hospitalizaciones',
+    loadComponent: () => import('./hospitalizaciones/hospitalizaciones.page').then( m => m.HospitalizacionesPage)
   },
   {
-    path: 'procedimientos',
-    loadComponent: () => import('./procedimientos/procedimientos.page').then( m => m.ProcedimientosPage)
+    path: 'cirugias',
+    loadComponent: () => import('./cirugias/cirugias.page').then( m => m.CirugiasPage)
   },
+
 ];

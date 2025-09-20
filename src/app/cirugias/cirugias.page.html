@@ -1,0 +1,108 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/tabs/tab5" text="Volver"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Mis Cirugías</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Mis Cirugías</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  
+  <!-- título principal -->
+  <ion-grid>
+    <ion-row>
+      <ion-col size="12">
+        <h2 class="section-title">
+          <ion-icon name="medical-outline"></ion-icon>
+          Historial de Cirugías
+        </h2>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  
+  <!-- lista de cirugías -->
+  <ion-list lines="none" *ngIf="cirugias.length > 0">
+    <ion-item 
+      *ngFor="let cirugia of cirugias" 
+      button 
+      (click)="toggleCirugia(cirugia)"
+      class="cirugia-item"
+      [ngClass]="getStatusClass(cirugia)">
+      <ion-grid>
+        <!-- cabecera -->
+        <ion-row class="ion-align-items-center">
+          <ion-col size="7">
+            <ion-label>
+              <h3>{{ cirugia.nombre }}</h3>
+              <p>{{ formatFecha(cirugia.fecha) }}</p>
+            </ion-label>
+          </ion-col>
+          <ion-col size="4" class="badge-col">
+            <ion-badge [class]="getBadgeClass(cirugia)" class="status-badge-spaced">
+              {{ cirugia.estado }}
+            </ion-badge>
+          </ion-col>
+          <ion-col size="1">
+            <ion-icon 
+              [name]="cirugia.expanded ? 'chevron-up-outline' : 'chevron-down-outline'"
+              class="expand-icon">
+            </ion-icon>
+          </ion-col>
+        </ion-row>
+        
+        <!-- detalles expandidos -->
+        <ion-row *ngIf="cirugia.expanded" class="cirugia-expanded-row">
+          <ion-col size="12">
+            <div class="detail-container">
+              <!-- Fecha de la Cirugía -->
+              <div class="detail-item">
+                <div class="detail-icon-wrapper fecha-icon">
+                  <ion-icon name="calendar-outline" class="detail-icon"></ion-icon>
+                </div>
+                <div class="detail-content">
+                  <p class="detail-label">Fecha de Cirugía</p>
+                  <p class="detail-value">{{ formatFecha(cirugia.fecha) }}</p>
+                </div>
+              </div>
+              
+              <!-- Médico Responsable -->
+              <div class="detail-item">
+                <div class="detail-icon-wrapper medico-icon">
+                  <ion-icon name="person-outline" class="detail-icon"></ion-icon>
+                </div>
+                <div class="detail-content">
+                  <p class="detail-label">Cirujano</p>
+                  <p class="detail-value">{{ cirugia.medico }}</p>
+                </div>
+              </div>
+              
+              <!-- Hospital -->
+              <div class="detail-item">
+                <div class="detail-icon-wrapper hospital-icon">
+                  <ion-icon name="business-outline" class="detail-icon"></ion-icon>
+                </div>
+                <div class="detail-content">
+                  <p class="detail-label">Hospital</p>
+                  <p class="detail-value">{{ cirugia.hospital }}</p>
+                </div>
+              </div>
+            </div>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-item>
+  </ion-list>
+  
+  <!-- estado vacío -->
+  <div *ngIf="cirugias.length === 0" class="empty-state">
+    <ion-icon name="medical-outline" class="empty-icon"></ion-icon>
+    <h3>No hay cirugías registradas</h3>
+    <p>Las cirugías aparecerán aquí cuando tu médico las registre</p>
+  </div>
+</ion-content>

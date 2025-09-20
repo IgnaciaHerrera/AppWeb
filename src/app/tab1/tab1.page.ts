@@ -1,63 +1,123 @@
-import { Component, AfterViewInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { IonicModule } from '@ionic/angular';
 import { Router } from '@angular/router';
-import { 
-  IonHeader, IonToolbar, IonTitle, IonContent, 
-  IonCard, IonCardContent, IonIcon, IonButton, IonButtons 
-} from '@ionic/angular/standalone';
-import { Chart } from 'chart.js/auto';
+
+interface Recordatorio {
+  id: string;
+  tipo: 'medicamento' | 'cita' | 'examen';
+  titulo: string;
+  descripcion: string;
+  fecha: string;
+  hora: string;
+}
+
+interface Cita {
+  id: string;
+  dia: string;
+  mes: string;
+  especialidad: string;
+  medico: string;
+  centro: string;
+  hora: string;
+}
+
+interface MedicamentoActivo {
+  id: string;
+  nombre: string;
+  dosis: string;
+  forma: string;
+  frecuencia: string;
+}
 
 @Component({
   selector: 'app-tab1',
-  templateUrl: 'tab1.page.html',
-  styleUrls: ['tab1.page.scss'],
+  templateUrl: './tab1.page.html',
+  styleUrls: ['./tab1.page.scss'],
   standalone: true,
-  imports: [
-    IonHeader, IonToolbar, IonTitle, IonContent,
-    IonCard, IonCardContent, IonIcon, IonButton, IonButtons
-  ],
+  imports: [IonicModule, CommonModule, FormsModule],
 })
-export class Tab1Page implements AfterViewInit {
-  resumenChart: any;
+export class Tab1Page implements OnInit {
+  paciente = {
+    nombre: 'María Elena',
+    apellido: 'Rodríguez'
+  };
+
+  contadores = {
+    medicamentos: 2,
+    diagnosticos: 4,
+    alergias: 3,
+    historial: 7
+  };
+
+  medicamentosActivos: MedicamentoActivo[] = [
+    {
+      id: '1',
+      nombre: 'Losartán',
+      dosis: '50 mg',
+      forma: 'Comprimidos',
+      frecuencia: 'Cada 12 horas'
+    },
+    {
+      id: '2',
+      nombre: 'Amoxicilina',
+      dosis: '500 mg',
+      forma: 'Cápsulas',
+      frecuencia: 'Cada 8 horas por 7 días'
+    }
+  ];
+
+  proximasCitas: Cita[] = [
+    {
+      id: '1',
+      dia: '20',
+      mes: 'SEP',
+      especialidad: 'Cardiología',
+      medico: 'Dr. Carlos Mendoza',
+      centro: 'Hospital Cardiovascular',
+      hora: '10:30'
+    },
+    {
+      id: '2',
+      dia: '25',
+      mes: 'SEP',
+      especialidad: 'Laboratorio',
+      medico: 'Exámenes de Sangre',
+      centro: 'LabMed',
+      hora: '08:00'
+    }
+  ];
 
   constructor(private router: Router) {}
 
-  ngAfterViewInit() {
-    this.createResumenChart();
+  ngOnInit() {
+    this.cargarDatos();
   }
 
-  goTo(path: string) {
-    this.router.navigateByUrl(path, { replaceUrl: true });
+  goTo(route: string): void {
+    this.router.navigate([route]);
   }
 
-  createResumenChart() {
-    this.resumenChart = new Chart("resumenChart", {
-      type: 'bar',
-      data: {
-        labels: ['Grupo 1', 'Grupo 2', 'Grupo 3', 'Grupo 4'],
-        datasets: [
-          {
-            label: 'Hombres',
-            data: [30, 50, 20, 40],
-            backgroundColor: 'green'
-          },
-          {
-            label: 'Mujeres',
-            data: [40, 70, 25, 60],
-            backgroundColor: 'purple'
-          }
-        ]
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: {
-          legend: { position: 'bottom', labels: { font: { size: 10 } } }
-        },
-        scales: {
-          x: { ticks: { font: { size: 10 } } },
-          y: { ticks: { font: { size: 10 } } }
-        }
-      }
-    });
+  navegarA(seccion: string): void {
+    switch (seccion) {
+      case 'medicamentos':
+        this.router.navigate(['/recetas-medicamentos']);
+        break;
+      case 'diagnosticos':
+        this.router.navigate(['/diagnosticos']);
+        break;
+      case 'alergias':
+        this.router.navigate(['/alergias']);
+        break;
+      case 'historial':
+        this.router.navigate(['/historial']);
+        break;
+    }
+  }
+
+  private cargarDatos(): void {
+    console.log('Cargando datos del paciente...');
   }
 }
+

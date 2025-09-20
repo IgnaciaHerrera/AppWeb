@@ -3,6 +3,8 @@
   --green-success: #20c997;
   --blue-info: #4dabf7;
   --red-danger: #fa5252;
+  --gray-medium: #6c757d;
+  --purple-info: #9775fa;
 }
 
 /* segment de navegación */
@@ -78,6 +80,13 @@ ion-list {
   transition: all 0.3s ease;
 }
 
+.medicamento-item ion-label h3 {
+  font-weight: 700;
+  font-size: 0.9rem;
+  color: var(--ion-text-color);
+  margin-bottom: 4px;
+}
+
 .medicamento-item.cronico {
   border-left-color: var(--green-success);
 }
@@ -101,6 +110,18 @@ ion-list {
   --inner-padding-end: 0;
 }
 
+.medicamento-item ion-grid {
+  padding: 0 16px;
+  width: 100%;
+  padding-top: 8px;
+  padding-bottom: 8px;
+}
+
+.medicamento-item ion-col {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+
 /* badges */
 .badge-col {
   display: flex;
@@ -112,56 +133,123 @@ ion-list {
   margin-left: 16px;
 }
 
-/* detalles de medicamentos */
-.medicamento-details {
-  padding: 12px 16px 0;
-  background: rgba(0, 0, 0, 0.01);
+/* detalles expandidos - nuevo diseño */
+.medicamento-expanded-row {
+  padding-top: 12px;
+  margin-top: 8px;
+  border-top: 1px solid rgba(0, 0, 0, 0.08);
 }
 
-.medicamento-details ion-grid {
-  padding: 0;
+.detail-container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 }
 
-.medicamento-details ion-row {
-  margin: 0;
-}
-
-.medicamento-details ion-col {
-  padding: 0 4px;
-}
-
-/* tarjeta de detalle */
-.detail-card {
-  background: rgba(0, 0, 0, 0.02);
+.detail-item {
+  display: flex;
+  align-items: center;
   padding: 12px;
+  background: rgba(0, 0, 0, 0.02);
   border-radius: 8px;
-  margin: 0 0 8px;
+  gap: 12px;
+  transition: all 0.2s ease;
 }
 
-.detail-card .detail-label {
+.detail-item:hover {
+  background: rgba(0, 0, 0, 0.04);
+}
+
+.detail-icon-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.detail-icon {
+  font-size: 1.2rem;
+  color: white;
+}
+
+/* Iconos de tipo con colores */
+.type-cronico .detail-icon-wrapper {
+  background: var(--green-success);
+}
+
+.type-corta-duracion .detail-icon-wrapper {
+  background: var(--orange-accent);
+}
+
+/* Iconos específicos */
+.date-icon {
+  background: var(--blue-info);
+}
+
+.end-date-icon {
+  background: var(--red-danger);
+}
+
+.doctor-icon {
+  background: var(--purple-info);
+}
+
+.duration-icon {
+  background: var(--gray-medium);
+}
+
+.detail-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.detail-label {
   font-size: 0.75rem;
   color: var(--ion-color-medium);
-  margin: 0 0 4px;
+  margin: 0;
   text-transform: uppercase;
   letter-spacing: 0.5px;
+  font-weight: 600;
 }
 
-.detail-card .detail-value {
+.detail-value {
   font-size: 0.9rem;
   color: var(--ion-text-color);
   font-weight: 500;
   margin: 0;
 }
 
-/* progreso */
+/* progreso mejorado */
 .progress-section {
-  margin: 12px 0 0;
+  margin-top: 16px;
+  padding: 16px;
+  background: rgba(245, 159, 0, 0.05);
+  border-radius: 8px;
+  border: 1px solid rgba(245, 159, 0, 0.1);
+}
+
+.progress-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.progress-icon {
+  color: var(--orange-accent);
+  font-size: 1.1rem;
 }
 
 .progress-section .schedule-title {
   font-size: 0.85rem;
-  color: var(--ion-color-medium);
-  margin: 0 0 8px;
+  color: var(--orange-accent);
+  margin: 0;
+  font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
@@ -171,14 +259,15 @@ ion-list {
   --buffer-color: rgba(245, 159, 0, 0.1);
   height: 8px;
   border-radius: 4px;
+  margin-bottom: 8px;
 }
 
 .progress-section .progress-text {
   display: flex;
   justify-content: space-between;
   font-size: 0.75rem;
-  color: var(--ion-color-medium);
-  margin-top: 4px;
+  color: var(--orange-accent);
+  font-weight: 500;
 }
 
 /* recetas */
@@ -202,7 +291,7 @@ ion-list {
 
 .receta-header-simple .receta-info h3 {
   font-size: 1rem;
-  font-weight: 600;
+  font-weight: 700;
   color: var(--ion-text-color);
   margin: 0 0 4px 0;
 }
@@ -356,54 +445,12 @@ ion-list {
   margin-top: 8px;
 }
 
-/* responsive */
-@media (max-width: 576px) {
-  .section-title {
-    margin: 16px 12px 8px;
-    font-size: 1rem;
-  }
-
-  .subsection-title {
-    margin: 12px 12px 8px;
-  }
-
-  ion-list {
-    margin: 0 12px;
-  }
-
-  .receta-item-simple {
-    margin: 0 12px 12px;
-  }
-
-  .segment-container {
-    padding: 12px;
-  }
-
-  .medicamento-expanded-row {
-    padding-top: 8px;
-  }
-
-  .medicamento-expanded-row ion-col {
-    padding: 0 2px;
-  }
-
-  .progress-row {
-    padding-top: 8px;
-  }
-
-  .progress-row ion-col {
-    padding: 0 12px;
-  }
-
-  .detail-card {
-    margin-bottom: 6px;
-    padding: 10px;
-  }
-
-  .meta-card-simple {
-    margin: 12px;
-  }
+/* icono expandir */
+.expand-icon {
+  color: var(--ion-color-medium);
+  transition: transform 0.2s ease;
 }
+
 
 /* modo oscuro */
 @media (prefers-color-scheme: dark) {
@@ -411,23 +458,37 @@ ion-list {
     --orange-accent: #ffa94d;
     --green-success: #51cf66;
     --blue-info: #74c0fc;
+    --purple-info: #b197fc;
   }
-
+  
   .medicamento-item,
   .receta-item-simple {
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
   }
-
-  .detail-card,
+  
+  .medicamento-expanded-row {
+    border-top-color: rgba(255, 255, 255, 0.1);
+  }
+  
+  .detail-item,
   .medication-prescription,
   .doctor-info {
     background: rgba(255, 255, 255, 0.03);
   }
-
+  
+  .detail-item:hover {
+    background: rgba(255, 255, 255, 0.06);
+  }
+  
+  .progress-section {
+    background: rgba(255, 169, 77, 0.1);
+    border-color: rgba(255, 169, 77, 0.2);
+  }
+  
   .custom-segment {
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
   }
-
+  
   .meta-card-simple {
     background: rgba(255, 169, 77, 0.1);
     border-color: rgba(255, 169, 77, 0.3);

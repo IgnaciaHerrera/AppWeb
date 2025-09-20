@@ -11,14 +11,12 @@
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
-
 <ion-content [fullscreen]="true">
   <ion-header collapse="condense">
     <ion-toolbar>
       <ion-title size="large">Mis Alergias</ion-title>
     </ion-toolbar>
   </ion-header>
-
   <!-- título principal -->
   <ion-grid>
     <ion-row>
@@ -30,7 +28,6 @@
       </ion-col>
     </ion-row>
   </ion-grid>
-
   <!-- lista de alergias -->
   <ion-list lines="none" *ngIf="alergias.length > 0">
     <ion-item 
@@ -39,7 +36,6 @@
       (click)="toggleAlergia(alergia)"
       class="alergia-item"
       [ngClass]="getAlergiaGradeClass(alergia)">
-
       <ion-grid>
         <!-- cabecera -->
         <ion-row class="ion-align-items-center">
@@ -49,13 +45,11 @@
               <p>{{ alergia.descripcion }}</p>
             </ion-label>
           </ion-col>
-
           <ion-col size="4" class="badge-col">
             <ion-badge [color]="getBadgeColor(alergia)" class="grade-badge-spaced">
               {{ getGradeLabel(alergia.grado) }}
             </ion-badge>
           </ion-col>
-
           <ion-col size="1">
             <ion-icon 
               [name]="alergia.expanded ? 'chevron-up-outline' : 'chevron-down-outline'"
@@ -63,36 +57,36 @@
             </ion-icon>
           </ion-col>
         </ion-row>
-
         <!-- detalles expandidos -->
         <ion-row *ngIf="alergia.expanded" class="alergia-expanded-row">
-          <ion-col>
-            <div class="detail-card">
-              <p class="detail-label">Severidad</p>
-              <p class="detail-value">{{ getSeverityDescription(alergia.grado) }}</p>
-            </div>
-          </ion-col>
-          <ion-col>
-            <div class="detail-card">
-              <p class="detail-label">Fecha Registro</p>
-              <p class="detail-value">{{ alergia.fechaRegistro }}</p>
-            </div>
-          </ion-col>
-        </ion-row>
-
-        <!-- recomendaciones -->
-        <ion-row *ngIf="alergia.expanded && alergia.recomendaciones" class="recommendations-row">
           <ion-col size="12">
-            <div class="recommendations-section">
-              <p class="recommendations-title">Recomendaciones</p>
-              <p class="recommendations-text">{{ alergia.recomendaciones }}</p>
+            <div class="detail-container">
+              <!-- Severidad -->
+              <div class="detail-item" [ngClass]="'severity-' + alergia.grado">
+                <div class="detail-icon-wrapper">
+                  <ion-icon [name]="getSeverityIcon(alergia.grado)" class="detail-icon"></ion-icon>
+                </div>
+                <div class="detail-content">
+                  <p class="detail-label">Severidad</p>
+                  <p class="detail-value">{{ getSeverityDescription(alergia.grado) }}</p>
+                </div>
+              </div>
+              <!-- Fecha de Registro -->
+              <div class="detail-item">
+                <div class="detail-icon-wrapper date-icon">
+                  <ion-icon name="calendar-outline" class="detail-icon"></ion-icon>
+                </div>
+                <div class="detail-content">
+                  <p class="detail-label">Fecha Registro</p>
+                  <p class="detail-value">{{ alergia.fechaRegistro }}</p>
+                </div>
+              </div>
             </div>
           </ion-col>
         </ion-row>
       </ion-grid>
     </ion-item>
   </ion-list>
-
   <!-- estado vacío -->
   <div *ngIf="alergias.length === 0" class="empty-state">
     <ion-icon name="shield-checkmark-outline" class="empty-icon"></ion-icon>

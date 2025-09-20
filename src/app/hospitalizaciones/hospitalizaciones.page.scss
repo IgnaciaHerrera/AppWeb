@@ -1,15 +1,13 @@
 :host {
-  --pink-primary: #e91e63; 
-  --pink-light: #f8bbd9;
-  --green-success: #20c997;
-  --orange-warning: #fd7e14;
-  --red-danger: #fa5252;
-  --dark-critical: #495057;
+  --cyan-primary: #22b8cf;
+  --cyan-light: #52c9db;
+  --cyan-dark: #15aabf;
+  --cyan-success: #20c997;
+  --cyan-inactive: #78909c;
   --gray-medium: #6c757d;
-  --blue-info: #17a2b8;
 }
 
-// Títulos y secciones
+/* títulos y secciones */
 .section-title {
   font-size: 1.1rem;
   font-weight: 700;
@@ -21,92 +19,104 @@
 }
 
 .section-title ion-icon {
-  color: var(--pink-primary);
+  color: var(--cyan-primary);
 }
 
-// Listas y contenedores
 ion-list {
   background: transparent;
   margin: 0 16px;
 }
 
-// Cards de diagnósticos
-.diagnostico-item {
+.hospitalizacion-item {
   background: var(--ion-card-background);
   margin-bottom: 12px;
   border-radius: 12px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-  border-left: 4px solid transparent;
+  border-left: 4px solid var(--cyan-primary);
   transition: all 0.3s ease;
 }
 
-.diagnostico-item ion-label h3 {
+.hospitalizacion-item ion-label h3 {
   font-weight: 700;
   font-size: 0.9rem;
   color: var(--ion-text-color);
   margin-bottom: 4px;
 }
 
-.diagnostico-item.severity-leve {
-  border-left-color: var(--green-success);
+.hospitalizacion-item ion-label p {
+  font-size: 0.8rem;
+  color: var(--ion-color-medium);
+  margin: 0;
 }
 
-.diagnostico-item.severity-moderado {
-  border-left-color: var(--orange-warning);
+.hospitalizaciones-item.status-activa {
+  border-left-color: var(--cyan-primary);
 }
 
-.diagnostico-item.severity-severo {
-  border-left-color: var(--red-danger);
+.hospitalizacion-item.status-finalizada {
+  border-left-color: var(--cyan-inactive);
 }
 
-.diagnostico-item.severity-critico {
-  border-left-color: var(--dark-critical);
-}
-
-.diagnostico-item:hover {
+.hospitalizacion-item:hover {
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
 }
 
-.diagnostico-item ion-item {
-  --background: transparent;
-  --padding-start: 16px;
-  --padding-end: 16px;
+.hospitalizacion-item > ion-item {
+  --padding-start: 0;
+  --padding-end: 0;
+  --inner-padding-start: 0;
   --inner-padding-end: 0;
+  --inner-padding-top: 12px;
+  --inner-padding-bottom: 12px;
 }
 
-.diagnostico-item ion-grid {
+.hospitalizacion-item ion-grid {
   padding: 0 16px;
   width: 100%;
   padding-top: 8px;
   padding-bottom: 8px;
 }
 
-.diagnostico-item ion-col {
+.hospitalizacion-item ion-col {
   padding-left: 0 !important;
   padding-right: 0 !important;
 }
 
-// Información de fecha
-.date-info {
-  font-size: 0.75rem;
-  color: var(--ion-color-medium);
-  margin-top: 2px;
-}
-
-// Columna de badges
 .badge-col {
   display: flex;
   justify-content: flex-start;
+  align-items: center; 
   padding-left: 8px;
+  padding-right: 12px; 
 }
 
-// Badge con espacio
-.severity-badge-spaced {
+.status-badge-spaced {
   margin-left: 16px;
+  margin-right: 8px; 
 }
 
-// Detalles expandidos 
-.diagnostico-expanded-row {
+ion-badge {
+  --background: var(--cyan-primary);
+  --color: white;
+  font-weight: 600;
+  font-size: 0.70rem; 
+  border-radius: 10px; 
+  padding: 3px 10px; 
+  line-height: 1.2; 
+}
+
+ion-badge.badge-finalizada {
+  --background: var(--cyan-inactive);
+  --color: white;
+}
+
+ion-badge.badge-en-curso {
+  --background: var(--cyan-primary);
+  --color: white;
+}
+
+/* detalles expandidos - mismo estilo que alergias */
+.hospitalizacion-expanded-row {
   padding-top: 12px;
   margin-top: 8px;
   border-top: 1px solid rgba(0, 0, 0, 0.08);
@@ -122,14 +132,14 @@ ion-list {
   display: flex;
   align-items: center;
   padding: 12px;
-  background: rgba(0, 0, 0, 0.02);
+  background: rgba(34, 184, 207, 0.03);
   border-radius: 8px;
   gap: 12px;
   transition: all 0.2s ease;
 }
 
 .detail-item:hover {
-  background: rgba(0, 0, 0, 0.04);
+  background: rgba(34, 184, 207, 0.06);
 }
 
 .detail-icon-wrapper {
@@ -147,31 +157,11 @@ ion-list {
   color: white;
 }
 
-// Iconos de severidad con colores
-.severity-leve .detail-icon-wrapper {
-  background: var(--green-success);
-}
-
-.severity-moderado .detail-icon-wrapper {
-  background: var(--orange-warning);
-}
-
-.severity-severo .detail-icon-wrapper {
-  background: var(--red-danger);
-}
-
-.severity-critico .detail-icon-wrapper {
-  background: var(--dark-critical);
-}
-
-// Iconos de fase
-.phase-icon {
-  background: var(--blue-info);
-}
-
-// Icono de médico
-.doctor-icon {
-  background: var(--pink-primary);
+.ingreso-icon,
+.salida-icon,
+.medico-icon,
+.hospital-icon {
+  background: var(--cyan-primary);
 }
 
 .detail-content {
@@ -197,7 +187,7 @@ ion-list {
   margin: 0;
 }
 
-// Estado vacío
+/* estado vacío */
 .empty-state {
   display: flex;
   flex-direction: column;
@@ -209,7 +199,7 @@ ion-list {
 
 .empty-state .empty-icon {
   font-size: 4rem;
-  color: var(--ion-color-medium);
+  color: var(--cyan-primary);
   margin-bottom: 16px;
 }
 
@@ -228,52 +218,49 @@ ion-list {
 }
 
 .empty-state ion-button {
-  --color: var(--pink-primary);
-  --border-color: var(--pink-primary);
+  --color: var(--cyan-primary);
+  --border-color: var(--cyan-primary);
 }
 
-// Fab button
-ion-fab-button {
-  --background: var(--pink-primary);
-  --color: white;
-  --box-shadow: 0 4px 16px rgba(233, 30, 99, 0.3);
-}
-
-ion-fab-button:hover {
-  --box-shadow: 0 6px 20px rgba(233, 30, 99, 0.4);
-}
-
-// Iconos de expansión
+/* icono expandir */
 .expand-icon {
   color: var(--ion-color-medium);
   transition: transform 0.2s ease;
 }
 
-// Modo oscuro
+
+/* modo oscuro */
 @media (prefers-color-scheme: dark) {
   :host {
-    --pink-primary: #f06292;
-    --pink-light: #fce4ec;
-    --green-success: #51cf66;
-    --orange-warning: #ffb84d;
-    --red-danger: #ff6b6b;
-    --dark-critical: #868e96;
-    --blue-info: #339af0;
+    --cyan-primary: #4dd0e1;
+    --cyan-light: #73e8ff;
+    --cyan-dark: #00acc1;
+    --cyan-success: #26a69a;
+    --cyan-inactive: #90a4ae;
   }
   
-  .diagnostico-item {
+  .hospitalizacion-item {
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
   }
   
-  .diagnostico-expanded-row {
+  .hospitalizacion-expanded-row {
     border-top-color: rgba(255, 255, 255, 0.1);
   }
   
   .detail-item {
-    background: rgba(255, 255, 255, 0.03);
+    background: rgba(77, 208, 225, 0.05);
   }
   
   .detail-item:hover {
-    background: rgba(255, 255, 255, 0.06);
+    background: rgba(77, 208, 225, 0.08);
+  }
+  
+  /* Badges en modo oscuro */
+  ion-badge.badge-en-curso {
+    --background: var(--cyan-primary);
+  }
+  
+  ion-badge.badge-finalizada {
+    --background: var(--cyan-inactive);
   }
 }

@@ -11,166 +11,127 @@
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
-
 <ion-content [fullscreen]="true">
   <ion-header collapse="condense">
     <ion-toolbar>
       <ion-title size="large">Exámenes</ion-title>
     </ion-toolbar>
   </ion-header>
-
-  <!-- Búsqueda -->
+  <!-- Título principal -->
   <ion-grid>
-    <ion-row class="search-row">
-      <ion-col size="12">
-        <ion-searchbar 
-          [(ngModel)]="terminoBusqueda" 
-          (ionInput)="buscarExamenes()" 
-          placeholder="Buscar exámenes..."
-          class="search-bar">
-        </ion-searchbar>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
-
-  <!-- Lista de exámenes en grid -->
-  <ion-grid class="examenes-grid">
     <ion-row>
-      <ion-col 
-        size="12" 
-        *ngFor="let examen of examenesFiltrados"
-        class="examen-col">
-        
-        <ion-card 
-          class="examen-card"
-          button
-          (click)="verDetalleExamen(examen)">
-          
-          <ion-card-content>
-            <ion-grid>
-              <ion-row class="ion-align-items-center">
-                <!-- Información principal -->
-                <ion-col size="12">
-                  <h3 class="examen-nombre">{{ examen.nombre }}</h3>
-                  <p class="examen-fecha">{{ examen.fecha }}</p>
-                  <p class="examen-tipo">{{ examen.tipo }}</p>
-                </ion-col>
-              </ion-row>
-              
-              <!-- Información adicional -->
-              <ion-row *ngIf="examen.resultados">
-                <ion-col size="12">
-                  <div class="resultados-preview">
-                    <div class="resultado-item" *ngFor="let resultado of examen.resultados.slice(0, 2)">
-                      <span class="resultado-nombre">{{ resultado.nombre }}:</span>
-                      <span 
-                        class="resultado-valor" 
-                        [ngClass]="resultado.estado">
-                        {{ resultado.valor }} {{ resultado.unidad }}
-                      </span>
-                    </div>
-                    <p *ngIf="examen.resultados.length > 2" class="mas-resultados">
-                      +{{ examen.resultados.length - 2 }} resultados más
-                    </p>
-                  </div>
-                </ion-col>
-              </ion-row>
-            </ion-grid>
-          </ion-card-content>
-          
-          <!-- Acciones rápidas -->
-          <div class="card-actions">
-            <ion-button 
-              fill="clear" 
-              size="small"
-              (click)="verDetalleExamen(examen); $event.stopPropagation()">
-              <ion-icon name="eye-outline" slot="start"></ion-icon>
-              Ver Detalle
-            </ion-button>
-          </div>
-        </ion-card>
+      <ion-col size="12">
+        <h2 class="section-title">
+          <ion-icon name="document-text-outline"></ion-icon>
+          Exámenes Médicos
+        </h2>
       </ion-col>
     </ion-row>
   </ion-grid>
-
-  <!-- Modal de detalle del examen -->
-  <ion-modal [isOpen]="mostrarDetalleModal" (didDismiss)="cerrarDetalleModal()">
-    <ng-template>
-      <ion-header>
-        <ion-toolbar>
-          <ion-title>{{ examenSeleccionado?.nombre }}</ion-title>
-          <ion-buttons slot="end">
-            <ion-button (click)="cerrarDetalleModal()">
-              <ion-icon name="close-outline"></ion-icon>
-            </ion-button>
-          </ion-buttons>
-        </ion-toolbar>
-      </ion-header>
+  <!-- Lista de exámenes -->
+  <ion-list lines="none" *ngIf="examenes.length > 0">
+    <ion-item 
+      *ngFor="let examen of examenes" 
+      button 
+      (click)="toggleExamen(examen)"
+      class="examen-item"
+      [ngClass]="getExamenTypeClass(examen)">
       
-      <ion-content *ngIf="examenSeleccionado">
-        <!-- Información general del examen -->
-        <ion-card>
-          <ion-card-header>
-            <ion-card-title class="detalle-titulo">
-              {{ examenSeleccionado.nombre }}
-            </ion-card-title>
-            <ion-card-subtitle>{{ examenSeleccionado.tipo }}</ion-card-subtitle>
-          </ion-card-header>
-          <ion-card-content>
-            <ion-grid>
-              <ion-row>
-                <ion-col size="12">
-                  <div class="info-item">
-                    <p class="info-label">Fecha</p>
-                    <p class="info-value">{{ examenSeleccionado.fecha }}</p>
-                  </div>
-                </ion-col>
-              </ion-row>
-              <ion-row *ngIf="examenSeleccionado.medico">
-                <ion-col size="12">
-                  <div class="info-item">
-                    <p class="info-label">Médico Solicitante</p>
-                    <p class="info-value">{{ examenSeleccionado.medico }}</p>
-                  </div>
-                </ion-col>
-              </ion-row>
-              <ion-row *ngIf="examenSeleccionado.descripcion">
-                <ion-col size="12">
-                  <div class="info-item">
-                    <p class="info-label">Descripción</p>
-                    <p class="info-value">{{ examenSeleccionado.descripcion }}</p>
-                  </div>
-                </ion-col>
-              </ion-row>
-            </ion-grid>
-          </ion-card-content>
-        </ion-card>
-
-        <!-- Resultados detallados -->
-        <ion-card *ngIf="examenSeleccionado.resultados">
-          <ion-card-header>
-            <ion-card-title>Resultados</ion-card-title>
-          </ion-card-header>
-          <ion-card-content>
-            <div class="resultado-detalle" *ngFor="let resultado of examenSeleccionado.resultados">
-              <div class="resultado-header">
-                <h4>{{ resultado.nombre }}</h4>
-                <span 
-                  class="resultado-valor-grande" 
-                  [ngClass]="resultado.estado">
-                  {{ resultado.valor }} {{ resultado.unidad }}
-                </span>
+      <ion-grid>
+        <ion-row class="ion-align-items-center">
+          <ion-col size="10">
+            <ion-label>
+              <h3>{{ examen.nombre }}</h3>
+              <p class="examen-fecha">{{ examen.fecha }}</p>
+            </ion-label>
+          </ion-col>
+          
+          <ion-col size="1">
+            <ion-icon 
+              [name]="examen.expanded ? 'chevron-up-outline' : 'chevron-down-outline'"
+              class="expand-icon">
+            </ion-icon>
+          </ion-col>
+        </ion-row>
+        <!-- Detalles expandidos -->
+        <ion-row *ngIf="examen.expanded" class="examen-expanded-row">
+          <ion-col size="12">
+            <div class="detail-container">
+              <!-- Tipo -->
+              <div class="detail-item" [ngClass]="'tipo-' + getTipoClass(examen.tipo)">
+                <div class="detail-icon-wrapper">
+                  <ion-icon [name]="getTipoIcon(examen.tipo)" class="detail-icon"></ion-icon>
+                </div>
+                <div class="detail-content">
+                  <p class="detail-label">Tipo de Examen</p>
+                  <p class="detail-value">{{ examen.tipo }}</p>
+                </div>
               </div>
-              <div class="rango-referencia" *ngIf="resultado.rangoReferencia">
-                <p>Rango de referencia: {{ resultado.rangoReferencia }}</p>
+              <!-- Fecha -->
+              <div class="detail-item">
+                <div class="detail-icon-wrapper date-icon">
+                  <ion-icon name="calendar-outline" class="detail-icon"></ion-icon>
+                </div>
+                <div class="detail-content">
+                  <p class="detail-label">Fecha</p>
+                  <p class="detail-value">{{ examen.fecha }}</p>
+                </div>
               </div>
-              <div class="observaciones" *ngIf="resultado.observaciones">
-                <p>{{ resultado.observaciones }}</p>
+              <!-- Médico -->
+              <div *ngIf="examen.medico" class="detail-item">
+                <div class="detail-icon-wrapper doctor-icon">
+                  <ion-icon name="person-outline" class="detail-icon"></ion-icon>
+                </div>
+                <div class="detail-content">
+                  <p class="detail-label">Médico Solicitante</p>
+                  <p class="detail-value">{{ examen.medico }}</p>
+                </div>
               </div>
             </div>
-          </ion-card-content>
-        </ion-card>
-      </ion-content>
-    </ng-template>
-  </ion-modal>
+            <!-- Resultados completos -->
+            <div *ngIf="examen.resultados && examen.resultados.length > 0" class="results-section">
+              <div class="results-header">
+                <ion-icon name="analytics-outline" class="results-icon"></ion-icon>
+                <p class="results-title">Resultados ({{ examen.resultados.length }})</p>
+              </div>
+              <div class="results-complete">
+                <div class="resultado-completo" *ngFor="let resultado of examen.resultados">
+                  <div class="resultado-header-main">
+                    <h4>{{ resultado.nombre }}</h4>
+                    <span 
+                      class="resultado-valor-main" 
+                      [ngClass]="resultado.estado">
+                      {{ resultado.valor }} {{ resultado.unidad }}
+                    </span>
+                  </div>
+                  <div class="rango-referencia" *ngIf="resultado.rangoReferencia">
+                    <p>Rango de referencia: {{ resultado.rangoReferencia }}</p>
+                  </div>
+                  <div class="observaciones" *ngIf="resultado.observaciones">
+                    <p>{{ resultado.observaciones }}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Acciones simplificadas -->
+            <div class="actions-section">
+              <ion-button 
+                fill="outline" 
+                size="small" 
+                color="success">
+                <ion-icon name="download-outline" slot="start"></ion-icon>
+                Descargar PDF
+              </ion-button>
+            </div>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-item>
+  </ion-list>
+  <!-- Estado vacío -->
+  <div *ngIf="examenes.length === 0" class="empty-state">
+    <ion-icon name="document-text-outline" class="empty-icon"></ion-icon>
+    <h3>No hay exámenes registrados</h3>
+    <p>Los exámenes médicos aparecerán aquí cuando sean realizados</p>
+  </div>
 </ion-content>

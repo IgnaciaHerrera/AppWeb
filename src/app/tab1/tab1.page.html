@@ -1,6 +1,6 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title slot="start">Home</ion-title>
+    <ion-title slot="start">Inicio</ion-title>
     <ion-buttons slot="end">
       <ion-button (click)="goTo('/tabs/tab6')" fill="clear">
         <ion-icon name="person-circle-outline" style="font-size: 26px;"></ion-icon>
@@ -9,72 +9,126 @@
   </ion-toolbar>
 </ion-header>
 
-<div class="home-container">
-  <ion-content [fullscreen]="true" class="ion-padding home-content">
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Inicio</ion-title>
+    </ion-toolbar>
+  </ion-header>
 
-    <div class="saludo">
-      <h2>¡Hola!</h2>
-      <p>Hoy es Lunes 8 de septiembre</p>
+  <!-- Header de bienvenida -->
+  <div class="welcome-header">
+    <div class="welcome-content">
+      <div class="user-greeting">
+        <h1>Hola, {{ paciente.nombre }}</h1>
+        <p>Bienvenida a tu aplicación médica</p>
+      </div>
     </div>
+  </div>
 
-    <div class="accesos-rapidos">
-      <!-- Fichas médicas-->
-      <ion-card button (click)="goTo('/tabs/tab4')" class="acceso">
-        <ion-card-content>
-          <ion-icon name="documents-outline" class="icono"></ion-icon>
-          <p>Fichas médicas</p>
-        </ion-card-content>
-      </ion-card>
+  <!-- Recordatorios de Medicamentos Activos -->
+  <div class="reminders-section" *ngIf="medicamentosActivos.length > 0">
+    <h2 class="section-title">
+      <ion-icon name="medical-outline"></ion-icon>
+      Recordatorios de Medicamentos
+    </h2>
 
-      <!-- Dashboard-->
-      <ion-card  class="acceso">
-        <ion-card-content>
-          <ion-icon name="stats-chart-outline" class="icono"></ion-icon>
-          <p>Dashboard</p>
-        </ion-card-content>
-      </ion-card>
-      <!-- Reporte-->
-      <ion-card button (click)="goTo('/tabs/tab5')" class="acceso">
-        <ion-card-content>
-          <ion-icon name="document-text-outline" class="icono"></ion-icon>
-          <p>Reportes</p>
-        </ion-card-content>
-      </ion-card>
-    </div>
-
-    <!-- Resumen -->
-    <div class="resumen-header">
-      <h3>Resumen</h3>
-    </div>
-
-    <!-- Tarjetas de números -->
-    <div class="resumen-numeros">
-      <ion-card class="numero-card">
-        <ion-card-content>
-          <p>Total Pacientes</p>
-          <h2>4</h2>
-        </ion-card-content>
-      </ion-card>
-      
-      <ion-card class="numero-card">
-        <ion-card-content>
-          <p>Pacientes críticos</p>
-          <h2 class="criticos">2</h2>
-        </ion-card-content>
-      </ion-card>
-    </div>
-
-    <!-- Gráfico-->
-    <ion-card class="resumen-card">
+    <ion-card class="reminder-card" *ngFor="let med of medicamentosActivos">
       <ion-card-content>
-        <div class="grafico-header">
-          <h4>Distribución por Grupos</h4>
-        </div>
-        <div class="resumen-grafico">
-          <canvas id="resumenChart"></canvas>
+        <div class="reminder-content">
+          <div class="reminder-icon reminder-medicamento">
+            <ion-icon name="medkit-outline"></ion-icon>
+          </div>
+          <div class="reminder-info">
+            <h3>{{ med.nombre }}</h3>
+            <p>{{ med.dosis }} - {{ med.forma }}</p>
+            <div class="reminder-time">
+              <ion-icon name="time-outline"></ion-icon>
+              <span>{{ med.frecuencia }}</span>
+            </div>
+          </div>
         </div>
       </ion-card-content>
     </ion-card>
+  </div>
 
-  </ion-content>
-</div>
+
+  <!-- Accesos rápidos -->
+  <div class="quick-access-section">
+    <h2 class="section-title">
+      <ion-icon name="grid-outline"></ion-icon>
+      Acceso Rápido
+    </h2>
+    
+    <div class="quick-grid">
+      <ion-card class="quick-card" button (click)="navegarA('medicamentos')">
+        <ion-card-content>
+          <div class="quick-icon medicamentos">
+            <ion-icon name="medical-outline"></ion-icon>
+          </div>
+          <h3>Medicamentos</h3>
+          <p>{{ contadores.medicamentos }} activos</p>
+        </ion-card-content>
+      </ion-card>
+
+      <ion-card class="quick-card" button (click)="navegarA('diagnosticos')">
+        <ion-card-content>
+          <div class="quick-icon diagnosticos">
+            <ion-icon name="clipboard-outline"></ion-icon>
+          </div>
+          <h3>Diagnósticos</h3>
+          <p>{{ contadores.diagnosticos }} registros</p>
+        </ion-card-content>
+      </ion-card>
+
+      <ion-card class="quick-card" button (click)="navegarA('alergias')">
+        <ion-card-content>
+          <div class="quick-icon alergias">
+            <ion-icon name="warning-outline"></ion-icon>
+          </div>
+          <h3>Alergias</h3>
+          <p>{{ contadores.alergias }} registradas</p>
+        </ion-card-content>
+      </ion-card>
+
+      <ion-card class="quick-card" button (click)="navegarA('historial')">
+        <ion-card-content>
+          <div class="quick-icon historial">
+            <ion-icon name="time-outline"></ion-icon>
+          </div>
+          <h3>Consultas</h3>
+          <p>{{ contadores.historial }} eventos</p>
+        </ion-card-content>
+      </ion-card>
+    </div>
+  </div>
+
+  <!-- Próximas citas -->
+  <div class="appointments-section" *ngIf="proximasCitas.length > 0">
+    <h2 class="section-title">
+      <ion-icon name="calendar-outline"></ion-icon>
+      Próximas consultas
+    </h2>
+    
+    <ion-card class="appointment-card" *ngFor="let cita of proximasCitas">
+      <ion-card-content>
+        <div class="appointment-content">
+          <div class="appointment-date">
+            <p class="day">{{ cita.dia }}</p>
+            <p class="month">{{ cita.mes }}</p>
+          </div>
+          <div class="appointment-info">
+            <h3>{{ cita.especialidad }}</h3>
+            <p>{{ cita.medico }}</p>
+            <div class="appointment-details">
+              <ion-icon name="location-outline"></ion-icon>
+              <span>{{ cita.centro }}</span>
+              <ion-icon name="time-outline"></ion-icon>
+              <span>{{ cita.hora }}</span>
+            </div>
+          </div>
+        </div>
+      </ion-card-content>
+    </ion-card>
+  </div>
+</ion-content>

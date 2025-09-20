@@ -40,7 +40,6 @@
           <ion-col size="7">
             <ion-label>
               <h3>{{ diagnostico.enfermedad }}</h3>
-              <p>{{ diagnostico.descripcion }}</p>
               <p class="date-info">{{ diagnostico.fechaDiagnostico }}</p>
             </ion-label>
           </ion-col>
@@ -61,27 +60,37 @@
 
         <!-- Detalles expandidos -->
         <ion-row *ngIf="diagnostico.expanded" class="diagnostico-expanded-row">
-          <ion-col size="6">
-            <div class="detail-card">
-              <p class="detail-label">Fase</p>
-              <p class="detail-value">{{ getFaseDescription(diagnostico.fase) }}</p>
-            </div>
-          </ion-col>
-          <ion-col size="6">
-            <div class="detail-card">
-              <p class="detail-label">Médico</p>
-              <p class="detail-value">{{ diagnostico.medico }}</p>
-            </div>
-          </ion-col>
-        </ion-row>
-
-        <!-- Información de tratamiento -->
-        <ion-row *ngIf="diagnostico.expanded && diagnostico.tratamiento" class="treatment-row">
           <ion-col size="12">
-            <div class="treatment-section">
-              <div class="treatment-info">
-                <p class="treatment-title">Tratamiento Actual</p>
-                <p class="treatment-text">{{ diagnostico.tratamiento }}</p>
+            <div class="detail-container">
+              <!-- Severidad -->
+              <div class="detail-item severity-detail">
+                <div class="detail-icon-wrapper severity-icon">
+                  <ion-icon name="pulse-outline" class="detail-icon"></ion-icon>
+                </div>
+                <div class="detail-content">
+                  <p class="detail-label">Severidad</p>
+                  <p class="detail-value">{{ getSeverityDescription(diagnostico.severidad) }}</p>
+                </div>
+              </div>
+              <!-- Fase -->
+              <div class="detail-item phase-detail">
+                <div class="detail-icon-wrapper phase-icon">
+                  <ion-icon name="time-outline" class="detail-icon"></ion-icon>
+                </div>
+                <div class="detail-content">
+                  <p class="detail-label">Fase</p>
+                  <p class="detail-value">{{ getFaseDescription(diagnostico.fase) }}</p>
+                </div>
+              </div>
+              <!-- Médico -->
+              <div class="detail-item doctor-detail">
+                <div class="detail-icon-wrapper doctor-icon">
+                  <ion-icon name= "person-outline" class="detail-icon"></ion-icon>
+                </div>
+                <div class="detail-content">
+                  <p class="detail-label">Médico</p>
+                  <p class="detail-value">{{ diagnostico.medico }}</p>
+                </div>
               </div>
             </div>
           </ion-col>
@@ -96,5 +105,4 @@
     <h3>No hay diagnósticos registrados</h3>
     <p>Los diagnósticos médicos aparecerán aquí cuando sean registrados por tu médico</p>
   </div>
-
 </ion-content>

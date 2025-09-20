@@ -10,13 +10,10 @@ import {
 interface Diagnostico {
   id: string;
   enfermedad: string; 
-  descripcion: string; 
   severidad: 'leve' | 'moderado' | 'severo' | 'critico'; 
   fase: 'inicial' | 'progreso' | 'estable' | 'remision'; 
   fechaDiagnostico: string;
   medico: string;
-  tratamiento?: string;
-  proximaConsulta?: string;
   expanded: boolean;
 }
 
@@ -34,27 +31,18 @@ interface Diagnostico {
 })
 export class DiagnosticosPage implements OnInit {
   
-  // Array de datos (se reemplazará por servicios)
   diagnosticos: Diagnostico[] = [];
 
-  constructor() { 
-    this.inicializarDatosDePrueba();
-  }
+  constructor() { this.inicializarDatosDePrueba(); }
+  ngOnInit() {}
 
-  ngOnInit() {
-    // Aquí se conectarán los servicios reales
-  }
+  toggleDiagnostico(d: Diagnostico) { d.expanded = !d.expanded; }
 
-  toggleDiagnostico(diagnostico: Diagnostico): void {
-    diagnostico.expanded = !diagnostico.expanded;
+  getDiagnosticoSeverityClass(d: Diagnostico): string {
+    return `severity-${d.severidad}`;
   }
-
-  getDiagnosticoSeverityClass(diagnostico: Diagnostico): string {
-    return `severity-${diagnostico.severidad}`;
-  }
-
-  getSeverityBadgeColor(diagnostico: Diagnostico): string {
-    switch (diagnostico.severidad) {
+  getSeverityBadgeColor(d: Diagnostico): string {
+    switch (d.severidad) {
       case 'leve': return 'success';
       case 'moderado': return 'warning';
       case 'severo': return 'danger';
@@ -62,7 +50,6 @@ export class DiagnosticosPage implements OnInit {
       default: return 'medium';
     }
   }
-
   getSeverityLabel(severidad: string): string {
     switch (severidad) {
       case 'leve': return 'Leve';
@@ -72,7 +59,15 @@ export class DiagnosticosPage implements OnInit {
       default: return 'Sin clasificar';
     }
   }
-
+  getSeverityDescription(severidad: string): string {
+    switch (severidad) {
+      case 'leve': return 'Condición leve';
+      case 'moderado': return 'Condición moderada';
+      case 'severo': return 'Condición severa';
+      case 'critico': return 'Condición crítica';
+      default: return 'Sin clasificar';
+    }
+  }
   getFaseDescription(fase: string): string {
     switch (fase) {
       case 'inicial': return 'Fase inicial';
@@ -83,53 +78,16 @@ export class DiagnosticosPage implements OnInit {
     }
   }
 
-  // Datos de prueba (temporal - se eliminará cuando se conecten servicios)
   private inicializarDatosDePrueba(): void {
     this.diagnosticos = [
-      {
-        id: '1',
-        enfermedad: 'Hipertensión Arterial',
-        descripcion: 'Presión arterial elevada sostenida',
-        severidad: 'moderado',
-        fase: 'estable',
-        fechaDiagnostico: '12 Mar 2024',
-        medico: 'Dr. Carlos Mendoza',
-        tratamiento: 'Losartán 50mg cada 12 horas, dieta baja en sodio, ejercicio regular',
-        expanded: false
-      },
-      {
-        id: '2',
-        enfermedad: 'Diabetes Mellitus Tipo 2',
-        descripcion: 'Trastorno metabólico caracterizado por hiperglucemia',
-        severidad: 'severo',
-        fase: 'progreso',
-        fechaDiagnostico: '08 Jun 2024',
-        medico: 'Dra. Ana Vargas',
-        tratamiento: 'Metformina 850mg, control de carbohidratos, monitoreo de glucosa',
-        expanded: false
-      },
-      {
-        id: '3',
-        enfermedad: 'Gastritis Crónica',
-        descripcion: 'Inflamación crónica de la mucosa gástrica',
-        severidad: 'leve',
-        fase: 'remision',
-        fechaDiagnostico: '25 Ene 2024',
-        medico: 'Dr. Luis Prado',
-        tratamiento: 'Omeprazol 20mg, dieta blanda, evitar irritantes',
-        expanded: false
-      },
-      {
-        id: '4',
-        enfermedad: 'Arritmia Cardíaca',
-        descripcion: 'Alteración del ritmo cardíaco normal',
-        severidad: 'critico',
-        fase: 'inicial',
-        fechaDiagnostico: '30 Ago 2025',
-        medico: 'Dr. Pedro Ramírez',
-        tratamiento: 'Bajo evaluación cardiológica especializada',
-        expanded: false
-      }
+      { id: '1', enfermedad: 'Hipertensión Arterial', severidad: 'moderado', fase: 'estable',
+        fechaDiagnostico: '12 Marzo 2024', medico: 'Dr. Carlos Mendoza', expanded: false },
+      { id: '2', enfermedad: 'Diabetes Mellitus Tipo 2', severidad: 'severo', fase: 'progreso',
+        fechaDiagnostico: '08 Junio 2024', medico: 'Dra. Ana Vargas', expanded: false },
+      { id: '3', enfermedad: 'Gastritis Crónica', severidad: 'leve', fase: 'remision',
+        fechaDiagnostico: '25 Enero 2024', medico: 'Dr. Luis Prado', expanded: false },
+      { id: '4', enfermedad: 'Arritmia Cardíaca', severidad: 'critico', fase: 'inicial',
+        fechaDiagnostico: '30 Agosto 2025', medico: 'Dr. Pedro Ramírez', expanded: false }
     ];
   }
 }

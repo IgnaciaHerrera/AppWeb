@@ -9,7 +9,6 @@ import {
   IonProgressBar, IonModal
 } from '@ionic/angular/standalone';
 
-// Interfaces limpias
 interface Medicamento {
   id: string;
   nombre: string;
@@ -78,7 +77,7 @@ export class RecetasMedicamentosPage implements OnInit {
   selectedTab: string = 'medicamentos';
   mostrarRecetaModal: boolean = false;
   recetaSeleccionada: Receta | null = null;
-
+  
   // Arrays de datos (estos se reemplazarán por servicios)
   medicamentosActivos: Medicamento[] = [];
   medicamentosFinalizados: Medicamento[] = [];
@@ -138,6 +137,26 @@ export class RecetasMedicamentosPage implements OnInit {
       case 'corta-duracion': return '7 días'; // Esto debería calcularse dinámicamente
       case 'finalizado': return 'Completado';
       default: return '';
+    }
+  }
+
+  // Nuevo método para obtener el icono de tipo de medicamento
+  getTipoIcon(tipo: string): string {
+    switch (tipo) {
+      case 'cronico': return 'infinite-outline';
+      case 'corta-duracion': return 'timer-outline';
+      case 'finalizado': return 'checkmark-done-outline';
+      default: return 'help-circle-outline';
+    }
+  }
+
+  // Nuevo método para descripción de tipo más detallada
+  getTipoDescription(tipo: string): string {
+    switch (tipo) {
+      case 'cronico': return 'Tratamiento crónico';
+      case 'corta-duracion': return 'Tratamiento temporal';
+      case 'finalizado': return 'Tratamiento completado';
+      default: return 'Sin clasificar';
     }
   }
 

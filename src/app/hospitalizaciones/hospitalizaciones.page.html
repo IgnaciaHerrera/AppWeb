@@ -1,0 +1,120 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/tabs/tab5" text="Volver"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Mis Hospitalizaciones</ion-title>
+
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Mis Hospitalizaciones</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  
+  <!-- título principal -->
+  <ion-grid>
+    <ion-row>
+      <ion-col size="12">
+        <h2 class="section-title">
+          <ion-icon name="bed-outline"></ion-icon>
+          Historial de Hospitalizaciones
+        </h2>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  
+  <!-- lista de hospitalizaciones -->
+  <ion-list lines="none" *ngIf="hospitalizaciones.length > 0">
+    <ion-item 
+      *ngFor="let hosp of hospitalizaciones" 
+      button 
+      (click)="toggleHospitalizacion(hosp)"
+      class="hospitalizacion-item"
+      [ngClass]="getStatusClass(hosp)">
+      <ion-grid>
+        <!-- cabecera -->
+        <ion-row class="ion-align-items-center">
+          <ion-col size="7">
+            <ion-label>
+              <h3>{{ hosp.motivo }}</h3>
+              <p>{{ formatFecha(hosp.fechaIngreso) }}</p>
+            </ion-label>
+          </ion-col>
+          <ion-col size="4" class="badge-col">
+            <ion-badge [class]="getBadgeClass(hosp)" class="status-badge-spaced">
+              {{ getStatusLabel(hosp) }}
+            </ion-badge>
+          </ion-col>
+          <ion-col size="1">
+            <ion-icon 
+              [name]="hosp.expanded ? 'chevron-up-outline' : 'chevron-down-outline'"
+              class="expand-icon">
+            </ion-icon>
+          </ion-col>
+        </ion-row>
+        
+        <!-- detalles expandidos -->
+        <ion-row *ngIf="hosp.expanded" class="hospitalizacion-expanded-row">
+          <ion-col size="12">
+            <div class="detail-container">
+              <!-- Fecha de Ingreso -->
+              <div class="detail-item">
+                <div class="detail-icon-wrapper ingreso-icon">
+                  <ion-icon name="calendar-outline" class="detail-icon"></ion-icon>
+                </div>
+                <div class="detail-content">
+                  <p class="detail-label">Fecha de Ingreso</p>
+                  <p class="detail-value">{{ formatFecha(hosp.fechaIngreso) }}</p>
+                </div>
+              </div>
+              
+              <!-- Fecha de Salida -->
+              <div class="detail-item" *ngIf="hosp.fechaAlta">
+                <div class="detail-icon-wrapper salida-icon">
+                  <ion-icon name="calendar-clear-outline" class="detail-icon"></ion-icon>
+                </div>
+                <div class="detail-content">
+                  <p class="detail-label">Fecha de Salida</p>
+                  <p class="detail-value">{{ formatFecha(hosp.fechaAlta) }}</p>
+                </div>
+              </div>
+              
+              <!-- Médico Responsable -->
+              <div class="detail-item">
+                <div class="detail-icon-wrapper medico-icon">
+                  <ion-icon name="person-outline" class="detail-icon"></ion-icon>
+                </div>
+                <div class="detail-content">
+                  <p class="detail-label">Médico Responsable</p>
+                  <p class="detail-value">{{ hosp.medico }}</p>
+                </div>
+              </div>
+              
+              <!-- Hospital -->
+              <div class="detail-item" *ngIf="hosp.hospital">
+                <div class="detail-icon-wrapper hospital-icon">
+                  <ion-icon name="business-outline" class="detail-icon"></ion-icon>
+                </div>
+                <div class="detail-content">
+                  <p class="detail-label">Hospital</p>
+                  <p class="detail-value">{{ hosp.hospital }}</p>
+                </div>
+              </div>
+            </div>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-item>
+  </ion-list>
+  
+  <!-- estado vacío -->
+  <div *ngIf="hospitalizaciones.length === 0" class="empty-state">
+    <ion-icon name="bed-outline" class="empty-icon"></ion-icon>
+    <h3>No hay hospitalizaciones registradas</h3>
+    <p>Las hospitalizaciones aparecerán aquí cuando tu médico las registre</p>
+  </div>
+</ion-content>

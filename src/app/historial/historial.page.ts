@@ -4,23 +4,18 @@ import { FormsModule } from '@angular/forms';
 import { 
   IonContent, IonHeader, IonTitle, IonToolbar, IonButtons, IonBackButton,
   IonList, IonItem, IonLabel, IonIcon, IonGrid, IonRow, IonCol,
-  IonBadge, IonButton, IonSearchbar, IonSelect, IonSelectOption,
-  IonChip, IonSpinner, IonDatetime
+  IonBadge, IonButton
 } from '@ionic/angular/standalone';
 
-interface EventoHistorial {
+interface Consulta {
   id: string;
-  tipo: 'consulta' | 'examen' | 'hospitalizacion' | 'cirugia' | 'receta';
-  titulo: string;
-  descripcion: string;
+  tipoConsulta: string;
   fecha: string;
-  fechaTimestamp: Date;
-  medico?: string;
+  estado: 'Programada' | 'Finalizada';
+  medico: string;
   especialidad?: string;
-  centro?: string;
-  duracion?: string;
-  detalles?: string;
-  resultados?: string[];
+  diagnostico?: string;
+  tratamiento?: string;
   expanded: boolean;
 }
 
@@ -33,223 +28,110 @@ interface EventoHistorial {
     CommonModule, FormsModule,
     IonContent, IonHeader, IonTitle, IonToolbar, IonButtons, IonBackButton,
     IonList, IonItem, IonLabel, IonIcon, IonGrid, IonRow, IonCol,
-    IonBadge, IonButton, IonSearchbar, IonSelect, IonSelectOption,
-    IonChip, IonSpinner, IonDatetime
+    IonBadge, IonButton
   ]
 })
 export class HistorialPage implements OnInit {
-  showFilters = false;
-  isLoading = false;
 
-  searchTerm = '';
-  selectedType = '';
-  selectedDate = '';
+  consultas: Consulta[] = [];
 
-  historialCompleto: EventoHistorial[] = [];
-  historialFiltrado: EventoHistorial[] = [];
-
-  constructor() { 
+  constructor() {
     this.inicializarDatosDePrueba();
-    this.applyFilters();
   }
 
   ngOnInit() {}
 
-  toggleFilters(): void {
-    this.showFilters = !this.showFilters;
+  toggleConsulta(consulta: Consulta): void {
+    consulta.expanded = !consulta.expanded;
   }
 
-  toggleEvento(evento: EventoHistorial): void {
-    evento.expanded = !evento.expanded;
-  }
-
-  onSearchChange(event: any): void {
-    this.searchTerm = event.detail.value;
-    this.applyFilters();
-  }
-
-  applyFilters(): void {
-    let filtered = [...this.historialCompleto];
-
-    if (this.searchTerm.trim() !== '') {
-      const term = this.searchTerm.toLowerCase();
-      filtered = filtered.filter(evento => 
-        evento.titulo.toLowerCase().includes(term) ||
-        evento.descripcion.toLowerCase().includes(term) ||
-        evento.medico?.toLowerCase().includes(term) ||
-        evento.especialidad?.toLowerCase().includes(term)
-      );
-    }
-
-    if (this.selectedType !== '') {
-      filtered = filtered.filter(evento => evento.tipo === this.selectedType);
-    }
-
-    if (this.selectedDate !== '') {
-      const selectedDate = new Date(this.selectedDate);
-      filtered = filtered.filter(evento => 
-        evento.fechaTimestamp.getMonth() === selectedDate.getMonth() &&
-        evento.fechaTimestamp.getFullYear() === selectedDate.getFullYear()
-      );
-    }
-
-    filtered.sort((a, b) => b.fechaTimestamp.getTime() - a.fechaTimestamp.getTime());
-    this.historialFiltrado = filtered;
-  }
-
-  clearFilters(): void {
-    this.searchTerm = '';
-    this.selectedType = '';
-    this.selectedDate = '';
-    this.applyFilters();
-  }
-
-  hasActiveFilters(): boolean {
-    return this.searchTerm !== '' || this.selectedType !== '' || this.selectedDate !== '';
-  }
-
-  getEventCount(tipo: string): number {
-    return this.historialFiltrado.filter(evento => evento.tipo === tipo).length;
-  }
-
-  getEventTypeClass(evento: EventoHistorial): string {
-    return `event-${evento.tipo}`;
-  }
-
-  getEventBadgeColor(tipo: string): string {
-    switch (tipo) {
-      case 'consulta': return 'primary';
-      case 'examen': return 'secondary';
-      case 'hospitalizacion': return 'warning';
-      case 'cirugia': return 'danger';
-      case 'receta': return 'success';
-      default: return 'medium';
+  getStatusClass(consulta: Consulta): string {
+    switch (consulta.estado) {
+      case 'Programada': return 'status-programada';
+      case 'Finalizada': return 'status-finalizada';
+      default: return '';
     }
   }
 
-  getEventTypeLabel(tipo: string): string {
-    switch (tipo) {
-      case 'consulta': return 'Consulta';
-      case 'examen': return 'Examen';
-      case 'hospitalizacion': return 'Ingreso';
-      case 'cirugia': return 'Cirugía';
-      case 'receta': return 'Receta';
-      default: return 'Evento';
+  getBadgeClass(consulta: Consulta): string {
+    switch (consulta.estado) {
+      case 'Programada': return 'badge-programada';
+      case 'Finalizada': return 'badge-finalizada';
+      default: return 'badge-finalizada';
     }
   }
 
-  getDetailsTitle(tipo: string): string {
-    switch (tipo) {
-      case 'consulta': return 'Motivo de Consulta';
-      case 'examen': return 'Procedimiento Realizado';
-      case 'hospitalizacion': return 'Motivo de Ingreso';
-      case 'cirugia': return 'Procedimiento Quirúrgico';
-      case 'receta': return 'Medicamentos Prescritos';
-      default: return 'Detalles';
-    }
-  }
-
-  getEmptyStateTitle(): string {
-    return this.hasActiveFilters() ? 'No se encontraron resultados' : 'No hay eventos en el historial';
-  }
-
-  getEmptyStateMessage(): string {
-    return this.hasActiveFilters() 
-      ? 'Intenta ajustar los filtros o términos de búsqueda' 
-      : 'Tu historial médico aparecerá aquí a medida que tengas consultas y procedimientos';
-  }
-
-  verDocumento(documento: string): void {
-    console.log('Ver documento:', documento);
+  formatFecha(fecha: string): string {
+    const date = new Date(fecha);
+    return date.toLocaleDateString('es-ES', {
+      day: '2-digit',
+      month: 'long',
+      year: 'numeric'
+    });
   }
 
   private inicializarDatosDePrueba(): void {
-    this.historialCompleto = [
+    this.consultas = [
       {
         id: '1',
-        tipo: 'consulta',
-        titulo: 'Consulta de Cardiología',
-        descripcion: 'Control rutinario por hipertensión arterial',
-        fecha: '15 Sep 2025',
-        fechaTimestamp: new Date('2025-09-15'),
+        tipoConsulta: 'Consulta General',
+        fecha: '2025-01-15',
+        estado: 'Finalizada',
         medico: 'Dr. Carlos Mendoza',
-        especialidad: 'Cardiología',
-        centro: 'Hospital Cardiovascular',
-        duracion: '45 minutos',
-        detalles: 'Presión arterial estable con Losartán. ECG sin arritmias agudas.',
-        resultados: ['Electrocardiograma', 'Tensión arterial'],
+        especialidad: 'Medicina General',
+        diagnostico: 'Infección respiratoria alta',
+        tratamiento: 'Antibióticos y reposo por 7 días',
         expanded: false
       },
       {
         id: '2',
-        tipo: 'examen',
-        titulo: 'Glicemia',
-        descripcion: 'Control de glucosa en sangre',
-        fecha: '05 Sep 2025',
-        fechaTimestamp: new Date('2025-09-05'),
-        medico: 'Dr. Luis Prado',
-        especialidad: 'Endocrinología',
-        centro: 'Laboratorio Central',
-        detalles: 'Glucosa en ayunas 95 mg/dL (normal).',
-        resultados: ['Informe Laboratorio'],
+        tipoConsulta: 'Control Cardiológico',
+        fecha: '2025-02-10',
+        estado: 'Finalizada',
+        medico: 'Dra. Ana Vargas',
+        especialidad: 'Cardiología',
+        diagnostico: 'Hipertensión arterial controlada',
+        tratamiento: 'Continuar medicación antihipertensiva',
         expanded: false
       },
       {
         id: '3',
-        tipo: 'receta',
-        titulo: 'Receta Médica #2025-0145',
-        descripcion: 'Tratamiento para infección respiratoria',
-        fecha: '20 Ago 2025',
-        fechaTimestamp: new Date('2025-08-20'),
-        medico: 'Dr. Juan C. Herrera',
-        especialidad: 'Medicina General',
-        centro: 'Centro Médico San Juan',
-        detalles: 'Amoxicilina 500mg cada 8h por 7 días, Ketazol 200mg cada 12h por 6 días.',
-        resultados: ['Receta Digital'],
+        tipoConsulta: 'Consulta Dermatológica',
+        fecha: '2025-03-20',
+        estado: 'Programada',
+        medico: 'Dr. Roberto Silva',
+        especialidad: 'Dermatología',
         expanded: false
       },
       {
         id: '4',
-        tipo: 'hospitalizacion',
-        titulo: 'Hospitalización por Neumonía',
-        descripcion: 'Ingreso por cuadro respiratorio agudo',
-        fecha: '20 Ago 2025',
-        fechaTimestamp: new Date('2025-08-20'),
-        medico: 'Dra. Ana Vargas',
-        especialidad: 'Medicina Interna',
-        centro: 'Hospital General',
-        duracion: '5 días',
-        detalles: 'Ingreso por neumonía adquirida en la comunidad. Tratamiento antibiótico endovenoso. Evolución favorable.',
-        resultados: ['Radiografía de tórax', 'Cultivos', 'Epicrisis'],
+        tipoConsulta: 'Examen Oftalmológico',
+        fecha: '2025-04-05',
+        estado: 'Programada',
+        medico: 'Dra. Carmen Ruiz',
+        especialidad: 'Oftalmología',
         expanded: false
       },
       {
         id: '5',
-        tipo: 'examen',
-        titulo: 'Radiografía de Tórax',
-        descripcion: 'Control post neumonía',
-        fecha: '25 Ago 2025',
-        fechaTimestamp: new Date('2025-08-25'),
-        medico: 'Dr. Luis Hernández',
-        especialidad: 'Radiología',
-        centro: 'Centro de Imágenes',
-        detalles: 'Pulmones expandidos, sin infiltrados residuales.',
-        resultados: ['Rx PA', 'Rx Lateral'],
+        tipoConsulta: 'Control Diabetológico',
+        fecha: '2024-12-18',
+        estado: 'Finalizada',
+        medico: 'Dr. Miguel Torres',
+        especialidad: 'Endocrinología',
+        diagnostico: 'Diabetes tipo 2 compensada',
+        tratamiento: 'Ajuste de dosis de insulina y dieta',
         expanded: false
       },
       {
         id: '6',
-        tipo: 'cirugia',
-        titulo: 'Apendicectomía Laparoscópica',
-        descripcion: 'Extirpación de apéndice por vía laparoscópica',
-        fecha: '15 Jun 2025',
-        fechaTimestamp: new Date('2025-06-15'),
-        medico: 'Dr. Pedro Ramírez',
-        especialidad: 'Cirugía General',
-        centro: 'Hospital Quirúrgico',
-        duracion: '2 horas',
-        detalles: 'Cirugía sin complicaciones. Apéndice inflamado, no perforado.',
-        resultados: ['Protocolo operatorio', 'Biopsia', 'Epicrisis'],
+        tipoConsulta: 'Consulta Traumatológica',
+        fecha: '2024-11-25',
+        estado: 'Finalizada',
+        medico: 'Dra. Patricia López',
+        especialidad: 'Traumatología',
+        diagnostico: 'Esguince de tobillo grado I',
+        tratamiento: 'Reposo, antiinflamatorios y fisioterapia',
         expanded: false
       }
     ];

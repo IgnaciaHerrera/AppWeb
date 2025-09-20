@@ -13,7 +13,6 @@ interface Alergia {
   descripcion: string;
   grado: 'leve' | 'moderado' | 'severo';
   fechaRegistro: string;
-  recomendaciones?: string;
   expanded: boolean;
 }
 
@@ -78,6 +77,16 @@ export class AlergiasPage implements OnInit {
     }
   }
 
+  // Nuevo método para obtener el icono de severidad
+  getSeverityIcon(grado: string): string {
+    switch (grado) {
+      case 'leve': return 'checkmark-circle-outline';
+      case 'moderado': return 'warning-outline';
+      case 'severo': return 'alert-circle-outline';
+      default: return 'help-circle-outline';
+    }
+  }
+
   private inicializarDatosDePrueba(): void {
     this.alergias = [
       {
@@ -85,8 +94,7 @@ export class AlergiasPage implements OnInit {
         nombre: 'Penicilina',
         descripcion: 'Antibiótico betalactámico',
         grado: 'severo',
-        fechaRegistro: '15 Mar 2023',
-        recomendaciones: 'Evitar todos los antibióticos del grupo betalactámico. Informar a todos los médicos antes de cualquier tratamiento.',
+        fechaRegistro: '15 Marzo 2023',
         expanded: false
       },
       {
@@ -94,8 +102,7 @@ export class AlergiasPage implements OnInit {
         nombre: 'Frutos secos',
         descripcion: 'Nueces, almendras, avellanas',
         grado: 'moderado',
-        fechaRegistro: '22 Jun 2023',
-        recomendaciones: 'Revisar etiquetas de alimentos procesados. Llevar antihistamínico en caso de exposición accidental.',
+        fechaRegistro: '22 Junio 2023',
         expanded: false
       },
       {
@@ -103,8 +110,7 @@ export class AlergiasPage implements OnInit {
         nombre: 'Polen de gramíneas',
         descripcion: 'Alergia estacional',
         grado: 'leve',
-        fechaRegistro: '10 Sep 2023',
-        recomendaciones: 'Evitar actividades al aire libre en días de alta concentración de polen. Usar antihistamínicos según necesidad.',
+        fechaRegistro: '10 Septiembre 2023',
         expanded: false
       },
       {
@@ -112,8 +118,7 @@ export class AlergiasPage implements OnInit {
         nombre: 'Látex',
         descripcion: 'Reacción al látex natural',
         grado: 'moderado',
-        fechaRegistro: '05 Ene 2024',
-        recomendaciones: 'Usar guantes sin látex. Informar al personal médico antes de procedimientos.',
+        fechaRegistro: '05 Enero 2024',
         expanded: false
       }
     ];

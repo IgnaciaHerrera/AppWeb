@@ -3,9 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { 
   IonContent, IonHeader, IonTitle, IonToolbar, IonButtons, IonBackButton,
-  IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonCardSubtitle,
-  IonGrid, IonRow, IonCol, IonButton, IonIcon,
-  IonSearchbar, IonModal
+  IonGrid, IonRow, IonCol, IonButton, IonIcon, IonList, IonItem, IonLabel
 } from '@ionic/angular/standalone';
 
 interface ResultadoExamen {
@@ -25,6 +23,7 @@ interface Examen {
   medico?: string;
   descripcion?: string;
   resultados?: ResultadoExamen[];
+  expanded: boolean;
 }
 
 @Component({
@@ -35,93 +34,18 @@ interface Examen {
   imports: [
     CommonModule, FormsModule,
     IonContent, IonHeader, IonTitle, IonToolbar, IonButtons, IonBackButton,
-    IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonCardSubtitle,
-    IonGrid, IonRow, IonCol, IonButton, IonIcon,
-    IonSearchbar, IonModal
+    IonGrid, IonRow, IonCol, IonButton, IonIcon, IonList, IonItem, IonLabel
   ]
 })
 export class ExamenesPage implements OnInit {
-  terminoBusqueda: string = '';
-  mostrarDetalleModal: boolean = false;
-  examenSeleccionado: Examen | null = null;
-
   examenes: Examen[] = [
     {
-      id: '2',
-      nombre: 'Radiografía de Tórax',
-      tipo: 'Imagen Médica',
-      fecha: '10 Ago 2025',
-      medico: 'Dr. Ana Vargas',
-      descripcion: 'Evaluación pulmonar de rutina',
-      resultados: [
-        {
-          nombre: 'Campos Pulmonares',
-          valor: 'Normal',
-          unidad: '',
-          estado: 'normal',
-          observaciones: 'Sin alteraciones patológicas evidentes'
-        },
-        {
-          nombre: 'Silueta Cardíaca',
-          valor: 'Normal',
-          unidad: '',
-          estado: 'normal'
-        }
-      ]
-    },
-    {
-      id: '5',
-      nombre: 'Glicemia',
-      tipo: 'Examen de Laboratorio',
-      fecha: '05 Ago 2025',
-      medico: 'Dr. Luis Prado',
-      descripcion: 'Control de glucosa en sangre',
-      resultados: [
-        {
-          nombre: 'Glucosa en Ayunas',
-          valor: '95',
-          unidad: 'mg/dL',
-          rangoReferencia: '70-100 mg/dL',
-          estado: 'normal'
-        }
-      ]
-    },
-    {
-      id: '6',
-      nombre: 'Ecografía Abdominal',
-      tipo: 'Imagen Médica',
-      fecha: '28 Jul 2025',
-      medico: 'Dr. Patricia Silva',
-      descripcion: 'Evaluación de órganos abdominales',
-      resultados: [
-        {
-          nombre: 'Hígado',
-          valor: 'Normal',
-          unidad: '',
-          estado: 'normal',
-          observaciones: 'Tamaño y ecogenicidad normales'
-        },
-        {
-          nombre: 'Vesícula Biliar',
-          valor: 'Normal',
-          unidad: '',
-          estado: 'normal'
-        },
-        {
-          nombre: 'Riñones',
-          valor: 'Normal',
-          unidad: '',
-          estado: 'normal'
-        }
-      ]
-    },
-    {
-      id: '7',
+      id: '1',
       nombre: 'Hemograma Completo',
       tipo: 'Examen de Sangre',
       fecha: '20 Jul 2025',
       medico: 'Dr. Carlos Mendoza',
-      descripcion: 'Control rutinario solicitado por cardiología',
+      expanded: false,
       resultados: [
         {
           nombre: 'Hemoglobina',
@@ -152,44 +76,107 @@ export class ExamenesPage implements OnInit {
           estado: 'normal'
         }
       ]
+    },
+    {
+      id: '2',
+      nombre: 'Radiografía de Tórax',
+      tipo: 'Imagen Médica',
+      fecha: '10 Ago 2025',
+      medico: 'Dr. Ana Vargas',
+      expanded: false,
+      resultados: [
+        {
+          nombre: 'Campos Pulmonares',
+          valor: 'Normal',
+          unidad: '',
+          estado: 'normal',
+          observaciones: 'Sin alteraciones patológicas evidentes'
+        },
+        {
+          nombre: 'Silueta Cardíaca',
+          valor: 'Normal',
+          unidad: '',
+          estado: 'normal'
+        }
+      ]
+    },
+    {
+      id: '3',
+      nombre: 'Glicemia',
+      tipo: 'Examen de Laboratorio',
+      fecha: '05 Ago 2025',
+      medico: 'Dr. Luis Prado',
+      expanded: false,
+      resultados: [
+        {
+          nombre: 'Glucosa en Ayunas',
+          valor: '95',
+          unidad: 'mg/dL',
+          rangoReferencia: '70-100 mg/dL',
+          estado: 'normal'
+        }
+      ]
+    },
+    {
+      id: '4',
+      nombre: 'Ecografía Abdominal',
+      tipo: 'Imagen Médica',
+      fecha: '28 Jul 2025',
+      medico: 'Dr. Patricia Silva',
+      expanded: false,
+      resultados: [
+        {
+          nombre: 'Hígado',
+          valor: 'Normal',
+          unidad: '',
+          estado: 'normal',
+          observaciones: 'Tamaño y ecogenicidad normales'
+        },
+        {
+          nombre: 'Vesícula Biliar',
+          valor: 'Normal',
+          unidad: '',
+          estado: 'normal'
+        },
+        {
+          nombre: 'Riñones',
+          valor: 'Normal',
+          unidad: '',
+          estado: 'normal'
+        }
+      ]
     }
   ];
-
-  examenesFiltrados: Examen[] = [];
 
   constructor() { }
 
   ngOnInit() {
-    this.examenesFiltrados = [...this.examenes];
+    // Conexión con servicios reales
   }
 
-  buscarExamenes() {
-    this.filtrarExamenes();
+  // Toggle para expandir/contraer exámenes
+  toggleExamen(examen: Examen): void {
+    examen.expanded = !examen.expanded;
   }
 
-  filtrarExamenes() {
-    let examenesFiltrados = [...this.examenes];
-
-    // Aplicar búsqueda por texto
-    if (this.terminoBusqueda.trim()) {
-      const termino = this.terminoBusqueda.toLowerCase().trim();
-      examenesFiltrados = examenesFiltrados.filter(e =>
-        e.nombre.toLowerCase().includes(termino) ||
-        e.tipo.toLowerCase().includes(termino) ||
-        (e.medico && e.medico.toLowerCase().includes(termino))
-      );
-    }
-
-    this.examenesFiltrados = examenesFiltrados;
+  // Obtener clase CSS según tipo
+  getExamenTypeClass(examen: Examen): string {
+    return `tipo-${this.getTipoClass(examen.tipo)}`;
   }
 
-  verDetalleExamen(examen: Examen) {
-    this.examenSeleccionado = examen;
-    this.mostrarDetalleModal = true;
+  // Clasificar tipo de examen
+  getTipoClass(tipo: string): string {
+    if (tipo.toLowerCase().includes('laboratorio')) return 'laboratorio';
+    if (tipo.toLowerCase().includes('imagen')) return 'imagen';
+    if (tipo.toLowerCase().includes('sangre')) return 'sangre';
+    return 'laboratorio';
   }
 
-  cerrarDetalleModal() {
-    this.mostrarDetalleModal = false;
-    this.examenSeleccionado = null;
+  // Obtener icono según tipo
+  getTipoIcon(tipo: string): string {
+    if (tipo.toLowerCase().includes('laboratorio')) return 'flask-outline';
+    if (tipo.toLowerCase().includes('imagen')) return 'scan-outline';
+    if (tipo.toLowerCase().includes('sangre')) return 'water-outline';
+    return 'document-text-outline';
   }
 }

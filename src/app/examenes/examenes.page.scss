@@ -1,137 +1,356 @@
-// Variables del tema verde
 :host {
   --primary-color: #12b886;
-  --primary-light: #8ce99a;
-  --primary-dark: #0ca678;
+  --green-light: #51cf66;
+  --green-medium: #40c057;
+  --green-dark: #37b24d;
+  --green-darker: #2f9e44;
   --success-color: #20c997;
   --warning-color: #f59f00;
   --danger-color: #e03131;
+  --gray-medium: #6c757d;
 }
 
-// Búsqueda
-.search-row {
-  margin: 0 16px;
+/* títulos */
+.section-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--ion-text-color);
+  margin: 16px 16px 8px;
+  display: flex;
   align-items: center;
+  gap: 8px;
 }
 
-.search-bar {
-  --background: var(--ion-card-background);
-  --box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-  --border-radius: 12px;
-  --color: var(--primary-color);
+.section-title ion-icon {
+  color: var(--primary-color);
 }
 
-// Grid de exámenes
-.examenes-grid {
+/* listas */
+ion-list {
+  background: transparent;
   margin: 0 16px;
 }
 
-.examen-col {
-  padding: 6px;
-}
-
-.examen-card {
-  border-radius: 16px;
-  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08);
+/* cards de exámenes */
+.examen-item {
+  background: var(--ion-card-background);
+  margin-bottom: 12px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
   border-left: 4px solid var(--primary-color);
   transition: all 0.3s ease;
-  position: relative;
-  overflow: hidden;
-  margin: 0;
-
-  &:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
-  }
-
-  ion-card-content {
-    padding: 16px;
-  }
 }
 
-// Contenido de las cards
-.examen-nombre {
-  font-size: 1rem;
-  font-weight: 600;
+.examen-item ion-label h3 {
+  font-weight: 700;
+  font-size: 0.9rem;
   color: var(--ion-text-color);
-  margin: 0 0 4px 0;
+  margin-bottom: 4px;
+}
+
+.examen-item:hover {
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+}
+
+.examen-item ion-item {
+  --background: transparent;
+  --padding-start: 16px;
+  --padding-end: 16px;
+  --inner-padding-end: 0;
+}
+
+.examen-item ion-grid {
+  padding: 0 16px;
+  width: 100%;
+  padding-top: 8px;
+  padding-bottom: 8px;
+}
+
+.examen-item ion-col {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
 }
 
 .examen-fecha {
-  font-size: 0.85rem;
+  font-size: 0.7rem;
   color: var(--ion-color-medium);
-  margin: 0 0 2px 0;
+  margin-top: 2px;
 }
 
-.examen-tipo {
-  font-size: 0.8rem;
+/* badges */
+.badge-col {
+  display: flex;
+  justify-content: flex-start;
+  padding-left: 8px;
+}
+
+.type-badge-spaced {
+  margin-left: 16px;
+}
+
+/* detalles expandidos */
+.examen-expanded-row {
+  padding-top: 12px;
+  margin-top: 8px;
+  border-top: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.detail-container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.detail-item {
+  display: flex;
+  align-items: center;
+  padding: 12px;
+  background: rgba(0, 0, 0, 0.02);
+  border-radius: 8px;
+  gap: 12px;
+  transition: all 0.2s ease;
+}
+
+.detail-item:hover {
+  background: rgba(0, 0, 0, 0.04);
+}
+
+.detail-icon-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.detail-icon {
+  font-size: 1.2rem;
+  color: white;
+}
+
+/* iconos todos con color principal */
+.tipo-laboratorio .detail-icon-wrapper,
+.tipo-imagen .detail-icon-wrapper,
+.tipo-sangre .detail-icon-wrapper,
+.date-icon,
+.doctor-icon {
+  background: var(--primary-color);
+}
+
+.detail-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.detail-label {
+  font-size: 0.75rem;
   color: var(--ion-color-medium);
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-weight: 600;
+}
+
+.detail-value {
+  font-size: 0.8rem;
+  color: var(--ion-text-color);
+  font-weight: 500;
   margin: 0;
 }
 
-// Resultados preview
-.resultados-preview {
-  background: rgba(0, 0, 0, 0.02);
+/* sección de resultados completos */
+.results-section {
+  margin-top: 16px;
+  padding: 16px;
+  background: rgba(18, 184, 134, 0.05);
   border-radius: 8px;
-  padding: 12px;
-  margin-top: 8px;
-
-  .resultado-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin: 4px 0;
-    font-size: 0.85rem;
-
-    .resultado-nombre {
-      color: var(--ion-color-medium);
-      font-weight: 500;
-    }
-
-    .resultado-valor {
-      font-weight: 600;
-      
-      &.normal { color: var(--success-color); }
-      &.alto { color: var(--danger-color); }
-      &.bajo { color: var(--warning-color); }
-      &.critico { 
-        color: var(--danger-color); 
-        animation: blink 1s infinite;
-      }
-    }
-  }
-
-  .mas-resultados {
-    font-size: 0.75rem;
-    color: var(--ion-color-medium);
-    margin: 8px 0 0 0;
-    text-align: center;
-    font-style: italic;
-  }
+  border: 1px solid rgba(18, 184, 134, 0.1);
 }
 
-@keyframes blink {
-  0%, 50% { opacity: 1; }
-  51%, 100% { opacity: 0.5; }
-}
-
-// Acciones de las cards
-.card-actions {
-  padding: 12px 16px 16px;
-  border-top: 1px solid rgba(0, 0, 0, 0.05);
+.results-header {
   display: flex;
+  align-items: center;
   gap: 8px;
-  flex-wrap: wrap;
+  margin-bottom: 16px;
+}
 
-  ion-button {
-    --color: var(--primary-color);
-    font-size: 0.8rem;
-    flex: 1;
-    min-width: fit-content;
+.results-icon {
+  color: var(--primary-color);
+  font-size: 1.1rem;
+}
+
+.results-title {
+  font-size: 0.75rem;
+  color: var(--primary-color);
+  margin: 0;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.results-complete {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.resultado-completo {
+  background: rgba(255, 255, 255, 0.7);
+  border-radius: 8px;
+  padding: 16px;
+  border-left: 4px solid transparent;
+
+  &:has(.resultado-valor-main.critico) {
+    border-left-color: var(--danger-color);
+    background: rgba(224, 49, 49, 0.05);
+  }
+  
+  &:has(.resultado-valor-main.alto) {
+    border-left-color: var(--warning-color);
+    background: rgba(245, 159, 0, 0.05);
+  }
+  
+  &:has(.resultado-valor-main.normal) {
+    border-left-color: var(--success-color);
+    background: rgba(32, 201, 151, 0.05);
   }
 }
 
-// Modal de detalle
+.resultado-header-main {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+
+  h4 {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--ion-text-color);
+    margin: 0;
+  }
+
+  .resultado-valor-main {
+    font-size: 1rem;
+    font-weight: 700;
+    
+    &.normal { color: var(--success-color); }
+    &.alto { color: var(--warning-color); }
+    &.bajo { color: var(--warning-color); }
+    &.critico { 
+      color: var(--danger-color);
+      animation: pulse-text 2s infinite;
+    }
+  }
+}
+
+.rango-referencia {
+  font-size: 0.7rem;
+  color: var(--ion-color-medium);
+  margin: 8px 0;
+  
+  p {
+    margin: 0;
+    font-style: italic;
+    background: rgba(0, 0, 0, 0.03);
+    padding: 6px 8px;
+    border-radius: 4px;
+  }
+}
+
+.observaciones {
+  font-size: 0.75rem;
+  color: var(--ion-color-medium);
+  background: rgba(0, 0, 0, 0.03);
+  padding: 6px 8px;
+  border-radius: 4px;
+  margin-top: 8px;
+  font-style: italic;
+  
+  p {
+    margin: 0;
+  }
+}
+
+/* sección de acciones */
+.actions-section {
+  display: flex;
+  gap: 12px;
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.actions-section ion-button {
+  flex: 1;
+  --color: var(--primary-color);
+}
+
+/* estado vacío */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 20px;
+  text-align: center;
+}
+
+.empty-state .empty-icon {
+  font-size: 4rem;
+  color: var(--ion-color-medium);
+  margin-bottom: 16px;
+}
+
+.empty-state h3 {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--ion-text-color);
+  margin: 0 0 8px 0;
+}
+
+.empty-state p {
+  font-size: 0.9rem;
+  color: var(--ion-color-medium);
+  margin: 0 0 24px 0;
+  line-height: 1.4;
+}
+
+.modal-header {
+  padding: 20px;
+  background: linear-gradient(135deg, var(--primary-color), var(--green-medium));
+  color: white;
+}
+
+.exam-info h2 {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: white;
+  margin: 0 0 12px 0;
+}
+
+.exam-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.meta-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.9);
+  
+  ion-icon {
+    font-size: 1rem;
+    color: rgba(255, 255, 255, 0.8);
+  }
+}
+
 .detalle-titulo {
   display: flex;
   align-items: center;
@@ -141,7 +360,7 @@
 
 .info-item {
   margin-bottom: 12px;
-
+  
   .info-label {
     font-size: 0.8rem;
     color: var(--ion-color-medium);
@@ -149,7 +368,7 @@
     text-transform: uppercase;
     letter-spacing: 0.5px;
   }
-
+  
   .info-value {
     font-size: 0.9rem;
     color: var(--ion-text-color);
@@ -158,46 +377,46 @@
   }
 }
 
-// Resultados detallados
+/* resultados detallados */
 .resultado-detalle {
   background: rgba(0, 0, 0, 0.02);
   border-radius: 8px;
   padding: 16px;
   margin-bottom: 16px;
   border-left: 4px solid transparent;
-
+  
   &:has(.resultado-valor-grande.critico) {
     border-left-color: var(--danger-color);
     background: rgba(224, 49, 49, 0.05);
   }
-
+  
   &:has(.resultado-valor-grande.alto) {
     border-left-color: var(--warning-color);
     background: rgba(245, 159, 0, 0.05);
   }
-
+  
   &:has(.resultado-valor-grande.normal) {
     border-left-color: var(--success-color);
     background: rgba(32, 201, 151, 0.05);
   }
-
+  
   .resultado-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 8px;
-
+    
     h4 {
       font-size: 1rem;
       font-weight: 600;
       color: var(--ion-text-color);
       margin: 0;
     }
-
+    
     .resultado-valor-grande {
       font-size: 1.2rem;
       font-weight: 700;
-
+      
       &.normal { color: var(--success-color); }
       &.alto { color: var(--warning-color); }
       &.bajo { color: var(--warning-color); }
@@ -207,18 +426,18 @@
       }
     }
   }
-
+  
   .rango-referencia {
     font-size: 0.8rem;
     color: var(--ion-color-medium);
     margin: 4px 0;
-
+    
     p {
       margin: 0;
       font-style: italic;
     }
   }
-
+  
   .observaciones {
     font-size: 0.85rem;
     color: var(--ion-text-color);
@@ -226,7 +445,7 @@
     padding: 8px;
     border-radius: 6px;
     margin-top: 8px;
-
+    
     p {
       margin: 0;
     }
@@ -238,36 +457,127 @@
   51%, 100% { opacity: 0.7; }
 }
 
-// Responsive
+/* icono expandir */
+.expand-icon {
+  color: var(--ion-color-medium);
+  transition: transform 0.2s ease;
+}
+
+/* responsive */
 @media (max-width: 576px) {
-  .search-row {
+  .section-title {
+    margin: 16px 12px 8px;
+    font-size: 1rem;
+  }
+  
+  ion-list {
     margin: 0 12px;
   }
-
-  .examenes-grid {
-    margin: 0 12px;
+  
+  .examen-item ion-grid {
+    padding: 0 12px;
   }
-
-  .card-actions {
+  
+  .detail-item {
+    padding: 10px;
+    gap: 10px;
+  }
+  
+  .detail-icon-wrapper {
+    width: 32px;
+    height: 32px;
+  }
+  
+  .detail-icon {
+    font-size: 1rem;
+  }
+  
+  .results-section {
+    padding: 12px;
+  }
+  
+  .actions-section {
     flex-direction: column;
-    
-    ion-button {
-      flex: none;
-    }
+    gap: 8px;
+  }
+  
+  .actions-section ion-button {
+    flex: none;
+  }
+  
+  .modal-header {
+    padding: 16px;
+  }
+  
+  .exam-info h2 {
+    font-size: 1.2rem;
+  }
+  
+  .meta-item {
+    font-size: 0.85rem;
+  }
+  
+  .empty-state {
+    padding: 40px 16px;
+  }
+  
+  .empty-state .empty-icon {
+    font-size: 3rem;
+  }
+  
+  .empty-state h3 {
+    font-size: 1.1rem;
   }
 }
 
-// Modo oscuro
+/* modo oscuro */
 @media (prefers-color-scheme: dark) {
-  .examen-card {
-    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.3);
-    
-    &:hover {
-      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
-    }
+  :host {
+    --primary-color: #20c997;
+    --green-light: #51cf66;
+    --green-medium: #40c057;
+    --green-dark: #37b24d;
+    --green-darker: #2f9e44;
   }
-
-  .resultados-preview, .resultado-detalle {
+  
+  .examen-item {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  }
+  
+  .examen-item:hover {
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+  }
+  
+  .examen-expanded-row {
+    border-top-color: rgba(255, 255, 255, 0.1);
+  }
+  
+  .detail-item {
     background: rgba(255, 255, 255, 0.03);
+  }
+  
+  .detail-item:hover {
+    background: rgba(255, 255, 255, 0.06);
+  }
+  
+  .results-section {
+    background: rgba(32, 201, 151, 0.1);
+    border-color: rgba(32, 201, 151, 0.2);
+  }
+  
+  .resultado-completo {
+    background: rgba(255, 255, 255, 0.05);
+  }
+  
+  .rango-referencia p {
+    background: rgba(255, 255, 255, 0.05);
+  }
+  
+  .observaciones {
+    background: rgba(255, 255, 255, 0.05);
+  }
+  
+  .actions-section {
+    border-top-color: rgba(255, 255, 255, 0.1);
   }
 }

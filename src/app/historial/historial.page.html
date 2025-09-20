@@ -3,188 +3,116 @@
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/tabs/tab5" text="Volver"></ion-back-button>
     </ion-buttons>
-    <ion-title>Historial Médico</ion-title>
-    <ion-buttons slot="end">
-      <ion-button fill="clear" (click)="toggleFilters()">
-        <ion-icon name="filter-outline"></ion-icon>
-      </ion-button>
-    </ion-buttons>
+    <ion-title>Mi Historial</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
   <ion-header collapse="condense">
     <ion-toolbar>
-      <ion-title size="large">Historial Médico</ion-title>
+      <ion-title size="large">Mi Historial</ion-title>
     </ion-toolbar>
   </ion-header>
-
-  <!-- Filtros expandibles -->
-  <div class="filters-container" *ngIf="showFilters">
-    <ion-grid>
-      <ion-row>
-        <ion-col size="12">
-          <ion-searchbar 
-            [(ngModel)]="searchTerm"
-            (ionInput)="onSearchChange($event)"
-            placeholder="Buscar en historial..."
-            class="custom-searchbar">
-          </ion-searchbar>
-        </ion-col>
-      </ion-row>
-      <ion-row>
-        <ion-col size="6">
-          <ion-select 
-            [(ngModel)]="selectedType" 
-            (ionChange)="applyFilters()"
-            placeholder="Tipo"
-            class="filter-select">
-            <ion-select-option value="">Todos</ion-select-option>
-            <ion-select-option value="consulta">Consultas</ion-select-option>
-            <ion-select-option value="examen">Exámenes</ion-select-option>
-            <ion-select-option value="hospitalizacion">Ingresos</ion-select-option>
-            <ion-select-option value="cirugia">Cirugías</ion-select-option>
-            <ion-select-option value="receta">Recetas</ion-select-option>
-          </ion-select>
-        </ion-col>
-        <ion-col size="6">
-          <ion-datetime
-            [(ngModel)]="selectedDate"
-            (ionChange)="applyFilters()"
-            presentation="month-year"
-            placeholder="Mes/Año"
-            class="filter-date">
-          </ion-datetime>
-        </ion-col>
-      </ion-row>
-    </ion-grid>
-  </div>
-
-  <!-- Sección principal -->
+  
+  <!-- título principal -->
   <ion-grid>
     <ion-row>
       <ion-col size="12">
         <h2 class="section-title">
-          <ion-icon name="time-outline"></ion-icon>
-          Mi Historial Clínico
+          <ion-icon name="document-text-outline"></ion-icon>
+          Historial de Consultas
         </h2>
       </ion-col>
     </ion-row>
   </ion-grid>
-
-  <!-- Resumen de estadísticas -->
-  <div class="stats-container" *ngIf="historialFiltrado.length > 0">
-    <ion-grid>
-      <ion-row>
-        <ion-col size="3">
-          <div class="stat-card">
-            <p class="stat-number">{{ getEventCount('consulta') }}</p>
-            <p class="stat-label">Consultas</p>
-          </div>
-        </ion-col>
-        <ion-col size="3">
-          <div class="stat-card">
-            <p class="stat-number">{{ getEventCount('examen') }}</p>
-            <p class="stat-label">Exámenes</p>
-          </div>
-        </ion-col>
-        <ion-col size="3">
-          <div class="stat-card">
-            <p class="stat-number">{{ getEventCount('hospitalizacion') }}</p>
-            <p class="stat-label">Ingresos</p>
-          </div>
-        </ion-col>
-        <ion-col size="3">
-          <div class="stat-card">
-            <p class="stat-number">{{ getEventCount('cirugia') }}</p>
-            <p class="stat-label">Cirugías</p>
-          </div>
-        </ion-col>
-      </ion-row>
-    </ion-grid>
-  </div>
-
-  <!-- Lista de historial -->
-  <ion-list lines="none" *ngIf="historialFiltrado.length > 0">
+  
+  <!-- lista de consultas -->
+  <ion-list lines="none" *ngIf="consultas.length > 0">
     <ion-item 
-      *ngFor="let evento of historialFiltrado" 
+      *ngFor="let consulta of consultas" 
       button 
-      (click)="toggleEvento(evento)"
-      class="historial-item"
-      [ngClass]="getEventTypeClass(evento)">
-      
+      (click)="toggleConsulta(consulta)"
+      class="consulta-item"
+      [ngClass]="getStatusClass(consulta)">
       <ion-grid>
+        <!-- cabecera -->
         <ion-row class="ion-align-items-center">
-          <ion-col size="12">
-            <div class="event-header">
-              <div class="event-main-info">
-                <h3>{{ evento.titulo }}</h3>
-                <p>{{ evento.descripcion }}</p>
-                <p class="date-info">{{ evento.fecha }}</p>
-              </div>
-              <div class="event-badge-container">
-                <ion-badge [color]="getEventBadgeColor(evento.tipo)" class="event-badge">
-                  {{ getEventTypeLabel(evento.tipo) }}
-                </ion-badge>
-                <ion-icon 
-                  [name]="evento.expanded ? 'chevron-up-outline' : 'chevron-down-outline'"
-                  class="expand-icon">
-                </ion-icon>
-              </div>
-            </div>
+          <ion-col size="7">
+            <ion-label>
+              <h3>{{ consulta.tipoConsulta }}</h3>
+              <p>{{ formatFecha(consulta.fecha) }}</p>
+            </ion-label>
+          </ion-col>
+          <ion-col size="4" class="badge-col">
+            <ion-badge [class]="getBadgeClass(consulta)" class="status-badge-spaced">
+              {{ consulta.estado }}
+            </ion-badge>
+          </ion-col>
+          <ion-col size="1">
+            <ion-icon 
+              [name]="consulta.expanded ? 'chevron-up-outline' : 'chevron-down-outline'"
+              class="expand-icon">
+            </ion-icon>
           </ion-col>
         </ion-row>
-
-        <!-- Detalles expandidos -->
-        <ion-row *ngIf="evento.expanded" class="historial-expanded-row">
-          <ion-col size="6" *ngIf="evento.medico">
-            <div class="detail-card">
-              <p class="detail-label">Médico</p>
-              <p class="detail-value">{{ evento.medico }}</p>
-            </div>
-          </ion-col>
-          <ion-col size="6" *ngIf="evento.especialidad">
-            <div class="detail-card">
-              <p class="detail-label">Especialidad</p>
-              <p class="detail-value">{{ evento.especialidad }}</p>
-            </div>
-          </ion-col>
-          <ion-col size="6" *ngIf="evento.centro">
-            <div class="detail-card">
-              <p class="detail-label">Centro Médico</p>
-              <p class="detail-value">{{ evento.centro }}</p>
-            </div>
-          </ion-col>
-          <ion-col size="6" *ngIf="evento.duracion">
-            <div class="detail-card">
-              <p class="detail-label">Duración</p>
-              <p class="detail-value">{{ evento.duracion }}</p>
-            </div>
-          </ion-col>
-        </ion-row>
-
-        <!-- Detalles específicos del evento -->
-        <ion-row *ngIf="evento.expanded && evento.detalles" class="details-row">
+        
+        <!-- detalles expandidos -->
+        <ion-row *ngIf="consulta.expanded" class="consulta-expanded-row">
           <ion-col size="12">
-            <div class="details-section">
-              <div class="details-info">
-                <p class="details-title">{{ getDetailsTitle(evento.tipo) }}</p>
-                <p class="details-text">{{ evento.detalles }}</p>
+            <div class="detail-container">
+              <!-- Fecha de la Consulta -->
+              <div class="detail-item">
+                <div class="detail-icon-wrapper fecha-icon">
+                  <ion-icon name="calendar-outline" class="detail-icon"></ion-icon>
+                </div>
+                <div class="detail-content">
+                  <p class="detail-label">Fecha de Consulta</p>
+                  <p class="detail-value">{{ formatFecha(consulta.fecha) }}</p>
+                </div>
               </div>
-            </div>
-          </ion-col>
-        </ion-row>
-
-        <!-- Resultados o documentos -->
-        <ion-row *ngIf="evento.expanded && evento.resultados && evento.resultados.length > 0" class="results-row">
-          <ion-col size="12">
-            <div class="results-section">
-              <p class="results-title">Documentos y Resultados</p>
-              <div class="results-chips">
-                <ion-chip *ngFor="let resultado of evento.resultados" outline="true" (click)="verDocumento(resultado)">
-                  <ion-icon name="document-text-outline"></ion-icon>
-                  <ion-label>{{ resultado }}</ion-label>
-                </ion-chip>
+              
+              <!-- Médico -->
+              <div class="detail-item">
+                <div class="detail-icon-wrapper medico-icon">
+                  <ion-icon name="person-outline" class="detail-icon"></ion-icon>
+                </div>
+                <div class="detail-content">
+                  <p class="detail-label">Médico Tratante</p>
+                  <p class="detail-value">{{ consulta.medico }}</p>
+                </div>
+              </div>
+              
+              <!-- Especialidad -->
+              <div class="detail-item" *ngIf="consulta.especialidad">
+                <div class="detail-icon-wrapper especialidad-icon">
+                  <ion-icon name="medical-outline" class="detail-icon"></ion-icon>
+                </div>
+                <div class="detail-content">
+                  <p class="detail-label">Especialidad</p>
+                  <p class="detail-value">{{ consulta.especialidad }}</p>
+                </div>
+              </div>
+              
+              <!-- Diagnóstico -->
+              <div class="detail-item" *ngIf="consulta.diagnostico">
+                <div class="detail-icon-wrapper diagnostico-icon">
+                  <ion-icon name="clipboard-outline" class="detail-icon"></ion-icon>
+                </div>
+                <div class="detail-content">
+                  <p class="detail-label">Diagnóstico</p>
+                  <p class="detail-value">{{ consulta.diagnostico }}</p>
+                </div>
+              </div>
+              
+              <!-- Tratamiento -->
+              <div class="detail-item" *ngIf="consulta.tratamiento">
+                <div class="detail-icon-wrapper tratamiento-icon">
+                  <ion-icon name="bandage-outline" class="detail-icon"></ion-icon>
+                </div>
+                <div class="detail-content">
+                  <p class="detail-label">Tratamiento</p>
+                  <p class="detail-value">{{ consulta.tratamiento }}</p>
+                </div>
               </div>
             </div>
           </ion-col>
@@ -192,22 +120,11 @@
       </ion-grid>
     </ion-item>
   </ion-list>
-
-  <!-- Estado vacío -->
-  <div *ngIf="historialFiltrado.length === 0 && !isLoading" class="empty-state">
-    <ion-icon name="document-outline" class="empty-icon"></ion-icon>
-    <h3>{{ getEmptyStateTitle() }}</h3>
-    <p>{{ getEmptyStateMessage() }}</p>
-    <ion-button fill="outline" (click)="clearFilters()" *ngIf="hasActiveFilters()">
-      <ion-icon name="refresh-outline" slot="start"></ion-icon>
-      Limpiar Filtros
-    </ion-button>
+  
+  <!-- estado vacío -->
+  <div *ngIf="consultas.length === 0" class="empty-state">
+    <ion-icon name="document-text-outline" class="empty-icon"></ion-icon>
+    <h3>No hay consultas registradas</h3>
+    <p>Las consultas aparecerán aquí cuando tengas citas médicas</p>
   </div>
-
-  <!-- Loading state -->
-  <div *ngIf="isLoading" class="loading-state">
-    <ion-spinner name="circular"></ion-spinner>
-    <p>Cargando historial médico...</p>
-  </div>
-
 </ion-content>
