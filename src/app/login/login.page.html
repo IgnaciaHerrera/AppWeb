@@ -6,7 +6,7 @@
 
 <ion-content class="ion-padding login-content">
   <div class="login-container">
-    <!-- Logo de la app -->
+    <!-- Logo -->
     <div class="logo-section">
       <img src="assets/img/logo-medica.png" alt="Logo App Médica" class="logo-image" />
       <h1 class="welcome-title">Bienvenido/a</h1>
@@ -15,9 +15,12 @@
 
     <!-- Formulario -->
     <div class="form-container">
-      <!-- Campo Email con floating label personalizado -->
+      <!-- Campo Email -->
       <div class="floating-input-wrapper">
-        <div class="input-container" [class.focused]="emailFocused" [class.has-value]="email">
+        <div class="input-container"
+             [class.focused]="emailFocused"
+             [class.has-value]="email"
+             [class.invalid]="showErrors && !email">
           <ion-icon name="mail-outline" class="input-icon"></ion-icon>
           <input 
             type="email" 
@@ -29,11 +32,17 @@
           >
           <label class="floating-label">Correo electrónico</label>
         </div>
+        <div class="error-text" *ngIf="showErrors && !email">
+          El correo es obligatorio
+        </div>
       </div>
 
-      <!-- Campo Password con floating label personalizado -->
+      <!-- Campo Password -->
       <div class="floating-input-wrapper">
-        <div class="input-container" [class.focused]="passwordFocused" [class.has-value]="password">
+        <div class="input-container"
+             [class.focused]="passwordFocused"
+             [class.has-value]="password"
+             [class.invalid]="showErrors && !password">
           <ion-icon name="lock-closed-outline" class="input-icon"></ion-icon>
           <input 
             [type]="showPassword ? 'text' : 'password'"
@@ -44,24 +53,26 @@
             autocomplete="current-password"
           >
           <label class="floating-label">Contraseña</label>
-          <button 
-            type="button" 
-            class="password-toggle"
-            (click)="togglePassword()"
-          >
+          <button type="button" class="password-toggle" (click)="togglePassword()">
             <ion-icon [name]="showPassword ? 'eye-off-outline' : 'eye-outline'"></ion-icon>
           </button>
         </div>
+        <div class="error-text" *ngIf="showErrors && !password">
+          La contraseña es obligatoria
+        </div>
       </div>
 
-      <!-- Enlace "Olvidé mi contraseña" -->
+      <!-- Olvidé contraseña -->
       <div class="forgot-password">
         <ion-button fill="clear" size="small" class="forgot-link">
           ¿Olvidaste tu contraseña?
         </ion-button>
       </div>
 
-      <!-- Botón Iniciar Sesión -->
+      <div *ngIf="loginError" class="error-text-global">
+        {{ loginError }}
+      </div>
+      <!-- Botón login -->
       <ion-button 
         expand="block" 
         class="login-button" 
