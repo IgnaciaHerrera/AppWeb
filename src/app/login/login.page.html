@@ -1,0 +1,76 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>Login</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding login-content">
+  <div class="login-container">
+    <!-- Logo de la app -->
+    <div class="logo-section">
+      <img src="assets/img/logo-medica.png" alt="Logo App Médica" class="logo-image" />
+      <h1 class="welcome-title">Bienvenido/a</h1>
+      <p class="welcome-subtitle">Accede a tu ficha médica</p>
+    </div>
+
+    <!-- Formulario -->
+    <div class="form-container">
+      <!-- Campo Email con floating label personalizado -->
+      <div class="floating-input-wrapper">
+        <div class="input-container" [class.focused]="emailFocused" [class.has-value]="email">
+          <ion-icon name="mail-outline" class="input-icon"></ion-icon>
+          <input 
+            type="email" 
+            [(ngModel)]="email"
+            (focus)="onEmailFocus()"
+            (blur)="onEmailBlur()"
+            class="custom-input-field"
+            autocomplete="email"
+          >
+          <label class="floating-label">Correo electrónico</label>
+        </div>
+      </div>
+
+      <!-- Campo Password con floating label personalizado -->
+      <div class="floating-input-wrapper">
+        <div class="input-container" [class.focused]="passwordFocused" [class.has-value]="password">
+          <ion-icon name="lock-closed-outline" class="input-icon"></ion-icon>
+          <input 
+            [type]="showPassword ? 'text' : 'password'"
+            [(ngModel)]="password"
+            (focus)="onPasswordFocus()"
+            (blur)="onPasswordBlur()"
+            class="custom-input-field"
+            autocomplete="current-password"
+          >
+          <label class="floating-label">Contraseña</label>
+          <button 
+            type="button" 
+            class="password-toggle"
+            (click)="togglePassword()"
+          >
+            <ion-icon [name]="showPassword ? 'eye-off-outline' : 'eye-outline'"></ion-icon>
+          </button>
+        </div>
+      </div>
+
+      <!-- Enlace "Olvidé mi contraseña" -->
+      <div class="forgot-password">
+        <ion-button fill="clear" size="small" class="forgot-link">
+          ¿Olvidaste tu contraseña?
+        </ion-button>
+      </div>
+
+      <!-- Botón Iniciar Sesión -->
+      <ion-button 
+        expand="block" 
+        class="login-button" 
+        (click)="login()"
+        size="large"
+      >
+        <ion-icon name="log-in-outline" slot="start"></ion-icon>
+        Iniciar Sesión
+      </ion-button>
+    </div>
+  </div>
+</ion-content>

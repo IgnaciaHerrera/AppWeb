@@ -16,7 +16,6 @@
         <p>María Elena Rodríguez</p>
       </ion-label>
     </ion-item>
-
     <ion-item>
       <div class="icon-circle"><ion-icon name="id-card-outline"></ion-icon></div>
       <ion-label>
@@ -24,7 +23,6 @@
         <p>12.345.678-9</p>
       </ion-label>
     </ion-item>
-
     <ion-item>
       <div class="icon-circle"><ion-icon name="calendar-outline"></ion-icon></div>
       <ion-label>
@@ -32,7 +30,6 @@
         <p>45 años</p>
       </ion-label>
     </ion-item>
-
     <ion-item>
       <div class="icon-circle"><ion-icon name="water-outline"></ion-icon></div>
       <ion-label>
@@ -40,21 +37,87 @@
         <p>O+</p>
       </ion-label>
     </ion-item>
-
     <ion-item>
       <div class="icon-circle"><ion-icon name="call-outline"></ion-icon></div>
       <ion-label>
         <h2>Teléfono</h2>
-        <p>+56 9 1234 5678</p>
+        <p>{{telefono}}</p>
       </ion-label>
     </ion-item>
-
     <ion-item>
       <div class="icon-circle"><ion-icon name="mail-outline"></ion-icon></div>
       <ion-label>
         <h2>Email</h2>
-        <p>maria.rodriguez@gmail.com</p>
+        <p>{{email}}</p>
       </ion-label>
     </ion-item>
   </ion-list>
+
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button (click)="abrirModalEdicion()" class="fab-editar">
+      <ion-icon name="pencil"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
+  <ion-modal #modalEdicion [isOpen]="isModalOpen" (didDismiss)="cerrarModal()">
+    <ng-template>
+      <ion-header>
+        <ion-toolbar class="modal-header">
+          <ion-title>Editar Datos Personales</ion-title>
+          <ion-buttons slot="end">
+            <ion-button (click)="cerrarModal()">
+              <ion-icon name="close"></ion-icon>
+            </ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+
+      <ion-content class="ion-padding">
+        <div class="form-fields">
+          <div class="field-group">
+            <label class="field-label">Teléfono</label>
+            <div class="input-container">
+              <ion-icon name="call-outline" class="input-icon"></ion-icon>
+              <ion-input 
+                [(ngModel)]="telefonoTemp" 
+                type="tel"
+                class="custom-input">
+              </ion-input>
+            </div>
+          </div>
+          
+          <div class="field-group">
+            <label class="field-label">Correo electrónico</label>
+            <div class="input-container">
+              <ion-icon name="mail-outline" class="input-icon"></ion-icon>
+              <ion-input 
+                [(ngModel)]="emailTemp" 
+                type="email"
+                class="custom-input">
+              </ion-input>
+            </div>
+          </div>
+        </div>
+      </ion-content>
+
+      <ion-footer>
+        <ion-toolbar>
+          <div class="modal-buttons">
+            <ion-button 
+              expand="block" 
+              class="btn-cancelar"
+              (click)="cerrarModal()">
+              Cancelar
+            </ion-button>            
+            <ion-button 
+              expand="block" 
+              class="btn-guardar"
+              (click)="guardarCambios()">
+              Guardar Cambios
+            </ion-button>
+          </div>
+        </ion-toolbar>
+      </ion-footer>
+    </ng-template>
+  </ion-modal>
 </ion-content>

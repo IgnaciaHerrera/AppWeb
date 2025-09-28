@@ -3,38 +3,47 @@ import { Routes } from '@angular/router';
 export const routes: Routes = [
   {
     path: '',
-    loadChildren: () => import('./tabs/tabs.routes').then((m) => m.routes),
+    redirectTo: 'login',
+    pathMatch: 'full',
+  },
+  {
+    path: 'login',
+    loadComponent: () => import('./login/login.page').then(m => m.LoginPage)
+  },
+  {
+    path: 'tabs',
+    loadChildren: () => import('./tabs/tabs.routes').then(m => m.routes),
   },
   {
     path: 'datos-personales',
-    loadComponent: () => import('./datos-personales/datos-personales.page').then( m => m.DatosPersonalesPage)
+    loadComponent: () => import('./datos-personales/datos-personales.page').then(m => m.DatosPersonalesPage)
   },
   {
     path: 'recetas-medicamentos',
-    loadComponent: () => import('./recetas-medicamentos/recetas-medicamentos.page').then( m => m.RecetasMedicamentosPage)
+    loadComponent: () => import('./recetas-medicamentos/recetas-medicamentos.page').then(m => m.RecetasMedicamentosPage)
   },
   {
     path: 'alergias',
-    loadComponent: () => import('./alergias/alergias.page').then( m => m.AlergiasPage)
+    loadComponent: () => import('./alergias/alergias.page').then(m => m.AlergiasPage)
   },
   {
     path: 'diagnosticos',
-    loadComponent: () => import('./diagnosticos/diagnosticos.page').then( m => m.DiagnosticosPage)
+    loadComponent: () => import('./diagnosticos/diagnosticos.page').then(m => m.DiagnosticosPage)
   },
   {
     path: 'historial',
-    loadComponent: () => import('./historial/historial.page').then( m => m.HistorialPage)
+    loadComponent: () => import('./historial/historial.page').then(m => m.HistorialPage)
   },
   {
     path: 'examenes',
-    loadComponent: () => import('./examenes/examenes.page').then( m => m.ExamenesPage)
-  },  {
+    loadComponent: () => import('./examenes/examenes.page').then(m => m.ExamenesPage)
+  },
+  {
     path: 'hospitalizaciones',
-    loadComponent: () => import('./hospitalizaciones/hospitalizaciones.page').then( m => m.HospitalizacionesPage)
+    loadComponent: () => import('./hospitalizaciones/hospitalizaciones.page').then(m => m.HospitalizacionesPage)
   },
   {
     path: 'cirugias',
-    loadComponent: () => import('./cirugias/cirugias.page').then( m => m.CirugiasPage)
-  },
-
+    loadComponent: () => import('./cirugias/cirugias.page').then(m => m.CirugiasPage)
+  }
 ];

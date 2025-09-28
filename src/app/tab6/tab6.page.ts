@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-tab6',
@@ -22,7 +23,7 @@ export class Tab6Page implements OnInit {
     ultimoAcceso: '07/09/2025 14:35'
   };
 
-  constructor() {}
+  constructor(private router: Router) {}
 
   ngOnInit() {
     const prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
@@ -34,7 +35,8 @@ export class Tab6Page implements OnInit {
   }
 
   logout() {
-    alert('Esta tampoco :v.');
+    // Aquí podrías limpiar storage o variables si tuvieras auth real
+    this.router.navigateByUrl('/login', { replaceUrl: true });
   }
 
   onDarkModeToggle() {

@@ -11,12 +11,14 @@
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
+
 <ion-content [fullscreen]="true">
   <ion-header collapse="condense">
     <ion-toolbar>
       <ion-title size="large">Exámenes</ion-title>
     </ion-toolbar>
   </ion-header>
+
   <!-- Título principal -->
   <ion-grid>
     <ion-row>
@@ -28,6 +30,7 @@
       </ion-col>
     </ion-row>
   </ion-grid>
+
   <!-- Lista de exámenes -->
   <ion-list lines="none" *ngIf="examenes.length > 0">
     <ion-item 
@@ -53,6 +56,7 @@
             </ion-icon>
           </ion-col>
         </ion-row>
+
         <!-- Detalles expandidos -->
         <ion-row *ngIf="examen.expanded" class="examen-expanded-row">
           <ion-col size="12">
@@ -88,6 +92,7 @@
                 </div>
               </div>
             </div>
+
             <!-- Resultados completos -->
             <div *ngIf="examen.resultados && examen.resultados.length > 0" class="results-section">
               <div class="results-header">
@@ -113,6 +118,7 @@
                 </div>
               </div>
             </div>
+
             <!-- Acciones simplificadas -->
             <div class="actions-section">
               <ion-button 
@@ -128,10 +134,113 @@
       </ion-grid>
     </ion-item>
   </ion-list>
+  
   <!-- Estado vacío -->
   <div *ngIf="examenes.length === 0" class="empty-state">
     <ion-icon name="document-text-outline" class="empty-icon"></ion-icon>
     <h3>No hay exámenes registrados</h3>
-    <p>Los exámenes médicos aparecerán aquí cuando sean realizados</p>
   </div>
+
+  <!-- Botón flotante para agregar examen -->
+  <ion-fab slot="fixed" vertical="bottom" horizontal="end">
+    <ion-fab-button (click)="abrirModal()">
+      <ion-icon name="add-outline"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
+<!-- Modal de subir examen corregido -->
+<ion-modal [isOpen]="isModalOpen" (didDismiss)="cerrarModal()">
+  <ng-template>
+    <ion-header>
+      <ion-toolbar style="--background: #12b886; --color: white;">
+        <ion-title>Subir Examen</ion-title>
+        <ion-buttons slot="end">
+          <ion-button (click)="cerrarModal()">
+            <ion-icon name="close-outline"></ion-icon>
+          </ion-button>
+        </ion-buttons>
+      </ion-toolbar>
+    </ion-header>
+    
+    <ion-content class="ion-padding">
+      <!-- Título con icono -->
+      <div class="modal-header-content">
+        <div class="upload-header-icon">
+          <ion-icon name="cloud-upload-outline"></ion-icon>
+        </div>
+        <h2>Seleccione un archivo</h2>
+        <p class="subtitle">Sube tu examen médico en formato PDF</p>
+      </div>
+      
+      <!-- Área de upload simplificada -->
+      <div class="file-upload-container">
+        <div 
+          class="file-upload-zone" 
+          [class.file-selected]="selectedFile"
+          (click)="fileInput.click()">
+          
+          <!-- Estado inicial -->
+          <div *ngIf="!selectedFile" class="upload-state">
+            <div class="upload-icon-container">
+              <ion-icon name="document-outline" class="document-icon"></ion-icon>
+              <ion-icon name="add-circle" class="add-icon"></ion-icon>
+            </div>
+            <h3>Seleccione su archivo aquí</h3>
+            <p>haz clic para seleccionarlo</p>
+          </div>
+          
+          <!-- Estado con archivo seleccionado -->
+          <div *ngIf="selectedFile" class="file-selected-state">
+            <div class="file-preview">
+              <div class="file-icon-container">
+                <ion-icon name="document-text" class="file-icon"></ion-icon>
+              </div>
+              <div class="file-info">
+                <h4>{{ selectedFile.name }}</h4>
+                <p class="file-size">{{ getFileSize(selectedFile.size) }}</p>
+                <div class="file-status">
+                  <ion-icon name="checkmark-circle" class="success-icon"></ion-icon>
+                  <span>Archivo listo para subir</span>
+                </div>
+              </div>
+              <ion-button 
+                fill="clear" 
+                color="medium" 
+                (click)="removeFile($event)">
+                <ion-icon name="close-circle-outline"></ion-icon>
+              </ion-button>
+            </div>
+          </div>
+          
+          <input 
+            type="file" 
+            accept="application/pdf" 
+            hidden 
+            #fileInput 
+            (change)="onFileSelected($event)">
+        </div>
+      </div>
+    </ion-content>
+    
+    <!-- Pie de botones -->
+    <ion-toolbar class="modal-footer">
+      <div class="footer-buttons">
+        <ion-button 
+          fill="solid"
+          color="medium"
+          (click)="cerrarModal()">
+          <ion-icon name="close-outline" slot="start"></ion-icon>
+          Cancelar
+        </ion-button>
+        <ion-button 
+          [disabled]="!selectedFile" 
+          style="--background: #12b886; --color: white;"
+          (click)="subirExamen()">
+          <ion-icon name="cloud-upload-outline" slot="start"></ion-icon>
+          Subir Examen
+        </ion-button>
+      </div>
+    </ion-toolbar>
+  </ng-template>
+</ion-modal>
 </ion-content>

@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { 
   IonContent, IonHeader, IonTitle, IonToolbar, IonButtons, IonBackButton,
   IonList, IonItem, IonLabel, IonIcon, IonGrid, IonRow, IonCol,
-  IonBadge, IonButton
+  IonBadge, IonSelect, IonSelectOption
 } from '@ionic/angular/standalone';
 
 interface Consulta {
@@ -28,18 +28,21 @@ interface Consulta {
     CommonModule, FormsModule,
     IonContent, IonHeader, IonTitle, IonToolbar, IonButtons, IonBackButton,
     IonList, IonItem, IonLabel, IonIcon, IonGrid, IonRow, IonCol,
-    IonBadge, IonButton
+    IonBadge, IonSelect, IonSelectOption
   ]
 })
 export class HistorialPage implements OnInit {
 
   consultas: Consulta[] = [];
+  ordenSeleccionado: 'recientes' | 'antiguas' = 'recientes'; // valor por defecto
 
   constructor() {
     this.inicializarDatosDePrueba();
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.aplicarOrden(); // ordenar al cargar
+  }
 
   toggleConsulta(consulta: Consulta): void {
     consulta.expanded = !consulta.expanded;
@@ -68,6 +71,20 @@ export class HistorialPage implements OnInit {
       month: 'long',
       year: 'numeric'
     });
+  }
+
+  aplicarOrden(): void {
+    if (this.ordenSeleccionado === 'recientes') {
+      // Orden descendente (más nuevas primero)
+      this.consultas.sort((a, b) => new Date(b.fecha).getTime() - new Date(a.fecha).getTime());
+    } else {
+      // Orden ascendente (más antiguas primero)
+      this.consultas.sort((a, b) => new Date(a.fecha).getTime() - new Date(b.fecha).getTime());
+    }
+  }
+
+  getOrdenLabel(): string {
+    return this.ordenSeleccionado === 'recientes' ? 'Más recientes' : 'Más antiguas';
   }
 
   private inicializarDatosDePrueba(): void {

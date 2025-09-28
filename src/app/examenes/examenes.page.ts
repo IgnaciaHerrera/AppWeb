@@ -1,9 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { ToastController } from '@ionic/angular/standalone';
 import { 
   IonContent, IonHeader, IonTitle, IonToolbar, IonButtons, IonBackButton,
-  IonGrid, IonRow, IonCol, IonButton, IonIcon, IonList, IonItem, IonLabel
+  IonGrid, IonRow, IonCol, IonButton, IonIcon, IonList, IonItem, IonLabel, 
+  IonFab, IonFabButton, IonModal
 } from '@ionic/angular/standalone';
 
 interface ResultadoExamen {
@@ -34,10 +36,16 @@ interface Examen {
   imports: [
     CommonModule, FormsModule,
     IonContent, IonHeader, IonTitle, IonToolbar, IonButtons, IonBackButton,
-    IonGrid, IonRow, IonCol, IonButton, IonIcon, IonList, IonItem, IonLabel
+    IonGrid, IonRow, IonCol, IonButton, IonIcon, IonList, IonItem, IonLabel,
+    IonFab, IonFabButton, IonModal
   ]
 })
 export class ExamenesPage implements OnInit {
+  @ViewChild('fileInput') fileInput!: ElementRef<HTMLInputElement>;
+  
+  isModalOpen = false;
+  selectedFile: File | null = null;
+  
   examenes: Examen[] = [
     {
       id: '1',
@@ -148,23 +156,18 @@ export class ExamenesPage implements OnInit {
     }
   ];
 
-  constructor() { }
+  constructor(private toastController: ToastController) {}
 
-  ngOnInit() {
-    // Conexión con servicios reales
-  }
+  ngOnInit() {}
 
-  // Toggle para expandir/contraer exámenes
   toggleExamen(examen: Examen): void {
     examen.expanded = !examen.expanded;
   }
 
-  // Obtener clase CSS según tipo
   getExamenTypeClass(examen: Examen): string {
     return `tipo-${this.getTipoClass(examen.tipo)}`;
   }
 
-  // Clasificar tipo de examen
   getTipoClass(tipo: string): string {
     if (tipo.toLowerCase().includes('laboratorio')) return 'laboratorio';
     if (tipo.toLowerCase().includes('imagen')) return 'imagen';
@@ -172,11 +175,89 @@ export class ExamenesPage implements OnInit {
     return 'laboratorio';
   }
 
-  // Obtener icono según tipo
   getTipoIcon(tipo: string): string {
     if (tipo.toLowerCase().includes('laboratorio')) return 'flask-outline';
     if (tipo.toLowerCase().includes('imagen')) return 'scan-outline';
     if (tipo.toLowerCase().includes('sangre')) return 'water-outline';
     return 'document-text-outline';
+  }
+
+  abrirModal(): void {
+    this.isModalOpen = true;
+  }
+
+  cerrarModal(): void {
+    this.isModalOpen = false;
+    this.selectedFile = null;
+    if (this.fileInput?.nativeElement) {
+      this.fileInput.nativeElement.value = '';
+    }
+  }
+
+  getFileSize(bytes: number): string {
+    if (bytes === 0) return '0 Bytes';
+    const k = 1024;
+    const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+    const i = Math.floor(Math.log(bytes) / Math.log(k));
+    return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+  }
+
+  removeFile(event: Event): void {
+    event.preventDefault();
+    event.stopPropagation();
+    this.selectedFile = null;
+    if (this.fileInput?.nativeElement) {
+      this.fileInput.nativeElement.value = '';
+    }
+  }
+
+  validateFile(file: File): boolean {
+    if (file.type !== 'application/pdf') {
+      this.showToast('Solo se permiten archivos PDF', 'warning');
+      return false;
+    }
+    
+    const maxSize = 10 * 1024 * 1024; // 10MB
+    if (file.size > maxSize) {
+      this.showToast('El archivo es demasiado grande. Máximo 10MB', 'warning');
+      return false;
+    }
+    
+    return true;
+  }
+
+  onFileSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length > 0) {
+      const file = input.files[0];
+      if (this.validateFile(file)) {
+        this.selectedFile = file;
+      } else {
+        input.value = '';
+      }
+    }
+  }
+
+  async showToast(message: string, color: string = 'success'): Promise<void> {
+    const toast = await this.toastController.create({
+      message: message,
+      duration: 2000,
+      color: color,
+      position: 'bottom'
+    });
+    await toast.present();
+  }
+
+  async subirExamen(): Promise<void> {
+    if (this.selectedFile) {
+      try {
+        console.log('Subiendo examen:', this.selectedFile.name);
+        await this.showToast('Examen subido exitosamente', 'success');
+        this.cerrarModal();
+      } catch (error) {
+        console.error('Error al subir el examen:', error);
+        await this.showToast('Error al subir el examen. Inténtalo de nuevo', 'danger');
+      }
+    }
   }
 }

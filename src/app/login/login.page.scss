@@ -1,0 +1,284 @@
+:host {
+  --primary-color: #1c697f;
+  --primary-light: rgba(28, 105, 127, 0.1);
+  --primary-dark: #144d5e;
+  --gradient: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+  --label-color: #666;
+  --label-focus-color: var(--primary-color);
+  --input-border-color: #ddd;
+  --input-border-focus-color: var(--primary-color);
+}
+
+.login-content {
+  background: var(--ion-background-color);
+}
+
+.login-container {
+  display: flex;
+  flex-direction: column;
+  min-height: calc(100vh - 120px);
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 20px 0;
+  animation: fadeInUp 0.6s ease-out;
+}
+
+.logo-section {
+  text-align: center;
+  margin-bottom: 40px;
+  padding-top: 20px;
+
+  .logo-image {
+    width: 64px;   
+    height: 64px;
+    margin-bottom: 20px;
+    filter: drop-shadow(0 2px 8px rgba(28, 105, 127, 0.3));
+  }
+
+  .welcome-title {
+    font-size: 32px;
+    font-weight: 600;
+    color: var(--ion-text-color);
+    margin: 0 0 8px 0;
+  }
+
+  .welcome-subtitle {
+    font-size: 16px;
+    color: var(--ion-color-medium);
+    margin: 0;
+    opacity: 0.8;
+  }
+}
+
+.form-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.floating-input-wrapper {
+  position: relative;
+  margin-bottom: 4px;
+  animation: fadeInUp 0.6s ease-out;
+}
+
+.input-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  background: var(--ion-item-background, #fff);
+  border: 2px solid var(--input-border-color);
+  border-radius: 12px;
+  padding: 0 16px;
+  height: 56px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
+
+  &.focused {
+    border-color: var(--input-border-focus-color);
+    box-shadow: 0 0 0 3px rgba(28, 105, 127, 0.1);
+
+    .floating-label {
+      transform: translateY(-28px) scale(0.75);
+      color: var(--label-focus-color);
+      font-weight: 500;
+    }
+
+    .input-icon {
+      color: var(--primary-color);
+      transform: scale(1.1);
+    }
+  }
+
+  &.has-value {
+    .floating-label {
+      transform: translateY(-28px) scale(0.75);
+      color: var(--label-focus-color);
+    }
+  }
+
+  .custom-input-field {
+    flex: 1;
+    border: none;
+    outline: none;
+    background: transparent;
+    font-size: 16px;
+    color: var(--ion-text-color);
+    padding: 0;
+    margin: 0 8px;
+    z-index: 1;
+
+    &::placeholder {
+      color: transparent;
+    }
+
+    &:-webkit-autofill {
+      -webkit-box-shadow: 0 0 0 1000px var(--ion-item-background, #fff) inset;
+      -webkit-text-fill-color: var(--ion-text-color);
+    }
+  }
+
+  .floating-label {
+    position: absolute;
+    left: 48px;
+    top: 50%;
+    transform: translateY(-50%);
+    transform-origin: left center;
+    color: var(--label-color);
+    font-size: 16px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    pointer-events: none;
+    background: var(--ion-item-background, #fff);
+    padding: 0 4px;
+    z-index: 2;
+    white-space: nowrap;
+  }
+
+  .input-icon {
+    color: var(--primary-color);
+    font-size: 20px;
+    min-width: 20px;
+    transition: all 0.3s ease;
+    z-index: 1;
+  }
+
+  .password-toggle {
+    background: none;
+    border: none;
+    padding: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: var(--primary-color);
+    transition: all 0.2s ease;
+    border-radius: 50%;
+
+    &:hover {
+      background: rgba(28, 105, 127, 0.1);
+      transform: scale(1.1);
+    }
+
+    &:active {
+      transform: scale(0.95);
+    }
+
+    ion-icon {
+      font-size: 18px;
+    }
+  }
+}
+
+.input-container:hover:not(.focused) {
+  border-color: rgba(28, 105, 127, 0.4);
+}
+
+
+.forgot-password {
+  text-align: right;
+  margin-top: -10px;
+
+  .forgot-link {
+    --color: var(--primary-color);
+    font-size: 14px;
+    text-transform: none;
+    font-weight: 500;
+  }
+}
+
+
+.login-button {
+  --background: var(--gradient);
+  --background-activated: var(--primary-dark);
+  --background-hover: var(--primary-dark);
+  --color: white;
+  --border-radius: 12px;
+  --box-shadow: 0 4px 16px rgba(28, 105, 127, 0.3);
+  --padding-top: 16px;
+  --padding-bottom: 16px;
+  margin-top: 20px;
+  font-weight: 600;
+  font-size: 16px;
+  text-transform: none;
+  position: relative;
+  overflow: hidden;
+  animation: fadeInUp 0.6s ease-out 0.3s both;
+
+  ion-icon {
+    font-size: 20px;
+    margin-right: 8px;
+  }
+
+  &:hover {
+    --box-shadow: 0 6px 20px rgba(28, 105, 127, 0.4);
+    transform: translateY(-1px);
+    transition: all 0.2s ease;
+  }
+
+  &:active {
+    transform: translateY(0);
+    --box-shadow: 0 2px 8px rgba(28, 105, 127, 0.3);
+  }
+}
+
+.footer-section {
+  text-align: center;
+  margin-top: auto;
+  padding-top: 40px;
+
+  .footer-text {
+    font-size: 14px;
+    color: var(--ion-color-medium);
+    margin: 0;
+    font-style: italic;
+    opacity: 0.7;
+  }
+}
+
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  :host {
+    --primary-color: #4fb3cc;
+    --primary-light: rgba(79, 179, 204, 0.15);
+    --primary-dark: #3a8ca3;
+    --gradient: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+    --label-color: #aaa;
+    --label-focus-color: var(--primary-color);
+    --input-border-color: #444;
+    --input-border-focus-color: var(--primary-color);
+  }
+
+  .login-button {
+    --box-shadow: 0 4px 16px rgba(79, 179, 204, 0.3);
+
+    &:hover {
+      --box-shadow: 0 6px 20px rgba(79, 179, 204, 0.4);
+    }
+
+    &:active {
+      --box-shadow: 0 2px 8px rgba(79, 179, 204, 0.3);
+    }
+  }
+
+  .input-container {
+    &.focused {
+      box-shadow: 0 0 0 3px rgba(79, 179, 204, 0.15);
+    }
+
+    &:hover:not(.focused) {
+      border-color: rgba(79, 179, 204, 0.4);
+    }
+  }
+}

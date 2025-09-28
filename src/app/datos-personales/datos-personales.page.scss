@@ -9,14 +9,14 @@ ion-item {
   --color: var(--ion-text-color);
   margin: 6px 0;
   border-radius: 8px;
-
+  
   h2 {
     font-size: 1rem;
     font-weight: 600;
     margin: 0;
     color: var(--ion-text-color);
   }
-
+  
   p {
     font-size: 0.85rem;
     margin: 0;
@@ -34,9 +34,110 @@ ion-item {
   justify-content: center;
   margin-right: 12px;
   flex-shrink: 0;
-
+  
   ion-icon {
     font-size: 18px;
     color: #fff; 
   }
+}
+
+.fab-editar {
+  --background: #4dabf7;
+  --background-activated: #3498db;
+  --box-shadow: 0 4px 16px rgba(77, 171, 247, 0.4);
+  
+  ion-icon {
+    font-size: 20px;
+    color: var(--ion-color-primary-contrast); 
+  }
+}
+
+.modal-header {
+  --background: #4dabf7;
+  --color: white;
+  
+  ion-title {
+    color: white;
+    font-weight: 600;
+  }
+  
+  ion-button {
+    --color: white;
+  }
+}
+
+.form-fields {
+  margin-top: 20px;
+}
+
+.field-group {
+  margin-bottom: 24px;
+}
+
+.field-label {
+  display: block;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--ion-text-color); 
+  margin-bottom: 8px;
+}
+
+.input-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  border: 2px solid var(--ion-color-light-shade);
+  border-radius: 12px;
+  padding: 0 16px;
+  background: var(--ion-color-light);
+  transition: border-color 0.3s ease;
+  
+  &:focus-within {
+    border-color: #4dabf7;
+  }
+}
+
+.input-icon {
+  font-size: 20px;
+  color: var(--ion-color-medium);
+  margin-right: 12px;
+  flex-shrink: 0;
+}
+
+.custom-input {
+  --background: transparent;
+  --color: var(--ion-text-color);
+  --placeholder-color: var(--ion-color-medium);
+  --padding-start: 0;
+  --padding-end: 0;
+  --padding-top: 12px;
+  --padding-bottom: 12px;
+  font-size: 1rem;
+  flex: 1;
+  
+  --highlight-color-focused: #4dabf7 !important;
+}
+
+.modal-buttons {
+  padding: 16px;
+  display: flex;
+  gap: 12px;
+  
+  ion-button {
+    flex: 1;
+  }
+}
+
+.btn-cancelar {
+  --background: var(--ion-color-medium);
+  --background-activated: var(--ion-color-medium-shade);
+  --color: white;
+  font-weight: 600;
+}
+
+.btn-guardar {
+  --background: #4dabf7;
+  --background-activated: #3498db;
+  --color: white;
+  font-weight: 600;
 }
