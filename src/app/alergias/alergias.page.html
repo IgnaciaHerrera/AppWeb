@@ -5,6 +5,12 @@
     </ion-buttons>
     <ion-title>Mis Alergias</ion-title>
     <ion-buttons slot="end">
+      <ion-button fill="clear" (click)="probarConexion()">
+        <ion-icon name="wifi-outline"></ion-icon>
+      </ion-button>
+      <ion-button fill="clear" (click)="recargarAlergias()">
+        <ion-icon name="refresh-outline"></ion-icon>
+      </ion-button>
       <ion-button fill="clear" (click)="abrirModal()">
         <ion-icon name="add-outline"></ion-icon>
       </ion-button>
@@ -185,7 +191,7 @@
                 <ion-datetime
                   presentation="date"
                   [(ngModel)]="nuevaAlergia.fechaRegistro"
-                  (ionChange)="onFechaChange()"
+                  (ionChange)="onFechaChange($event)"
                   [max]="fechaMaxima">
                 </ion-datetime>
               </ng-template>
