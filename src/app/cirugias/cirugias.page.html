@@ -35,12 +35,14 @@
           <ion-select [(ngModel)]="filtroOrden" (ionChange)="ordenarCirugias()">
             <ion-select-option value="recientes">Más recientes</ion-select-option>
             <ion-select-option value="antiguas">Más antiguas</ion-select-option>
-            <ion-select-option value="alfabetico">Alfabético</ion-select-option>
+            <ion-select-option value="alfabetico-asc">Alfabético (A-Z)</ion-select-option>
+            <ion-select-option value="alfabetico-desc">Alfabético (Z-A)</ion-select-option>
           </ion-select>
         </ion-item>
       </ion-col>
     </ion-row>
   </ion-grid>
+
 
   <!-- lista de cirugías -->
   <ion-list lines="none" *ngIf="cirugias.length > 0">
@@ -120,4 +122,11 @@
     <ion-icon name="medical-outline" class="empty-icon"></ion-icon>
     <h3>No hay cirugías registradas</h3>
   </div>
+
+    <!-- botón flotante -->
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button class="fab-add">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
 </ion-content>

@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { 
   IonContent, IonHeader, IonTitle, IonToolbar, IonButtons, IonBackButton,
   IonList, IonItem, IonLabel, IonIcon, IonGrid, IonRow, IonCol,
-  IonBadge, IonSelect, IonSelectOption
+  IonBadge, IonSelect, IonSelectOption, IonFab, IonFabButton 
 } from '@ionic/angular/standalone';
 
 interface Cirugia {
@@ -17,6 +17,8 @@ interface Cirugia {
   expanded: boolean;
 }
 
+type OrdenCirugia = 'recientes' | 'antiguas' | 'alfabetico-asc' | 'alfabetico-desc';
+
 @Component({
   selector: 'app-cirugias',
   templateUrl: './cirugias.page.html',
@@ -26,13 +28,13 @@ interface Cirugia {
     CommonModule, FormsModule,
     IonContent, IonHeader, IonTitle, IonToolbar, IonButtons, IonBackButton,
     IonList, IonItem, IonLabel, IonIcon, IonGrid, IonRow, IonCol,
-    IonBadge, IonSelect, IonSelectOption
+    IonBadge, IonSelect, IonSelectOption, IonFab, IonFabButton 
   ]
 })
 export class CirugiasPage implements OnInit {
 
   cirugias: Cirugia[] = [];
-  filtroOrden = 'recientes';
+  filtroOrden: OrdenCirugia = 'recientes';
 
   constructor() {
     this.inicializarDatosDePrueba();
@@ -47,19 +49,11 @@ export class CirugiasPage implements OnInit {
   }
 
   getStatusClass(cirugia: Cirugia): string {
-    switch (cirugia.estado) {
-      case 'Programada': return 'status-programada';
-      case 'Finalizada': return 'status-finalizada';
-      default: return '';
-    }
+    return cirugia.estado === 'Programada' ? 'status-programada' : 'status-finalizada';
   }
 
   getBadgeClass(cirugia: Cirugia): string {
-    switch (cirugia.estado) {
-      case 'Programada': return 'badge-programada';
-      case 'Finalizada': return 'badge-finalizada';
-      default: return 'badge-finalizada';
-    }
+    return cirugia.estado === 'Programada' ? 'badge-programada' : 'badge-finalizada';
   }
 
   formatFecha(fecha: string): string {
@@ -83,8 +77,11 @@ export class CirugiasPage implements OnInit {
           new Date(a.fecha).getTime() - new Date(b.fecha).getTime()
         );
         break;
-      case 'alfabetico':
-        this.cirugias.sort((a, b) => a.nombre.localeCompare(b.nombre));
+      case 'alfabetico-asc':
+        this.cirugias.sort((a, b) => a.nombre.localeCompare(b.nombre, 'es'));
+        break;
+      case 'alfabetico-desc':
+        this.cirugias.sort((a, b) => b.nombre.localeCompare(a.nombre, 'es'));
         break;
     }
   }

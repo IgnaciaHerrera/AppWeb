@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { 
   IonContent, IonHeader, IonTitle, IonToolbar, IonButtons, IonBackButton,
   IonList, IonItem, IonLabel, IonIcon, IonGrid, IonRow, IonCol,
-  IonBadge, IonSelect, IonSelectOption
+  IonBadge, IonSelect, IonSelectOption, IonFab, IonFabButton 
 } from '@ionic/angular/standalone';
 
 interface Diagnostico {
@@ -28,7 +28,7 @@ type TipoOrden = 'recientes' | 'antiguas' | 'alfabetico-asc' | 'alfabetico-desc'
     CommonModule, FormsModule,
     IonContent, IonHeader, IonTitle, IonToolbar, IonButtons, IonBackButton,
     IonList, IonItem, IonLabel, IonIcon, IonGrid, IonRow, IonCol,
-    IonBadge, IonSelect, IonSelectOption
+    IonBadge, IonSelect, IonSelectOption, IonFab, IonFabButton 
   ]
 })
 export class DiagnosticosPage implements OnInit {

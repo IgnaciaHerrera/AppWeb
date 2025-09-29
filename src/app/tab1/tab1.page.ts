@@ -1,17 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonicModule } from '@ionic/angular';
+import { IonicModule, ToastController } from '@ionic/angular';
 import { Router } from '@angular/router';
-
-interface Recordatorio {
-  id: string;
-  tipo: 'medicamento' | 'cita' | 'examen';
-  titulo: string;
-  descripcion: string;
-  fecha: string;
-  hora: string;
-}
 
 interface Cita {
   id: string;
@@ -89,10 +80,14 @@ export class Tab1Page implements OnInit {
     }
   ];
 
-  constructor(private router: Router) {}
+  constructor(
+    private router: Router,
+    private toastController: ToastController
+  ) {}
 
-  ngOnInit() {
+  async ngOnInit() {
     this.cargarDatos();
+    await this.mostrarToastBienvenida();
   }
 
   goTo(route: string): void {
@@ -119,5 +114,14 @@ export class Tab1Page implements OnInit {
   private cargarDatos(): void {
     console.log('Cargando datos del paciente...');
   }
-}
 
+  private async mostrarToastBienvenida(): Promise<void> {
+    const toast = await this.toastController.create({
+      message: `Bienvenido/a ${this.paciente.nombre} 👋`,
+      duration: 3000,
+      position: 'top',
+      cssClass: 'toast-bienvenida'
+    });
+    await toast.present();
+  }
+}

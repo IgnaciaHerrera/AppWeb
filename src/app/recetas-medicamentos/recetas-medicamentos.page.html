@@ -208,6 +208,12 @@
       </ion-item>
     </ion-list>
   </div>
+    <!-- botón flotante -->
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button class="fab-add">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
   <!-- SECCIÓN RECETAS -->
   <div *ngIf="selectedTab === 'recetas'">
     <ion-grid>

@@ -5,7 +5,8 @@ import {
   IonContent, IonHeader, IonTitle, IonToolbar, IonButtons, IonBackButton,
   IonList, IonItem, IonLabel, IonIcon, IonGrid, IonRow, IonCol,
   IonBadge, IonButton, IonFab, IonFabButton, IonModal, IonInput,
-  IonFooter, IonTextarea, IonSelect, IonSelectOption, IonDatetime, IonPopover
+  IonFooter, IonTextarea, IonSelect, IonSelectOption, IonDatetime, IonPopover,
+  ToastController
 } from '@ionic/angular/standalone';
 
 interface Alergia {
@@ -13,7 +14,7 @@ interface Alergia {
   nombre: string;
   descripcion: string;
   grado: 'leve' | 'moderado' | 'severo';
-  fechaRegistro: string; // Guardada en formato "5 de enero de 2024"
+  fechaRegistro: string; 
   expanded: boolean;
 }
 
@@ -55,7 +56,7 @@ export class AlergiasPage implements OnInit {
     expanded: false
   };
 
-  constructor() { 
+  constructor(private toastController: ToastController) { 
     this.inicializarDatosDePrueba();
   }
 
@@ -77,13 +78,13 @@ export class AlergiasPage implements OnInit {
            this.nuevaAlergia.descripcion.trim().length > 0;
   }
 
-  guardarAlergia() {
+  async guardarAlergia() {
     if (!this.esFormularioValido()) return;
 
     const nueva = {
       ...this.nuevaAlergia,
       id: Date.now().toString(),
-      fechaRegistro: this.fechaFormateada // fecha ya formateada
+      fechaRegistro: this.fechaFormateada 
     };
 
     this.alergias.unshift(nueva);
@@ -103,6 +104,18 @@ export class AlergiasPage implements OnInit {
     };
     this.actualizarFechaFormateada();
     this.aplicarOrden();
+
+    await this.mostrarToastExito();
+  }
+
+  async mostrarToastExito() {
+    const toast = await this.toastController.create({
+      message: 'Alergia guardada con éxito',
+      duration: 3000,
+      position: 'top',
+      color: 'success'
+    });
+    await toast.present();
   }
 
   onFechaChange() {
@@ -136,11 +149,7 @@ export class AlergiasPage implements OnInit {
   }
 
   compararFechas(fecha1: string, fecha2: string): number {
-    // Fecha viene como "5 de enero de 2024"
-    const parsear = (f: string): Date => {
-      return new Date(f); // navegador entiende bien formato español
-    };
-    return parsear(fecha1).getTime() - parsear(fecha2).getTime();
+    return new Date(fecha1).getTime() - new Date(fecha2).getTime();
   }
 
   getOrdenLabel(): string {

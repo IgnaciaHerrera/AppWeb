@@ -6,7 +6,7 @@ import {
   IonList, IonItem, IonLabel, IonIcon, IonGrid, IonRow, IonCol,
   IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonCardSubtitle,
   IonSegment, IonSegmentButton, IonBadge, IonChip, IonButton,
-  IonProgressBar, IonModal
+  IonProgressBar, IonModal, IonFab, IonFabButton 
 } from '@ionic/angular/standalone';
 
 interface Medicamento {
@@ -69,7 +69,7 @@ interface Receta {
     IonList, IonItem, IonLabel, IonIcon, IonGrid, IonRow, IonCol,
     IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonCardSubtitle,
     IonSegment, IonSegmentButton, IonBadge, IonChip, IonButton,
-    IonProgressBar, IonModal
+    IonProgressBar, IonModal, IonFab, IonFabButton 
   ]
 })
 export class RecetasMedicamentosPage implements OnInit {
