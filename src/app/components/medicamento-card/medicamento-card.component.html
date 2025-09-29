@@ -1,0 +1,17 @@
+<ion-card class="reminder-card">
+  <ion-card-content>
+    <div class="reminder-content">
+      <div class="reminder-icon reminder-medicamento">
+        <ion-icon name="medkit-outline"></ion-icon>
+      </div>
+      <div class="reminder-info">
+        <h3>{{ medicamento.nombre }}</h3>
+        <p>{{ medicamento.dosis }} - {{ medicamento.forma }}</p>
+        <div class="reminder-time">
+          <ion-icon name="time-outline"></ion-icon>
+          <span>{{ medicamento.frecuencia }}</span>
+        </div>
+      </div>
+    </div>
+  </ion-card-content>
+</ion-card>

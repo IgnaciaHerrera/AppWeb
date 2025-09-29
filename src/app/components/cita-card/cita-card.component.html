@@ -1,0 +1,20 @@
+<ion-card class="appointment-card">
+  <ion-card-content>
+    <div class="appointment-content">
+      <div class="appointment-date">
+        <p class="day">{{ cita.dia }}</p>
+        <p class="month">{{ cita.mes }}</p>
+      </div>
+      <div class="appointment-info">
+        <h3>{{ cita.especialidad }}</h3>
+        <p>{{ cita.medico }}</p>
+        <div class="appointment-details">
+          <ion-icon name="location-outline"></ion-icon>
+          <span>{{ cita.centro }}</span>
+          <ion-icon name="time-outline"></ion-icon>
+          <span>{{ cita.hora }}</span>
+        </div>
+      </div>
+    </div>
+  </ion-card-content>
+</ion-card>

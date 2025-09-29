@@ -1,0 +1,9 @@
+<ion-card class="quick-card" button (click)="onClick()">
+  <ion-card-content>
+    <div class="quick-icon {{ customClass }}">
+      <ion-icon [name]="icon"></ion-icon>
+    </div>
+    <h3>{{ titulo }}</h3>
+    <p>{{ contador }} {{ unidad }}</p>
+  </ion-card-content>
+</ion-card>

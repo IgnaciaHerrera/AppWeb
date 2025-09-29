@@ -35,3 +35,246 @@
 /* @import "@ionic/angular/css/palettes/dark.always.css"; */
 /* @import "@ionic/angular/css/palettes/dark.class.css"; */
 @import '@ionic/angular/css/palettes/dark.system.css';
+
+
+
+/* ===== VARIABLES GLOBALES ===== */
+:root {
+  --teal-primary: #1c697f;
+  --teal-light: #e0f2f1;
+  --teal-dark: #0f4c59;
+  --success-color: #10b981;
+  --warning-color: #f59e0b;
+  --danger-color: #ef4444;
+  --info-color: #3b82f6;
+  --gray-light: #f8fafc;
+  --gray-medium: #6b7280;
+}
+
+/* ===== TARJETAS DE RECORDATORIOS (medicamentos) ===== */
+.reminder-card {
+  margin: 0 16px 10px;
+  border-radius: 12px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.06);
+  border-left: 4px solid var(--teal-primary);
+
+  ion-card-content {
+    padding: 12px;
+  }
+}
+
+.reminder-content {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.reminder-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+
+  &.reminder-medicamento {
+    background: rgba(28, 105, 127, 0.1);
+    color: #1c697f;
+  }
+
+  ion-icon {
+    font-size: 1.2rem;
+  }
+}
+
+.reminder-info {
+  flex: 1;
+
+  h3 {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--ion-text-color);
+    margin: 0 0 2px 0;
+  }
+
+  p {
+    font-size: 0.8rem;
+    color: var(--gray-medium);
+    margin: 0 0 4px 0;
+  }
+}
+
+.reminder-time {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.75rem;
+  color: var(--teal-primary);
+  font-weight: 500;
+
+  ion-icon {
+    font-size: 0.8rem;
+  }
+}
+
+/* ===== TARJETAS DE CITAS ===== */
+.appointment-card {
+  margin: 0 16px 10px;
+  border-radius: 12px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.06);
+
+  ion-card-content {
+    padding: 12px;
+  }
+}
+
+.appointment-content {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.appointment-date {
+  width: 50px;
+  text-align: center;
+  padding: 8px;
+  background: var(--teal-light);
+  border-radius: 8px;
+  flex-shrink: 0;
+
+  .day {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--teal-primary);
+    margin: 0;
+    line-height: 1;
+  }
+
+  .month {
+    font-size: 0.7rem;
+    font-weight: 500;
+    color: var(--teal-primary);
+    margin: 2px 0 0 0;
+    line-height: 1;
+  }
+}
+
+.appointment-info {
+  flex: 1;
+
+  h3 {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--ion-text-color);
+    margin: 0 0 2px 0;
+  }
+
+  > p {
+    font-size: 0.8rem;
+    color: var(--gray-medium);
+    margin: 0 0 4px 0;
+  }
+}
+
+.appointment-details {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.75rem;
+  color: var(--gray-medium);
+
+  ion-icon {
+    font-size: 0.8rem;
+  }
+
+  span {
+    margin-right: 8px;
+  }
+}
+
+/* ===== ACCESOS RÁPIDOS ===== */
+.quick-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  padding: 0 16px;
+}
+
+.quick-card {
+  border-radius: 12px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.06);
+  transition: all 0.2s ease;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  ion-card-content {
+    padding: 16px 12px;
+    text-align: center;
+
+    h3 {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--ion-text-color);
+      margin: 8px 0 4px 0;
+    }
+
+    p {
+      font-size: 0.75rem;
+      color: var(--gray-medium);
+      margin: 0;
+    }
+  }
+}
+
+.quick-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 8px;
+
+  ion-icon {
+    font-size: 1.4rem;
+    --color: white;
+  }
+
+  &.medicamentos {
+    background: linear-gradient(135deg, #10b981, #059669);
+  }
+
+  &.diagnosticos {
+    background: linear-gradient(135deg, #e91e63, #c2185b);
+  }
+
+  &.alergias {
+    background: linear-gradient(135deg, #f59e0b, #d97706);
+  }
+
+  &.historial {
+    background: linear-gradient(135deg, var(--teal-primary), #0f766e);
+  }
+}
+
+/* ===== DARK MODE ===== */
+body.dark {
+  --teal-primary: #2dd4bf;
+  --teal-light: #134e4a;
+  --teal-dark: #0f766e;
+  --gray-light: #2c2c2e;
+
+  .reminder-card,
+  .quick-card,
+  .appointment-card {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  }
+
+  .appointment-date {
+    background: var(--teal-light);
+  }
+}

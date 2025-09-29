@@ -1,134 +1,71 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title slot="start">Inicio</ion-title>
-    <ion-buttons slot="end">
-      <ion-button (click)="goTo('/tabs/tab6')" fill="clear">
-        <ion-icon name="person-circle-outline" style="font-size: 26px;"></ion-icon>
-      </ion-button>
-    </ion-buttons>
-  </ion-toolbar>
-</ion-header>
+<!-- Recordatorios de Medicamentos -->
+<div class="reminders-section" *ngIf="medicamentosActivos.length > 0">
+  <h2 class="section-title">
+    <ion-icon name="medical-outline"></ion-icon>
+    Recordatorios de Medicamentos
+  </h2>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Inicio</ion-title>
-    </ion-toolbar>
-  </ion-header>
+  <app-medicamento-card
+    *ngFor="let med of medicamentosActivos"
+    [medicamento]="med">
+  </app-medicamento-card>
+</div>
 
-  <!-- Header de bienvenida -->
-  <div class="welcome-header">
-    <div class="welcome-content">
-      <div class="user-greeting">
-        <h1>Hola, {{ paciente.nombre }}</h1>
-        <p>Bienvenida a tu aplicación médica</p>
-      </div>
-    </div>
+<!-- Accesos rápidos -->
+<div class="quick-access-section">
+  <h2 class="section-title">
+    <ion-icon name="grid-outline"></ion-icon>
+    Acceso Rápido
+  </h2>
+
+  <div class="quick-grid">
+    <app-quick-access-card
+      titulo="Medicamentos"
+      icon="medical-outline"
+      customClass="medicamentos"
+      [contador]="contadores.medicamentos"
+      unidad="activos"
+      (action)="navegarA('medicamentos')">
+    </app-quick-access-card>
+
+    <app-quick-access-card
+      titulo="Diagnósticos"
+      icon="clipboard-outline"
+      customClass="diagnosticos"
+      [contador]="contadores.diagnosticos"
+      unidad="registros"
+      (action)="navegarA('diagnosticos')">
+    </app-quick-access-card>
+
+    <app-quick-access-card
+      titulo="Alergias"
+      icon="warning-outline"
+      customClass="alergias"
+      [contador]="contadores.alergias"
+      unidad="registradas"
+      (action)="navegarA('alergias')">
+    </app-quick-access-card>
+
+    <app-quick-access-card
+      titulo="Consultas"
+      icon="time-outline"
+      customClass="historial"
+      [contador]="contadores.historial"
+      unidad="eventos"
+      (action)="navegarA('historial')">
+    </app-quick-access-card>
   </div>
+</div>
 
-  <!-- Recordatorios de Medicamentos Activos -->
-  <div class="reminders-section" *ngIf="medicamentosActivos.length > 0">
-    <h2 class="section-title">
-      <ion-icon name="medical-outline"></ion-icon>
-      Recordatorios de Medicamentos
-    </h2>
+<!-- Próximas citas -->
+<div class="appointments-section" *ngIf="proximasCitas.length > 0">
+  <h2 class="section-title">
+    <ion-icon name="calendar-outline"></ion-icon>
+    Próximas consultas
+  </h2>
 
-    <ion-card class="reminder-card" *ngFor="let med of medicamentosActivos">
-      <ion-card-content>
-        <div class="reminder-content">
-          <div class="reminder-icon reminder-medicamento">
-            <ion-icon name="medkit-outline"></ion-icon>
-          </div>
-          <div class="reminder-info">
-            <h3>{{ med.nombre }}</h3>
-            <p>{{ med.dosis }} - {{ med.forma }}</p>
-            <div class="reminder-time">
-              <ion-icon name="time-outline"></ion-icon>
-              <span>{{ med.frecuencia }}</span>
-            </div>
-          </div>
-        </div>
-      </ion-card-content>
-    </ion-card>
-  </div>
-
-
-  <!-- Accesos rápidos -->
-  <div class="quick-access-section">
-    <h2 class="section-title">
-      <ion-icon name="grid-outline"></ion-icon>
-      Acceso Rápido
-    </h2>
-    
-    <div class="quick-grid">
-      <ion-card class="quick-card" button (click)="navegarA('medicamentos')">
-        <ion-card-content>
-          <div class="quick-icon medicamentos">
-            <ion-icon name="medical-outline"></ion-icon>
-          </div>
-          <h3>Medicamentos</h3>
-          <p>{{ contadores.medicamentos }} activos</p>
-        </ion-card-content>
-      </ion-card>
-
-      <ion-card class="quick-card" button (click)="navegarA('diagnosticos')">
-        <ion-card-content>
-          <div class="quick-icon diagnosticos">
-            <ion-icon name="clipboard-outline"></ion-icon>
-          </div>
-          <h3>Diagnósticos</h3>
-          <p>{{ contadores.diagnosticos }} registros</p>
-        </ion-card-content>
-      </ion-card>
-
-      <ion-card class="quick-card" button (click)="navegarA('alergias')">
-        <ion-card-content>
-          <div class="quick-icon alergias">
-            <ion-icon name="warning-outline"></ion-icon>
-          </div>
-          <h3>Alergias</h3>
-          <p>{{ contadores.alergias }} registradas</p>
-        </ion-card-content>
-      </ion-card>
-
-      <ion-card class="quick-card" button (click)="navegarA('historial')">
-        <ion-card-content>
-          <div class="quick-icon historial">
-            <ion-icon name="time-outline"></ion-icon>
-          </div>
-          <h3>Consultas</h3>
-          <p>{{ contadores.historial }} eventos</p>
-        </ion-card-content>
-      </ion-card>
-    </div>
-  </div>
-
-  <!-- Próximas citas -->
-  <div class="appointments-section" *ngIf="proximasCitas.length > 0">
-    <h2 class="section-title">
-      <ion-icon name="calendar-outline"></ion-icon>
-      Próximas consultas
-    </h2>
-    
-    <ion-card class="appointment-card" *ngFor="let cita of proximasCitas">
-      <ion-card-content>
-        <div class="appointment-content">
-          <div class="appointment-date">
-            <p class="day">{{ cita.dia }}</p>
-            <p class="month">{{ cita.mes }}</p>
-          </div>
-          <div class="appointment-info">
-            <h3>{{ cita.especialidad }}</h3>
-            <p>{{ cita.medico }}</p>
-            <div class="appointment-details">
-              <ion-icon name="location-outline"></ion-icon>
-              <span>{{ cita.centro }}</span>
-              <ion-icon name="time-outline"></ion-icon>
-              <span>{{ cita.hora }}</span>
-            </div>
-          </div>
-        </div>
-      </ion-card-content>
-    </ion-card>
-  </div>
-</ion-content>
+  <app-cita-card
+    *ngFor="let cita of proximasCitas"
+    [cita]="cita">
+  </app-cita-card>
+</div>

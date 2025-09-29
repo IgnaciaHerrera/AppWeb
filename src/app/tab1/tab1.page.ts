@@ -4,6 +4,12 @@ import { FormsModule } from '@angular/forms';
 import { IonicModule, ToastController } from '@ionic/angular';
 import { Router } from '@angular/router';
 
+
+import { MedicamentoCardComponent } from '../components/medicamento-card/medicamento-card.component';
+import { CitaCardComponent } from '../components/cita-card/cita-card.component';
+import { QuickAccessCardComponent } from '../components/quick-access-card/quick-access-card.component';
+
+
 interface Cita {
   id: string;
   dia: string;
@@ -27,7 +33,7 @@ interface MedicamentoActivo {
   templateUrl: './tab1.page.html',
   styleUrls: ['./tab1.page.scss'],
   standalone: true,
-  imports: [IonicModule, CommonModule, FormsModule],
+  imports: [IonicModule, CommonModule, FormsModule, MedicamentoCardComponent, CitaCardComponent, QuickAccessCardComponent],
 })
 export class Tab1Page implements OnInit {
   paciente = {
