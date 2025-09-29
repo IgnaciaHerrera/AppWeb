@@ -24,54 +24,74 @@
   </ion-card>
   <h3 class="seccion-titulo">Mi Ficha Médica</h3>
 
+  <ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>Mi Ficha</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="detalle-content">
+  
+  <h3 class="seccion-titulo">Mi Ficha Médica</h3>
+
   <!-- Lista de secciones -->
   <ion-list lines="none" class="lista-secciones">
-    <!-- 1. Datos Personales -->
-    <ion-item button detail class="card-item blue" (click)="goTo('datos-personales')">
-      <div class="icon-circle blue"><ion-icon name="person-outline"></ion-icon></div>
-      <ion-label>Datos Personales</ion-label>
-    </ion-item>
+    <app-ficha-item
+      titulo="Datos Personales"
+      icon="person-outline"
+      colorClass="blue"
+      (action)="goTo('datos-personales')">
+    </app-ficha-item>
 
-    <!-- 2. Alergias -->
-    <ion-item button detail class="card-item red" (click)="goTo('alergias')">
-      <div class="icon-circle red"><ion-icon name="alert-circle-outline"></ion-icon></div>
-      <ion-label>Alergias</ion-label>
-    </ion-item>
+    <app-ficha-item
+      titulo="Alergias"
+      icon="alert-circle-outline"
+      colorClass="red"
+      (action)="goTo('alergias')">
+    </app-ficha-item>
 
-    <!-- 3. Historial de consultas -->
-    <ion-item button detail class="card-item green" (click)="goTo('historial')">
-      <div class="icon-circle green"><ion-icon name="pulse-outline"></ion-icon></div>
-      <ion-label>Historial de consultas</ion-label>
-    </ion-item>
+    <app-ficha-item
+      titulo="Historial de consultas"
+      icon="pulse-outline"
+      colorClass="green"
+      (action)="goTo('historial')">
+    </app-ficha-item>
 
-    <!-- 4. Diagnósticos -->
-    <ion-item button detail class="card-item pink" (click)="goTo('diagnosticos')">
-      <div class="icon-circle pink"><ion-icon name="heart-outline"></ion-icon></div>
-      <ion-label>Diagnósticos</ion-label>
-    </ion-item>
+    <app-ficha-item
+      titulo="Diagnósticos"
+      icon="heart-outline"
+      colorClass="pink"
+      (action)="goTo('diagnosticos')">
+    </app-ficha-item>
 
-    <!-- 5. Recetas y Medicamentos -->
-    <ion-item button detail class="card-item orange" (click)="goTo('recetas-medicamentos')">
-      <div class="icon-circle orange"><ion-icon name="medkit-outline"></ion-icon></div>
-      <ion-label>Recetas y Medicamentos</ion-label>
-    </ion-item>
+    <app-ficha-item
+      titulo="Recetas y Medicamentos"
+      icon="medkit-outline"
+      colorClass="orange"
+      (action)="goTo('recetas-medicamentos')">
+    </app-ficha-item>
 
-    <!-- 6. Exámenes -->
-    <ion-item button detail class="card-item teal" (click)="goTo('examenes')">
-      <div class="icon-circle teal"><ion-icon name="document-text-outline"></ion-icon></div>
-      <ion-label>Exámenes</ion-label>
-    </ion-item>
+    <app-ficha-item
+      titulo="Exámenes"
+      icon="document-text-outline"
+      colorClass="teal"
+      (action)="goTo('examenes')">
+    </app-ficha-item>
 
-    <!-- 7. Hospitalizaciones -->
-    <ion-item button detail class="card-item cyan" (click)="goTo('hospitalizaciones')">
-      <div class="icon-circle cyan"><ion-icon name="bed-outline"></ion-icon></div>
-      <ion-label>Hospitalizaciones</ion-label>
-    </ion-item>
+    <app-ficha-item
+      titulo="Hospitalizaciones"
+      icon="bed-outline"
+      colorClass="cyan"
+      (action)="goTo('hospitalizaciones')">
+    </app-ficha-item>
 
-    <!-- 8. Cirugías -->
-    <ion-item button detail class="card-item purple" (click)="goTo('cirugias')">
-      <div class="icon-circle purple"><ion-icon name="cut-outline"></ion-icon></div>
-      <ion-label>Cirugías</ion-label>
-    </ion-item>
+    <app-ficha-item
+      titulo="Cirugías"
+      icon="cut-outline"
+      colorClass="purple"
+      (action)="goTo('cirugias')">
+    </app-ficha-item>
   </ion-list>
 </ion-content>
+
+ 

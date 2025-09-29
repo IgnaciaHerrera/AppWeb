@@ -7,6 +7,7 @@ import {
   IonCard, IonCardContent, IonIcon,
   IonGrid, IonRow, IonCol, IonItem, IonLabel, IonList
 } from '@ionic/angular/standalone';
+import { FichaItemComponent } from '../components/ficha-item/ficha-item.component';
 
 @Component({
   selector: 'app-tab5',
@@ -17,7 +18,7 @@ import {
     CommonModule, FormsModule,
     IonHeader, IonToolbar, IonTitle, IonContent,
     IonCard, IonCardContent, IonIcon,
-    IonGrid, IonRow, IonCol, IonItem, IonLabel, IonList
+    IonGrid, IonRow, IonCol, IonItem, IonLabel, IonList,FichaItemComponent
   ],
 })
 export class Tab5Page implements OnInit {
