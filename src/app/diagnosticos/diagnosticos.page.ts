@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { 
   IonContent, IonHeader, IonTitle, IonToolbar, IonButtons, IonBackButton,
   IonList, IonItem, IonLabel, IonIcon, IonGrid, IonRow, IonCol,
-  IonBadge
+  IonBadge, IonSelect, IonSelectOption
 } from '@ionic/angular/standalone';
 
 interface Diagnostico {
@@ -17,6 +17,8 @@ interface Diagnostico {
   expanded: boolean;
 }
 
+type TipoOrden = 'recientes' | 'antiguas' | 'alfabetico-asc' | 'alfabetico-desc';
+
 @Component({
   selector: 'app-diagnosticos',
   templateUrl: './diagnosticos.page.html',
@@ -26,21 +28,26 @@ interface Diagnostico {
     CommonModule, FormsModule,
     IonContent, IonHeader, IonTitle, IonToolbar, IonButtons, IonBackButton,
     IonList, IonItem, IonLabel, IonIcon, IonGrid, IonRow, IonCol,
-    IonBadge
+    IonBadge, IonSelect, IonSelectOption
   ]
 })
 export class DiagnosticosPage implements OnInit {
   
   diagnosticos: Diagnostico[] = [];
+  ordenSeleccionado: TipoOrden = 'recientes';
 
   constructor() { this.inicializarDatosDePrueba(); }
-  ngOnInit() {}
+
+  ngOnInit() {
+    this.aplicarOrden();
+  }
 
   toggleDiagnostico(d: Diagnostico) { d.expanded = !d.expanded; }
 
   getDiagnosticoSeverityClass(d: Diagnostico): string {
     return `severity-${d.severidad}`;
   }
+
   getSeverityBadgeColor(d: Diagnostico): string {
     switch (d.severidad) {
       case 'leve': return 'success';
@@ -50,6 +57,7 @@ export class DiagnosticosPage implements OnInit {
       default: return 'medium';
     }
   }
+
   getSeverityLabel(severidad: string): string {
     switch (severidad) {
       case 'leve': return 'Leve';
@@ -59,6 +67,7 @@ export class DiagnosticosPage implements OnInit {
       default: return 'Sin clasificar';
     }
   }
+
   getSeverityDescription(severidad: string): string {
     switch (severidad) {
       case 'leve': return 'Condición leve';
@@ -68,6 +77,7 @@ export class DiagnosticosPage implements OnInit {
       default: return 'Sin clasificar';
     }
   }
+
   getFaseDescription(fase: string): string {
     switch (fase) {
       case 'inicial': return 'Fase inicial';
@@ -76,6 +86,53 @@ export class DiagnosticosPage implements OnInit {
       case 'remision': return 'En remisión';
       default: return 'Sin fase definida';
     }
+  }
+
+  aplicarOrden(): void {
+    switch (this.ordenSeleccionado) {
+      case 'recientes':
+        this.diagnosticos.sort((a, b) => this.compararFechas(b.fechaDiagnostico, a.fechaDiagnostico));
+        break;
+      case 'antiguas':
+        this.diagnosticos.sort((a, b) => this.compararFechas(a.fechaDiagnostico, b.fechaDiagnostico));
+        break;
+      case 'alfabetico-asc':
+        this.diagnosticos.sort((a, b) => a.enfermedad.localeCompare(b.enfermedad, 'es', { sensitivity: 'base' }));
+        break;
+      case 'alfabetico-desc':
+        this.diagnosticos.sort((a, b) => b.enfermedad.localeCompare(a.enfermedad, 'es', { sensitivity: 'base' }));
+        break;
+    }
+  }
+
+  compararFechas(fecha1: string, fecha2: string): number {
+    const meses: { [key: string]: number } = {
+      'enero': 0, 'febrero': 1, 'marzo': 2, 'abril': 3, 'mayo': 4, 'junio': 5,
+      'julio': 6, 'agosto': 7, 'septiembre': 8, 'octubre': 9, 'noviembre': 10, 'diciembre': 11
+    };
+
+    const parsearFecha = (fecha: string): Date => {
+      const partes = fecha.toLowerCase().split(' ');
+      const dia = parseInt(partes[0]);
+      const mes = meses[partes[1]];
+      const año = parseInt(partes[2]);
+      return new Date(año, mes, dia);
+    };
+
+    const date1 = parsearFecha(fecha1);
+    const date2 = parsearFecha(fecha2);
+
+    return date1.getTime() - date2.getTime();
+  }
+
+  getOrdenLabel(): string {
+    const labels: Record<TipoOrden, string> = {
+      'recientes': 'Más recientes',
+      'antiguas': 'Más antiguas',
+      'alfabetico-asc': 'Alfabético (A-Z)',
+      'alfabetico-desc': 'Alfabético (Z-A)'
+    };
+    return labels[this.ordenSeleccionado];
   }
 
   private inicializarDatosDePrueba(): void {

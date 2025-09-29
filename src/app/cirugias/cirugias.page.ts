@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { 
   IonContent, IonHeader, IonTitle, IonToolbar, IonButtons, IonBackButton,
   IonList, IonItem, IonLabel, IonIcon, IonGrid, IonRow, IonCol,
-  IonBadge
+  IonBadge, IonSelect, IonSelectOption
 } from '@ionic/angular/standalone';
 
 interface Cirugia {
@@ -26,18 +26,21 @@ interface Cirugia {
     CommonModule, FormsModule,
     IonContent, IonHeader, IonTitle, IonToolbar, IonButtons, IonBackButton,
     IonList, IonItem, IonLabel, IonIcon, IonGrid, IonRow, IonCol,
-    IonBadge
+    IonBadge, IonSelect, IonSelectOption
   ]
 })
 export class CirugiasPage implements OnInit {
 
   cirugias: Cirugia[] = [];
+  filtroOrden = 'recientes';
 
   constructor() {
     this.inicializarDatosDePrueba();
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.ordenarCirugias();
+  }
 
   toggleCirugia(cirugia: Cirugia): void {
     cirugia.expanded = !cirugia.expanded;
@@ -62,10 +65,28 @@ export class CirugiasPage implements OnInit {
   formatFecha(fecha: string): string {
     const date = new Date(fecha);
     return date.toLocaleDateString('es-ES', {
-      day: '2-digit',
+      day: 'numeric',
       month: 'long',
       year: 'numeric'
     });
+  }
+
+  ordenarCirugias(): void {
+    switch (this.filtroOrden) {
+      case 'recientes':
+        this.cirugias.sort((a, b) =>
+          new Date(b.fecha).getTime() - new Date(a.fecha).getTime()
+        );
+        break;
+      case 'antiguas':
+        this.cirugias.sort((a, b) =>
+          new Date(a.fecha).getTime() - new Date(b.fecha).getTime()
+        );
+        break;
+      case 'alfabetico':
+        this.cirugias.sort((a, b) => a.nombre.localeCompare(b.nombre));
+        break;
+    }
   }
 
   private inicializarDatosDePrueba(): void {

@@ -25,7 +25,23 @@
       </ion-col>
     </ion-row>
   </ion-grid>
-  
+
+  <!-- Filtro de orden -->
+  <ion-grid>
+    <ion-row>
+      <ion-col size="12" class="filter-col">
+        <ion-item lines="none">
+          <ion-label>Ordenar por</ion-label>
+          <ion-select [(ngModel)]="filtroOrden" (ionChange)="ordenarCirugias()">
+            <ion-select-option value="recientes">Más recientes</ion-select-option>
+            <ion-select-option value="antiguas">Más antiguas</ion-select-option>
+            <ion-select-option value="alfabetico">Alfabético</ion-select-option>
+          </ion-select>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
   <!-- lista de cirugías -->
   <ion-list lines="none" *ngIf="cirugias.length > 0">
     <ion-item 

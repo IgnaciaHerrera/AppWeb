@@ -5,18 +5,20 @@
     </ion-buttons>
     <ion-title>Mis Alergias</ion-title>
     <ion-buttons slot="end">
-      <ion-button fill="clear">
+      <ion-button fill="clear" (click)="abrirModal()">
         <ion-icon name="add-outline"></ion-icon>
       </ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
+
 <ion-content [fullscreen]="true">
   <ion-header collapse="condense">
     <ion-toolbar>
       <ion-title size="large">Mis Alergias</ion-title>
     </ion-toolbar>
   </ion-header>
+
   <!-- título principal -->
   <ion-grid>
     <ion-row>
@@ -28,6 +30,28 @@
       </ion-col>
     </ion-row>
   </ion-grid>
+
+  <!-- filtro de orden -->
+  <ion-grid>
+    <ion-row>
+      <ion-col size="12" class="filter-col">
+        <ion-item lines="none">
+          <ion-label>Ordenar por</ion-label>
+          <ion-select 
+            interface="popover" 
+            [(ngModel)]="ordenSeleccionado" 
+            (ionChange)="aplicarOrden()"
+            [selectedText]="getOrdenLabel()">
+            <ion-select-option value="recientes">Más recientes</ion-select-option>
+            <ion-select-option value="antiguas">Más antiguas</ion-select-option>
+            <ion-select-option value="alfabetico-asc">Alfabético (A-Z)</ion-select-option>
+            <ion-select-option value="alfabetico-desc">Alfabético (Z-A)</ion-select-option>
+          </ion-select>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
   <!-- lista de alergias -->
   <ion-list lines="none" *ngIf="alergias.length > 0">
     <ion-item 
@@ -57,11 +81,11 @@
             </ion-icon>
           </ion-col>
         </ion-row>
+
         <!-- detalles expandidos -->
         <ion-row *ngIf="alergia.expanded" class="alergia-expanded-row">
           <ion-col size="12">
             <div class="detail-container">
-              <!-- Severidad -->
               <div class="detail-item" [ngClass]="'severity-' + alergia.grado">
                 <div class="detail-icon-wrapper">
                   <ion-icon [name]="getSeverityIcon(alergia.grado)" class="detail-icon"></ion-icon>
@@ -71,7 +95,6 @@
                   <p class="detail-value">{{ getSeverityDescription(alergia.grado) }}</p>
                 </div>
               </div>
-              <!-- Fecha de Registro -->
               <div class="detail-item">
                 <div class="detail-icon-wrapper date-icon">
                   <ion-icon name="calendar-outline" class="detail-icon"></ion-icon>
@@ -87,9 +110,102 @@
       </ion-grid>
     </ion-item>
   </ion-list>
+
   <!-- estado vacío -->
   <div *ngIf="alergias.length === 0" class="empty-state">
     <ion-icon name="shield-checkmark-outline" class="empty-icon"></ion-icon>
     <h3>No hay alergias registradas</h3>
   </div>
+
+  <!-- botón flotante -->
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button (click)="abrirModal()" class="fab-add">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
+  <!-- modal -->
+  <ion-modal [isOpen]="modalAbierto" (didDismiss)="cerrarModal()">
+    <ng-template>
+      <ion-header>
+        <ion-toolbar class="modal-header" style="--background: #fa5252; --color: white;">
+          <ion-title>Agregar nueva alergia</ion-title>
+          <ion-buttons slot="end">
+            <ion-button (click)="cerrarModal()">
+              <ion-icon name="close"></ion-icon>
+            </ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+
+      <ion-content class="ion-padding">
+        <div class="form-fields">
+          <!-- Nombre -->
+          <div class="field-group">
+            <label class="field-label">Nombre</label>
+            <div class="input-container">
+              <ion-icon name="medical-outline" class="input-icon"></ion-icon>
+              <ion-input [(ngModel)]="nuevaAlergia.nombre" placeholder="ej. Penicilina"></ion-input>
+            </div>
+          </div>
+
+          <!-- Descripción -->
+          <div class="field-group">
+            <label class="field-label">Descripción</label>
+            <div class="input-container">
+              <ion-icon name="document-text-outline" class="input-icon"></ion-icon>
+              <ion-textarea [(ngModel)]="nuevaAlergia.descripcion" placeholder="Describe la alergia"></ion-textarea>
+            </div>
+          </div>
+
+          <!-- Grado -->
+          <div class="field-group">
+            <label class="field-label">Grado</label>
+            <div class="input-container">
+              <ion-icon name="warning-outline" class="input-icon"></ion-icon>
+              <ion-select [(ngModel)]="nuevaAlergia.grado" placeholder="Selecciona">
+                <ion-select-option value="leve">Leve</ion-select-option>
+                <ion-select-option value="moderado">Moderado</ion-select-option>
+                <ion-select-option value="severo">Severo</ion-select-option>
+              </ion-select>
+            </div>
+          </div>
+
+          <!-- Fecha -->
+          <div class="field-group">
+            <label class="field-label">Fecha</label>
+            <div class="input-container" id="fecha-trigger" button="true">
+              <ion-icon name="calendar-outline" class="input-icon"></ion-icon>
+              <ion-input readonly="true" [value]="fechaFormateada" placeholder="Selecciona una fecha"></ion-input>
+              <ion-icon name="chevron-down-outline" slot="end" class="select-arrow"></ion-icon>
+            </div>
+
+            <ion-popover trigger="fecha-trigger" [showBackdrop]="true">
+              <ng-template>
+                <ion-datetime
+                  presentation="date"
+                  [(ngModel)]="nuevaAlergia.fechaRegistro"
+                  (ionChange)="onFechaChange()"
+                  [max]="fechaMaxima">
+                </ion-datetime>
+              </ng-template>
+            </ion-popover>
+          </div>
+        </div>
+      </ion-content>
+
+      <ion-footer>
+        <ion-toolbar>
+          <div class="modal-buttons">
+            <ion-button expand="block" class="btn-cancelar" (click)="cerrarModal()">
+              Cancelar
+            </ion-button>
+            <ion-button expand="block" class="btn-guardar" (click)="guardarAlergia()" [disabled]="!esFormularioValido()">
+              Guardar
+            </ion-button>
+          </div>
+        </ion-toolbar>
+      </ion-footer>
+    </ng-template>
+  </ion-modal>
 </ion-content>

@@ -18,7 +18,7 @@
       <ion-title size="large">Exámenes</ion-title>
     </ion-toolbar>
   </ion-header>
-
+  
   <!-- Título principal -->
   <ion-grid>
     <ion-row>
@@ -27,6 +27,50 @@
           <ion-icon name="document-text-outline"></ion-icon>
           Exámenes Médicos
         </h2>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <!-- Contadores por tipo -->
+  <div class="counter-row">
+    <div class="counter-card laboratorio">
+      <div class="counter-icon">
+        <ion-icon name="flask-outline"></ion-icon>
+      </div>
+      <div class="counter-info">
+        <span class="counter-number">{{ contadores.laboratorio }}</span>
+        <span class="counter-label">Laboratorio</span>
+      </div>
+    </div>
+    
+    <div class="counter-card imagenologia">
+      <div class="counter-icon">
+        <ion-icon name="scan-outline"></ion-icon>
+      </div>
+      <div class="counter-info">
+        <span class="counter-number">{{ contadores.imagenologia }}</span>
+        <span class="counter-label">Imagenología</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Filtro de orden -->
+  <ion-grid>
+    <ion-row>
+      <ion-col size="12" class="filter-col">
+        <ion-item lines="none">
+          <ion-label>Ordenar por</ion-label>
+          <ion-select 
+            interface="popover" 
+            [(ngModel)]="ordenSeleccionado" 
+            (ionChange)="aplicarOrden()"
+            [selectedText]="getOrdenLabel()">
+            <ion-select-option value="recientes">Más recientes</ion-select-option>
+            <ion-select-option value="antiguas">Más antiguas</ion-select-option>
+            <ion-select-option value="alfabetico-asc">Alfabético (A-Z)</ion-select-option>
+            <ion-select-option value="alfabetico-desc">Alfabético (Z-A)</ion-select-option>
+          </ion-select>
+        </ion-item>
       </ion-col>
     </ion-row>
   </ion-grid>
@@ -56,7 +100,6 @@
             </ion-icon>
           </ion-col>
         </ion-row>
-
         <!-- Detalles expandidos -->
         <ion-row *ngIf="examen.expanded" class="examen-expanded-row">
           <ion-col size="12">
@@ -92,7 +135,6 @@
                 </div>
               </div>
             </div>
-
             <!-- Resultados completos -->
             <div *ngIf="examen.resultados && examen.resultados.length > 0" class="results-section">
               <div class="results-header">
@@ -118,7 +160,6 @@
                 </div>
               </div>
             </div>
-
             <!-- Acciones simplificadas -->
             <div class="actions-section">
               <ion-button 
@@ -140,7 +181,7 @@
     <ion-icon name="document-text-outline" class="empty-icon"></ion-icon>
     <h3>No hay exámenes registrados</h3>
   </div>
-
+  
   <!-- Botón flotante para agregar examen -->
   <ion-fab slot="fixed" vertical="bottom" horizontal="end">
     <ion-fab-button (click)="abrirModal()">

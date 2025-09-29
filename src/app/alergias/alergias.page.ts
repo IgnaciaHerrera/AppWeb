@@ -4,7 +4,8 @@ import { FormsModule } from '@angular/forms';
 import { 
   IonContent, IonHeader, IonTitle, IonToolbar, IonButtons, IonBackButton,
   IonList, IonItem, IonLabel, IonIcon, IonGrid, IonRow, IonCol,
-  IonBadge, IonButton
+  IonBadge, IonButton, IonFab, IonFabButton, IonModal, IonInput,
+  IonFooter, IonTextarea, IonSelect, IonSelectOption, IonDatetime, IonPopover
 } from '@ionic/angular/standalone';
 
 interface Alergia {
@@ -12,9 +13,11 @@ interface Alergia {
   nombre: string;
   descripcion: string;
   grado: 'leve' | 'moderado' | 'severo';
-  fechaRegistro: string;
+  fechaRegistro: string; // Guardada en formato "5 de enero de 2024"
   expanded: boolean;
 }
+
+type TipoOrden = 'recientes' | 'antiguas' | 'alfabetico-asc' | 'alfabetico-desc';
 
 @Component({
   selector: 'app-alergias',
@@ -25,25 +28,133 @@ interface Alergia {
     CommonModule, FormsModule,
     IonContent, IonHeader, IonTitle, IonToolbar, IonButtons, IonBackButton,
     IonList, IonItem, IonLabel, IonIcon, IonGrid, IonRow, IonCol,
-    IonBadge, IonButton
+    IonBadge, IonButton, IonFab, IonFabButton, IonModal, IonInput,
+    IonFooter, IonTextarea, IonSelect, IonSelectOption, IonDatetime, IonPopover
   ]
 })
 export class AlergiasPage implements OnInit {
   
   alergias: Alergia[] = [];
+  modalAbierto = false;
+
+  fechaMaxima = new Date().toISOString();
+  fechaFormateada = '';
+
+  ordenSeleccionado: TipoOrden = 'recientes';
+
+  nuevaAlergia: Alergia = {
+    id: '',
+    nombre: '',
+    descripcion: '',
+    grado: 'leve',
+    fechaRegistro: new Date().toLocaleDateString('es-ES', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric'
+    }),
+    expanded: false
+  };
 
   constructor() { 
     this.inicializarDatosDePrueba();
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.actualizarFechaFormateada();
+    this.aplicarOrden();
+  }
+
+  abrirModal() {
+    this.modalAbierto = true;
+  }
+
+  cerrarModal() {
+    this.modalAbierto = false;
+  }
+
+  esFormularioValido(): boolean {
+    return this.nuevaAlergia.nombre.trim().length > 0 &&
+           this.nuevaAlergia.descripcion.trim().length > 0;
+  }
+
+  guardarAlergia() {
+    if (!this.esFormularioValido()) return;
+
+    const nueva = {
+      ...this.nuevaAlergia,
+      id: Date.now().toString(),
+      fechaRegistro: this.fechaFormateada // fecha ya formateada
+    };
+
+    this.alergias.unshift(nueva);
+    this.cerrarModal();
+
+    this.nuevaAlergia = {
+      id: '',
+      nombre: '',
+      descripcion: '',
+      grado: 'leve',
+      fechaRegistro: new Date().toLocaleDateString('es-ES', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+      }),
+      expanded: false
+    };
+    this.actualizarFechaFormateada();
+    this.aplicarOrden();
+  }
+
+  onFechaChange() {
+    this.actualizarFechaFormateada();
+  }
+
+  actualizarFechaFormateada() {
+    const fecha = new Date(this.nuevaAlergia.fechaRegistro);
+    this.fechaFormateada = fecha.toLocaleDateString('es-ES', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric'
+    });
+  }
+
+  aplicarOrden(): void {
+    switch (this.ordenSeleccionado) {
+      case 'recientes':
+        this.alergias.sort((a, b) => this.compararFechas(b.fechaRegistro, a.fechaRegistro));
+        break;
+      case 'antiguas':
+        this.alergias.sort((a, b) => this.compararFechas(a.fechaRegistro, b.fechaRegistro));
+        break;
+      case 'alfabetico-asc':
+        this.alergias.sort((a, b) => a.nombre.localeCompare(b.nombre, 'es', { sensitivity: 'base' }));
+        break;
+      case 'alfabetico-desc':
+        this.alergias.sort((a, b) => b.nombre.localeCompare(a.nombre, 'es', { sensitivity: 'base' }));
+        break;
+    }
+  }
+
+  compararFechas(fecha1: string, fecha2: string): number {
+    // Fecha viene como "5 de enero de 2024"
+    const parsear = (f: string): Date => {
+      return new Date(f); // navegador entiende bien formato español
+    };
+    return parsear(fecha1).getTime() - parsear(fecha2).getTime();
+  }
+
+  getOrdenLabel(): string {
+    const labels: Record<TipoOrden, string> = {
+      'recientes': 'Más recientes',
+      'antiguas': 'Más antiguas',
+      'alfabetico-asc': 'Alfabético (A-Z)',
+      'alfabetico-desc': 'Alfabético (Z-A)'
+    };
+    return labels[this.ordenSeleccionado];
+  }
 
   toggleAlergia(alergia: Alergia): void {
     alergia.expanded = !alergia.expanded;
-  }
-
-  agregarAlergia(): void {
-    console.log('Agregar nueva alergia');
   }
 
   getAlergiaGradeClass(alergia: Alergia): string {
@@ -77,7 +188,6 @@ export class AlergiasPage implements OnInit {
     }
   }
 
-  // Nuevo método para obtener el icono de severidad
   getSeverityIcon(grado: string): string {
     switch (grado) {
       case 'leve': return 'checkmark-circle-outline';
@@ -94,7 +204,7 @@ export class AlergiasPage implements OnInit {
         nombre: 'Penicilina',
         descripcion: 'Antibiótico betalactámico',
         grado: 'severo',
-        fechaRegistro: '15 Marzo 2023',
+        fechaRegistro: '15 de marzo de 2023',
         expanded: false
       },
       {
@@ -102,7 +212,7 @@ export class AlergiasPage implements OnInit {
         nombre: 'Frutos secos',
         descripcion: 'Nueces, almendras, avellanas',
         grado: 'moderado',
-        fechaRegistro: '22 Junio 2023',
+        fechaRegistro: '22 de junio de 2023',
         expanded: false
       },
       {
@@ -110,7 +220,7 @@ export class AlergiasPage implements OnInit {
         nombre: 'Polen de gramíneas',
         descripcion: 'Alergia estacional',
         grado: 'leve',
-        fechaRegistro: '10 Septiembre 2023',
+        fechaRegistro: '10 de septiembre de 2023',
         expanded: false
       },
       {
@@ -118,7 +228,7 @@ export class AlergiasPage implements OnInit {
         nombre: 'Látex',
         descripcion: 'Reacción al látex natural',
         grado: 'moderado',
-        fechaRegistro: '05 Enero 2024',
+        fechaRegistro: '5 de enero de 2024',
         expanded: false
       }
     ];

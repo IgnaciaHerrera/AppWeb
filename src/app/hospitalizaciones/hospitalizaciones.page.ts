@@ -4,19 +4,21 @@ import { FormsModule } from '@angular/forms';
 import { 
   IonContent, IonHeader, IonTitle, IonToolbar, IonButtons, IonBackButton,
   IonList, IonItem, IonLabel, IonIcon, IonGrid, IonRow, IonCol,
-  IonBadge
+  IonBadge, IonSelect, IonSelectOption
 } from '@ionic/angular/standalone';
 
 interface Hospitalizacion {
   id: string;
   motivo: string;
-  fechaIngreso: string;
+  fechaIngreso: string;   // formato ISO "YYYY-MM-DD"
   fechaAlta?: string;
   medico: string;
   hospital?: string;
   descripcion?: string;
   expanded: boolean;
 }
+
+type TipoOrden = 'recientes' | 'antiguas' | 'alfabetico-asc' | 'alfabetico-desc';
 
 @Component({
   selector: 'app-hospitalizaciones',
@@ -27,25 +29,24 @@ interface Hospitalizacion {
     CommonModule, FormsModule,
     IonContent, IonHeader, IonTitle, IonToolbar, IonButtons, IonBackButton,
     IonList, IonItem, IonLabel, IonIcon, IonGrid, IonRow, IonCol,
-    IonBadge
+    IonBadge, IonSelect, IonSelectOption
   ]
 })
 export class HospitalizacionesPage implements OnInit {
 
   hospitalizaciones: Hospitalizacion[] = [];
+  ordenSeleccionado: TipoOrden = 'recientes';
 
   constructor() {
     this.inicializarDatosDePrueba();
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.aplicarOrden();
+  }
 
   toggleHospitalizacion(hosp: Hospitalizacion): void {
     hosp.expanded = !hosp.expanded;
-  }
-
-  agregarHospitalizacion(): void {
-    console.log('Agregar nueva hospitalización');
   }
 
   getStatusClass(hosp: Hospitalizacion): string {
@@ -62,11 +63,47 @@ export class HospitalizacionesPage implements OnInit {
 
   formatFecha(fecha: string): string {
     const date = new Date(fecha);
+    // Formato: "5 de enero de 2024"
     return date.toLocaleDateString('es-ES', {
-      day: '2-digit',
+      day: 'numeric',
       month: 'long',
       year: 'numeric'
     });
+  }
+
+  aplicarOrden(): void {
+    switch (this.ordenSeleccionado) {
+      case 'recientes':
+        this.hospitalizaciones.sort(
+          (a, b) => new Date(b.fechaIngreso).getTime() - new Date(a.fechaIngreso).getTime()
+        );
+        break;
+      case 'antiguas':
+        this.hospitalizaciones.sort(
+          (a, b) => new Date(a.fechaIngreso).getTime() - new Date(b.fechaIngreso).getTime()
+        );
+        break;
+      case 'alfabetico-asc':
+        this.hospitalizaciones.sort(
+          (a, b) => a.motivo.localeCompare(b.motivo, 'es', { sensitivity: 'base' })
+        );
+        break;
+      case 'alfabetico-desc':
+        this.hospitalizaciones.sort(
+          (a, b) => b.motivo.localeCompare(a.motivo, 'es', { sensitivity: 'base' })
+        );
+        break;
+    }
+  }
+
+  getOrdenLabel(): string {
+    const labels: Record<TipoOrden, string> = {
+      'recientes': 'Más recientes',
+      'antiguas': 'Más antiguas',
+      'alfabetico-asc': 'Alfabético (A-Z)',
+      'alfabetico-desc': 'Alfabético (Z-A)'
+    };
+    return labels[this.ordenSeleccionado];
   }
 
   private inicializarDatosDePrueba(): void {

@@ -6,7 +6,6 @@
     <ion-title>Mi Historial</ion-title>
   </ion-toolbar>
 </ion-header>
-
 <ion-content [fullscreen]="true">
   <ion-header collapse="condense">
     <ion-toolbar>
@@ -25,7 +24,7 @@
       </ion-col>
     </ion-row>
   </ion-grid>
-
+  
   <!-- filtro de orden -->
   <ion-grid>
     <ion-row>
@@ -39,12 +38,14 @@
             [selectedText]="getOrdenLabel()">
             <ion-select-option value="recientes">Más recientes</ion-select-option>
             <ion-select-option value="antiguas">Más antiguas</ion-select-option>
+            <ion-select-option value="alfabetico-asc">Alfabético (A-Z)</ion-select-option>
+            <ion-select-option value="alfabetico-desc">Alfabético (Z-A)</ion-select-option>
           </ion-select>
         </ion-item>
       </ion-col>
     </ion-row>
   </ion-grid>
-
+  
   <!-- lista de consultas -->
   <ion-list lines="none" *ngIf="consultas.length > 0">
     <ion-item 

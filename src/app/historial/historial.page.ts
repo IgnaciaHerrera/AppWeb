@@ -19,6 +19,8 @@ interface Consulta {
   expanded: boolean;
 }
 
+type TipoOrden = 'recientes' | 'antiguas' | 'alfabetico-asc' | 'alfabetico-desc';
+
 @Component({
   selector: 'app-historial',
   templateUrl: './historial.page.html',
@@ -32,16 +34,15 @@ interface Consulta {
   ]
 })
 export class HistorialPage implements OnInit {
-
   consultas: Consulta[] = [];
-  ordenSeleccionado: 'recientes' | 'antiguas' = 'recientes'; // valor por defecto
+  ordenSeleccionado: TipoOrden = 'recientes';
 
   constructor() {
     this.inicializarDatosDePrueba();
   }
 
   ngOnInit() {
-    this.aplicarOrden(); // ordenar al cargar
+    this.aplicarOrden();
   }
 
   toggleConsulta(consulta: Consulta): void {
@@ -74,17 +75,42 @@ export class HistorialPage implements OnInit {
   }
 
   aplicarOrden(): void {
-    if (this.ordenSeleccionado === 'recientes') {
-      // Orden descendente (más nuevas primero)
-      this.consultas.sort((a, b) => new Date(b.fecha).getTime() - new Date(a.fecha).getTime());
-    } else {
-      // Orden ascendente (más antiguas primero)
-      this.consultas.sort((a, b) => new Date(a.fecha).getTime() - new Date(b.fecha).getTime());
+    switch (this.ordenSeleccionado) {
+      case 'recientes':
+        // Orden descendente por fecha (más nuevas primero)
+        this.consultas.sort((a, b) => new Date(b.fecha).getTime() - new Date(a.fecha).getTime());
+        break;
+        
+      case 'antiguas':
+        // Orden ascendente por fecha (más antiguas primero)
+        this.consultas.sort((a, b) => new Date(a.fecha).getTime() - new Date(b.fecha).getTime());
+        break;
+        
+      case 'alfabetico-asc':
+        // Orden alfabético ascendente por tipo de consulta (A-Z)
+        this.consultas.sort((a, b) => a.tipoConsulta.localeCompare(b.tipoConsulta, 'es', { sensitivity: 'base' }));
+        break;
+        
+      case 'alfabetico-desc':
+        // Orden alfabético descendente por tipo de consulta (Z-A)
+        this.consultas.sort((a, b) => b.tipoConsulta.localeCompare(a.tipoConsulta, 'es', { sensitivity: 'base' }));
+        break;
+        
+      default:
+        // Por defecto, más recientes
+        this.consultas.sort((a, b) => new Date(b.fecha).getTime() - new Date(a.fecha).getTime());
     }
   }
 
   getOrdenLabel(): string {
-    return this.ordenSeleccionado === 'recientes' ? 'Más recientes' : 'Más antiguas';
+    const labels: Record<TipoOrden, string> = {
+      'recientes': 'Más recientes',
+      'antiguas': 'Más antiguas',
+      'alfabetico-asc': 'Alfabético (A-Z)',
+      'alfabetico-desc': 'Alfabético (Z-A)'
+    };
+    
+    return labels[this.ordenSeleccionado];
   }
 
   private inicializarDatosDePrueba(): void {
