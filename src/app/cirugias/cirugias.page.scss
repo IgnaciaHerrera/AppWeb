@@ -288,3 +288,190 @@ ion-badge.badge-finalizada {
   --background: #9b59b6;
   --color: white;
 }
+
+/* Modal */
+:root {
+  --modal-bg: #ffffff;
+  --modal-border: #ccc;
+  --modal-border-hover: #999;
+  --modal-text: #2c3e50;
+  --modal-placeholder: #888;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --modal-bg: #2d2d2d;
+    --modal-border: #555;
+    --modal-border-hover: #777;
+    --modal-text: #f1f1f1;
+    --modal-placeholder: #aaa;
+  }
+}
+
+.modal-header {
+  --background: #9b59b6 !important; 
+  --color: white !important;
+
+  ion-title {
+    font-weight: 600 !important;
+    color: white !important;
+  }
+
+  ion-button {
+    --color: white !important;
+  }
+}
+
+/* Formulario del modal */
+.form-fields {
+  margin-top: 24px !important;
+  padding: 0 4px !important;
+}
+
+.field-group {
+  margin-bottom: 24px !important;
+  position: relative !important;
+  animation: slideInUp 0.5s ease-out !important;
+  animation-fill-mode: both !important;
+}
+
+.field-label {
+  display: block !important;
+  font-size: 0.8rem !important;
+  font-weight: 600 !important;
+  margin-bottom: 10px !important;
+  color: var(--ion-text-color) !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.5px !important;
+}
+
+/* Contenedor de inputs */
+.input-container {
+  display: flex !important;
+  align-items: center !important;
+  background: var(--ion-color-light) !important;
+  border: 2px solid var(--ion-color-light-shade) !important;
+  border-radius: 12px !important;
+  padding: 0 16px !important;
+  height: 56px !important; 
+  transition: all 0.3s ease !important;
+  position: relative !important;
+
+  &:hover {
+    border-color: var(--ion-color-medium) !important;
+  }
+
+  &:focus-within {
+    border-color: #9b59b6 !important;
+    box-shadow: 0 0 0 3px rgba(155, 89, 182, 0.2) !important;
+  }
+
+  ion-input,
+  ion-select,
+  ion-textarea {
+    flex: 1 !important;
+    --padding-start: 8px !important;
+    --padding-end: 0 !important;
+    --background: transparent !important;
+    --color: var(--ion-text-color) !important;
+    --placeholder-color: var(--ion-color-medium) !important;
+    --placeholder-opacity: 1 !important;
+    font-size: 1rem !important;
+    font-weight: 500 !important;
+    height: 100% !important;
+  }
+
+  ion-textarea {
+    display: flex !important;
+    align-items: center !important; 
+    resize: none !important;
+  }
+}
+
+/* Iconos de input */
+.input-icon {
+  font-size: 22px !important;
+  margin-right: 12px !important;
+  color: #9b59b6 !important;
+  transition: all 0.3s ease !important;
+  flex-shrink: 0 !important;
+}
+
+.input-container:focus-within .input-icon {
+  color: #8e44ad !important;
+  transform: scale(1.1) !important;
+}
+
+/* Estados de validacion */
+.field-group.error .input-container {
+  border-color: #e74c3c !important;
+  box-shadow: 0 0 0 3px rgba(231, 76, 60, 0.15) !important;
+}
+
+.field-group.success .input-container {
+  border-color: #27ae60 !important;
+  box-shadow: 0 0 0 3px rgba(39, 174, 96, 0.15) !important;
+}
+
+.field-group.error .input-icon {
+  color: #e74c3c !important;
+}
+
+.field-group.success .input-icon {
+  color: #27ae60 !important;
+}
+
+.error-message {
+  color: #e74c3c !important;
+  font-size: 0.85rem !important;
+  margin-top: 6px !important;
+  margin-left: 16px !important;
+  font-weight: 500 !important;
+  opacity: 0 !important;
+  transform: translateY(-10px) !important;
+  transition: all 0.3s ease !important;
+}
+
+.field-group.error .error-message {
+  opacity: 1 !important;
+  transform: translateY(0) !important;
+}
+
+.modal-buttons {
+  display: flex !important;
+  width: 100% !important;
+  gap: 12px !important;
+  padding: 16px !important; 
+}
+
+.modal-buttons ion-button {
+  flex: 1 !important;
+  font-weight: 600 !important;
+}
+
+.btn-cancelar {
+  --background: var(--ion-color-medium) !important;
+  --color: white !important;
+}
+
+.btn-guardar {
+  --background: #9b59b6 !important;
+  --color: white !important;
+}
+
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.field-group:nth-child(1) { animation-delay: 0.1s !important; }
+.field-group:nth-child(2) { animation-delay: 0.2s !important; }
+.field-group:nth-child(3) { animation-delay: 0.3s !important; }
+.field-group:nth-child(4) { animation-delay: 0.4s !important; }
+.field-group:nth-child(5) { animation-delay: 0.5s !important; }

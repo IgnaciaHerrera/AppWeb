@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { 
+import {
   IonContent, IonHeader, IonTitle, IonToolbar, IonButtons, IonBackButton,
   IonList, IonItem, IonLabel, IonIcon, IonGrid, IonRow, IonCol,
-  IonBadge, IonSelect, IonSelectOption, IonFab, IonFabButton 
+  IonBadge, IonSelect, IonSelectOption, IonFab, IonFabButton,
+  IonModal, IonButton, IonFooter, IonDatetime, IonPopover,
+  IonInput, IonToggle, ToastController
 } from '@ionic/angular/standalone';
 
 interface Hospitalizacion {
@@ -14,7 +16,6 @@ interface Hospitalizacion {
   fechaAlta?: string;
   medico: string;
   hospital?: string;
-  descripcion?: string;
   expanded: boolean;
 }
 
@@ -29,15 +30,29 @@ type TipoOrden = 'recientes' | 'antiguas' | 'alfabetico-asc' | 'alfabetico-desc'
     CommonModule, FormsModule,
     IonContent, IonHeader, IonTitle, IonToolbar, IonButtons, IonBackButton,
     IonList, IonItem, IonLabel, IonIcon, IonGrid, IonRow, IonCol,
-    IonBadge, IonSelect, IonSelectOption, IonFab, IonFabButton 
+    IonBadge, IonSelect, IonSelectOption, IonFab, IonFabButton,
+    IonModal, IonButton, IonFooter, IonDatetime, IonPopover, IonInput, IonToggle
   ]
 })
 export class HospitalizacionesPage implements OnInit {
-
   hospitalizaciones: Hospitalizacion[] = [];
   ordenSeleccionado: TipoOrden = 'recientes';
+  
+  // --- Modal ---
+  modalAbierto = false;
+  fechaIngresoFormateada = '';
+  fechaAltaFormateada = '';
+  finalizada = false;
+  
+  nuevaHosp: Partial<Hospitalizacion> = {
+    motivo: '',
+    medico: '',
+    hospital: '',
+    fechaIngreso: '',
+    fechaAlta: ''
+  };
 
-  constructor() {
+  constructor(private toastController: ToastController) {
     this.inicializarDatosDePrueba();
   }
 
@@ -45,10 +60,176 @@ export class HospitalizacionesPage implements OnInit {
     this.aplicarOrden();
   }
 
+  // --- Abrir/Cerrar Modal ---
+  abrirModal() {
+    this.modalAbierto = true;
+  }
+
+  cerrarModal() {
+    this.modalAbierto = false;
+    this.nuevaHosp = { motivo: '', medico: '', hospital: '', fechaIngreso: '', fechaAlta: '' };
+    this.fechaIngresoFormateada = '';
+    this.fechaAltaFormateada = '';
+    this.finalizada = false;
+  }
+
+  // --- Validar formulario ---
+  esFormularioValido(): boolean {
+    return !!(
+      this.nuevaHosp.motivo?.trim() &&
+      this.nuevaHosp.medico?.trim() &&
+      this.nuevaHosp.hospital?.trim() &&
+      this.nuevaHosp.fechaIngreso
+    );
+  }
+
+  // --- Manejo de Fechas ---
+  onFechaIngresoChange(event: any) {
+    if (event?.detail?.value) {
+      // Guardar la fecha ISO completa
+      this.nuevaHosp.fechaIngreso = event.detail.value;
+      
+      // Extraer año, mes y día del string ISO
+      const fechaParts = event.detail.value.split('T')[0].split('-');
+      const año = parseInt(fechaParts[0]);
+      const mes = parseInt(fechaParts[1]) - 1;
+      const dia = parseInt(fechaParts[2]);
+      
+      // Crear fecha en hora local
+      const fechaObj = new Date(año, mes, dia);
+      
+      this.fechaIngresoFormateada = fechaObj.toLocaleDateString('es-ES', {
+        day: 'numeric',
+        month: 'long',
+        year: 'numeric'
+      });
+
+      // Si ya hay una fecha de alta seleccionada, verificar que sea posterior
+      if (this.nuevaHosp.fechaAlta) {
+        const fechaIngreso = new Date(año, mes, dia);
+        const fechaAltaParts = this.nuevaHosp.fechaAlta.split('T')[0].split('-');
+        const fechaAlta = new Date(
+          parseInt(fechaAltaParts[0]), 
+          parseInt(fechaAltaParts[1]) - 1, 
+          parseInt(fechaAltaParts[2])
+        );
+
+        if (fechaAlta < fechaIngreso) {
+          this.nuevaHosp.fechaAlta = '';
+          this.fechaAltaFormateada = '';
+          this.mostrarToast('La fecha de alta no puede ser anterior a la fecha de ingreso', 'warning');
+        }
+      }
+    }
+  }
+
+  onFechaAltaChange(event: any) {
+    if (event?.detail?.value) {
+      // Guardar la fecha ISO completa
+      this.nuevaHosp.fechaAlta = event.detail.value;
+      
+      // Extraer año, mes y día del string ISO
+      const fechaParts = event.detail.value.split('T')[0].split('-');
+      const año = parseInt(fechaParts[0]);
+      const mes = parseInt(fechaParts[1]) - 1;
+      const dia = parseInt(fechaParts[2]);
+      
+      // Crear fecha en hora local
+      const fechaObj = new Date(año, mes, dia);
+
+      // Validar que la fecha de alta sea posterior o igual a la de ingreso
+      if (this.nuevaHosp.fechaIngreso) {
+        const fechaIngresoParts = this.nuevaHosp.fechaIngreso.split('T')[0].split('-');
+        const fechaIngreso = new Date(
+          parseInt(fechaIngresoParts[0]), 
+          parseInt(fechaIngresoParts[1]) - 1, 
+          parseInt(fechaIngresoParts[2])
+        );
+
+        if (fechaObj < fechaIngreso) {
+          this.nuevaHosp.fechaAlta = '';
+          this.fechaAltaFormateada = '';
+          this.mostrarToast('La fecha de alta no puede ser anterior a la fecha de ingreso', 'warning');
+          return;
+        }
+      }
+      
+      this.fechaAltaFormateada = fechaObj.toLocaleDateString('es-ES', {
+        day: 'numeric',
+        month: 'long',
+        year: 'numeric'
+      });
+    }
+  }
+
+  // --- Guardar Hospitalización ---
+  async guardarHospitalizacion() {
+    if (!this.esFormularioValido()) {
+      this.mostrarToast('Completa los campos requeridos', 'warning');
+      return;
+    }
+
+    // Validación adicional si marcó como finalizada
+    if (this.finalizada && !this.nuevaHosp.fechaAlta) {
+      this.mostrarToast('Debes ingresar la fecha de alta si la hospitalización está finalizada', 'warning');
+      return;
+    }
+
+    // Validación final de fechas
+    if (this.finalizada && this.nuevaHosp.fechaAlta && this.nuevaHosp.fechaIngreso) {
+      const fechaIngresoParts = this.nuevaHosp.fechaIngreso.split('T')[0].split('-');
+      const fechaIngreso = new Date(
+        parseInt(fechaIngresoParts[0]), 
+        parseInt(fechaIngresoParts[1]) - 1, 
+        parseInt(fechaIngresoParts[2])
+      );
+
+      const fechaAltaParts = this.nuevaHosp.fechaAlta.split('T')[0].split('-');
+      const fechaAlta = new Date(
+        parseInt(fechaAltaParts[0]), 
+        parseInt(fechaAltaParts[1]) - 1, 
+        parseInt(fechaAltaParts[2])
+      );
+
+      if (fechaAlta < fechaIngreso) {
+        this.mostrarToast('La fecha de alta no puede ser anterior a la fecha de ingreso', 'warning');
+        return;
+      }
+    }
+
+    const nueva: Hospitalizacion = {
+      id: Date.now().toString(),
+      motivo: this.nuevaHosp.motivo!.trim(),
+      medico: this.nuevaHosp.medico!.trim(),
+      hospital: this.nuevaHosp.hospital!.trim(),
+      fechaIngreso: this.nuevaHosp.fechaIngreso!.split('T')[0],
+      fechaAlta: this.finalizada && this.nuevaHosp.fechaAlta ? this.nuevaHosp.fechaAlta.split('T')[0] : undefined,
+      expanded: false
+    };
+
+    this.hospitalizaciones.unshift(nueva);
+    this.aplicarOrden();
+    this.cerrarModal();
+    this.mostrarToast('Hospitalización registrada correctamente', 'success');
+  }
+
+  // --- Toast ---
+  async mostrarToast(message: string, color: string = 'primary') {
+    const toast = await this.toastController.create({
+      message,
+      duration: 2500,
+      position: 'top',
+      color
+    });
+    await toast.present();
+  }
+
+  // --- Expansión ---
   toggleHospitalizacion(hosp: Hospitalizacion): void {
     hosp.expanded = !hosp.expanded;
   }
 
+  // --- Clases y Estados ---
   getStatusClass(hosp: Hospitalizacion): string {
     return hosp.fechaAlta ? 'status-finalizada' : 'status-activa';
   }
@@ -61,9 +242,19 @@ export class HospitalizacionesPage implements OnInit {
     return hosp.fechaAlta ? 'Finalizada' : 'En curso';
   }
 
+  // --- Fecha formato ---
   formatFecha(fecha: string): string {
-    const date = new Date(fecha);
-    // Formato: "5 de enero de 2024"
+    if (!fecha) return '';
+    
+    // Extraer año, mes y día del string
+    const fechaParts = fecha.split('-');
+    const año = parseInt(fechaParts[0]);
+    const mes = parseInt(fechaParts[1]) - 1;
+    const dia = parseInt(fechaParts[2]);
+    
+    // Crear fecha en hora local
+    const date = new Date(año, mes, dia);
+    
     return date.toLocaleDateString('es-ES', {
       day: 'numeric',
       month: 'long',
@@ -71,17 +262,24 @@ export class HospitalizacionesPage implements OnInit {
     });
   }
 
+  // --- Ordenamiento ---
   aplicarOrden(): void {
     switch (this.ordenSeleccionado) {
       case 'recientes':
-        this.hospitalizaciones.sort(
-          (a, b) => new Date(b.fechaIngreso).getTime() - new Date(a.fechaIngreso).getTime()
-        );
+        this.hospitalizaciones.sort((a, b) => {
+          const fechaA = a.fechaIngreso.split('-').map(n => parseInt(n));
+          const fechaB = b.fechaIngreso.split('-').map(n => parseInt(n));
+          return new Date(fechaB[0], fechaB[1] - 1, fechaB[2]).getTime() - 
+                 new Date(fechaA[0], fechaA[1] - 1, fechaA[2]).getTime();
+        });
         break;
       case 'antiguas':
-        this.hospitalizaciones.sort(
-          (a, b) => new Date(a.fechaIngreso).getTime() - new Date(b.fechaIngreso).getTime()
-        );
+        this.hospitalizaciones.sort((a, b) => {
+          const fechaA = a.fechaIngreso.split('-').map(n => parseInt(n));
+          const fechaB = b.fechaIngreso.split('-').map(n => parseInt(n));
+          return new Date(fechaA[0], fechaA[1] - 1, fechaA[2]).getTime() - 
+                 new Date(fechaB[0], fechaB[1] - 1, fechaB[2]).getTime();
+        });
         break;
       case 'alfabetico-asc':
         this.hospitalizaciones.sort(
@@ -106,6 +304,7 @@ export class HospitalizacionesPage implements OnInit {
     return labels[this.ordenSeleccionado];
   }
 
+  // --- Datos de prueba ---
   private inicializarDatosDePrueba(): void {
     this.hospitalizaciones = [
       {
@@ -115,36 +314,14 @@ export class HospitalizacionesPage implements OnInit {
         fechaAlta: '2024-07-18',
         medico: 'Dr. Carlos Mendoza',
         hospital: 'Hospital Central',
-        descripcion: 'Hospitalización por complicación respiratoria con tratamiento antibiótico intensivo',
         expanded: false
       },
       {
         id: '2',
-        motivo: 'Observación postquirúrgica',
-        fechaIngreso: '2024-08-22',
-        fechaAlta: '2024-08-25',
-        medico: 'Dra. Ana Vargas',
-        hospital: 'Clínica San Rafael',
-        descripcion: 'Recuperación después de cirugía laparoscópica, evolución favorable',
-        expanded: false
-      },
-      {
-        id: '3',
         motivo: 'Control diabético',
         fechaIngreso: '2024-09-15',
         medico: 'Dr. Roberto Silva',
         hospital: 'Hospital Universitario',
-        descripcion: 'Ajuste de tratamiento y monitoreo glucémico intensivo',
-        expanded: false
-      },
-      {
-        id: '4',
-        motivo: 'Fractura de cadera',
-        fechaIngreso: '2023-12-03',
-        fechaAlta: '2023-12-15',
-        medico: 'Dr. Patricia López',
-        hospital: 'Hospital Traumatológico',
-        descripcion: 'Cirugía reconstructiva y rehabilitación inicial',
         expanded: false
       }
     ];

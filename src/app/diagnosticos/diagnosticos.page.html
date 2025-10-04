@@ -1,7 +1,7 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-back-button defaultHref="/tabs/tab5" text="Volver"></ion-back-button>
+      <ion-back-button defaultHref="/tabs/tab5"></ion-back-button>
     </ion-buttons>
     <ion-title>Mis Diagnósticos</ion-title>
   </ion-toolbar>
@@ -128,8 +128,122 @@
 
   <!-- botón flotante -->
   <ion-fab vertical="bottom" horizontal="end" slot="fixed">
-    <ion-fab-button class="fab-add">
+    <ion-fab-button class="fab-add" (click)="abrirModal()">
       <ion-icon name="add"></ion-icon>
     </ion-fab-button>
   </ion-fab>
+
+  <!-- Modal Diagnóstico -->
+  <ion-modal [isOpen]="modalAbierto" (didDismiss)="cerrarModal()">
+    <ng-template>
+      <ion-header>
+        <ion-toolbar class="modal-header" style="--background: #e91e63; --color: white;">
+          <ion-title>Registrar diagnóstico</ion-title>
+          <ion-buttons slot="end">
+            <ion-button (click)="cerrarModal()">
+              <ion-icon name="close"></ion-icon>
+            </ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+
+      <ion-content class="ion-padding">
+        <div class="form-fields">
+          <!-- Nombre del diagnóstico -->
+          <div class="field-group">
+            <label class="field-label">Nombre del diagnóstico</label>
+            <div class="input-container">
+              <ion-icon name="medical-outline" class="input-icon"></ion-icon>
+              <ion-input
+                [(ngModel)]="nuevoDiag.enfermedad"
+                placeholder="Ej. Hipertensión arterial">
+              </ion-input>
+            </div>
+          </div>
+
+          <!-- Severidad -->
+          <div class="field-group">
+            <label class="field-label">Severidad</label>
+            <div class="input-container">
+              <ion-icon name="pulse-outline" class="input-icon"></ion-icon>
+              <ion-select [(ngModel)]="nuevoDiag.severidad" placeholder="Selecciona">
+                <ion-select-option value="leve">Leve</ion-select-option>
+                <ion-select-option value="moderado">Moderado</ion-select-option>
+                <ion-select-option value="severo">Severo</ion-select-option>
+                <ion-select-option value="critico">Crítico</ion-select-option>
+              </ion-select>
+            </div>
+          </div>
+
+          <!-- Fase -->
+          <div class="field-group">
+            <label class="field-label">Fase</label>
+            <div class="input-container">
+              <ion-icon name="time-outline" class="input-icon"></ion-icon>
+              <ion-select [(ngModel)]="nuevoDiag.fase" placeholder="Selecciona">
+                <ion-select-option value="inicial">Inicial</ion-select-option>
+                <ion-select-option value="progreso">En progreso</ion-select-option>
+                <ion-select-option value="estable">Estable</ion-select-option>
+                <ion-select-option value="remision">En remisión</ion-select-option>
+              </ion-select>
+            </div>
+          </div>
+
+          <!-- Médico -->
+          <div class="field-group">
+            <label class="field-label">Médico responsable</label>
+            <div class="input-container">
+              <ion-icon name="person-outline" class="input-icon"></ion-icon>
+              <ion-input
+                [(ngModel)]="nuevoDiag.medico"
+                placeholder="Ej. Dra. Carolina Soto">
+              </ion-input>
+            </div>
+          </div>
+
+          <!-- Fecha -->
+          <div class="field-group">
+            <label class="field-label">Fecha del diagnóstico</label>
+            <div class="input-container" id="fecha-trigger" button="true">
+              <ion-icon name="calendar-outline" class="input-icon"></ion-icon>
+              <ion-input
+                readonly="true"
+                [value]="fechaFormateada"
+                placeholder="Selecciona una fecha">
+              </ion-input>
+              <ion-icon name="chevron-down-outline" slot="end" class="select-arrow"></ion-icon>
+            </div>
+
+            <ion-popover trigger="fecha-trigger" [showBackdrop]="true">
+              <ng-template>
+                <ion-datetime
+                  presentation="date"
+                  (ionChange)="onFechaChange($event)"
+                  [(ngModel)]="nuevoDiag.fechaDiagnostico"
+                  [max]="fechaMaxima">
+                </ion-datetime>
+              </ng-template>
+            </ion-popover>
+          </div>
+        </div>
+      </ion-content>
+
+      <ion-footer>
+        <ion-toolbar>
+          <div class="modal-buttons">
+            <ion-button expand="block" class="btn-cancelar" (click)="cerrarModal()">
+              Cancelar
+            </ion-button>
+            <ion-button
+              expand="block"
+              class="btn-guardar"
+              (click)="guardarDiagnostico()"
+              [disabled]="!esFormularioValido()">
+              Guardar
+            </ion-button>
+          </div>
+        </ion-toolbar>
+      </ion-footer>
+    </ng-template>
+  </ion-modal>
 </ion-content>

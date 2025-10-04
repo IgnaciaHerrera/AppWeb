@@ -296,3 +296,145 @@ ion-badge.badge-finalizada {
   --background: #20c997;
   --color: white;
 }
+
+/* Modal */
+:root {
+  --modal-bg: #ffffff;
+  --modal-border: #ccc;
+  --modal-border-hover: #999;
+  --modal-text: #2c3e50;
+  --modal-placeholder: #888;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --modal-bg: #2d2d2d;
+    --modal-border: #555;
+    --modal-border-hover: #777;
+    --modal-text: #f1f1f1;
+    --modal-placeholder: #aaa;
+  }
+}
+
+.modal-header {
+  --background: #20c997!important; 
+  --color: white !important;
+
+  ion-title {
+    font-weight: 600 !important;
+    color: white !important;
+  }
+
+  ion-button {
+    --color: white !important;
+  }
+}
+
+/* Formulario del modal */
+.form-fields {
+  margin-top: 24px !important;
+  padding: 0 4px !important;
+}
+
+.field-group {
+  margin-bottom: 24px !important;
+  position: relative !important;
+  animation: slideInUp 0.5s ease-out !important;
+  animation-fill-mode: both !important;
+}
+
+.field-label {
+  display: block !important;
+  font-size: 0.8rem !important;
+  font-weight: 600 !important;
+  margin-bottom: 10px !important;
+  color: var(--ion-text-color) !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.5px !important;
+}
+
+/* Contenedor de inputs */
+.input-container {
+  display: flex !important;
+  align-items: center !important;
+  background: var(--ion-color-light) !important;
+  border: 2px solid var(--ion-color-light-shade) !important;
+  border-radius: 12px !important;
+  padding: 0 16px !important;
+  height: 56px !important; 
+  transition: all 0.3s ease !important;
+  position: relative !important;
+
+  &:hover {
+    border-color: var(--ion-color-medium) !important;
+  }
+
+  &:focus-within {
+    border-color: #20c997 !important;
+    box-shadow: 0 0 0 3px rgba(34, 207, 95, 0.25) !important;
+  }
+
+  ion-input {
+    flex: 1 !important;
+    --padding-start: 8px !important;
+    --background: transparent !important;
+    --color: var(--ion-text-color) !important;
+    font-size: 1rem !important;
+    font-weight: 500 !important;
+  }
+}
+
+/* Iconos */
+.input-icon {
+  font-size: 22px !important;
+  margin-right: 12px !important;
+  color: #20c997 !important;
+  transition: all 0.3s ease !important;
+  flex-shrink: 0 !important;
+}
+
+.input-container:focus-within .input-icon {
+  color: #20c997 !important;
+  transform: scale(1.1) !important;
+}
+
+/* Botones del modal */
+.modal-buttons {
+  display: flex !important;
+  width: 100% !important;
+  gap: 12px !important;
+  padding: 16px !important; 
+}
+
+.modal-buttons ion-button {
+  flex: 1 !important;
+  font-weight: 600 !important;
+}
+
+.btn-cancelar {
+  --background: var(--ion-color-medium) !important;
+  --color: white !important;
+}
+
+.btn-guardar {
+  --background: #20c997 !important;
+  --color: white !important;
+}
+
+/* Animación */
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.field-group:nth-child(1) { animation-delay: 0.1s !important; }
+.field-group:nth-child(2) { animation-delay: 0.2s !important; }
+.field-group:nth-child(3) { animation-delay: 0.3s !important; }
+.field-group:nth-child(4) { animation-delay: 0.4s !important; }
+.field-group:nth-child(5) { animation-delay: 0.5s !important; }

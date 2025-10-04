@@ -1,7 +1,7 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-back-button defaultHref="/tabs/tab5" text="Volver"></ion-back-button>
+      <ion-back-button defaultHref="/tabs/tab5"></ion-back-button>
     </ion-buttons>
     <ion-title>Mi Historial</ion-title>
   </ion-toolbar>
@@ -149,8 +149,106 @@
 
   <!-- botón flotante -->
   <ion-fab vertical="bottom" horizontal="end" slot="fixed">
-    <ion-fab-button class="fab-add">
+    <ion-fab-button class="fab-add" (click)="abrirModal()">
       <ion-icon name="add"></ion-icon>
     </ion-fab-button>
   </ion-fab>
+
+  <!-- Modal Consulta -->
+  <ion-modal [isOpen]="modalAbierto" (didDismiss)="cerrarModal()">
+    <ng-template>
+      <ion-header>
+        <ion-toolbar class="modal-header" style="--background: #20c997; --color: white;">
+          <ion-title>Registrar Consulta</ion-title>
+          <ion-buttons slot="end">
+            <ion-button (click)="cerrarModal()">
+              <ion-icon name="close"></ion-icon>
+            </ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content class="ion-padding">
+        <div class="form-fields">
+          <!-- Tipo de consulta -->
+          <div class="field-group">
+            <label class="field-label">Tipo de Consulta</label>
+            <div class="input-container">
+              <ion-icon name="document-text-outline" class="input-icon"></ion-icon>
+              <ion-input [(ngModel)]="nuevaConsulta.tipoConsulta" placeholder="Ej. Control general"></ion-input>
+            </div>
+          </div>
+          <!-- Médico -->
+          <div class="field-group">
+            <label class="field-label">Médico tratante</label>
+            <div class="input-container">
+              <ion-icon name="person-outline" class="input-icon"></ion-icon>
+              <ion-input [(ngModel)]="nuevaConsulta.medico" placeholder="Ej. Dra. Ana Vargas"></ion-input>
+            </div>
+          </div>
+          <!-- Especialidad -->
+          <div class="field-group">
+            <label class="field-label">Especialidad</label>
+            <div class="input-container">
+              <ion-icon name="medical-outline" class="input-icon"></ion-icon>
+              <ion-input [(ngModel)]="nuevaConsulta.especialidad" placeholder="Ej. Cardiología"></ion-input>
+            </div>
+          </div>
+          <!-- Fecha -->
+          <div class="field-group">
+            <label class="field-label">Fecha de la consulta</label>
+            <div class="input-container" id="fecha-trigger" button="true">
+              <ion-icon name="calendar-outline" class="input-icon"></ion-icon>
+              <ion-input readonly="true" [value]="fechaFormateada" placeholder="Selecciona una fecha"></ion-input>
+              <ion-icon name="chevron-down-outline" slot="end" class="select-arrow"></ion-icon>
+            </div>
+            <ion-popover trigger="fecha-trigger" [showBackdrop]="true">
+              <ng-template>
+                <ion-datetime
+                  presentation="date"
+                  [(ngModel)]="nuevaConsulta.fecha"
+                  (ionChange)="onFechaChange($event)">
+                </ion-datetime>
+              </ng-template>
+            </ion-popover>
+          </div>
+          <!-- Toggle: ¿Consulta finalizada? -->
+          <div class="field-group">
+            <label class="field-label">¿La consulta ya finalizó?</label>
+            <div class="input-container toggle-container">
+              <ion-toggle
+                [(ngModel)]="consultaFinalizada"
+                (ionChange)="onToggleChange()"
+                color="success">
+              </ion-toggle>
+            </div>
+          </div>
+          <!-- Diagnóstico y tratamiento (solo si finalizó) -->
+          <div *ngIf="consultaFinalizada">
+            <div class="field-group">
+              <label class="field-label">Diagnóstico</label>
+              <div class="input-container">
+                <ion-icon name="clipboard-outline" class="input-icon"></ion-icon>
+                <ion-input [(ngModel)]="nuevaConsulta.diagnostico" placeholder="Ej. Hipertensión controlada"></ion-input>
+              </div>
+            </div>
+            <div class="field-group">
+              <label class="field-label">Tratamiento</label>
+              <div class="input-container">
+                <ion-icon name="bandage-outline" class="input-icon"></ion-icon>
+                <ion-textarea [(ngModel)]="nuevaConsulta.tratamiento" placeholder="Ej. Continuar medicación y dieta equilibrada"></ion-textarea>
+              </div>
+            </div>
+          </div>
+        </div>
+      </ion-content>
+      <ion-footer>
+        <ion-toolbar>
+          <div class="modal-buttons">
+            <ion-button expand="block" class="btn-cancelar" (click)="cerrarModal()">Cancelar</ion-button>
+            <ion-button expand="block" class="btn-guardar" (click)="guardarConsulta()" [disabled]="!esFormularioValido()">Guardar</ion-button>
+          </div>
+        </ion-toolbar>
+      </ion-footer>
+    </ng-template>
+  </ion-modal>
 </ion-content>

@@ -80,7 +80,7 @@
     box-shadow: 0 0 0 3px rgba(28, 105, 127, 0.1);
 
     .floating-label {
-      transform: translateY(-28px) scale(0.75);
+      transform: translateY(-24px) scale(0.75);
       color: var(--label-focus-color);
       font-weight: 500;
     }
@@ -93,7 +93,7 @@
 
   &.has-value {
     .floating-label {
-      transform: translateY(-28px) scale(0.75);
+      transform: translateY(-24px) scale(0.75);
       color: var(--label-focus-color);
     }
   }

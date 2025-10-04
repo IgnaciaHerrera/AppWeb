@@ -1,7 +1,7 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-back-button defaultHref="/tabs/tab5" text="Volver"></ion-back-button>
+      <ion-back-button defaultHref="/tabs/tab5"></ion-back-button>
     </ion-buttons>
     <ion-title>Mis Cirugías</ion-title>
   </ion-toolbar>
@@ -26,13 +26,16 @@
     </ion-row>
   </ion-grid>
 
-  <!-- Filtro de orden -->
+  <!-- filtro de orden -->
   <ion-grid>
     <ion-row>
       <ion-col size="12" class="filter-col">
         <ion-item lines="none">
           <ion-label>Ordenar por</ion-label>
-          <ion-select [(ngModel)]="filtroOrden" (ionChange)="ordenarCirugias()">
+          <ion-select 
+            interface="popover"
+            [(ngModel)]="filtroOrden" 
+            (ionChange)="ordenarCirugias()">
             <ion-select-option value="recientes">Más recientes</ion-select-option>
             <ion-select-option value="antiguas">Más antiguas</ion-select-option>
             <ion-select-option value="alfabetico-asc">Alfabético (A-Z)</ion-select-option>
@@ -42,7 +45,6 @@
       </ion-col>
     </ion-row>
   </ion-grid>
-
 
   <!-- lista de cirugías -->
   <ion-list lines="none" *ngIf="cirugias.length > 0">
@@ -73,12 +75,11 @@
             </ion-icon>
           </ion-col>
         </ion-row>
-        
+
         <!-- detalles expandidos -->
         <ion-row *ngIf="cirugia.expanded" class="cirugia-expanded-row">
           <ion-col size="12">
             <div class="detail-container">
-              <!-- Fecha de la Cirugía -->
               <div class="detail-item">
                 <div class="detail-icon-wrapper fecha-icon">
                   <ion-icon name="calendar-outline" class="detail-icon"></ion-icon>
@@ -88,8 +89,7 @@
                   <p class="detail-value">{{ formatFecha(cirugia.fecha) }}</p>
                 </div>
               </div>
-              
-              <!-- Médico Responsable -->
+
               <div class="detail-item">
                 <div class="detail-icon-wrapper medico-icon">
                   <ion-icon name="person-outline" class="detail-icon"></ion-icon>
@@ -99,14 +99,13 @@
                   <p class="detail-value">{{ cirugia.medico }}</p>
                 </div>
               </div>
-              
-              <!-- Hospital -->
+
               <div class="detail-item">
                 <div class="detail-icon-wrapper hospital-icon">
                   <ion-icon name="business-outline" class="detail-icon"></ion-icon>
                 </div>
                 <div class="detail-content">
-                  <p class="detail-label">Hospital</p>
+                  <p class="detail-label">Hospital / Clínica</p>
                   <p class="detail-value">{{ cirugia.hospital }}</p>
                 </div>
               </div>
@@ -116,17 +115,93 @@
       </ion-grid>
     </ion-item>
   </ion-list>
-  
+
   <!-- estado vacío -->
   <div *ngIf="cirugias.length === 0" class="empty-state">
     <ion-icon name="medical-outline" class="empty-icon"></ion-icon>
     <h3>No hay cirugías registradas</h3>
   </div>
 
-    <!-- botón flotante -->
+  <!-- botón flotante -->
   <ion-fab vertical="bottom" horizontal="end" slot="fixed">
-    <ion-fab-button class="fab-add">
+    <ion-fab-button class="fab-add" (click)="abrirModal()">
       <ion-icon name="add"></ion-icon>
     </ion-fab-button>
   </ion-fab>
+
+  <!-- MODAL -->
+  <ion-modal [isOpen]="modalAbierto" (didDismiss)="cerrarModal()">
+    <ng-template>
+      <ion-header>
+        <ion-toolbar class="modal-header" style="--background: #9b59b6; --color: white;">
+          <ion-title>Agregar nueva cirugía</ion-title>
+          <ion-buttons slot="end">
+            <ion-button (click)="cerrarModal()">
+              <ion-icon name="close"></ion-icon>
+            </ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+
+      <ion-content class="ion-padding">
+        <div class="form-fields">
+          <div class="field-group">
+            <label class="field-label">Nombre Cirugía</label>
+            <div class="input-container">
+              <ion-icon name="bandage-outline" class="input-icon"></ion-icon>
+              <ion-input [(ngModel)]="nuevaCirugia.nombre" placeholder="Ej. Apendicectomía"></ion-input>
+            </div>
+          </div>
+
+          <div class="field-group">
+            <label class="field-label">Nombre Cirujano</label>
+            <div class="input-container">
+              <ion-icon name="person-outline" class="input-icon"></ion-icon>
+              <ion-input [(ngModel)]="nuevaCirugia.medico" placeholder="Ej. Dr. Juan Herrera"></ion-input>
+            </div>
+          </div>
+
+          <div class="field-group">
+            <label class="field-label">Hospital / Clínica</label>
+            <div class="input-container">
+              <ion-icon name="business-outline" class="input-icon"></ion-icon>
+              <ion-input [(ngModel)]="nuevaCirugia.hospital" placeholder="Ej. Clínica Central"></ion-input>
+            </div>
+          </div>
+
+          <div class="field-group">
+            <label class="field-label">Fecha de Cirugía</label>
+            <div class="input-container" id="fecha-cirugia-trigger" button="true">
+              <ion-icon name="calendar-outline" class="input-icon"></ion-icon>
+              <ion-input readonly="true" [value]="fechaFormateada" placeholder="Selecciona una fecha"></ion-input>
+              <ion-icon name="chevron-down-outline" slot="end" class="select-arrow"></ion-icon>
+            </div>
+
+            <ion-popover trigger="fecha-cirugia-trigger" [showBackdrop]="true">
+              <ng-template>
+                <ion-datetime
+                  presentation="date"
+                  [(ngModel)]="nuevaCirugia.fecha"
+                  (ionChange)="onFechaChange($event)">
+                </ion-datetime>
+              </ng-template>
+            </ion-popover>
+          </div>
+        </div>
+      </ion-content>
+
+      <ion-footer>
+        <ion-toolbar>
+          <div class="modal-buttons">
+            <ion-button expand="block" class="btn-cancelar" (click)="cerrarModal()">
+              Cancelar
+            </ion-button>
+            <ion-button expand="block" class="btn-guardar" (click)="guardarCirugia()" [disabled]="!esFormularioValido()">
+              Guardar
+            </ion-button>
+          </div>
+        </ion-toolbar>
+      </ion-footer>
+    </ng-template>
+  </ion-modal>
 </ion-content>
