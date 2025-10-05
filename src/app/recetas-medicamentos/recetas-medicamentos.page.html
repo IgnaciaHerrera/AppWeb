@@ -11,12 +11,14 @@
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
+
 <ion-content [fullscreen]="true">
   <ion-header collapse="condense">
     <ion-toolbar>
       <ion-title size="large">Recetas y Medicamentos</ion-title>
     </ion-toolbar>
   </ion-header>
+
   <!-- Tabs -->
   <div class="segment-container">
     <ion-segment [(ngModel)]="selectedTab" (ionChange)="onTabChange($event)" class="custom-segment">
@@ -28,6 +30,7 @@
       </ion-segment-button>
     </ion-segment>
   </div>
+
   <!-- SECCIÓN MEDICAMENTOS -->
   <div *ngIf="selectedTab === 'medicamentos'">
     <ion-grid>
@@ -40,6 +43,7 @@
         </ion-col>
       </ion-row>
     </ion-grid>
+
     <!-- Activos -->
     <ion-grid>
       <ion-row>
@@ -48,6 +52,7 @@
         </ion-col>
       </ion-row>
     </ion-grid>
+
     <ion-list lines="none">
       <ion-item 
         *ngFor="let medicamento of medicamentosActivos" 
@@ -68,7 +73,9 @@
             
             <ion-col size="4" class="badge-col">
               <ion-badge [color]="getBadgeColor(medicamento)" class="type-badge-spaced">
-                {{ getBadgeLabel(medicamento) }}
+                {{ medicamento.tipo === 'corta-duracion' && medicamento.fechaInicio && medicamento.fechaFin ? 
+                   calcularDiasLabel(medicamento.fechaInicio, medicamento.fechaFin) : 
+                   getBadgeLabel(medicamento) }}
               </ion-badge>
             </ion-col>
             
@@ -79,6 +86,7 @@
               </ion-icon>
             </ion-col>
           </ion-row>
+
           <!-- Detalles expandidos -->
           <ion-row *ngIf="medicamento.expanded" class="medicamento-expanded-row">
             <ion-col size="12">
@@ -93,6 +101,7 @@
                     <p class="detail-value">{{ getTipoDescription(medicamento.tipo) }}</p>
                   </div>
                 </div>
+
                 <!-- Fecha de inicio -->
                 <div class="detail-item">
                   <div class="detail-icon-wrapper date-icon">
@@ -100,9 +109,10 @@
                   </div>
                   <div class="detail-content">
                     <p class="detail-label">Inicio</p>
-                    <p class="detail-value">{{ medicamento.fechaInicio }}</p>
+                    <p class="detail-value">{{ formatearFecha(medicamento.fechaInicio) }}</p>
                   </div>
                 </div>
+
                 <!-- Fecha fin (solo para corta duración) -->
                 <div *ngIf="medicamento.tipo === 'corta-duracion' && medicamento.fechaFin" class="detail-item">
                   <div class="detail-icon-wrapper end-date-icon">
@@ -110,9 +120,10 @@
                   </div>
                   <div class="detail-content">
                     <p class="detail-label">Finaliza</p>
-                    <p class="detail-value">{{ medicamento.fechaFin }}</p>
+                    <p class="detail-value">{{ formatearFecha(medicamento.fechaFin) }}</p>
                   </div>
                 </div>
+
                 <!-- Médico -->
                 <div class="detail-item">
                   <div class="detail-icon-wrapper doctor-icon">
@@ -124,6 +135,7 @@
                   </div>
                 </div>
               </div>
+
               <!-- Progreso (solo para corta duración) -->
               <div *ngIf="medicamento.tipo === 'corta-duracion' && medicamento.progreso" class="progress-section">
                 <div class="progress-header">
@@ -141,6 +153,7 @@
         </ion-grid>
       </ion-item>
     </ion-list>
+
     <!-- Finalizados -->
     <ion-grid>
       <ion-row>
@@ -149,6 +162,7 @@
         </ion-col>
       </ion-row>
     </ion-grid>
+
     <ion-list lines="none">
       <ion-item 
         *ngFor="let medicamento of medicamentosFinalizados" 
@@ -162,7 +176,7 @@
               <ion-label>
                 <h3>{{ medicamento.nombre }}</h3>
                 <p>{{ medicamento.dosis }} - {{ medicamento.presentacion }}</p>
-                <p class="schedule">Finalizado el {{ medicamento.fechaFin }}</p>
+                <p class="schedule">Finalizado el {{ formatearFecha(medicamento.fechaFin!) }}</p>
               </ion-label>
             </ion-col>
             
@@ -177,6 +191,7 @@
               </ion-icon>
             </ion-col>
           </ion-row>
+
           <!-- Detalles finalizados -->
           <ion-row *ngIf="medicamento.expanded" class="medicamento-expanded-row">
             <ion-col size="12">
@@ -188,9 +203,10 @@
                   </div>
                   <div class="detail-content">
                     <p class="detail-label">Inicio</p>
-                    <p class="detail-value">{{ medicamento.fechaInicio }}</p>
+                    <p class="detail-value">{{ formatearFecha(medicamento.fechaInicio) }}</p>
                   </div>
                 </div>
+
                 <!-- Duración -->
                 <div class="detail-item">
                   <div class="detail-icon-wrapper duration-icon">
@@ -208,12 +224,149 @@
       </ion-item>
     </ion-list>
   </div>
-    <!-- botón flotante -->
+
+  <!-- botón flotante -->
   <ion-fab vertical="bottom" horizontal="end" slot="fixed">
-    <ion-fab-button class="fab-add">
+    <ion-fab-button class="fab-add" (click)="abrirModal()">
       <ion-icon name="add"></ion-icon>
     </ion-fab-button>
   </ion-fab>
+
+  <!-- Modal Medicamento -->
+  <ion-modal [isOpen]="modalAbierto" (didDismiss)="cerrarModal()">
+    <ng-template>
+      <ion-header>
+        <ion-toolbar class="modal-header" style="--background: #f59f00; --color: white;">
+          <ion-title>Agregar Medicamento</ion-title>
+          <ion-buttons slot="end">
+            <ion-button (click)="cerrarModal()">
+              <ion-icon name="close"></ion-icon>
+            </ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+
+      <ion-content class="ion-padding">
+        <div class="form-fields">
+          <!-- Nombre del medicamento -->
+          <div class="field-group">
+            <label class="field-label">Nombre del medicamento</label>
+            <div class="input-container">
+              <ion-icon name="medical-outline" class="input-icon"></ion-icon>
+              <ion-input [(ngModel)]="nuevoMedicamento.nombre" placeholder="Ej. Losartán"></ion-input>
+            </div>
+          </div>
+
+          <!-- Dosis -->
+          <div class="field-group">
+            <label class="field-label">Dosis</label>
+            <div class="input-container">
+              <ion-icon name="flask-outline" class="input-icon"></ion-icon>
+              <ion-input [(ngModel)]="nuevoMedicamento.dosis" placeholder="Ej. 50 mg"></ion-input>
+            </div>
+          </div>
+
+          <!-- Presentación -->
+          <div class="field-group">
+            <label class="field-label">Presentación</label>
+            <div class="input-container">
+              <ion-icon name="cube-outline" class="input-icon"></ion-icon>
+              <ion-select [(ngModel)]="nuevoMedicamento.presentacion" placeholder="Selecciona">
+                <ion-select-option value="Comprimidos">Comprimidos</ion-select-option>
+                <ion-select-option value="Cápsulas">Cápsulas</ion-select-option>
+                <ion-select-option value="Jarabe">Jarabe</ion-select-option>
+                <ion-select-option value="Inyectable">Inyectable</ion-select-option>
+                <ion-select-option value="Gotas">Gotas</ion-select-option>
+                <ion-select-option value="Crema">Crema</ion-select-option>
+              </ion-select>
+            </div>
+          </div>
+
+          <!-- Horario/Frecuencia -->
+          <div class="field-group">
+            <label class="field-label">Frecuencia</label>
+            <div class="input-container">
+              <ion-icon name="time-outline" class="input-icon"></ion-icon>
+              <ion-input [(ngModel)]="nuevoMedicamento.horario" placeholder="Ej. Cada 12 horas"></ion-input>
+            </div>
+          </div>
+
+          <!-- Tipo de tratamiento -->
+          <div class="field-group">
+            <label class="field-label">Tipo de tratamiento</label>
+            <div class="input-container">
+              <ion-icon name="infinite-outline" class="input-icon"></ion-icon>
+              <ion-select [(ngModel)]="tipoTratamiento" (ionChange)="onTipoTratamientoChange()" placeholder="Selecciona">
+                <ion-select-option value="cronico">Crónico (Continuo)</ion-select-option>
+                <ion-select-option value="corta-duracion">Corta duración</ion-select-option>
+              </ion-select>
+            </div>
+          </div>
+
+          <!-- Fecha de inicio -->
+          <div class="field-group">
+            <label class="field-label">Fecha de inicio</label>
+            <div class="input-container" id="fecha-inicio-trigger" button="true">
+              <ion-icon name="calendar-outline" class="input-icon"></ion-icon>
+              <ion-input readonly="true" [value]="fechaInicioFormateada" placeholder="Selecciona fecha de inicio"></ion-input>
+              <ion-icon name="chevron-down-outline" slot="end" class="select-arrow"></ion-icon>
+            </div>
+            <ion-popover trigger="fecha-inicio-trigger" [showBackdrop]="true">
+              <ng-template>
+                <ion-datetime
+                  presentation="date"
+                  [(ngModel)]="nuevoMedicamento.fechaInicio"
+                  (ionChange)="onFechaInicioChange($event)">
+                </ion-datetime>
+              </ng-template>
+            </ion-popover>
+          </div>
+
+          <!-- Fecha fin (solo para corta duración) -->
+          <div class="field-group" *ngIf="tipoTratamiento === 'corta-duracion'">
+            <label class="field-label">Fecha de finalización</label>
+            <div class="input-container" id="fecha-fin-trigger" button="true">
+              <ion-icon name="flag-outline" class="input-icon"></ion-icon>
+              <ion-input readonly="true" [value]="fechaFinFormateada" placeholder="Selecciona fecha fin"></ion-input>
+              <ion-icon name="chevron-down-outline" slot="end" class="select-arrow"></ion-icon>
+            </div>
+            <ion-popover trigger="fecha-fin-trigger" [showBackdrop]="true">
+              <ng-template>
+                <ion-datetime
+                  presentation="date"
+                  [(ngModel)]="nuevoMedicamento.fechaFin"
+                  (ionChange)="onFechaFinChange($event)">
+                </ion-datetime>
+              </ng-template>
+            </ion-popover>
+          </div>
+
+          <!-- Médico -->
+          <div class="field-group">
+            <label class="field-label">Médico responsable</label>
+            <div class="input-container">
+              <ion-icon name="person-outline" class="input-icon"></ion-icon>
+              <ion-input [(ngModel)]="nuevoMedicamento.medico" placeholder="Ej. Dr. Carlos Mendoza"></ion-input>
+            </div>
+          </div>
+        </div>
+      </ion-content>
+
+      <ion-footer>
+        <ion-toolbar>
+          <div class="modal-buttons">
+            <ion-button expand="block" class="btn-cancelar" (click)="cerrarModal()">
+              Cancelar
+            </ion-button>
+            <ion-button expand="block" class="btn-guardar" (click)="guardarMedicamento()" [disabled]="!esFormularioValido()">
+              Guardar
+            </ion-button>
+          </div>
+        </ion-toolbar>
+      </ion-footer>
+    </ng-template>
+  </ion-modal>
+
   <!-- SECCIÓN RECETAS -->
   <div *ngIf="selectedTab === 'recetas'">
     <ion-grid>
@@ -226,6 +379,7 @@
         </ion-col>
       </ion-row>
     </ion-grid>
+
     <ion-list lines="none">
       <ion-item 
         *ngFor="let receta of recetas" 
@@ -283,7 +437,8 @@
       </ion-item>
     </ion-list>
   </div>
-  <!-- Modal -->
+
+  <!-- Modal Receta -->
   <ion-modal [isOpen]="mostrarRecetaModal" (didDismiss)="cerrarRecetaModal()">
     <ng-template>
       <ion-header>
@@ -307,6 +462,7 @@
             </div>
           </ion-card-content>
         </ion-card>
+
         <!-- Paciente -->
         <ion-card>
           <ion-card-header>
@@ -326,6 +482,7 @@
             </ion-grid>
           </ion-card-content>
         </ion-card>
+
         <!-- Número de receta -->
         <ion-card class="meta-card-simple">
           <ion-card-content>
@@ -335,6 +492,7 @@
             </div>
           </ion-card-content>
         </ion-card>
+
         <!-- Medicamentos -->
         <ion-card>
           <ion-card-header>
@@ -382,6 +540,7 @@
             </div>
           </ion-card-content>
         </ion-card>
+
         <!-- Descargar -->
         <ion-grid>
           <ion-row>
