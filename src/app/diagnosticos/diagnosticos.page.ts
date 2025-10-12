@@ -252,7 +252,7 @@ export class DiagnosticosPage implements OnInit {
       },
       {
         id: '2',
-        enfermedad: 'Diabetes Mellitus Tipo 2',
+        enfermedad: 'Diabetes Tipo 2',
         severidad: 'severo',
         fase: 'progreso',
         fechaDiagnostico: '15 de marzo de 2022',

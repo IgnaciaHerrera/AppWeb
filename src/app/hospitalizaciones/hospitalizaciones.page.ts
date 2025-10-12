@@ -309,7 +309,7 @@ export class HospitalizacionesPage implements OnInit {
     this.hospitalizaciones = [
       {
         id: '1',
-        motivo: 'Neumonía aguda',
+        motivo: 'Control diabético',
         fechaIngreso: '2024-07-10',
         fechaAlta: '2024-07-18',
         medico: 'Dr. Carlos Mendoza',
@@ -318,8 +318,8 @@ export class HospitalizacionesPage implements OnInit {
       },
       {
         id: '2',
-        motivo: 'Control diabético',
-        fechaIngreso: '2024-09-15',
+        motivo: 'Cirugía de apendicitis',
+        fechaIngreso: '2024-10-12',
         medico: 'Dr. Roberto Silva',
         hospital: 'Hospital Universitario',
         expanded: false

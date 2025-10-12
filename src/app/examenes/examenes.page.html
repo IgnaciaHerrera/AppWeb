@@ -4,34 +4,17 @@
       <ion-back-button defaultHref="/tabs/tab5"></ion-back-button>
     </ion-buttons>
     <ion-title>Exámenes</ion-title>
-    <ion-buttons slot="end">
-      <ion-button fill="clear">
-        <ion-icon name="calendar-outline"></ion-icon>
-      </ion-button>
-    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
+<ion-content [fullscreen]="true" [scrollEvents]="true" (ionScroll)="onScroll($event)" #content>
   <ion-header collapse="condense">
     <ion-toolbar>
       <ion-title size="large">Exámenes</ion-title>
     </ion-toolbar>
   </ion-header>
-  
-  <!-- Título principal -->
-  <ion-grid>
-    <ion-row>
-      <ion-col size="12">
-        <h2 class="section-title">
-          <ion-icon name="document-text-outline"></ion-icon>
-          Exámenes Médicos
-        </h2>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
 
-  <!-- Contadores por tipo -->
+  <!-- Contadores -->
   <div class="counter-row">
     <div class="counter-card laboratorio">
       <div class="counter-icon">
@@ -42,7 +25,7 @@
         <span class="counter-label">Laboratorio</span>
       </div>
     </div>
-    
+
     <div class="counter-card imagenologia">
       <div class="counter-icon">
         <ion-icon name="scan-outline"></ion-icon>
@@ -54,31 +37,37 @@
     </div>
   </div>
 
-  <!-- Filtro de orden -->
-  <ion-grid>
-    <ion-row>
-      <ion-col size="12" class="filter-col">
-        <ion-item lines="none">
-          <ion-label>Ordenar por</ion-label>
-          <ion-select 
-            interface="popover" 
-            [(ngModel)]="ordenSeleccionado" 
-            (ionChange)="aplicarOrden()"
-            [selectedText]="getOrdenLabel()">
-            <ion-select-option value="recientes">Más recientes</ion-select-option>
-            <ion-select-option value="antiguas">Más antiguas</ion-select-option>
-            <ion-select-option value="alfabetico-asc">Alfabético (A-Z)</ion-select-option>
-            <ion-select-option value="alfabetico-desc">Alfabético (Z-A)</ion-select-option>
-          </ion-select>
-        </ion-item>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
+  <!-- Filtros -->
+  <div class="filters-container">
+    <div class="filter-item">
+      <ion-label class="filter-label">PERÍODO</ion-label>
+      <ion-button fill="solid" class="filter-button" (click)="abrirSelectorPeriodo()">
+        <ion-icon name="calendar-outline" slot="start"></ion-icon>
+        <span>{{ periodoSeleccionadoTexto }}</span>
+        <ion-icon name="chevron-down-outline" slot="end"></ion-icon>
+      </ion-button>
+    </div>
+
+    <div class="filter-item">
+      <ion-label class="filter-label">ORDENAR</ion-label>
+      <ion-button fill="solid" class="filter-button" (click)="abrirSelectorOrden()">
+        <ion-icon name="swap-vertical-outline" slot="start"></ion-icon>
+        <span>{{ getOrdenLabel() }}</span>
+        <ion-icon name="chevron-down-outline" slot="end"></ion-icon>
+      </ion-button>
+    </div>
+  </div>
+
+  <!-- Contador de exámenes -->
+  <div class="exam-count-container">
+    <ion-icon name="document-text-outline" class="exam-count-icon"></ion-icon>
+    <span class="exam-count-text">{{ totalExamenesTexto }}</span>
+  </div>
 
   <!-- Lista de exámenes -->
-  <ion-list lines="none" *ngIf="examenes.length > 0">
+  <ion-list lines="none" *ngIf="examenesFiltrados.length > 0">
     <ion-item 
-      *ngFor="let examen of examenes" 
+      *ngFor="let examen of examenesFiltrados" 
       button 
       (click)="toggleExamen(examen)"
       class="examen-item"
@@ -93,15 +82,19 @@
             </ion-label>
           </ion-col>
           
-          <ion-col size="1">
+          <ion-col size="2" class="ion-text-end">
             <ion-icon 
-              [name]="examen.expanded ? 'chevron-up-outline' : 'chevron-down-outline'"
-              class="expand-icon">
+              [name]="'chevron-down-outline'"
+              class="expand-icon"
+              [class.rotated]="examen.expanded">
             </ion-icon>
           </ion-col>
         </ion-row>
+
         <!-- Detalles expandidos -->
-        <ion-row *ngIf="examen.expanded" class="examen-expanded-row">
+        <ion-row 
+          class="examen-expanded-row"
+          [class.expanded]="examen.expanded">
           <ion-col size="12">
             <div class="detail-container">
               <!-- Tipo -->
@@ -114,6 +107,7 @@
                   <p class="detail-value">{{ examen.tipo }}</p>
                 </div>
               </div>
+
               <!-- Fecha -->
               <div class="detail-item">
                 <div class="detail-icon-wrapper date-icon">
@@ -124,6 +118,7 @@
                   <p class="detail-value">{{ examen.fecha }}</p>
                 </div>
               </div>
+
               <!-- Médico -->
               <div *ngIf="examen.medico" class="detail-item">
                 <div class="detail-icon-wrapper doctor-icon">
@@ -135,6 +130,7 @@
                 </div>
               </div>
             </div>
+
             <!-- Resultados completos -->
             <div *ngIf="examen.resultados && examen.resultados.length > 0" class="results-section">
               <div class="results-header">
@@ -160,7 +156,8 @@
                 </div>
               </div>
             </div>
-            <!-- Acciones simplificadas -->
+
+            <!-- Acciones -->
             <div class="actions-section">
               <ion-button 
                 fill="outline" 
@@ -176,112 +173,334 @@
     </ion-item>
   </ion-list>
   
-  <!-- Estado vacío -->
-  <div *ngIf="examenes.length === 0" class="empty-state">
+  <!-- Estado vacio -->
+  <div *ngIf="examenesFiltrados.length === 0" class="empty-state">
     <ion-icon name="document-text-outline" class="empty-icon"></ion-icon>
-    <h3>No hay exámenes registrados</h3>
+    <h3>No hay exámenes para este período</h3>
+    <p>Intenta seleccionar otro período o "Todos"</p>
   </div>
   
-  <!-- Botón flotante para agregar examen -->
+  <!-- Botón flotante -->
   <ion-fab slot="fixed" vertical="bottom" horizontal="end">
     <ion-fab-button (click)="abrirModal()">
       <ion-icon name="add-outline"></ion-icon>
     </ion-fab-button>
   </ion-fab>
 
-<!-- Modal de subir examen corregido -->
-<ion-modal [isOpen]="isModalOpen" (didDismiss)="cerrarModal()">
-  <ng-template>
-    <ion-header>
-      <ion-toolbar style="--background: #12b886; --color: white;">
-        <ion-title>Subir Examen</ion-title>
-        <ion-buttons slot="end">
-          <ion-button (click)="cerrarModal()">
-            <ion-icon name="close-outline"></ion-icon>
+  <!-- Botón Scroll to Top -->
+  <ion-fab 
+    slot="fixed" 
+    vertical="bottom" 
+    horizontal="start" 
+    class="scroll-to-top-fab"
+    [class.visible]="showScrollButton">
+    <ion-fab-button 
+      class="scroll-to-top-button"
+      (click)="scrollToTop()">
+      <ion-icon name="arrow-up-outline"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
+  <!-- Modal de seleccion de periodo-->
+  <ion-modal 
+    [isOpen]="modalPeriodoAbierto" 
+    (didDismiss)="cerrarSelectorPeriodo()"
+    [initialBreakpoint]="1"
+    [breakpoints]="[0, 1]"
+    class="periodo-modal">
+    <ng-template>
+      <div class="modal-wrapper">
+        
+        <div class="modal-header-clean">
+          <h2>Filtrar por período</h2>
+          <ion-button 
+            fill="clear" 
+            class="close-button"
+            (click)="cerrarSelectorPeriodo()">
+            <ion-icon name="close" slot="icon-only"></ion-icon>
           </ion-button>
-        </ion-buttons>
-      </ion-toolbar>
-    </ion-header>
-    
-    <ion-content class="ion-padding">
-      <!-- Título con icono -->
-      <div class="modal-header-content">
-        <div class="upload-header-icon">
-          <ion-icon name="cloud-upload-outline"></ion-icon>
         </div>
-        <h2>Seleccione un archivo</h2>
-        <p class="subtitle">Sube tu examen médico en formato PDF</p>
+
+        <div class="modal-content-clean">          
+          <div 
+            class="period-option"
+            [class.selected]="periodoSeleccionado === 'todos'"
+            (click)="seleccionarPeriodo('todos')">
+            <div class="option-icon">
+              <ion-icon name="calendar-clear-outline"></ion-icon>
+            </div>
+            <div class="option-text">
+              <h3>Todos los períodos</h3>
+              <p>Ver todos los exámenes disponibles</p>
+            </div>
+            <ion-icon 
+              *ngIf="periodoSeleccionado === 'todos'" 
+              name="checkmark-circle"
+              class="check-icon">
+            </ion-icon>
+          </div>
+
+          <div 
+            class="period-option"
+            [class.selected]="periodoSeleccionado === 'ultimo-mes'"
+            (click)="seleccionarPeriodo('ultimo-mes')">
+            <div class="option-icon">
+              <ion-icon name="time-outline"></ion-icon>
+            </div>
+            <div class="option-text">
+              <h3>Último mes</h3>
+              <p>Exámenes de los últimos 30 días</p>
+            </div>
+            <ion-icon 
+              *ngIf="periodoSeleccionado === 'ultimo-mes'" 
+              name="checkmark-circle"
+              class="check-icon">
+            </ion-icon>
+          </div>
+
+          <div 
+            class="period-option"
+            [class.selected]="periodoSeleccionado === 'ultimos-3-meses'"
+            (click)="seleccionarPeriodo('ultimos-3-meses')">
+            <div class="option-icon">
+              <ion-icon name="stats-chart-outline"></ion-icon>
+            </div>
+            <div class="option-text">
+              <h3>Últimos 3 meses</h3>
+              <p>Exámenes de los últimos 90 días</p>
+            </div>
+            <ion-icon 
+              *ngIf="periodoSeleccionado === 'ultimos-3-meses'" 
+              name="checkmark-circle"
+              class="check-icon">
+            </ion-icon>
+          </div>
+
+          <div 
+            class="period-option"
+            [class.selected]="periodoSeleccionado === 'ultimos-6-meses'"
+            (click)="seleccionarPeriodo('ultimos-6-meses')">
+            <div class="option-icon">
+              <ion-icon name="trending-up-outline"></ion-icon>
+            </div>
+            <div class="option-text">
+              <h3>Últimos 6 meses</h3>
+              <p>Exámenes del semestre actual</p>
+            </div>
+            <ion-icon 
+              *ngIf="periodoSeleccionado === 'ultimos-6-meses'" 
+              name="checkmark-circle"
+              class="check-icon">
+            </ion-icon>
+          </div>
+
+          <div 
+            class="period-option"
+            [class.selected]="periodoSeleccionado === 'este-anio'"
+            (click)="seleccionarPeriodo('este-anio')">
+            <div class="option-icon">
+              <ion-icon name="calendar-number-outline"></ion-icon>
+            </div>
+            <div class="option-text">
+              <h3>Este año</h3>
+              <p>Exámenes de 2025</p>
+            </div>
+            <ion-icon 
+              *ngIf="periodoSeleccionado === 'este-anio'" 
+              name="checkmark-circle"
+              class="check-icon">
+            </ion-icon>
+          </div>
+
+        </div>
       </div>
+    </ng-template>
+  </ion-modal>
+
+  <!-- Modal de ordenar -->
+  <ion-modal 
+    [isOpen]="modalOrdenAbierto" 
+    (didDismiss)="cerrarSelectorOrden()"
+    [initialBreakpoint]="1"
+    [breakpoints]="[0, 1]"
+    class="periodo-modal">
+    <ng-template>
+      <div class="modal-wrapper">
+        <div class="modal-header-clean">
+          <h2>Ordenar por</h2>
+          <ion-button 
+            fill="clear" 
+            class="close-button"
+            (click)="cerrarSelectorOrden()">
+            <ion-icon name="close" slot="icon-only"></ion-icon>
+          </ion-button>
+        </div>
+
+        <div class="modal-content-clean">
+          <div 
+            class="period-option"
+            [class.selected]="ordenSeleccionado === 'recientes'"
+            (click)="seleccionarOrden('recientes')">
+            <div class="option-icon">
+              <ion-icon name="arrow-down-outline"></ion-icon>
+            </div>
+            <div class="option-text">
+              <h3>Más recientes</h3>
+              <p>Los exámenes más nuevos primero</p>
+            </div>
+            <ion-icon 
+              *ngIf="ordenSeleccionado === 'recientes'" 
+              name="checkmark-circle"
+              class="check-icon">
+            </ion-icon>
+          </div>
+
+          <div 
+            class="period-option"
+            [class.selected]="ordenSeleccionado === 'antiguas'"
+            (click)="seleccionarOrden('antiguas')">
+            <div class="option-icon">
+              <ion-icon name="arrow-up-outline"></ion-icon>
+            </div>
+            <div class="option-text">
+              <h3>Más antiguos</h3>
+              <p>Los exámenes más antiguos primero</p>
+            </div>
+            <ion-icon 
+              *ngIf="ordenSeleccionado === 'antiguas'" 
+              name="checkmark-circle"
+              class="check-icon">
+            </ion-icon>
+          </div>
+
+          <div 
+            class="period-option"
+            [class.selected]="ordenSeleccionado === 'alfabetico-asc'"
+            (click)="seleccionarOrden('alfabetico-asc')">
+            <div class="option-icon">
+              <ion-icon name="text-outline"></ion-icon>
+            </div>
+            <div class="option-text">
+              <h3>A-Z</h3>
+              <p>Orden alfabético ascendente</p>
+            </div>
+            <ion-icon 
+              *ngIf="ordenSeleccionado === 'alfabetico-asc'" 
+              name="checkmark-circle"
+              class="check-icon">
+            </ion-icon>
+          </div>
+
+          <div 
+            class="period-option"
+            [class.selected]="ordenSeleccionado === 'alfabetico-desc'"
+            (click)="seleccionarOrden('alfabetico-desc')">
+            <div class="option-icon">
+              <ion-icon name="text-outline"></ion-icon>
+            </div>
+            <div class="option-text">
+              <h3>Z-A</h3>
+              <p>Orden alfabético descendente</p>
+            </div>
+            <ion-icon 
+              *ngIf="ordenSeleccionado === 'alfabetico-desc'" 
+              name="checkmark-circle"
+              class="check-icon">
+            </ion-icon>
+          </div>
+        </div>
+      </div>
+    </ng-template>
+  </ion-modal>
+
+  <!-- Modal subir examen-->
+  <ion-modal [isOpen]="isModalOpen" (didDismiss)="cerrarModal()">
+    <ng-template>
+      <ion-header>
+        <ion-toolbar style="--background: #12b886; --color: white;">
+          <ion-title>Subir Examen</ion-title>
+          <ion-buttons slot="end">
+            <ion-button (click)="cerrarModal()">
+              <ion-icon name="close-outline"></ion-icon>
+            </ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
       
-      <!-- Área de upload simplificada -->
-      <div class="file-upload-container">
-        <div 
-          class="file-upload-zone" 
-          [class.file-selected]="selectedFile"
-          (click)="fileInput.click()">
-          
-          <!-- Estado inicial -->
-          <div *ngIf="!selectedFile" class="upload-state">
-            <div class="upload-icon-container">
-              <ion-icon name="document-outline" class="document-icon"></ion-icon>
-              <ion-icon name="add-circle" class="add-icon"></ion-icon>
-            </div>
-            <h3>Seleccione su archivo aquí</h3>
-            <p>haz clic para seleccionarlo</p>
+      <ion-content class="ion-padding">
+        <div class="modal-header-content">
+          <div class="upload-header-icon">
+            <ion-icon name="cloud-upload-outline"></ion-icon>
           </div>
-          
-          <!-- Estado con archivo seleccionado -->
-          <div *ngIf="selectedFile" class="file-selected-state">
-            <div class="file-preview">
-              <div class="file-icon-container">
-                <ion-icon name="document-text" class="file-icon"></ion-icon>
-              </div>
-              <div class="file-info">
-                <h4>{{ selectedFile.name }}</h4>
-                <p class="file-size">{{ getFileSize(selectedFile.size) }}</p>
-                <div class="file-status">
-                  <ion-icon name="checkmark-circle" class="success-icon"></ion-icon>
-                  <span>Archivo listo para subir</span>
-                </div>
-              </div>
-              <ion-button 
-                fill="clear" 
-                color="medium" 
-                (click)="removeFile($event)">
-                <ion-icon name="close-circle-outline"></ion-icon>
-              </ion-button>
-            </div>
-          </div>
-          
-          <input 
-            type="file" 
-            accept="application/pdf" 
-            hidden 
-            #fileInput 
-            (change)="onFileSelected($event)">
+          <h2>Seleccione un archivo</h2>
+          <p class="subtitle">Sube tu examen médico en formato PDF</p>
         </div>
-      </div>
-    </ion-content>
-    
-    <!-- Pie de botones -->
-    <ion-toolbar class="modal-footer">
-      <div class="footer-buttons">
-        <ion-button 
-          fill="solid"
-          color="medium"
-          (click)="cerrarModal()">
-          <ion-icon name="close-outline" slot="start"></ion-icon>
-          Cancelar
-        </ion-button>
-        <ion-button 
-          [disabled]="!selectedFile" 
-          style="--background: #12b886; --color: white;"
-          (click)="subirExamen()">
-          <ion-icon name="cloud-upload-outline" slot="start"></ion-icon>
-          Subir Examen
-        </ion-button>
-      </div>
-    </ion-toolbar>
-  </ng-template>
-</ion-modal>
+        
+        <div class="file-upload-container">
+          <div 
+            class="file-upload-zone" 
+            [class.file-selected]="selectedFile"
+            (click)="fileInput.click()">
+            
+            <div *ngIf="!selectedFile" class="upload-state">
+              <div class="upload-icon-container">
+                <ion-icon name="document-outline" class="document-icon"></ion-icon>
+                <ion-icon name="add-circle" class="add-icon"></ion-icon>
+              </div>
+              <h3>Seleccione su archivo aquí</h3>
+              <p>haz clic para seleccionarlo</p>
+            </div>
+            
+            <div *ngIf="selectedFile" class="file-selected-state">
+              <div class="file-preview">
+                <div class="file-icon-container">
+                  <ion-icon name="document-text" class="file-icon"></ion-icon>
+                </div>
+                <div class="file-info">
+                  <h4>{{ selectedFile.name }}</h4>
+                  <p class="file-size">{{ getFileSize(selectedFile.size) }}</p>
+                  <div class="file-status">
+                    <ion-icon name="checkmark-circle" class="success-icon"></ion-icon>
+                    <span>Archivo listo para subir</span>
+                  </div>
+                </div>
+                <ion-button 
+                  fill="clear" 
+                  color="medium" 
+                  (click)="removeFile($event)">
+                  <ion-icon name="close-circle-outline"></ion-icon>
+                </ion-button>
+              </div>
+            </div>
+            
+            <input 
+              type="file" 
+              accept="application/pdf" 
+              hidden 
+              #fileInput 
+              (change)="onFileSelected($event)">
+          </div>
+        </div>
+      </ion-content>
+      
+      <ion-toolbar class="modal-footer">
+        <div class="footer-buttons">
+          <ion-button 
+            fill="solid"
+            color="medium"
+            (click)="cerrarModal()">
+            <ion-icon name="close-outline" slot="start"></ion-icon>
+            Cancelar
+          </ion-button>
+          <ion-button 
+            [disabled]="!selectedFile" 
+            style="--background: #12b886; --color: white;"
+            (click)="subirExamen()">
+            <ion-icon name="cloud-upload-outline" slot="start"></ion-icon>
+            Subir Examen
+          </ion-button>
+        </div>
+      </ion-toolbar>
+    </ng-template>
+  </ion-modal>
 </ion-content>
