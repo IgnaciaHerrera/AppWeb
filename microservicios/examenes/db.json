@@ -1,0 +1,5956 @@
+{
+  "examenes": [
+    {
+      "id": 1,
+      "nombre": "Hemograma Completo",
+      "tipo": "Examen de Laboratorio",
+      "fecha": "2025-07-20",
+      "medico": "Dr. Carlos Mendoza",
+      "expanded": false,
+      "resultados": [
+        {
+          "nombre": "Hemoglobina",
+          "valor": "14.2",
+          "unidad": "g/dL",
+          "rangoReferencia": "12.0-15.5 g/dL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Glóbulos Blancos",
+          "valor": "7,200",
+          "unidad": "/μL",
+          "rangoReferencia": "4,000-11,000 /μL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Hematocrito",
+          "valor": "42.5",
+          "unidad": "%",
+          "rangoReferencia": "36.0-46.0 %",
+          "estado": "normal"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "nombre": "Hemograma Completo",
+      "tipo": "Examen de Laboratorio",
+      "fecha": "2025-07-20",
+      "medico": "Dr. Carlos Mendoza",
+      "expanded": false,
+      "resultados": [
+        {
+          "nombre": "Hemoglobina",
+          "valor": "14.2",
+          "unidad": "g/dL",
+          "rangoReferencia": "12.0-15.5 g/dL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Glóbulos Blancos",
+          "valor": "7,200",
+          "unidad": "/μL",
+          "rangoReferencia": "4,000-11,000 /μL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Hematocrito",
+          "valor": "42.5",
+          "unidad": "%",
+          "rangoReferencia": "36.0-46.0 %",
+          "estado": "normal"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "nombre": "Hemograma Completo",
+      "tipo": "Examen de Laboratorio",
+      "fecha": "2025-07-20",
+      "medico": "Dr. Carlos Mendoza",
+      "expanded": false,
+      "resultados": [
+        {
+          "nombre": "Hemoglobina",
+          "valor": "14.2",
+          "unidad": "g/dL",
+          "rangoReferencia": "12.0-15.5 g/dL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Glóbulos Blancos",
+          "valor": "7,200",
+          "unidad": "/μL",
+          "rangoReferencia": "4,000-11,000 /μL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Hematocrito",
+          "valor": "42.5",
+          "unidad": "%",
+          "rangoReferencia": "36.0-46.0 %",
+          "estado": "normal"
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "nombre": "Hemograma Completo",
+      "tipo": "Examen de Laboratorio",
+      "fecha": "2025-07-20",
+      "medico": "Dr. Carlos Mendoza",
+      "expanded": false,
+      "resultados": [
+        {
+          "nombre": "Hemoglobina",
+          "valor": "14.2",
+          "unidad": "g/dL",
+          "rangoReferencia": "12.0-15.5 g/dL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Glóbulos Blancos",
+          "valor": "7,200",
+          "unidad": "/μL",
+          "rangoReferencia": "4,000-11,000 /μL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Hematocrito",
+          "valor": "42.5",
+          "unidad": "%",
+          "rangoReferencia": "36.0-46.0 %",
+          "estado": "normal"
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "nombre": "Hemograma Completo",
+      "tipo": "Examen de Laboratorio",
+      "fecha": "2025-07-20",
+      "medico": "Dr. Carlos Mendoza",
+      "expanded": false,
+      "resultados": [
+        {
+          "nombre": "Hemoglobina",
+          "valor": "14.2",
+          "unidad": "g/dL",
+          "rangoReferencia": "12.0-15.5 g/dL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Glóbulos Blancos",
+          "valor": "7,200",
+          "unidad": "/μL",
+          "rangoReferencia": "4,000-11,000 /μL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Hematocrito",
+          "valor": "42.5",
+          "unidad": "%",
+          "rangoReferencia": "36.0-46.0 %",
+          "estado": "normal"
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "nombre": "Hemograma Completo",
+      "tipo": "Examen de Laboratorio",
+      "fecha": "2025-07-20",
+      "medico": "Dr. Carlos Mendoza",
+      "expanded": false,
+      "resultados": [
+        {
+          "nombre": "Hemoglobina",
+          "valor": "14.2",
+          "unidad": "g/dL",
+          "rangoReferencia": "12.0-15.5 g/dL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Glóbulos Blancos",
+          "valor": "7,200",
+          "unidad": "/μL",
+          "rangoReferencia": "4,000-11,000 /μL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Hematocrito",
+          "valor": "42.5",
+          "unidad": "%",
+          "rangoReferencia": "36.0-46.0 %",
+          "estado": "normal"
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "nombre": "Hemograma Completo",
+      "tipo": "Examen de Laboratorio",
+      "fecha": "2025-07-20",
+      "medico": "Dr. Carlos Mendoza",
+      "expanded": false,
+      "resultados": [
+        {
+          "nombre": "Hemoglobina",
+          "valor": "14.2",
+          "unidad": "g/dL",
+          "rangoReferencia": "12.0-15.5 g/dL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Glóbulos Blancos",
+          "valor": "7,200",
+          "unidad": "/μL",
+          "rangoReferencia": "4,000-11,000 /μL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Hematocrito",
+          "valor": "42.5",
+          "unidad": "%",
+          "rangoReferencia": "36.0-46.0 %",
+          "estado": "normal"
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "nombre": "Hemograma Completo",
+      "tipo": "Examen de Laboratorio",
+      "fecha": "2025-07-20",
+      "medico": "Dr. Carlos Mendoza",
+      "expanded": false,
+      "resultados": [
+        {
+          "nombre": "Hemoglobina",
+          "valor": "14.2",
+          "unidad": "g/dL",
+          "rangoReferencia": "12.0-15.5 g/dL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Glóbulos Blancos",
+          "valor": "7,200",
+          "unidad": "/μL",
+          "rangoReferencia": "4,000-11,000 /μL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Hematocrito",
+          "valor": "42.5",
+          "unidad": "%",
+          "rangoReferencia": "36.0-46.0 %",
+          "estado": "normal"
+        }
+      ]
+    },
+    {
+      "id": 9,
+      "nombre": "Hemograma Completo",
+      "tipo": "Examen de Laboratorio",
+      "fecha": "2025-07-20",
+      "medico": "Dr. Carlos Mendoza",
+      "expanded": false,
+      "resultados": [
+        {
+          "nombre": "Hemoglobina",
+          "valor": "14.2",
+          "unidad": "g/dL",
+          "rangoReferencia": "12.0-15.5 g/dL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Glóbulos Blancos",
+          "valor": "7,200",
+          "unidad": "/μL",
+          "rangoReferencia": "4,000-11,000 /μL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Hematocrito",
+          "valor": "42.5",
+          "unidad": "%",
+          "rangoReferencia": "36.0-46.0 %",
+          "estado": "normal"
+        }
+      ]
+    },
+    {
+      "id": 10,
+      "nombre": "Hemograma Completo",
+      "tipo": "Examen de Laboratorio",
+      "fecha": "2025-07-20",
+      "medico": "Dr. Carlos Mendoza",
+      "expanded": false,
+      "resultados": [
+        {
+          "nombre": "Hemoglobina",
+          "valor": "14.2",
+          "unidad": "g/dL",
+          "rangoReferencia": "12.0-15.5 g/dL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Glóbulos Blancos",
+          "valor": "7,200",
+          "unidad": "/μL",
+          "rangoReferencia": "4,000-11,000 /μL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Hematocrito",
+          "valor": "42.5",
+          "unidad": "%",
+          "rangoReferencia": "36.0-46.0 %",
+          "estado": "normal"
+        }
+      ]
+    },
+    {
+      "id": 11,
+      "nombre": "Hemograma Completo",
+      "tipo": "Examen de Laboratorio",
+      "fecha": "2025-07-20",
+      "medico": "Dr. Carlos Mendoza",
+      "expanded": false,
+      "resultados": [
+        {
+          "nombre": "Hemoglobina",
+          "valor": "14.2",
+          "unidad": "g/dL",
+          "rangoReferencia": "12.0-15.5 g/dL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Glóbulos Blancos",
+          "valor": "7,200",
+          "unidad": "/μL",
+          "rangoReferencia": "4,000-11,000 /μL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Hematocrito",
+          "valor": "42.5",
+          "unidad": "%",
+          "rangoReferencia": "36.0-46.0 %",
+          "estado": "normal"
+        }
+      ]
+    },
+    {
+      "id": 12,
+      "nombre": "Hemograma Completo",
+      "tipo": "Examen de Laboratorio",
+      "fecha": "2025-07-20",
+      "medico": "Dr. Carlos Mendoza",
+      "expanded": false,
+      "resultados": [
+        {
+          "nombre": "Hemoglobina",
+          "valor": "14.2",
+          "unidad": "g/dL",
+          "rangoReferencia": "12.0-15.5 g/dL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Glóbulos Blancos",
+          "valor": "7,200",
+          "unidad": "/μL",
+          "rangoReferencia": "4,000-11,000 /μL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Hematocrito",
+          "valor": "42.5",
+          "unidad": "%",
+          "rangoReferencia": "36.0-46.0 %",
+          "estado": "normal"
+        }
+      ]
+    },
+    {
+      "id": 13,
+      "nombre": "Hemograma Completo",
+      "tipo": "Examen de Laboratorio",
+      "fecha": "2025-07-20",
+      "medico": "Dr. Carlos Mendoza",
+      "expanded": false,
+      "resultados": [
+        {
+          "nombre": "Hemoglobina",
+          "valor": "14.2",
+          "unidad": "g/dL",
+          "rangoReferencia": "12.0-15.5 g/dL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Glóbulos Blancos",
+          "valor": "7,200",
+          "unidad": "/μL",
+          "rangoReferencia": "4,000-11,000 /μL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Hematocrito",
+          "valor": "42.5",
+          "unidad": "%",
+          "rangoReferencia": "36.0-46.0 %",
+          "estado": "normal"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "nombre": "Hemograma Completo",
+      "tipo": "Examen de Laboratorio",
+      "fecha": "2025-07-20",
+      "medico": "Dr. Carlos Mendoza",
+      "expanded": false,
+      "resultados": [
+        {
+          "nombre": "Hemoglobina",
+          "valor": "14.2",
+          "unidad": "g/dL",
+          "rangoReferencia": "12.0-15.5 g/dL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Glóbulos Blancos",
+          "valor": "7,200",
+          "unidad": "/μL",
+          "rangoReferencia": "4,000-11,000 /μL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Hematocrito",
+          "valor": "42.5",
+          "unidad": "%",
+          "rangoReferencia": "36.0-46.0 %",
+          "estado": "normal"
+        }
+      ]
+    },
+    {
+      "id": 14,
+      "nombre": "Hemograma Completo",
+      "tipo": "Examen de Laboratorio",
+      "fecha": "2025-07-20",
+      "medico": "Dr. Carlos Mendoza",
+      "expanded": false,
+      "resultados": [
+        {
+          "nombre": "Hemoglobina",
+          "valor": "14.2",
+          "unidad": "g/dL",
+          "rangoReferencia": "12.0-15.5 g/dL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Glóbulos Blancos",
+          "valor": "7,200",
+          "unidad": "/μL",
+          "rangoReferencia": "4,000-11,000 /μL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Hematocrito",
+          "valor": "42.5",
+          "unidad": "%",
+          "rangoReferencia": "36.0-46.0 %",
+          "estado": "normal"
+        }
+      ]
+    },
+    {
+      "id": 15,
+      "nombre": "Hemograma Completo",
+      "tipo": "Examen de Laboratorio",
+      "fecha": "2025-07-20",
+      "medico": "Dr. Carlos Mendoza",
+      "expanded": false,
+      "resultados": [
+        {
+          "nombre": "Hemoglobina",
+          "valor": "14.2",
+          "unidad": "g/dL",
+          "rangoReferencia": "12.0-15.5 g/dL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Glóbulos Blancos",
+          "valor": "7,200",
+          "unidad": "/μL",
+          "rangoReferencia": "4,000-11,000 /μL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Hematocrito",
+          "valor": "42.5",
+          "unidad": "%",
+          "rangoReferencia": "36.0-46.0 %",
+          "estado": "normal"
+        }
+      ]
+    },
+    {
+      "id": 16,
+      "nombre": "Hemograma Completo",
+      "tipo": "Examen de Laboratorio",
+      "fecha": "2025-07-20",
+      "medico": "Dr. Carlos Mendoza",
+      "expanded": false,
+      "resultados": [
+        {
+          "nombre": "Hemoglobina",
+          "valor": "14.2",
+          "unidad": "g/dL",
+          "rangoReferencia": "12.0-15.5 g/dL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Glóbulos Blancos",
+          "valor": "7,200",
+          "unidad": "/μL",
+          "rangoReferencia": "4,000-11,000 /μL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Hematocrito",
+          "valor": "42.5",
+          "unidad": "%",
+          "rangoReferencia": "36.0-46.0 %",
+          "estado": "normal"
+        }
+      ]
+    },
+    {
+      "id": 17,
+      "nombre": "Hemograma Completo",
+      "tipo": "Examen de Laboratorio",
+      "fecha": "2025-07-20",
+      "medico": "Dr. Carlos Mendoza",
+      "expanded": false,
+      "resultados": [
+        {
+          "nombre": "Hemoglobina",
+          "valor": "14.2",
+          "unidad": "g/dL",
+          "rangoReferencia": "12.0-15.5 g/dL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Glóbulos Blancos",
+          "valor": "7,200",
+          "unidad": "/μL",
+          "rangoReferencia": "4,000-11,000 /μL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Hematocrito",
+          "valor": "42.5",
+          "unidad": "%",
+          "rangoReferencia": "36.0-46.0 %",
+          "estado": "normal"
+        }
+      ]
+    },
+    {
+      "id": 18,
+      "nombre": "Hemograma Completo",
+      "tipo": "Examen de Laboratorio",
+      "fecha": "2025-07-20",
+      "medico": "Dr. Carlos Mendoza",
+      "expanded": false,
+      "resultados": [
+        {
+          "nombre": "Hemoglobina",
+          "valor": "14.2",
+          "unidad": "g/dL",
+          "rangoReferencia": "12.0-15.5 g/dL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Glóbulos Blancos",
+          "valor": "7,200",
+          "unidad": "/μL",
+          "rangoReferencia": "4,000-11,000 /μL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Hematocrito",
+          "valor": "42.5",
+          "unidad": "%",
+          "rangoReferencia": "36.0-46.0 %",
+          "estado": "normal"
+        }
+      ]
+    },
+    {
+      "id": 19,
+      "nombre": "Hemograma Completo",
+      "tipo": "Examen de Laboratorio",
+      "fecha": "2025-07-20",
+      "medico": "Dr. Carlos Mendoza",
+      "expanded": false,
+      "resultados": [
+        {
+          "nombre": "Hemoglobina",
+          "valor": "14.2",
+          "unidad": "g/dL",
+          "rangoReferencia": "12.0-15.5 g/dL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Glóbulos Blancos",
+          "valor": "7,200",
+          "unidad": "/μL",
+          "rangoReferencia": "4,000-11,000 /μL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Hematocrito",
+          "valor": "42.5",
+          "unidad": "%",
+          "rangoReferencia": "36.0-46.0 %",
+          "estado": "normal"
+        }
+      ]
+    },
+    {
+      "id": 20,
+      "nombre": "Hemograma Completo",
+      "tipo": "Examen de Laboratorio",
+      "fecha": "2025-07-20",
+      "medico": "Dr. Carlos Mendoza",
+      "expanded": false,
+      "resultados": [
+        {
+          "nombre": "Hemoglobina",
+          "valor": "14.2",
+          "unidad": "g/dL",
+          "rangoReferencia": "12.0-15.5 g/dL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Glóbulos Blancos",
+          "valor": "7,200",
+          "unidad": "/μL",
+          "rangoReferencia": "4,000-11,000 /μL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Hematocrito",
+          "valor": "42.5",
+          "unidad": "%",
+          "rangoReferencia": "36.0-46.0 %",
+          "estado": "normal"
+        }
+      ]
+    },
+    {
+      "id": 21,
+      "nombre": "Hemograma Completo",
+      "tipo": "Examen de Laboratorio",
+      "fecha": "2025-07-20",
+      "medico": "Dr. Carlos Mendoza",
+      "expanded": false,
+      "resultados": [
+        {
+          "nombre": "Hemoglobina",
+          "valor": "14.2",
+          "unidad": "g/dL",
+          "rangoReferencia": "12.0-15.5 g/dL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Glóbulos Blancos",
+          "valor": "7,200",
+          "unidad": "/μL",
+          "rangoReferencia": "4,000-11,000 /μL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Hematocrito",
+          "valor": "42.5",
+          "unidad": "%",
+          "rangoReferencia": "36.0-46.0 %",
+          "estado": "normal"
+        }
+      ]
+    },
+    {
+      "id": 22,
+      "nombre": "Hemograma Completo",
+      "tipo": "Examen de Laboratorio",
+      "fecha": "2025-07-20",
+      "medico": "Dr. Carlos Mendoza",
+      "expanded": false,
+      "resultados": [
+        {
+          "nombre": "Hemoglobina",
+          "valor": "14.2",
+          "unidad": "g/dL",
+          "rangoReferencia": "12.0-15.5 g/dL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Glóbulos Blancos",
+          "valor": "7,200",
+          "unidad": "/μL",
+          "rangoReferencia": "4,000-11,000 /μL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Hematocrito",
+          "valor": "42.5",
+          "unidad": "%",
+          "rangoReferencia": "36.0-46.0 %",
+          "estado": "normal"
+        }
+      ]
+    },
+    {
+      "id": 23,
+      "nombre": "Hemograma Completo",
+      "tipo": "Examen de Laboratorio",
+      "fecha": "2025-07-20",
+      "medico": "Dr. Carlos Mendoza",
+      "expanded": false,
+      "resultados": [
+        {
+          "nombre": "Hemoglobina",
+          "valor": "14.2",
+          "unidad": "g/dL",
+          "rangoReferencia": "12.0-15.5 g/dL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Glóbulos Blancos",
+          "valor": "7,200",
+          "unidad": "/μL",
+          "rangoReferencia": "4,000-11,000 /μL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Hematocrito",
+          "valor": "42.5",
+          "unidad": "%",
+          "rangoReferencia": "36.0-46.0 %",
+          "estado": "normal"
+        }
+      ]
+    },
+    {
+      "id": 24,
+      "nombre": "Hemograma Completo",
+      "tipo": "Examen de Laboratorio",
+      "fecha": "2025-07-20",
+      "medico": "Dr. Carlos Mendoza",
+      "expanded": false,
+      "resultados": [
+        {
+          "nombre": "Hemoglobina",
+          "valor": "14.2",
+          "unidad": "g/dL",
+          "rangoReferencia": "12.0-15.5 g/dL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Glóbulos Blancos",
+          "valor": "7,200",
+          "unidad": "/μL",
+          "rangoReferencia": "4,000-11,000 /μL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Hematocrito",
+          "valor": "42.5",
+          "unidad": "%",
+          "rangoReferencia": "36.0-46.0 %",
+          "estado": "normal"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "nombre": "Hemograma Completo",
+      "tipo": "Examen de Laboratorio",
+      "fecha": "2025-07-20",
+      "medico": "Dr. Carlos Mendoza",
+      "expanded": false,
+      "resultados": [
+        {
+          "nombre": "Hemoglobina",
+          "valor": "14.2",
+          "unidad": "g/dL",
+          "rangoReferencia": "12.0-15.5 g/dL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Glóbulos Blancos",
+          "valor": "7,200",
+          "unidad": "/μL",
+          "rangoReferencia": "4,000-11,000 /μL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Hematocrito",
+          "valor": "42.5",
+          "unidad": "%",
+          "rangoReferencia": "36.0-46.0 %",
+          "estado": "normal"
+        }
+      ]
+    },
+    {
+      "id": 25,
+      "nombre": "Hemograma Completo",
+      "tipo": "Examen de Laboratorio",
+      "fecha": "2025-07-20",
+      "medico": "Dr. Carlos Mendoza",
+      "expanded": false,
+      "resultados": [
+        {
+          "nombre": "Hemoglobina",
+          "valor": "14.2",
+          "unidad": "g/dL",
+          "rangoReferencia": "12.0-15.5 g/dL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Glóbulos Blancos",
+          "valor": "7,200",
+          "unidad": "/μL",
+          "rangoReferencia": "4,000-11,000 /μL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Hematocrito",
+          "valor": "42.5",
+          "unidad": "%",
+          "rangoReferencia": "36.0-46.0 %",
+          "estado": "normal"
+        }
+      ]
+    },
+    {
+      "id": 26,
+      "nombre": "Hemograma Completo",
+      "tipo": "Examen de Laboratorio",
+      "fecha": "2025-07-20",
+      "medico": "Dr. Carlos Mendoza",
+      "expanded": false,
+      "resultados": [
+        {
+          "nombre": "Hemoglobina",
+          "valor": "14.2",
+          "unidad": "g/dL",
+          "rangoReferencia": "12.0-15.5 g/dL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Glóbulos Blancos",
+          "valor": "7,200",
+          "unidad": "/μL",
+          "rangoReferencia": "4,000-11,000 /μL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Hematocrito",
+          "valor": "42.5",
+          "unidad": "%",
+          "rangoReferencia": "36.0-46.0 %",
+          "estado": "normal"
+        }
+      ]
+    },
+    {
+      "id": 27,
+      "nombre": "Hemograma Completo",
+      "tipo": "Examen de Laboratorio",
+      "fecha": "2025-07-20",
+      "medico": "Dr. Carlos Mendoza",
+      "expanded": false,
+      "resultados": [
+        {
+          "nombre": "Hemoglobina",
+          "valor": "14.2",
+          "unidad": "g/dL",
+          "rangoReferencia": "12.0-15.5 g/dL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Glóbulos Blancos",
+          "valor": "7,200",
+          "unidad": "/μL",
+          "rangoReferencia": "4,000-11,000 /μL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Hematocrito",
+          "valor": "42.5",
+          "unidad": "%",
+          "rangoReferencia": "36.0-46.0 %",
+          "estado": "normal"
+        }
+      ]
+    },
+    {
+      "id": 28,
+      "nombre": "Hemograma Completo",
+      "tipo": "Examen de Laboratorio",
+      "fecha": "2025-07-20",
+      "medico": "Dr. Carlos Mendoza",
+      "expanded": false,
+      "resultados": [
+        {
+          "nombre": "Hemoglobina",
+          "valor": "14.2",
+          "unidad": "g/dL",
+          "rangoReferencia": "12.0-15.5 g/dL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Glóbulos Blancos",
+          "valor": "7,200",
+          "unidad": "/μL",
+          "rangoReferencia": "4,000-11,000 /μL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Hematocrito",
+          "valor": "42.5",
+          "unidad": "%",
+          "rangoReferencia": "36.0-46.0 %",
+          "estado": "normal"
+        }
+      ]
+    },
+    {
+      "id": 29,
+      "nombre": "Hemograma Completo",
+      "tipo": "Examen de Laboratorio",
+      "fecha": "2025-07-20",
+      "medico": "Dr. Carlos Mendoza",
+      "expanded": false,
+      "resultados": [
+        {
+          "nombre": "Hemoglobina",
+          "valor": "14.2",
+          "unidad": "g/dL",
+          "rangoReferencia": "12.0-15.5 g/dL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Glóbulos Blancos",
+          "valor": "7,200",
+          "unidad": "/μL",
+          "rangoReferencia": "4,000-11,000 /μL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Hematocrito",
+          "valor": "42.5",
+          "unidad": "%",
+          "rangoReferencia": "36.0-46.0 %",
+          "estado": "normal"
+        }
+      ]
+    },
+    {
+      "id": 30,
+      "nombre": "Hemograma Completo",
+      "tipo": "Examen de Laboratorio",
+      "fecha": "2025-07-20",
+      "medico": "Dr. Carlos Mendoza",
+      "expanded": false,
+      "resultados": [
+        {
+          "nombre": "Hemoglobina",
+          "valor": "14.2",
+          "unidad": "g/dL",
+          "rangoReferencia": "12.0-15.5 g/dL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Glóbulos Blancos",
+          "valor": "7,200",
+          "unidad": "/μL",
+          "rangoReferencia": "4,000-11,000 /μL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Hematocrito",
+          "valor": "42.5",
+          "unidad": "%",
+          "rangoReferencia": "36.0-46.0 %",
+          "estado": "normal"
+        }
+      ]
+    },
+    {
+      "id": 31,
+      "nombre": "Hemograma Completo",
+      "tipo": "Examen de Laboratorio",
+      "fecha": "2025-07-20",
+      "medico": "Dr. Carlos Mendoza",
+      "expanded": false,
+      "resultados": [
+        {
+          "nombre": "Hemoglobina",
+          "valor": "14.2",
+          "unidad": "g/dL",
+          "rangoReferencia": "12.0-15.5 g/dL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Glóbulos Blancos",
+          "valor": "7,200",
+          "unidad": "/μL",
+          "rangoReferencia": "4,000-11,000 /μL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Hematocrito",
+          "valor": "42.5",
+          "unidad": "%",
+          "rangoReferencia": "36.0-46.0 %",
+          "estado": "normal"
+        }
+      ]
+    },
+    {
+      "id": 32,
+      "nombre": "Hemograma Completo",
+      "tipo": "Examen de Laboratorio",
+      "fecha": "2025-07-20",
+      "medico": "Dr. Carlos Mendoza",
+      "expanded": false,
+      "resultados": [
+        {
+          "nombre": "Hemoglobina",
+          "valor": "14.2",
+          "unidad": "g/dL",
+          "rangoReferencia": "12.0-15.5 g/dL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Glóbulos Blancos",
+          "valor": "7,200",
+          "unidad": "/μL",
+          "rangoReferencia": "4,000-11,000 /μL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Hematocrito",
+          "valor": "42.5",
+          "unidad": "%",
+          "rangoReferencia": "36.0-46.0 %",
+          "estado": "normal"
+        }
+      ]
+    },
+    {
+      "id": 33,
+      "nombre": "Hemograma Completo",
+      "tipo": "Examen de Laboratorio",
+      "fecha": "2025-07-20",
+      "medico": "Dr. Carlos Mendoza",
+      "expanded": false,
+      "resultados": [
+        {
+          "nombre": "Hemoglobina",
+          "valor": "14.2",
+          "unidad": "g/dL",
+          "rangoReferencia": "12.0-15.5 g/dL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Glóbulos Blancos",
+          "valor": "7,200",
+          "unidad": "/μL",
+          "rangoReferencia": "4,000-11,000 /μL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Hematocrito",
+          "valor": "42.5",
+          "unidad": "%",
+          "rangoReferencia": "36.0-46.0 %",
+          "estado": "normal"
+        }
+      ]
+    },
+    {
+      "id": 34,
+      "nombre": "Hemograma Completo",
+      "tipo": "Examen de Laboratorio",
+      "fecha": "2025-07-20",
+      "medico": "Dr. Carlos Mendoza",
+      "expanded": false,
+      "resultados": [
+        {
+          "nombre": "Hemoglobina",
+          "valor": "14.2",
+          "unidad": "g/dL",
+          "rangoReferencia": "12.0-15.5 g/dL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Glóbulos Blancos",
+          "valor": "7,200",
+          "unidad": "/μL",
+          "rangoReferencia": "4,000-11,000 /μL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Hematocrito",
+          "valor": "42.5",
+          "unidad": "%",
+          "rangoReferencia": "36.0-46.0 %",
+          "estado": "normal"
+        }
+      ]
+    },
+    {
+      "id": 35,
+      "nombre": "Hemograma Completo",
+      "tipo": "Examen de Laboratorio",
+      "fecha": "2025-07-20",
+      "medico": "Dr. Carlos Mendoza",
+      "expanded": false,
+      "resultados": [
+        {
+          "nombre": "Hemoglobina",
+          "valor": "14.2",
+          "unidad": "g/dL",
+          "rangoReferencia": "12.0-15.5 g/dL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Glóbulos Blancos",
+          "valor": "7,200",
+          "unidad": "/μL",
+          "rangoReferencia": "4,000-11,000 /μL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Hematocrito",
+          "valor": "42.5",
+          "unidad": "%",
+          "rangoReferencia": "36.0-46.0 %",
+          "estado": "normal"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "nombre": "Hemograma Completo",
+      "tipo": "Examen de Laboratorio",
+      "fecha": "2025-07-20",
+      "medico": "Dr. Carlos Mendoza",
+      "expanded": false,
+      "resultados": [
+        {
+          "nombre": "Hemoglobina",
+          "valor": "14.2",
+          "unidad": "g/dL",
+          "rangoReferencia": "12.0-15.5 g/dL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Glóbulos Blancos",
+          "valor": "7,200",
+          "unidad": "/μL",
+          "rangoReferencia": "4,000-11,000 /μL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Hematocrito",
+          "valor": "42.5",
+          "unidad": "%",
+          "rangoReferencia": "36.0-46.0 %",
+          "estado": "normal"
+        }
+      ]
+    },
+    {
+      "id": 36,
+      "nombre": "Hemograma Completo",
+      "tipo": "Examen de Laboratorio",
+      "fecha": "2025-07-20",
+      "medico": "Dr. Carlos Mendoza",
+      "expanded": false,
+      "resultados": [
+        {
+          "nombre": "Hemoglobina",
+          "valor": "14.2",
+          "unidad": "g/dL",
+          "rangoReferencia": "12.0-15.5 g/dL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Glóbulos Blancos",
+          "valor": "7,200",
+          "unidad": "/μL",
+          "rangoReferencia": "4,000-11,000 /μL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Hematocrito",
+          "valor": "42.5",
+          "unidad": "%",
+          "rangoReferencia": "36.0-46.0 %",
+          "estado": "normal"
+        }
+      ]
+    },
+    {
+      "id": 37,
+      "nombre": "Hemograma Completo",
+      "tipo": "Examen de Laboratorio",
+      "fecha": "2025-07-20",
+      "medico": "Dr. Carlos Mendoza",
+      "expanded": false,
+      "resultados": [
+        {
+          "nombre": "Hemoglobina",
+          "valor": "14.2",
+          "unidad": "g/dL",
+          "rangoReferencia": "12.0-15.5 g/dL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Glóbulos Blancos",
+          "valor": "7,200",
+          "unidad": "/μL",
+          "rangoReferencia": "4,000-11,000 /μL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Hematocrito",
+          "valor": "42.5",
+          "unidad": "%",
+          "rangoReferencia": "36.0-46.0 %",
+          "estado": "normal"
+        }
+      ]
+    },
+    {
+      "id": 38,
+      "nombre": "Hemograma Completo",
+      "tipo": "Examen de Laboratorio",
+      "fecha": "2025-07-20",
+      "medico": "Dr. Carlos Mendoza",
+      "expanded": false,
+      "resultados": [
+        {
+          "nombre": "Hemoglobina",
+          "valor": "14.2",
+          "unidad": "g/dL",
+          "rangoReferencia": "12.0-15.5 g/dL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Glóbulos Blancos",
+          "valor": "7,200",
+          "unidad": "/μL",
+          "rangoReferencia": "4,000-11,000 /μL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Hematocrito",
+          "valor": "42.5",
+          "unidad": "%",
+          "rangoReferencia": "36.0-46.0 %",
+          "estado": "normal"
+        }
+      ]
+    },
+    {
+      "id": 39,
+      "nombre": "Hemograma Completo",
+      "tipo": "Examen de Laboratorio",
+      "fecha": "2025-07-20",
+      "medico": "Dr. Carlos Mendoza",
+      "expanded": false,
+      "resultados": [
+        {
+          "nombre": "Hemoglobina",
+          "valor": "14.2",
+          "unidad": "g/dL",
+          "rangoReferencia": "12.0-15.5 g/dL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Glóbulos Blancos",
+          "valor": "7,200",
+          "unidad": "/μL",
+          "rangoReferencia": "4,000-11,000 /μL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Hematocrito",
+          "valor": "42.5",
+          "unidad": "%",
+          "rangoReferencia": "36.0-46.0 %",
+          "estado": "normal"
+        }
+      ]
+    },
+    {
+      "id": 40,
+      "nombre": "Hemograma Completo",
+      "tipo": "Examen de Laboratorio",
+      "fecha": "2025-07-20",
+      "medico": "Dr. Carlos Mendoza",
+      "expanded": false,
+      "resultados": [
+        {
+          "nombre": "Hemoglobina",
+          "valor": "14.2",
+          "unidad": "g/dL",
+          "rangoReferencia": "12.0-15.5 g/dL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Glóbulos Blancos",
+          "valor": "7,200",
+          "unidad": "/μL",
+          "rangoReferencia": "4,000-11,000 /μL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Hematocrito",
+          "valor": "42.5",
+          "unidad": "%",
+          "rangoReferencia": "36.0-46.0 %",
+          "estado": "normal"
+        }
+      ]
+    },
+    {
+      "id": 41,
+      "nombre": "Hemograma Completo",
+      "tipo": "Examen de Laboratorio",
+      "fecha": "2025-07-20",
+      "medico": "Dr. Carlos Mendoza",
+      "expanded": false,
+      "resultados": [
+        {
+          "nombre": "Hemoglobina",
+          "valor": "14.2",
+          "unidad": "g/dL",
+          "rangoReferencia": "12.0-15.5 g/dL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Glóbulos Blancos",
+          "valor": "7,200",
+          "unidad": "/μL",
+          "rangoReferencia": "4,000-11,000 /μL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Hematocrito",
+          "valor": "42.5",
+          "unidad": "%",
+          "rangoReferencia": "36.0-46.0 %",
+          "estado": "normal"
+        }
+      ]
+    },
+    {
+      "id": 42,
+      "nombre": "Hemograma Completo",
+      "tipo": "Examen de Laboratorio",
+      "fecha": "2025-07-20",
+      "medico": "Dr. Carlos Mendoza",
+      "expanded": false,
+      "resultados": [
+        {
+          "nombre": "Hemoglobina",
+          "valor": "14.2",
+          "unidad": "g/dL",
+          "rangoReferencia": "12.0-15.5 g/dL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Glóbulos Blancos",
+          "valor": "7,200",
+          "unidad": "/μL",
+          "rangoReferencia": "4,000-11,000 /μL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Hematocrito",
+          "valor": "42.5",
+          "unidad": "%",
+          "rangoReferencia": "36.0-46.0 %",
+          "estado": "normal"
+        }
+      ]
+    },
+    {
+      "id": 43,
+      "nombre": "Hemograma Completo",
+      "tipo": "Examen de Laboratorio",
+      "fecha": "2025-07-20",
+      "medico": "Dr. Carlos Mendoza",
+      "expanded": false,
+      "resultados": [
+        {
+          "nombre": "Hemoglobina",
+          "valor": "14.2",
+          "unidad": "g/dL",
+          "rangoReferencia": "12.0-15.5 g/dL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Glóbulos Blancos",
+          "valor": "7,200",
+          "unidad": "/μL",
+          "rangoReferencia": "4,000-11,000 /μL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Hematocrito",
+          "valor": "42.5",
+          "unidad": "%",
+          "rangoReferencia": "36.0-46.0 %",
+          "estado": "normal"
+        }
+      ]
+    },
+    {
+      "id": 44,
+      "nombre": "Hemograma Completo",
+      "tipo": "Examen de Laboratorio",
+      "fecha": "2025-07-20",
+      "medico": "Dr. Carlos Mendoza",
+      "expanded": false,
+      "resultados": [
+        {
+          "nombre": "Hemoglobina",
+          "valor": "14.2",
+          "unidad": "g/dL",
+          "rangoReferencia": "12.0-15.5 g/dL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Glóbulos Blancos",
+          "valor": "7,200",
+          "unidad": "/μL",
+          "rangoReferencia": "4,000-11,000 /μL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Hematocrito",
+          "valor": "42.5",
+          "unidad": "%",
+          "rangoReferencia": "36.0-46.0 %",
+          "estado": "normal"
+        }
+      ]
+    },
+    {
+      "id": 45,
+      "nombre": "Hemograma Completo",
+      "tipo": "Examen de Laboratorio",
+      "fecha": "2025-07-20",
+      "medico": "Dr. Carlos Mendoza",
+      "expanded": false,
+      "resultados": [
+        {
+          "nombre": "Hemoglobina",
+          "valor": "14.2",
+          "unidad": "g/dL",
+          "rangoReferencia": "12.0-15.5 g/dL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Glóbulos Blancos",
+          "valor": "7,200",
+          "unidad": "/μL",
+          "rangoReferencia": "4,000-11,000 /μL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Hematocrito",
+          "valor": "42.5",
+          "unidad": "%",
+          "rangoReferencia": "36.0-46.0 %",
+          "estado": "normal"
+        }
+      ]
+    },
+    {
+      "id": 1,
+      "nombre": "Hemograma Completo",
+      "tipo": "Examen de Laboratorio",
+      "fecha": "2025-07-20",
+      "medico": "Dr. Carlos Mendoza",
+      "expanded": false,
+      "resultados": [
+        {
+          "nombre": "Hemoglobina",
+          "valor": "14.2",
+          "unidad": "g/dL",
+          "rangoReferencia": "12.0-15.5 g/dL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Glóbulos Blancos",
+          "valor": "7,200",
+          "unidad": "/μL",
+          "rangoReferencia": "4,000-11,000 /μL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Hematocrito",
+          "valor": "42.5",
+          "unidad": "%",
+          "rangoReferencia": "36.0-46.0 %",
+          "estado": "normal"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "nombre": "Hemograma Completo",
+      "tipo": "Examen de Laboratorio",
+      "fecha": "2025-07-20",
+      "medico": "Dr. Carlos Mendoza",
+      "expanded": false,
+      "resultados": [
+        {
+          "nombre": "Hemoglobina",
+          "valor": "14.2",
+          "unidad": "g/dL",
+          "rangoReferencia": "12.0-15.5 g/dL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Glóbulos Blancos",
+          "valor": "7,200",
+          "unidad": "/μL",
+          "rangoReferencia": "4,000-11,000 /μL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Hematocrito",
+          "valor": "42.5",
+          "unidad": "%",
+          "rangoReferencia": "36.0-46.0 %",
+          "estado": "normal"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "nombre": "Hemograma Completo",
+      "tipo": "Examen de Laboratorio",
+      "fecha": "2025-07-20",
+      "medico": "Dr. Carlos Mendoza",
+      "expanded": false,
+      "resultados": [
+        {
+          "nombre": "Hemoglobina",
+          "valor": "14.2",
+          "unidad": "g/dL",
+          "rangoReferencia": "12.0-15.5 g/dL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Glóbulos Blancos",
+          "valor": "7,200",
+          "unidad": "/μL",
+          "rangoReferencia": "4,000-11,000 /μL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Hematocrito",
+          "valor": "42.5",
+          "unidad": "%",
+          "rangoReferencia": "36.0-46.0 %",
+          "estado": "normal"
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "nombre": "Hemograma Completo",
+      "tipo": "Examen de Laboratorio",
+      "fecha": "2025-07-20",
+      "medico": "Dr. Carlos Mendoza",
+      "expanded": false,
+      "resultados": [
+        {
+          "nombre": "Hemoglobina",
+          "valor": "14.2",
+          "unidad": "g/dL",
+          "rangoReferencia": "12.0-15.5 g/dL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Glóbulos Blancos",
+          "valor": "7,200",
+          "unidad": "/μL",
+          "rangoReferencia": "4,000-11,000 /μL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Hematocrito",
+          "valor": "42.5",
+          "unidad": "%",
+          "rangoReferencia": "36.0-46.0 %",
+          "estado": "normal"
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "nombre": "Hemograma Completo",
+      "tipo": "Examen de Laboratorio",
+      "fecha": "2025-07-20",
+      "medico": "Dr. Carlos Mendoza",
+      "expanded": false,
+      "resultados": [
+        {
+          "nombre": "Hemoglobina",
+          "valor": "14.2",
+          "unidad": "g/dL",
+          "rangoReferencia": "12.0-15.5 g/dL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Glóbulos Blancos",
+          "valor": "7,200",
+          "unidad": "/μL",
+          "rangoReferencia": "4,000-11,000 /μL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Hematocrito",
+          "valor": "42.5",
+          "unidad": "%",
+          "rangoReferencia": "36.0-46.0 %",
+          "estado": "normal"
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "nombre": "Hemograma Completo",
+      "tipo": "Examen de Laboratorio",
+      "fecha": "2025-07-20",
+      "medico": "Dr. Carlos Mendoza",
+      "expanded": false,
+      "resultados": [
+        {
+          "nombre": "Hemoglobina",
+          "valor": "14.2",
+          "unidad": "g/dL",
+          "rangoReferencia": "12.0-15.5 g/dL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Glóbulos Blancos",
+          "valor": "7,200",
+          "unidad": "/μL",
+          "rangoReferencia": "4,000-11,000 /μL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Hematocrito",
+          "valor": "42.5",
+          "unidad": "%",
+          "rangoReferencia": "36.0-46.0 %",
+          "estado": "normal"
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "nombre": "Hemograma Completo",
+      "tipo": "Examen de Laboratorio",
+      "fecha": "2025-07-20",
+      "medico": "Dr. Carlos Mendoza",
+      "expanded": false,
+      "resultados": [
+        {
+          "nombre": "Hemoglobina",
+          "valor": "14.2",
+          "unidad": "g/dL",
+          "rangoReferencia": "12.0-15.5 g/dL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Glóbulos Blancos",
+          "valor": "7,200",
+          "unidad": "/μL",
+          "rangoReferencia": "4,000-11,000 /μL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Hematocrito",
+          "valor": "42.5",
+          "unidad": "%",
+          "rangoReferencia": "36.0-46.0 %",
+          "estado": "normal"
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "nombre": "Hemograma Completo",
+      "tipo": "Examen de Laboratorio",
+      "fecha": "2025-07-20",
+      "medico": "Dr. Carlos Mendoza",
+      "expanded": false,
+      "resultados": [
+        {
+          "nombre": "Hemoglobina",
+          "valor": "14.2",
+          "unidad": "g/dL",
+          "rangoReferencia": "12.0-15.5 g/dL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Glóbulos Blancos",
+          "valor": "7,200",
+          "unidad": "/μL",
+          "rangoReferencia": "4,000-11,000 /μL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Hematocrito",
+          "valor": "42.5",
+          "unidad": "%",
+          "rangoReferencia": "36.0-46.0 %",
+          "estado": "normal"
+        }
+      ]
+    },
+    {
+      "id": 9,
+      "nombre": "Hemograma Completo",
+      "tipo": "Examen de Laboratorio",
+      "fecha": "2025-07-20",
+      "medico": "Dr. Carlos Mendoza",
+      "expanded": false,
+      "resultados": [
+        {
+          "nombre": "Hemoglobina",
+          "valor": "14.2",
+          "unidad": "g/dL",
+          "rangoReferencia": "12.0-15.5 g/dL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Glóbulos Blancos",
+          "valor": "7,200",
+          "unidad": "/μL",
+          "rangoReferencia": "4,000-11,000 /μL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Hematocrito",
+          "valor": "42.5",
+          "unidad": "%",
+          "rangoReferencia": "36.0-46.0 %",
+          "estado": "normal"
+        }
+      ]
+    },
+    {
+      "id": 10,
+      "nombre": "Hemograma Completo",
+      "tipo": "Examen de Laboratorio",
+      "fecha": "2025-07-20",
+      "medico": "Dr. Carlos Mendoza",
+      "expanded": false,
+      "resultados": [
+        {
+          "nombre": "Hemoglobina",
+          "valor": "14.2",
+          "unidad": "g/dL",
+          "rangoReferencia": "12.0-15.5 g/dL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Glóbulos Blancos",
+          "valor": "7,200",
+          "unidad": "/μL",
+          "rangoReferencia": "4,000-11,000 /μL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Hematocrito",
+          "valor": "42.5",
+          "unidad": "%",
+          "rangoReferencia": "36.0-46.0 %",
+          "estado": "normal"
+        }
+      ]
+    },
+    {
+      "id": 11,
+      "nombre": "Hemograma Completo",
+      "tipo": "Examen de Laboratorio",
+      "fecha": "2025-07-20",
+      "medico": "Dr. Carlos Mendoza",
+      "expanded": false,
+      "resultados": [
+        {
+          "nombre": "Hemoglobina",
+          "valor": "14.2",
+          "unidad": "g/dL",
+          "rangoReferencia": "12.0-15.5 g/dL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Glóbulos Blancos",
+          "valor": "7,200",
+          "unidad": "/μL",
+          "rangoReferencia": "4,000-11,000 /μL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Hematocrito",
+          "valor": "42.5",
+          "unidad": "%",
+          "rangoReferencia": "36.0-46.0 %",
+          "estado": "normal"
+        }
+      ]
+    },
+    {
+      "id": 12,
+      "nombre": "Hemograma Completo",
+      "tipo": "Examen de Laboratorio",
+      "fecha": "2025-07-20",
+      "medico": "Dr. Carlos Mendoza",
+      "expanded": false,
+      "resultados": [
+        {
+          "nombre": "Hemoglobina",
+          "valor": "14.2",
+          "unidad": "g/dL",
+          "rangoReferencia": "12.0-15.5 g/dL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Glóbulos Blancos",
+          "valor": "7,200",
+          "unidad": "/μL",
+          "rangoReferencia": "4,000-11,000 /μL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Hematocrito",
+          "valor": "42.5",
+          "unidad": "%",
+          "rangoReferencia": "36.0-46.0 %",
+          "estado": "normal"
+        }
+      ]
+    },
+    {
+      "id": 13,
+      "nombre": "Hemograma Completo",
+      "tipo": "Examen de Laboratorio",
+      "fecha": "2025-07-20",
+      "medico": "Dr. Carlos Mendoza",
+      "expanded": false,
+      "resultados": [
+        {
+          "nombre": "Hemoglobina",
+          "valor": "14.2",
+          "unidad": "g/dL",
+          "rangoReferencia": "12.0-15.5 g/dL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Glóbulos Blancos",
+          "valor": "7,200",
+          "unidad": "/μL",
+          "rangoReferencia": "4,000-11,000 /μL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Hematocrito",
+          "valor": "42.5",
+          "unidad": "%",
+          "rangoReferencia": "36.0-46.0 %",
+          "estado": "normal"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "nombre": "Hemograma Completo",
+      "tipo": "Examen de Laboratorio",
+      "fecha": "2025-07-20",
+      "medico": "Dr. Carlos Mendoza",
+      "expanded": false,
+      "resultados": [
+        {
+          "nombre": "Hemoglobina",
+          "valor": "14.2",
+          "unidad": "g/dL",
+          "rangoReferencia": "12.0-15.5 g/dL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Glóbulos Blancos",
+          "valor": "7,200",
+          "unidad": "/μL",
+          "rangoReferencia": "4,000-11,000 /μL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Hematocrito",
+          "valor": "42.5",
+          "unidad": "%",
+          "rangoReferencia": "36.0-46.0 %",
+          "estado": "normal"
+        }
+      ]
+    },
+    {
+      "id": 14,
+      "nombre": "Hemograma Completo",
+      "tipo": "Examen de Laboratorio",
+      "fecha": "2025-07-20",
+      "medico": "Dr. Carlos Mendoza",
+      "expanded": false,
+      "resultados": [
+        {
+          "nombre": "Hemoglobina",
+          "valor": "14.2",
+          "unidad": "g/dL",
+          "rangoReferencia": "12.0-15.5 g/dL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Glóbulos Blancos",
+          "valor": "7,200",
+          "unidad": "/μL",
+          "rangoReferencia": "4,000-11,000 /μL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Hematocrito",
+          "valor": "42.5",
+          "unidad": "%",
+          "rangoReferencia": "36.0-46.0 %",
+          "estado": "normal"
+        }
+      ]
+    },
+    {
+      "id": 15,
+      "nombre": "Hemograma Completo",
+      "tipo": "Examen de Laboratorio",
+      "fecha": "2025-07-20",
+      "medico": "Dr. Carlos Mendoza",
+      "expanded": false,
+      "resultados": [
+        {
+          "nombre": "Hemoglobina",
+          "valor": "14.2",
+          "unidad": "g/dL",
+          "rangoReferencia": "12.0-15.5 g/dL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Glóbulos Blancos",
+          "valor": "7,200",
+          "unidad": "/μL",
+          "rangoReferencia": "4,000-11,000 /μL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Hematocrito",
+          "valor": "42.5",
+          "unidad": "%",
+          "rangoReferencia": "36.0-46.0 %",
+          "estado": "normal"
+        }
+      ]
+    },
+    {
+      "id": 16,
+      "nombre": "Hemograma Completo",
+      "tipo": "Examen de Laboratorio",
+      "fecha": "2025-07-20",
+      "medico": "Dr. Carlos Mendoza",
+      "expanded": false,
+      "resultados": [
+        {
+          "nombre": "Hemoglobina",
+          "valor": "14.2",
+          "unidad": "g/dL",
+          "rangoReferencia": "12.0-15.5 g/dL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Glóbulos Blancos",
+          "valor": "7,200",
+          "unidad": "/μL",
+          "rangoReferencia": "4,000-11,000 /μL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Hematocrito",
+          "valor": "42.5",
+          "unidad": "%",
+          "rangoReferencia": "36.0-46.0 %",
+          "estado": "normal"
+        }
+      ]
+    },
+    {
+      "id": 17,
+      "nombre": "Hemograma Completo",
+      "tipo": "Examen de Laboratorio",
+      "fecha": "2025-07-20",
+      "medico": "Dr. Carlos Mendoza",
+      "expanded": false,
+      "resultados": [
+        {
+          "nombre": "Hemoglobina",
+          "valor": "14.2",
+          "unidad": "g/dL",
+          "rangoReferencia": "12.0-15.5 g/dL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Glóbulos Blancos",
+          "valor": "7,200",
+          "unidad": "/μL",
+          "rangoReferencia": "4,000-11,000 /μL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Hematocrito",
+          "valor": "42.5",
+          "unidad": "%",
+          "rangoReferencia": "36.0-46.0 %",
+          "estado": "normal"
+        }
+      ]
+    },
+    {
+      "id": 18,
+      "nombre": "Hemograma Completo",
+      "tipo": "Examen de Laboratorio",
+      "fecha": "2025-07-20",
+      "medico": "Dr. Carlos Mendoza",
+      "expanded": false,
+      "resultados": [
+        {
+          "nombre": "Hemoglobina",
+          "valor": "14.2",
+          "unidad": "g/dL",
+          "rangoReferencia": "12.0-15.5 g/dL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Glóbulos Blancos",
+          "valor": "7,200",
+          "unidad": "/μL",
+          "rangoReferencia": "4,000-11,000 /μL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Hematocrito",
+          "valor": "42.5",
+          "unidad": "%",
+          "rangoReferencia": "36.0-46.0 %",
+          "estado": "normal"
+        }
+      ]
+    },
+    {
+      "id": 19,
+      "nombre": "Hemograma Completo",
+      "tipo": "Examen de Laboratorio",
+      "fecha": "2025-07-20",
+      "medico": "Dr. Carlos Mendoza",
+      "expanded": false,
+      "resultados": [
+        {
+          "nombre": "Hemoglobina",
+          "valor": "14.2",
+          "unidad": "g/dL",
+          "rangoReferencia": "12.0-15.5 g/dL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Glóbulos Blancos",
+          "valor": "7,200",
+          "unidad": "/μL",
+          "rangoReferencia": "4,000-11,000 /μL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Hematocrito",
+          "valor": "42.5",
+          "unidad": "%",
+          "rangoReferencia": "36.0-46.0 %",
+          "estado": "normal"
+        }
+      ]
+    },
+    {
+      "id": 20,
+      "nombre": "Hemograma Completo",
+      "tipo": "Examen de Laboratorio",
+      "fecha": "2025-07-20",
+      "medico": "Dr. Carlos Mendoza",
+      "expanded": false,
+      "resultados": [
+        {
+          "nombre": "Hemoglobina",
+          "valor": "14.2",
+          "unidad": "g/dL",
+          "rangoReferencia": "12.0-15.5 g/dL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Glóbulos Blancos",
+          "valor": "7,200",
+          "unidad": "/μL",
+          "rangoReferencia": "4,000-11,000 /μL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Hematocrito",
+          "valor": "42.5",
+          "unidad": "%",
+          "rangoReferencia": "36.0-46.0 %",
+          "estado": "normal"
+        }
+      ]
+    },
+    {
+      "id": 21,
+      "nombre": "Hemograma Completo",
+      "tipo": "Examen de Laboratorio",
+      "fecha": "2025-07-20",
+      "medico": "Dr. Carlos Mendoza",
+      "expanded": false,
+      "resultados": [
+        {
+          "nombre": "Hemoglobina",
+          "valor": "14.2",
+          "unidad": "g/dL",
+          "rangoReferencia": "12.0-15.5 g/dL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Glóbulos Blancos",
+          "valor": "7,200",
+          "unidad": "/μL",
+          "rangoReferencia": "4,000-11,000 /μL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Hematocrito",
+          "valor": "42.5",
+          "unidad": "%",
+          "rangoReferencia": "36.0-46.0 %",
+          "estado": "normal"
+        }
+      ]
+    },
+    {
+      "id": 22,
+      "nombre": "Hemograma Completo",
+      "tipo": "Examen de Laboratorio",
+      "fecha": "2025-07-20",
+      "medico": "Dr. Carlos Mendoza",
+      "expanded": false,
+      "resultados": [
+        {
+          "nombre": "Hemoglobina",
+          "valor": "14.2",
+          "unidad": "g/dL",
+          "rangoReferencia": "12.0-15.5 g/dL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Glóbulos Blancos",
+          "valor": "7,200",
+          "unidad": "/μL",
+          "rangoReferencia": "4,000-11,000 /μL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Hematocrito",
+          "valor": "42.5",
+          "unidad": "%",
+          "rangoReferencia": "36.0-46.0 %",
+          "estado": "normal"
+        }
+      ]
+    },
+    {
+      "id": 23,
+      "nombre": "Hemograma Completo",
+      "tipo": "Examen de Laboratorio",
+      "fecha": "2025-07-20",
+      "medico": "Dr. Carlos Mendoza",
+      "expanded": false,
+      "resultados": [
+        {
+          "nombre": "Hemoglobina",
+          "valor": "14.2",
+          "unidad": "g/dL",
+          "rangoReferencia": "12.0-15.5 g/dL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Glóbulos Blancos",
+          "valor": "7,200",
+          "unidad": "/μL",
+          "rangoReferencia": "4,000-11,000 /μL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Hematocrito",
+          "valor": "42.5",
+          "unidad": "%",
+          "rangoReferencia": "36.0-46.0 %",
+          "estado": "normal"
+        }
+      ]
+    },
+    {
+      "id": 24,
+      "nombre": "Hemograma Completo",
+      "tipo": "Examen de Laboratorio",
+      "fecha": "2025-07-20",
+      "medico": "Dr. Carlos Mendoza",
+      "expanded": false,
+      "resultados": [
+        {
+          "nombre": "Hemoglobina",
+          "valor": "14.2",
+          "unidad": "g/dL",
+          "rangoReferencia": "12.0-15.5 g/dL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Glóbulos Blancos",
+          "valor": "7,200",
+          "unidad": "/μL",
+          "rangoReferencia": "4,000-11,000 /μL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Hematocrito",
+          "valor": "42.5",
+          "unidad": "%",
+          "rangoReferencia": "36.0-46.0 %",
+          "estado": "normal"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "nombre": "Hemograma Completo",
+      "tipo": "Examen de Laboratorio",
+      "fecha": "2025-07-20",
+      "medico": "Dr. Carlos Mendoza",
+      "expanded": false,
+      "resultados": [
+        {
+          "nombre": "Hemoglobina",
+          "valor": "14.2",
+          "unidad": "g/dL",
+          "rangoReferencia": "12.0-15.5 g/dL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Glóbulos Blancos",
+          "valor": "7,200",
+          "unidad": "/μL",
+          "rangoReferencia": "4,000-11,000 /μL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Hematocrito",
+          "valor": "42.5",
+          "unidad": "%",
+          "rangoReferencia": "36.0-46.0 %",
+          "estado": "normal"
+        }
+      ]
+    },
+    {
+      "id": 25,
+      "nombre": "Hemograma Completo",
+      "tipo": "Examen de Laboratorio",
+      "fecha": "2025-07-20",
+      "medico": "Dr. Carlos Mendoza",
+      "expanded": false,
+      "resultados": [
+        {
+          "nombre": "Hemoglobina",
+          "valor": "14.2",
+          "unidad": "g/dL",
+          "rangoReferencia": "12.0-15.5 g/dL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Glóbulos Blancos",
+          "valor": "7,200",
+          "unidad": "/μL",
+          "rangoReferencia": "4,000-11,000 /μL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Hematocrito",
+          "valor": "42.5",
+          "unidad": "%",
+          "rangoReferencia": "36.0-46.0 %",
+          "estado": "normal"
+        }
+      ]
+    },
+    {
+      "id": 26,
+      "nombre": "Hemograma Completo",
+      "tipo": "Examen de Laboratorio",
+      "fecha": "2025-07-20",
+      "medico": "Dr. Carlos Mendoza",
+      "expanded": false,
+      "resultados": [
+        {
+          "nombre": "Hemoglobina",
+          "valor": "14.2",
+          "unidad": "g/dL",
+          "rangoReferencia": "12.0-15.5 g/dL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Glóbulos Blancos",
+          "valor": "7,200",
+          "unidad": "/μL",
+          "rangoReferencia": "4,000-11,000 /μL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Hematocrito",
+          "valor": "42.5",
+          "unidad": "%",
+          "rangoReferencia": "36.0-46.0 %",
+          "estado": "normal"
+        }
+      ]
+    },
+    {
+      "id": 27,
+      "nombre": "Hemograma Completo",
+      "tipo": "Examen de Laboratorio",
+      "fecha": "2025-07-20",
+      "medico": "Dr. Carlos Mendoza",
+      "expanded": false,
+      "resultados": [
+        {
+          "nombre": "Hemoglobina",
+          "valor": "14.2",
+          "unidad": "g/dL",
+          "rangoReferencia": "12.0-15.5 g/dL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Glóbulos Blancos",
+          "valor": "7,200",
+          "unidad": "/μL",
+          "rangoReferencia": "4,000-11,000 /μL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Hematocrito",
+          "valor": "42.5",
+          "unidad": "%",
+          "rangoReferencia": "36.0-46.0 %",
+          "estado": "normal"
+        }
+      ]
+    },
+    {
+      "id": 28,
+      "nombre": "Hemograma Completo",
+      "tipo": "Examen de Laboratorio",
+      "fecha": "2025-07-20",
+      "medico": "Dr. Carlos Mendoza",
+      "expanded": false,
+      "resultados": [
+        {
+          "nombre": "Hemoglobina",
+          "valor": "14.2",
+          "unidad": "g/dL",
+          "rangoReferencia": "12.0-15.5 g/dL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Glóbulos Blancos",
+          "valor": "7,200",
+          "unidad": "/μL",
+          "rangoReferencia": "4,000-11,000 /μL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Hematocrito",
+          "valor": "42.5",
+          "unidad": "%",
+          "rangoReferencia": "36.0-46.0 %",
+          "estado": "normal"
+        }
+      ]
+    },
+    {
+      "id": 29,
+      "nombre": "Hemograma Completo",
+      "tipo": "Examen de Laboratorio",
+      "fecha": "2025-07-20",
+      "medico": "Dr. Carlos Mendoza",
+      "expanded": false,
+      "resultados": [
+        {
+          "nombre": "Hemoglobina",
+          "valor": "14.2",
+          "unidad": "g/dL",
+          "rangoReferencia": "12.0-15.5 g/dL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Glóbulos Blancos",
+          "valor": "7,200",
+          "unidad": "/μL",
+          "rangoReferencia": "4,000-11,000 /μL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Hematocrito",
+          "valor": "42.5",
+          "unidad": "%",
+          "rangoReferencia": "36.0-46.0 %",
+          "estado": "normal"
+        }
+      ]
+    },
+    {
+      "id": 30,
+      "nombre": "Hemograma Completo",
+      "tipo": "Examen de Laboratorio",
+      "fecha": "2025-07-20",
+      "medico": "Dr. Carlos Mendoza",
+      "expanded": false,
+      "resultados": [
+        {
+          "nombre": "Hemoglobina",
+          "valor": "14.2",
+          "unidad": "g/dL",
+          "rangoReferencia": "12.0-15.5 g/dL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Glóbulos Blancos",
+          "valor": "7,200",
+          "unidad": "/μL",
+          "rangoReferencia": "4,000-11,000 /μL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Hematocrito",
+          "valor": "42.5",
+          "unidad": "%",
+          "rangoReferencia": "36.0-46.0 %",
+          "estado": "normal"
+        }
+      ]
+    },
+    {
+      "id": 31,
+      "nombre": "Hemograma Completo",
+      "tipo": "Examen de Laboratorio",
+      "fecha": "2025-07-20",
+      "medico": "Dr. Carlos Mendoza",
+      "expanded": false,
+      "resultados": [
+        {
+          "nombre": "Hemoglobina",
+          "valor": "14.2",
+          "unidad": "g/dL",
+          "rangoReferencia": "12.0-15.5 g/dL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Glóbulos Blancos",
+          "valor": "7,200",
+          "unidad": "/μL",
+          "rangoReferencia": "4,000-11,000 /μL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Hematocrito",
+          "valor": "42.5",
+          "unidad": "%",
+          "rangoReferencia": "36.0-46.0 %",
+          "estado": "normal"
+        }
+      ]
+    },
+    {
+      "id": 32,
+      "nombre": "Hemograma Completo",
+      "tipo": "Examen de Laboratorio",
+      "fecha": "2025-07-20",
+      "medico": "Dr. Carlos Mendoza",
+      "expanded": false,
+      "resultados": [
+        {
+          "nombre": "Hemoglobina",
+          "valor": "14.2",
+          "unidad": "g/dL",
+          "rangoReferencia": "12.0-15.5 g/dL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Glóbulos Blancos",
+          "valor": "7,200",
+          "unidad": "/μL",
+          "rangoReferencia": "4,000-11,000 /μL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Hematocrito",
+          "valor": "42.5",
+          "unidad": "%",
+          "rangoReferencia": "36.0-46.0 %",
+          "estado": "normal"
+        }
+      ]
+    },
+    {
+      "id": 33,
+      "nombre": "Hemograma Completo",
+      "tipo": "Examen de Laboratorio",
+      "fecha": "2025-07-20",
+      "medico": "Dr. Carlos Mendoza",
+      "expanded": false,
+      "resultados": [
+        {
+          "nombre": "Hemoglobina",
+          "valor": "14.2",
+          "unidad": "g/dL",
+          "rangoReferencia": "12.0-15.5 g/dL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Glóbulos Blancos",
+          "valor": "7,200",
+          "unidad": "/μL",
+          "rangoReferencia": "4,000-11,000 /μL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Hematocrito",
+          "valor": "42.5",
+          "unidad": "%",
+          "rangoReferencia": "36.0-46.0 %",
+          "estado": "normal"
+        }
+      ]
+    },
+    {
+      "id": 34,
+      "nombre": "Hemograma Completo",
+      "tipo": "Examen de Laboratorio",
+      "fecha": "2025-07-20",
+      "medico": "Dr. Carlos Mendoza",
+      "expanded": false,
+      "resultados": [
+        {
+          "nombre": "Hemoglobina",
+          "valor": "14.2",
+          "unidad": "g/dL",
+          "rangoReferencia": "12.0-15.5 g/dL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Glóbulos Blancos",
+          "valor": "7,200",
+          "unidad": "/μL",
+          "rangoReferencia": "4,000-11,000 /μL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Hematocrito",
+          "valor": "42.5",
+          "unidad": "%",
+          "rangoReferencia": "36.0-46.0 %",
+          "estado": "normal"
+        }
+      ]
+    },
+    {
+      "id": 35,
+      "nombre": "Hemograma Completo",
+      "tipo": "Examen de Laboratorio",
+      "fecha": "2025-07-20",
+      "medico": "Dr. Carlos Mendoza",
+      "expanded": false,
+      "resultados": [
+        {
+          "nombre": "Hemoglobina",
+          "valor": "14.2",
+          "unidad": "g/dL",
+          "rangoReferencia": "12.0-15.5 g/dL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Glóbulos Blancos",
+          "valor": "7,200",
+          "unidad": "/μL",
+          "rangoReferencia": "4,000-11,000 /μL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Hematocrito",
+          "valor": "42.5",
+          "unidad": "%",
+          "rangoReferencia": "36.0-46.0 %",
+          "estado": "normal"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "nombre": "Hemograma Completo",
+      "tipo": "Examen de Laboratorio",
+      "fecha": "2025-07-20",
+      "medico": "Dr. Carlos Mendoza",
+      "expanded": false,
+      "resultados": [
+        {
+          "nombre": "Hemoglobina",
+          "valor": "14.2",
+          "unidad": "g/dL",
+          "rangoReferencia": "12.0-15.5 g/dL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Glóbulos Blancos",
+          "valor": "7,200",
+          "unidad": "/μL",
+          "rangoReferencia": "4,000-11,000 /μL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Hematocrito",
+          "valor": "42.5",
+          "unidad": "%",
+          "rangoReferencia": "36.0-46.0 %",
+          "estado": "normal"
+        }
+      ]
+    },
+    {
+      "id": 36,
+      "nombre": "Hemograma Completo",
+      "tipo": "Examen de Laboratorio",
+      "fecha": "2025-07-20",
+      "medico": "Dr. Carlos Mendoza",
+      "expanded": false,
+      "resultados": [
+        {
+          "nombre": "Hemoglobina",
+          "valor": "14.2",
+          "unidad": "g/dL",
+          "rangoReferencia": "12.0-15.5 g/dL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Glóbulos Blancos",
+          "valor": "7,200",
+          "unidad": "/μL",
+          "rangoReferencia": "4,000-11,000 /μL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Hematocrito",
+          "valor": "42.5",
+          "unidad": "%",
+          "rangoReferencia": "36.0-46.0 %",
+          "estado": "normal"
+        }
+      ]
+    },
+    {
+      "id": 37,
+      "nombre": "Hemograma Completo",
+      "tipo": "Examen de Laboratorio",
+      "fecha": "2025-07-20",
+      "medico": "Dr. Carlos Mendoza",
+      "expanded": false,
+      "resultados": [
+        {
+          "nombre": "Hemoglobina",
+          "valor": "14.2",
+          "unidad": "g/dL",
+          "rangoReferencia": "12.0-15.5 g/dL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Glóbulos Blancos",
+          "valor": "7,200",
+          "unidad": "/μL",
+          "rangoReferencia": "4,000-11,000 /μL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Hematocrito",
+          "valor": "42.5",
+          "unidad": "%",
+          "rangoReferencia": "36.0-46.0 %",
+          "estado": "normal"
+        }
+      ]
+    },
+    {
+      "id": 38,
+      "nombre": "Hemograma Completo",
+      "tipo": "Examen de Laboratorio",
+      "fecha": "2025-07-20",
+      "medico": "Dr. Carlos Mendoza",
+      "expanded": false,
+      "resultados": [
+        {
+          "nombre": "Hemoglobina",
+          "valor": "14.2",
+          "unidad": "g/dL",
+          "rangoReferencia": "12.0-15.5 g/dL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Glóbulos Blancos",
+          "valor": "7,200",
+          "unidad": "/μL",
+          "rangoReferencia": "4,000-11,000 /μL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Hematocrito",
+          "valor": "42.5",
+          "unidad": "%",
+          "rangoReferencia": "36.0-46.0 %",
+          "estado": "normal"
+        }
+      ]
+    },
+    {
+      "id": 39,
+      "nombre": "Hemograma Completo",
+      "tipo": "Examen de Laboratorio",
+      "fecha": "2025-07-20",
+      "medico": "Dr. Carlos Mendoza",
+      "expanded": false,
+      "resultados": [
+        {
+          "nombre": "Hemoglobina",
+          "valor": "14.2",
+          "unidad": "g/dL",
+          "rangoReferencia": "12.0-15.5 g/dL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Glóbulos Blancos",
+          "valor": "7,200",
+          "unidad": "/μL",
+          "rangoReferencia": "4,000-11,000 /μL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Hematocrito",
+          "valor": "42.5",
+          "unidad": "%",
+          "rangoReferencia": "36.0-46.0 %",
+          "estado": "normal"
+        }
+      ]
+    },
+    {
+      "id": 40,
+      "nombre": "Hemograma Completo",
+      "tipo": "Examen de Laboratorio",
+      "fecha": "2025-07-20",
+      "medico": "Dr. Carlos Mendoza",
+      "expanded": false,
+      "resultados": [
+        {
+          "nombre": "Hemoglobina",
+          "valor": "14.2",
+          "unidad": "g/dL",
+          "rangoReferencia": "12.0-15.5 g/dL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Glóbulos Blancos",
+          "valor": "7,200",
+          "unidad": "/μL",
+          "rangoReferencia": "4,000-11,000 /μL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Hematocrito",
+          "valor": "42.5",
+          "unidad": "%",
+          "rangoReferencia": "36.0-46.0 %",
+          "estado": "normal"
+        }
+      ]
+    },
+    {
+      "id": 41,
+      "nombre": "Hemograma Completo",
+      "tipo": "Examen de Laboratorio",
+      "fecha": "2025-07-20",
+      "medico": "Dr. Carlos Mendoza",
+      "expanded": false,
+      "resultados": [
+        {
+          "nombre": "Hemoglobina",
+          "valor": "14.2",
+          "unidad": "g/dL",
+          "rangoReferencia": "12.0-15.5 g/dL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Glóbulos Blancos",
+          "valor": "7,200",
+          "unidad": "/μL",
+          "rangoReferencia": "4,000-11,000 /μL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Hematocrito",
+          "valor": "42.5",
+          "unidad": "%",
+          "rangoReferencia": "36.0-46.0 %",
+          "estado": "normal"
+        }
+      ]
+    },
+    {
+      "id": 42,
+      "nombre": "Hemograma Completo",
+      "tipo": "Examen de Laboratorio",
+      "fecha": "2025-07-20",
+      "medico": "Dr. Carlos Mendoza",
+      "expanded": false,
+      "resultados": [
+        {
+          "nombre": "Hemoglobina",
+          "valor": "14.2",
+          "unidad": "g/dL",
+          "rangoReferencia": "12.0-15.5 g/dL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Glóbulos Blancos",
+          "valor": "7,200",
+          "unidad": "/μL",
+          "rangoReferencia": "4,000-11,000 /μL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Hematocrito",
+          "valor": "42.5",
+          "unidad": "%",
+          "rangoReferencia": "36.0-46.0 %",
+          "estado": "normal"
+        }
+      ]
+    },
+    {
+      "id": 43,
+      "nombre": "Hemograma Completo",
+      "tipo": "Examen de Laboratorio",
+      "fecha": "2025-07-20",
+      "medico": "Dr. Carlos Mendoza",
+      "expanded": false,
+      "resultados": [
+        {
+          "nombre": "Hemoglobina",
+          "valor": "14.2",
+          "unidad": "g/dL",
+          "rangoReferencia": "12.0-15.5 g/dL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Glóbulos Blancos",
+          "valor": "7,200",
+          "unidad": "/μL",
+          "rangoReferencia": "4,000-11,000 /μL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Hematocrito",
+          "valor": "42.5",
+          "unidad": "%",
+          "rangoReferencia": "36.0-46.0 %",
+          "estado": "normal"
+        }
+      ]
+    },
+    {
+      "id": 44,
+      "nombre": "Hemograma Completo",
+      "tipo": "Examen de Laboratorio",
+      "fecha": "2025-07-20",
+      "medico": "Dr. Carlos Mendoza",
+      "expanded": false,
+      "resultados": [
+        {
+          "nombre": "Hemoglobina",
+          "valor": "14.2",
+          "unidad": "g/dL",
+          "rangoReferencia": "12.0-15.5 g/dL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Glóbulos Blancos",
+          "valor": "7,200",
+          "unidad": "/μL",
+          "rangoReferencia": "4,000-11,000 /μL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Hematocrito",
+          "valor": "42.5",
+          "unidad": "%",
+          "rangoReferencia": "36.0-46.0 %",
+          "estado": "normal"
+        }
+      ]
+    },
+    {
+      "id": 45,
+      "nombre": "Hemograma Completo",
+      "tipo": "Examen de Laboratorio",
+      "fecha": "2025-07-20",
+      "medico": "Dr. Carlos Mendoza",
+      "expanded": false,
+      "resultados": [
+        {
+          "nombre": "Hemoglobina",
+          "valor": "14.2",
+          "unidad": "g/dL",
+          "rangoReferencia": "12.0-15.5 g/dL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Glóbulos Blancos",
+          "valor": "7,200",
+          "unidad": "/μL",
+          "rangoReferencia": "4,000-11,000 /μL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Hematocrito",
+          "valor": "42.5",
+          "unidad": "%",
+          "rangoReferencia": "36.0-46.0 %",
+          "estado": "normal"
+        }
+      ]
+    },
+    {
+      "id": 1,
+      "nombre": "Hemograma Completo",
+      "tipo": "Examen de Laboratorio",
+      "fecha": "2025-07-20",
+      "medico": "Dr. Carlos Mendoza",
+      "expanded": false,
+      "resultados": [
+        {
+          "nombre": "Hemoglobina",
+          "valor": "14.2",
+          "unidad": "g/dL",
+          "rangoReferencia": "12.0-15.5 g/dL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Glóbulos Blancos",
+          "valor": "7,200",
+          "unidad": "/μL",
+          "rangoReferencia": "4,000-11,000 /μL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Hematocrito",
+          "valor": "42.5",
+          "unidad": "%",
+          "rangoReferencia": "36.0-46.0 %",
+          "estado": "normal"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "nombre": "Hemograma Completo",
+      "tipo": "Examen de Laboratorio",
+      "fecha": "2025-07-20",
+      "medico": "Dr. Carlos Mendoza",
+      "expanded": false,
+      "resultados": [
+        {
+          "nombre": "Hemoglobina",
+          "valor": "14.2",
+          "unidad": "g/dL",
+          "rangoReferencia": "12.0-15.5 g/dL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Glóbulos Blancos",
+          "valor": "7,200",
+          "unidad": "/μL",
+          "rangoReferencia": "4,000-11,000 /μL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Hematocrito",
+          "valor": "42.5",
+          "unidad": "%",
+          "rangoReferencia": "36.0-46.0 %",
+          "estado": "normal"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "nombre": "Hemograma Completo",
+      "tipo": "Examen de Laboratorio",
+      "fecha": "2025-07-20",
+      "medico": "Dr. Carlos Mendoza",
+      "expanded": false,
+      "resultados": [
+        {
+          "nombre": "Hemoglobina",
+          "valor": "14.2",
+          "unidad": "g/dL",
+          "rangoReferencia": "12.0-15.5 g/dL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Glóbulos Blancos",
+          "valor": "7,200",
+          "unidad": "/μL",
+          "rangoReferencia": "4,000-11,000 /μL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Hematocrito",
+          "valor": "42.5",
+          "unidad": "%",
+          "rangoReferencia": "36.0-46.0 %",
+          "estado": "normal"
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "nombre": "Hemograma Completo",
+      "tipo": "Examen de Laboratorio",
+      "fecha": "2025-07-20",
+      "medico": "Dr. Carlos Mendoza",
+      "expanded": false,
+      "resultados": [
+        {
+          "nombre": "Hemoglobina",
+          "valor": "14.2",
+          "unidad": "g/dL",
+          "rangoReferencia": "12.0-15.5 g/dL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Glóbulos Blancos",
+          "valor": "7,200",
+          "unidad": "/μL",
+          "rangoReferencia": "4,000-11,000 /μL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Hematocrito",
+          "valor": "42.5",
+          "unidad": "%",
+          "rangoReferencia": "36.0-46.0 %",
+          "estado": "normal"
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "nombre": "Hemograma Completo",
+      "tipo": "Examen de Laboratorio",
+      "fecha": "2025-07-20",
+      "medico": "Dr. Carlos Mendoza",
+      "expanded": false,
+      "resultados": [
+        {
+          "nombre": "Hemoglobina",
+          "valor": "14.2",
+          "unidad": "g/dL",
+          "rangoReferencia": "12.0-15.5 g/dL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Glóbulos Blancos",
+          "valor": "7,200",
+          "unidad": "/μL",
+          "rangoReferencia": "4,000-11,000 /μL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Hematocrito",
+          "valor": "42.5",
+          "unidad": "%",
+          "rangoReferencia": "36.0-46.0 %",
+          "estado": "normal"
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "nombre": "Hemograma Completo",
+      "tipo": "Examen de Laboratorio",
+      "fecha": "2025-07-20",
+      "medico": "Dr. Carlos Mendoza",
+      "expanded": false,
+      "resultados": [
+        {
+          "nombre": "Hemoglobina",
+          "valor": "14.2",
+          "unidad": "g/dL",
+          "rangoReferencia": "12.0-15.5 g/dL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Glóbulos Blancos",
+          "valor": "7,200",
+          "unidad": "/μL",
+          "rangoReferencia": "4,000-11,000 /μL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Hematocrito",
+          "valor": "42.5",
+          "unidad": "%",
+          "rangoReferencia": "36.0-46.0 %",
+          "estado": "normal"
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "nombre": "Hemograma Completo",
+      "tipo": "Examen de Laboratorio",
+      "fecha": "2025-07-20",
+      "medico": "Dr. Carlos Mendoza",
+      "expanded": false,
+      "resultados": [
+        {
+          "nombre": "Hemoglobina",
+          "valor": "14.2",
+          "unidad": "g/dL",
+          "rangoReferencia": "12.0-15.5 g/dL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Glóbulos Blancos",
+          "valor": "7,200",
+          "unidad": "/μL",
+          "rangoReferencia": "4,000-11,000 /μL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Hematocrito",
+          "valor": "42.5",
+          "unidad": "%",
+          "rangoReferencia": "36.0-46.0 %",
+          "estado": "normal"
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "nombre": "Hemograma Completo",
+      "tipo": "Examen de Laboratorio",
+      "fecha": "2025-07-20",
+      "medico": "Dr. Carlos Mendoza",
+      "expanded": false,
+      "resultados": [
+        {
+          "nombre": "Hemoglobina",
+          "valor": "14.2",
+          "unidad": "g/dL",
+          "rangoReferencia": "12.0-15.5 g/dL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Glóbulos Blancos",
+          "valor": "7,200",
+          "unidad": "/μL",
+          "rangoReferencia": "4,000-11,000 /μL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Hematocrito",
+          "valor": "42.5",
+          "unidad": "%",
+          "rangoReferencia": "36.0-46.0 %",
+          "estado": "normal"
+        }
+      ]
+    },
+    {
+      "id": 9,
+      "nombre": "Hemograma Completo",
+      "tipo": "Examen de Laboratorio",
+      "fecha": "2025-07-20",
+      "medico": "Dr. Carlos Mendoza",
+      "expanded": false,
+      "resultados": [
+        {
+          "nombre": "Hemoglobina",
+          "valor": "14.2",
+          "unidad": "g/dL",
+          "rangoReferencia": "12.0-15.5 g/dL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Glóbulos Blancos",
+          "valor": "7,200",
+          "unidad": "/μL",
+          "rangoReferencia": "4,000-11,000 /μL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Hematocrito",
+          "valor": "42.5",
+          "unidad": "%",
+          "rangoReferencia": "36.0-46.0 %",
+          "estado": "normal"
+        }
+      ]
+    },
+    {
+      "id": 10,
+      "nombre": "Hemograma Completo",
+      "tipo": "Examen de Laboratorio",
+      "fecha": "2025-07-20",
+      "medico": "Dr. Carlos Mendoza",
+      "expanded": false,
+      "resultados": [
+        {
+          "nombre": "Hemoglobina",
+          "valor": "14.2",
+          "unidad": "g/dL",
+          "rangoReferencia": "12.0-15.5 g/dL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Glóbulos Blancos",
+          "valor": "7,200",
+          "unidad": "/μL",
+          "rangoReferencia": "4,000-11,000 /μL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Hematocrito",
+          "valor": "42.5",
+          "unidad": "%",
+          "rangoReferencia": "36.0-46.0 %",
+          "estado": "normal"
+        }
+      ]
+    },
+    {
+      "id": 11,
+      "nombre": "Hemograma Completo",
+      "tipo": "Examen de Laboratorio",
+      "fecha": "2025-07-20",
+      "medico": "Dr. Carlos Mendoza",
+      "expanded": false,
+      "resultados": [
+        {
+          "nombre": "Hemoglobina",
+          "valor": "14.2",
+          "unidad": "g/dL",
+          "rangoReferencia": "12.0-15.5 g/dL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Glóbulos Blancos",
+          "valor": "7,200",
+          "unidad": "/μL",
+          "rangoReferencia": "4,000-11,000 /μL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Hematocrito",
+          "valor": "42.5",
+          "unidad": "%",
+          "rangoReferencia": "36.0-46.0 %",
+          "estado": "normal"
+        }
+      ]
+    },
+    {
+      "id": 12,
+      "nombre": "Hemograma Completo",
+      "tipo": "Examen de Laboratorio",
+      "fecha": "2025-07-20",
+      "medico": "Dr. Carlos Mendoza",
+      "expanded": false,
+      "resultados": [
+        {
+          "nombre": "Hemoglobina",
+          "valor": "14.2",
+          "unidad": "g/dL",
+          "rangoReferencia": "12.0-15.5 g/dL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Glóbulos Blancos",
+          "valor": "7,200",
+          "unidad": "/μL",
+          "rangoReferencia": "4,000-11,000 /μL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Hematocrito",
+          "valor": "42.5",
+          "unidad": "%",
+          "rangoReferencia": "36.0-46.0 %",
+          "estado": "normal"
+        }
+      ]
+    },
+    {
+      "id": 13,
+      "nombre": "Hemograma Completo",
+      "tipo": "Examen de Laboratorio",
+      "fecha": "2025-07-20",
+      "medico": "Dr. Carlos Mendoza",
+      "expanded": false,
+      "resultados": [
+        {
+          "nombre": "Hemoglobina",
+          "valor": "14.2",
+          "unidad": "g/dL",
+          "rangoReferencia": "12.0-15.5 g/dL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Glóbulos Blancos",
+          "valor": "7,200",
+          "unidad": "/μL",
+          "rangoReferencia": "4,000-11,000 /μL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Hematocrito",
+          "valor": "42.5",
+          "unidad": "%",
+          "rangoReferencia": "36.0-46.0 %",
+          "estado": "normal"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "nombre": "Hemograma Completo",
+      "tipo": "Examen de Laboratorio",
+      "fecha": "2025-07-20",
+      "medico": "Dr. Carlos Mendoza",
+      "expanded": false,
+      "resultados": [
+        {
+          "nombre": "Hemoglobina",
+          "valor": "14.2",
+          "unidad": "g/dL",
+          "rangoReferencia": "12.0-15.5 g/dL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Glóbulos Blancos",
+          "valor": "7,200",
+          "unidad": "/μL",
+          "rangoReferencia": "4,000-11,000 /μL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Hematocrito",
+          "valor": "42.5",
+          "unidad": "%",
+          "rangoReferencia": "36.0-46.0 %",
+          "estado": "normal"
+        }
+      ]
+    },
+    {
+      "id": 14,
+      "nombre": "Hemograma Completo",
+      "tipo": "Examen de Laboratorio",
+      "fecha": "2025-07-20",
+      "medico": "Dr. Carlos Mendoza",
+      "expanded": false,
+      "resultados": [
+        {
+          "nombre": "Hemoglobina",
+          "valor": "14.2",
+          "unidad": "g/dL",
+          "rangoReferencia": "12.0-15.5 g/dL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Glóbulos Blancos",
+          "valor": "7,200",
+          "unidad": "/μL",
+          "rangoReferencia": "4,000-11,000 /μL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Hematocrito",
+          "valor": "42.5",
+          "unidad": "%",
+          "rangoReferencia": "36.0-46.0 %",
+          "estado": "normal"
+        }
+      ]
+    },
+    {
+      "id": 15,
+      "nombre": "Hemograma Completo",
+      "tipo": "Examen de Laboratorio",
+      "fecha": "2025-07-20",
+      "medico": "Dr. Carlos Mendoza",
+      "expanded": false,
+      "resultados": [
+        {
+          "nombre": "Hemoglobina",
+          "valor": "14.2",
+          "unidad": "g/dL",
+          "rangoReferencia": "12.0-15.5 g/dL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Glóbulos Blancos",
+          "valor": "7,200",
+          "unidad": "/μL",
+          "rangoReferencia": "4,000-11,000 /μL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Hematocrito",
+          "valor": "42.5",
+          "unidad": "%",
+          "rangoReferencia": "36.0-46.0 %",
+          "estado": "normal"
+        }
+      ]
+    },
+    {
+      "id": 16,
+      "nombre": "Hemograma Completo",
+      "tipo": "Examen de Laboratorio",
+      "fecha": "2025-07-20",
+      "medico": "Dr. Carlos Mendoza",
+      "expanded": false,
+      "resultados": [
+        {
+          "nombre": "Hemoglobina",
+          "valor": "14.2",
+          "unidad": "g/dL",
+          "rangoReferencia": "12.0-15.5 g/dL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Glóbulos Blancos",
+          "valor": "7,200",
+          "unidad": "/μL",
+          "rangoReferencia": "4,000-11,000 /μL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Hematocrito",
+          "valor": "42.5",
+          "unidad": "%",
+          "rangoReferencia": "36.0-46.0 %",
+          "estado": "normal"
+        }
+      ]
+    },
+    {
+      "id": 17,
+      "nombre": "Hemograma Completo",
+      "tipo": "Examen de Laboratorio",
+      "fecha": "2025-07-20",
+      "medico": "Dr. Carlos Mendoza",
+      "expanded": false,
+      "resultados": [
+        {
+          "nombre": "Hemoglobina",
+          "valor": "14.2",
+          "unidad": "g/dL",
+          "rangoReferencia": "12.0-15.5 g/dL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Glóbulos Blancos",
+          "valor": "7,200",
+          "unidad": "/μL",
+          "rangoReferencia": "4,000-11,000 /μL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Hematocrito",
+          "valor": "42.5",
+          "unidad": "%",
+          "rangoReferencia": "36.0-46.0 %",
+          "estado": "normal"
+        }
+      ]
+    },
+    {
+      "id": 18,
+      "nombre": "Hemograma Completo",
+      "tipo": "Examen de Laboratorio",
+      "fecha": "2025-07-20",
+      "medico": "Dr. Carlos Mendoza",
+      "expanded": false,
+      "resultados": [
+        {
+          "nombre": "Hemoglobina",
+          "valor": "14.2",
+          "unidad": "g/dL",
+          "rangoReferencia": "12.0-15.5 g/dL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Glóbulos Blancos",
+          "valor": "7,200",
+          "unidad": "/μL",
+          "rangoReferencia": "4,000-11,000 /μL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Hematocrito",
+          "valor": "42.5",
+          "unidad": "%",
+          "rangoReferencia": "36.0-46.0 %",
+          "estado": "normal"
+        }
+      ]
+    },
+    {
+      "id": 19,
+      "nombre": "Hemograma Completo",
+      "tipo": "Examen de Laboratorio",
+      "fecha": "2025-07-20",
+      "medico": "Dr. Carlos Mendoza",
+      "expanded": false,
+      "resultados": [
+        {
+          "nombre": "Hemoglobina",
+          "valor": "14.2",
+          "unidad": "g/dL",
+          "rangoReferencia": "12.0-15.5 g/dL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Glóbulos Blancos",
+          "valor": "7,200",
+          "unidad": "/μL",
+          "rangoReferencia": "4,000-11,000 /μL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Hematocrito",
+          "valor": "42.5",
+          "unidad": "%",
+          "rangoReferencia": "36.0-46.0 %",
+          "estado": "normal"
+        }
+      ]
+    },
+    {
+      "id": 20,
+      "nombre": "Hemograma Completo",
+      "tipo": "Examen de Laboratorio",
+      "fecha": "2025-07-20",
+      "medico": "Dr. Carlos Mendoza",
+      "expanded": false,
+      "resultados": [
+        {
+          "nombre": "Hemoglobina",
+          "valor": "14.2",
+          "unidad": "g/dL",
+          "rangoReferencia": "12.0-15.5 g/dL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Glóbulos Blancos",
+          "valor": "7,200",
+          "unidad": "/μL",
+          "rangoReferencia": "4,000-11,000 /μL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Hematocrito",
+          "valor": "42.5",
+          "unidad": "%",
+          "rangoReferencia": "36.0-46.0 %",
+          "estado": "normal"
+        }
+      ]
+    },
+    {
+      "id": 21,
+      "nombre": "Hemograma Completo",
+      "tipo": "Examen de Laboratorio",
+      "fecha": "2025-07-20",
+      "medico": "Dr. Carlos Mendoza",
+      "expanded": false,
+      "resultados": [
+        {
+          "nombre": "Hemoglobina",
+          "valor": "14.2",
+          "unidad": "g/dL",
+          "rangoReferencia": "12.0-15.5 g/dL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Glóbulos Blancos",
+          "valor": "7,200",
+          "unidad": "/μL",
+          "rangoReferencia": "4,000-11,000 /μL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Hematocrito",
+          "valor": "42.5",
+          "unidad": "%",
+          "rangoReferencia": "36.0-46.0 %",
+          "estado": "normal"
+        }
+      ]
+    },
+    {
+      "id": 22,
+      "nombre": "Hemograma Completo",
+      "tipo": "Examen de Laboratorio",
+      "fecha": "2025-07-20",
+      "medico": "Dr. Carlos Mendoza",
+      "expanded": false,
+      "resultados": [
+        {
+          "nombre": "Hemoglobina",
+          "valor": "14.2",
+          "unidad": "g/dL",
+          "rangoReferencia": "12.0-15.5 g/dL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Glóbulos Blancos",
+          "valor": "7,200",
+          "unidad": "/μL",
+          "rangoReferencia": "4,000-11,000 /μL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Hematocrito",
+          "valor": "42.5",
+          "unidad": "%",
+          "rangoReferencia": "36.0-46.0 %",
+          "estado": "normal"
+        }
+      ]
+    },
+    {
+      "id": 23,
+      "nombre": "Hemograma Completo",
+      "tipo": "Examen de Laboratorio",
+      "fecha": "2025-07-20",
+      "medico": "Dr. Carlos Mendoza",
+      "expanded": false,
+      "resultados": [
+        {
+          "nombre": "Hemoglobina",
+          "valor": "14.2",
+          "unidad": "g/dL",
+          "rangoReferencia": "12.0-15.5 g/dL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Glóbulos Blancos",
+          "valor": "7,200",
+          "unidad": "/μL",
+          "rangoReferencia": "4,000-11,000 /μL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Hematocrito",
+          "valor": "42.5",
+          "unidad": "%",
+          "rangoReferencia": "36.0-46.0 %",
+          "estado": "normal"
+        }
+      ]
+    },
+    {
+      "id": 24,
+      "nombre": "Hemograma Completo",
+      "tipo": "Examen de Laboratorio",
+      "fecha": "2025-07-20",
+      "medico": "Dr. Carlos Mendoza",
+      "expanded": false,
+      "resultados": [
+        {
+          "nombre": "Hemoglobina",
+          "valor": "14.2",
+          "unidad": "g/dL",
+          "rangoReferencia": "12.0-15.5 g/dL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Glóbulos Blancos",
+          "valor": "7,200",
+          "unidad": "/μL",
+          "rangoReferencia": "4,000-11,000 /μL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Hematocrito",
+          "valor": "42.5",
+          "unidad": "%",
+          "rangoReferencia": "36.0-46.0 %",
+          "estado": "normal"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "nombre": "Hemograma Completo",
+      "tipo": "Examen de Laboratorio",
+      "fecha": "2025-07-20",
+      "medico": "Dr. Carlos Mendoza",
+      "expanded": false,
+      "resultados": [
+        {
+          "nombre": "Hemoglobina",
+          "valor": "14.2",
+          "unidad": "g/dL",
+          "rangoReferencia": "12.0-15.5 g/dL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Glóbulos Blancos",
+          "valor": "7,200",
+          "unidad": "/μL",
+          "rangoReferencia": "4,000-11,000 /μL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Hematocrito",
+          "valor": "42.5",
+          "unidad": "%",
+          "rangoReferencia": "36.0-46.0 %",
+          "estado": "normal"
+        }
+      ]
+    },
+    {
+      "id": 25,
+      "nombre": "Hemograma Completo",
+      "tipo": "Examen de Laboratorio",
+      "fecha": "2025-07-20",
+      "medico": "Dr. Carlos Mendoza",
+      "expanded": false,
+      "resultados": [
+        {
+          "nombre": "Hemoglobina",
+          "valor": "14.2",
+          "unidad": "g/dL",
+          "rangoReferencia": "12.0-15.5 g/dL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Glóbulos Blancos",
+          "valor": "7,200",
+          "unidad": "/μL",
+          "rangoReferencia": "4,000-11,000 /μL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Hematocrito",
+          "valor": "42.5",
+          "unidad": "%",
+          "rangoReferencia": "36.0-46.0 %",
+          "estado": "normal"
+        }
+      ]
+    },
+    {
+      "id": 26,
+      "nombre": "Hemograma Completo",
+      "tipo": "Examen de Laboratorio",
+      "fecha": "2025-07-20",
+      "medico": "Dr. Carlos Mendoza",
+      "expanded": false,
+      "resultados": [
+        {
+          "nombre": "Hemoglobina",
+          "valor": "14.2",
+          "unidad": "g/dL",
+          "rangoReferencia": "12.0-15.5 g/dL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Glóbulos Blancos",
+          "valor": "7,200",
+          "unidad": "/μL",
+          "rangoReferencia": "4,000-11,000 /μL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Hematocrito",
+          "valor": "42.5",
+          "unidad": "%",
+          "rangoReferencia": "36.0-46.0 %",
+          "estado": "normal"
+        }
+      ]
+    },
+    {
+      "id": 27,
+      "nombre": "Hemograma Completo",
+      "tipo": "Examen de Laboratorio",
+      "fecha": "2025-07-20",
+      "medico": "Dr. Carlos Mendoza",
+      "expanded": false,
+      "resultados": [
+        {
+          "nombre": "Hemoglobina",
+          "valor": "14.2",
+          "unidad": "g/dL",
+          "rangoReferencia": "12.0-15.5 g/dL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Glóbulos Blancos",
+          "valor": "7,200",
+          "unidad": "/μL",
+          "rangoReferencia": "4,000-11,000 /μL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Hematocrito",
+          "valor": "42.5",
+          "unidad": "%",
+          "rangoReferencia": "36.0-46.0 %",
+          "estado": "normal"
+        }
+      ]
+    },
+    {
+      "id": 28,
+      "nombre": "Hemograma Completo",
+      "tipo": "Examen de Laboratorio",
+      "fecha": "2025-07-20",
+      "medico": "Dr. Carlos Mendoza",
+      "expanded": false,
+      "resultados": [
+        {
+          "nombre": "Hemoglobina",
+          "valor": "14.2",
+          "unidad": "g/dL",
+          "rangoReferencia": "12.0-15.5 g/dL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Glóbulos Blancos",
+          "valor": "7,200",
+          "unidad": "/μL",
+          "rangoReferencia": "4,000-11,000 /μL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Hematocrito",
+          "valor": "42.5",
+          "unidad": "%",
+          "rangoReferencia": "36.0-46.0 %",
+          "estado": "normal"
+        }
+      ]
+    },
+    {
+      "id": 29,
+      "nombre": "Hemograma Completo",
+      "tipo": "Examen de Laboratorio",
+      "fecha": "2025-07-20",
+      "medico": "Dr. Carlos Mendoza",
+      "expanded": false,
+      "resultados": [
+        {
+          "nombre": "Hemoglobina",
+          "valor": "14.2",
+          "unidad": "g/dL",
+          "rangoReferencia": "12.0-15.5 g/dL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Glóbulos Blancos",
+          "valor": "7,200",
+          "unidad": "/μL",
+          "rangoReferencia": "4,000-11,000 /μL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Hematocrito",
+          "valor": "42.5",
+          "unidad": "%",
+          "rangoReferencia": "36.0-46.0 %",
+          "estado": "normal"
+        }
+      ]
+    },
+    {
+      "id": 30,
+      "nombre": "Hemograma Completo",
+      "tipo": "Examen de Laboratorio",
+      "fecha": "2025-07-20",
+      "medico": "Dr. Carlos Mendoza",
+      "expanded": false,
+      "resultados": [
+        {
+          "nombre": "Hemoglobina",
+          "valor": "14.2",
+          "unidad": "g/dL",
+          "rangoReferencia": "12.0-15.5 g/dL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Glóbulos Blancos",
+          "valor": "7,200",
+          "unidad": "/μL",
+          "rangoReferencia": "4,000-11,000 /μL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Hematocrito",
+          "valor": "42.5",
+          "unidad": "%",
+          "rangoReferencia": "36.0-46.0 %",
+          "estado": "normal"
+        }
+      ]
+    },
+    {
+      "id": 31,
+      "nombre": "Hemograma Completo",
+      "tipo": "Examen de Laboratorio",
+      "fecha": "2025-07-20",
+      "medico": "Dr. Carlos Mendoza",
+      "expanded": false,
+      "resultados": [
+        {
+          "nombre": "Hemoglobina",
+          "valor": "14.2",
+          "unidad": "g/dL",
+          "rangoReferencia": "12.0-15.5 g/dL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Glóbulos Blancos",
+          "valor": "7,200",
+          "unidad": "/μL",
+          "rangoReferencia": "4,000-11,000 /μL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Hematocrito",
+          "valor": "42.5",
+          "unidad": "%",
+          "rangoReferencia": "36.0-46.0 %",
+          "estado": "normal"
+        }
+      ]
+    },
+    {
+      "id": 32,
+      "nombre": "Hemograma Completo",
+      "tipo": "Examen de Laboratorio",
+      "fecha": "2025-07-20",
+      "medico": "Dr. Carlos Mendoza",
+      "expanded": false,
+      "resultados": [
+        {
+          "nombre": "Hemoglobina",
+          "valor": "14.2",
+          "unidad": "g/dL",
+          "rangoReferencia": "12.0-15.5 g/dL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Glóbulos Blancos",
+          "valor": "7,200",
+          "unidad": "/μL",
+          "rangoReferencia": "4,000-11,000 /μL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Hematocrito",
+          "valor": "42.5",
+          "unidad": "%",
+          "rangoReferencia": "36.0-46.0 %",
+          "estado": "normal"
+        }
+      ]
+    },
+    {
+      "id": 33,
+      "nombre": "Hemograma Completo",
+      "tipo": "Examen de Laboratorio",
+      "fecha": "2025-07-20",
+      "medico": "Dr. Carlos Mendoza",
+      "expanded": false,
+      "resultados": [
+        {
+          "nombre": "Hemoglobina",
+          "valor": "14.2",
+          "unidad": "g/dL",
+          "rangoReferencia": "12.0-15.5 g/dL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Glóbulos Blancos",
+          "valor": "7,200",
+          "unidad": "/μL",
+          "rangoReferencia": "4,000-11,000 /μL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Hematocrito",
+          "valor": "42.5",
+          "unidad": "%",
+          "rangoReferencia": "36.0-46.0 %",
+          "estado": "normal"
+        }
+      ]
+    },
+    {
+      "id": 34,
+      "nombre": "Hemograma Completo",
+      "tipo": "Examen de Laboratorio",
+      "fecha": "2025-07-20",
+      "medico": "Dr. Carlos Mendoza",
+      "expanded": false,
+      "resultados": [
+        {
+          "nombre": "Hemoglobina",
+          "valor": "14.2",
+          "unidad": "g/dL",
+          "rangoReferencia": "12.0-15.5 g/dL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Glóbulos Blancos",
+          "valor": "7,200",
+          "unidad": "/μL",
+          "rangoReferencia": "4,000-11,000 /μL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Hematocrito",
+          "valor": "42.5",
+          "unidad": "%",
+          "rangoReferencia": "36.0-46.0 %",
+          "estado": "normal"
+        }
+      ]
+    },
+    {
+      "id": 35,
+      "nombre": "Hemograma Completo",
+      "tipo": "Examen de Laboratorio",
+      "fecha": "2025-07-20",
+      "medico": "Dr. Carlos Mendoza",
+      "expanded": false,
+      "resultados": [
+        {
+          "nombre": "Hemoglobina",
+          "valor": "14.2",
+          "unidad": "g/dL",
+          "rangoReferencia": "12.0-15.5 g/dL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Glóbulos Blancos",
+          "valor": "7,200",
+          "unidad": "/μL",
+          "rangoReferencia": "4,000-11,000 /μL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Hematocrito",
+          "valor": "42.5",
+          "unidad": "%",
+          "rangoReferencia": "36.0-46.0 %",
+          "estado": "normal"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "nombre": "Hemograma Completo",
+      "tipo": "Examen de Laboratorio",
+      "fecha": "2025-07-20",
+      "medico": "Dr. Carlos Mendoza",
+      "expanded": false,
+      "resultados": [
+        {
+          "nombre": "Hemoglobina",
+          "valor": "14.2",
+          "unidad": "g/dL",
+          "rangoReferencia": "12.0-15.5 g/dL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Glóbulos Blancos",
+          "valor": "7,200",
+          "unidad": "/μL",
+          "rangoReferencia": "4,000-11,000 /μL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Hematocrito",
+          "valor": "42.5",
+          "unidad": "%",
+          "rangoReferencia": "36.0-46.0 %",
+          "estado": "normal"
+        }
+      ]
+    },
+    {
+      "id": 36,
+      "nombre": "Hemograma Completo",
+      "tipo": "Examen de Laboratorio",
+      "fecha": "2025-07-20",
+      "medico": "Dr. Carlos Mendoza",
+      "expanded": false,
+      "resultados": [
+        {
+          "nombre": "Hemoglobina",
+          "valor": "14.2",
+          "unidad": "g/dL",
+          "rangoReferencia": "12.0-15.5 g/dL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Glóbulos Blancos",
+          "valor": "7,200",
+          "unidad": "/μL",
+          "rangoReferencia": "4,000-11,000 /μL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Hematocrito",
+          "valor": "42.5",
+          "unidad": "%",
+          "rangoReferencia": "36.0-46.0 %",
+          "estado": "normal"
+        }
+      ]
+    },
+    {
+      "id": 37,
+      "nombre": "Hemograma Completo",
+      "tipo": "Examen de Laboratorio",
+      "fecha": "2025-07-20",
+      "medico": "Dr. Carlos Mendoza",
+      "expanded": false,
+      "resultados": [
+        {
+          "nombre": "Hemoglobina",
+          "valor": "14.2",
+          "unidad": "g/dL",
+          "rangoReferencia": "12.0-15.5 g/dL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Glóbulos Blancos",
+          "valor": "7,200",
+          "unidad": "/μL",
+          "rangoReferencia": "4,000-11,000 /μL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Hematocrito",
+          "valor": "42.5",
+          "unidad": "%",
+          "rangoReferencia": "36.0-46.0 %",
+          "estado": "normal"
+        }
+      ]
+    },
+    {
+      "id": 38,
+      "nombre": "Hemograma Completo",
+      "tipo": "Examen de Laboratorio",
+      "fecha": "2025-07-20",
+      "medico": "Dr. Carlos Mendoza",
+      "expanded": false,
+      "resultados": [
+        {
+          "nombre": "Hemoglobina",
+          "valor": "14.2",
+          "unidad": "g/dL",
+          "rangoReferencia": "12.0-15.5 g/dL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Glóbulos Blancos",
+          "valor": "7,200",
+          "unidad": "/μL",
+          "rangoReferencia": "4,000-11,000 /μL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Hematocrito",
+          "valor": "42.5",
+          "unidad": "%",
+          "rangoReferencia": "36.0-46.0 %",
+          "estado": "normal"
+        }
+      ]
+    },
+    {
+      "id": 39,
+      "nombre": "Hemograma Completo",
+      "tipo": "Examen de Laboratorio",
+      "fecha": "2025-07-20",
+      "medico": "Dr. Carlos Mendoza",
+      "expanded": false,
+      "resultados": [
+        {
+          "nombre": "Hemoglobina",
+          "valor": "14.2",
+          "unidad": "g/dL",
+          "rangoReferencia": "12.0-15.5 g/dL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Glóbulos Blancos",
+          "valor": "7,200",
+          "unidad": "/μL",
+          "rangoReferencia": "4,000-11,000 /μL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Hematocrito",
+          "valor": "42.5",
+          "unidad": "%",
+          "rangoReferencia": "36.0-46.0 %",
+          "estado": "normal"
+        }
+      ]
+    },
+    {
+      "id": 40,
+      "nombre": "Hemograma Completo",
+      "tipo": "Examen de Laboratorio",
+      "fecha": "2025-07-20",
+      "medico": "Dr. Carlos Mendoza",
+      "expanded": false,
+      "resultados": [
+        {
+          "nombre": "Hemoglobina",
+          "valor": "14.2",
+          "unidad": "g/dL",
+          "rangoReferencia": "12.0-15.5 g/dL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Glóbulos Blancos",
+          "valor": "7,200",
+          "unidad": "/μL",
+          "rangoReferencia": "4,000-11,000 /μL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Hematocrito",
+          "valor": "42.5",
+          "unidad": "%",
+          "rangoReferencia": "36.0-46.0 %",
+          "estado": "normal"
+        }
+      ]
+    },
+    {
+      "id": 41,
+      "nombre": "Hemograma Completo",
+      "tipo": "Examen de Laboratorio",
+      "fecha": "2025-07-20",
+      "medico": "Dr. Carlos Mendoza",
+      "expanded": false,
+      "resultados": [
+        {
+          "nombre": "Hemoglobina",
+          "valor": "14.2",
+          "unidad": "g/dL",
+          "rangoReferencia": "12.0-15.5 g/dL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Glóbulos Blancos",
+          "valor": "7,200",
+          "unidad": "/μL",
+          "rangoReferencia": "4,000-11,000 /μL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Hematocrito",
+          "valor": "42.5",
+          "unidad": "%",
+          "rangoReferencia": "36.0-46.0 %",
+          "estado": "normal"
+        }
+      ]
+    },
+    {
+      "id": 42,
+      "nombre": "Hemograma Completo",
+      "tipo": "Examen de Laboratorio",
+      "fecha": "2025-07-20",
+      "medico": "Dr. Carlos Mendoza",
+      "expanded": false,
+      "resultados": [
+        {
+          "nombre": "Hemoglobina",
+          "valor": "14.2",
+          "unidad": "g/dL",
+          "rangoReferencia": "12.0-15.5 g/dL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Glóbulos Blancos",
+          "valor": "7,200",
+          "unidad": "/μL",
+          "rangoReferencia": "4,000-11,000 /μL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Hematocrito",
+          "valor": "42.5",
+          "unidad": "%",
+          "rangoReferencia": "36.0-46.0 %",
+          "estado": "normal"
+        }
+      ]
+    },
+    {
+      "id": 43,
+      "nombre": "Hemograma Completo",
+      "tipo": "Examen de Laboratorio",
+      "fecha": "2025-07-20",
+      "medico": "Dr. Carlos Mendoza",
+      "expanded": false,
+      "resultados": [
+        {
+          "nombre": "Hemoglobina",
+          "valor": "14.2",
+          "unidad": "g/dL",
+          "rangoReferencia": "12.0-15.5 g/dL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Glóbulos Blancos",
+          "valor": "7,200",
+          "unidad": "/μL",
+          "rangoReferencia": "4,000-11,000 /μL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Hematocrito",
+          "valor": "42.5",
+          "unidad": "%",
+          "rangoReferencia": "36.0-46.0 %",
+          "estado": "normal"
+        }
+      ]
+    },
+    {
+      "id": 44,
+      "nombre": "Hemograma Completo",
+      "tipo": "Examen de Laboratorio",
+      "fecha": "2025-07-20",
+      "medico": "Dr. Carlos Mendoza",
+      "expanded": false,
+      "resultados": [
+        {
+          "nombre": "Hemoglobina",
+          "valor": "14.2",
+          "unidad": "g/dL",
+          "rangoReferencia": "12.0-15.5 g/dL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Glóbulos Blancos",
+          "valor": "7,200",
+          "unidad": "/μL",
+          "rangoReferencia": "4,000-11,000 /μL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Hematocrito",
+          "valor": "42.5",
+          "unidad": "%",
+          "rangoReferencia": "36.0-46.0 %",
+          "estado": "normal"
+        }
+      ]
+    },
+    {
+      "id": 45,
+      "nombre": "Hemograma Completo",
+      "tipo": "Examen de Laboratorio",
+      "fecha": "2025-07-20",
+      "medico": "Dr. Carlos Mendoza",
+      "expanded": false,
+      "resultados": [
+        {
+          "nombre": "Hemoglobina",
+          "valor": "14.2",
+          "unidad": "g/dL",
+          "rangoReferencia": "12.0-15.5 g/dL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Glóbulos Blancos",
+          "valor": "7,200",
+          "unidad": "/μL",
+          "rangoReferencia": "4,000-11,000 /μL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Hematocrito",
+          "valor": "42.5",
+          "unidad": "%",
+          "rangoReferencia": "36.0-46.0 %",
+          "estado": "normal"
+        }
+      ]
+    },
+    {
+      "id": 1,
+      "nombre": "Hemograma Completo",
+      "tipo": "Examen de Laboratorio",
+      "fecha": "2025-07-20",
+      "medico": "Dr. Carlos Mendoza",
+      "expanded": false,
+      "resultados": [
+        {
+          "nombre": "Hemoglobina",
+          "valor": "14.2",
+          "unidad": "g/dL",
+          "rangoReferencia": "12.0-15.5 g/dL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Glóbulos Blancos",
+          "valor": "7,200",
+          "unidad": "/μL",
+          "rangoReferencia": "4,000-11,000 /μL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Hematocrito",
+          "valor": "42.5",
+          "unidad": "%",
+          "rangoReferencia": "36.0-46.0 %",
+          "estado": "normal"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "nombre": "Hemograma Completo",
+      "tipo": "Examen de Laboratorio",
+      "fecha": "2025-07-20",
+      "medico": "Dr. Carlos Mendoza",
+      "expanded": false,
+      "resultados": [
+        {
+          "nombre": "Hemoglobina",
+          "valor": "14.2",
+          "unidad": "g/dL",
+          "rangoReferencia": "12.0-15.5 g/dL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Glóbulos Blancos",
+          "valor": "7,200",
+          "unidad": "/μL",
+          "rangoReferencia": "4,000-11,000 /μL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Hematocrito",
+          "valor": "42.5",
+          "unidad": "%",
+          "rangoReferencia": "36.0-46.0 %",
+          "estado": "normal"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "nombre": "Hemograma Completo",
+      "tipo": "Examen de Laboratorio",
+      "fecha": "2025-07-20",
+      "medico": "Dr. Carlos Mendoza",
+      "expanded": false,
+      "resultados": [
+        {
+          "nombre": "Hemoglobina",
+          "valor": "14.2",
+          "unidad": "g/dL",
+          "rangoReferencia": "12.0-15.5 g/dL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Glóbulos Blancos",
+          "valor": "7,200",
+          "unidad": "/μL",
+          "rangoReferencia": "4,000-11,000 /μL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Hematocrito",
+          "valor": "42.5",
+          "unidad": "%",
+          "rangoReferencia": "36.0-46.0 %",
+          "estado": "normal"
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "nombre": "Hemograma Completo",
+      "tipo": "Examen de Laboratorio",
+      "fecha": "2025-07-20",
+      "medico": "Dr. Carlos Mendoza",
+      "expanded": false,
+      "resultados": [
+        {
+          "nombre": "Hemoglobina",
+          "valor": "14.2",
+          "unidad": "g/dL",
+          "rangoReferencia": "12.0-15.5 g/dL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Glóbulos Blancos",
+          "valor": "7,200",
+          "unidad": "/μL",
+          "rangoReferencia": "4,000-11,000 /μL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Hematocrito",
+          "valor": "42.5",
+          "unidad": "%",
+          "rangoReferencia": "36.0-46.0 %",
+          "estado": "normal"
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "nombre": "Hemograma Completo",
+      "tipo": "Examen de Laboratorio",
+      "fecha": "2025-07-20",
+      "medico": "Dr. Carlos Mendoza",
+      "expanded": false,
+      "resultados": [
+        {
+          "nombre": "Hemoglobina",
+          "valor": "14.2",
+          "unidad": "g/dL",
+          "rangoReferencia": "12.0-15.5 g/dL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Glóbulos Blancos",
+          "valor": "7,200",
+          "unidad": "/μL",
+          "rangoReferencia": "4,000-11,000 /μL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Hematocrito",
+          "valor": "42.5",
+          "unidad": "%",
+          "rangoReferencia": "36.0-46.0 %",
+          "estado": "normal"
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "nombre": "Hemograma Completo",
+      "tipo": "Examen de Laboratorio",
+      "fecha": "2025-07-20",
+      "medico": "Dr. Carlos Mendoza",
+      "expanded": false,
+      "resultados": [
+        {
+          "nombre": "Hemoglobina",
+          "valor": "14.2",
+          "unidad": "g/dL",
+          "rangoReferencia": "12.0-15.5 g/dL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Glóbulos Blancos",
+          "valor": "7,200",
+          "unidad": "/μL",
+          "rangoReferencia": "4,000-11,000 /μL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Hematocrito",
+          "valor": "42.5",
+          "unidad": "%",
+          "rangoReferencia": "36.0-46.0 %",
+          "estado": "normal"
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "nombre": "Hemograma Completo",
+      "tipo": "Examen de Laboratorio",
+      "fecha": "2025-07-20",
+      "medico": "Dr. Carlos Mendoza",
+      "expanded": false,
+      "resultados": [
+        {
+          "nombre": "Hemoglobina",
+          "valor": "14.2",
+          "unidad": "g/dL",
+          "rangoReferencia": "12.0-15.5 g/dL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Glóbulos Blancos",
+          "valor": "7,200",
+          "unidad": "/μL",
+          "rangoReferencia": "4,000-11,000 /μL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Hematocrito",
+          "valor": "42.5",
+          "unidad": "%",
+          "rangoReferencia": "36.0-46.0 %",
+          "estado": "normal"
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "nombre": "Hemograma Completo",
+      "tipo": "Examen de Laboratorio",
+      "fecha": "2025-07-20",
+      "medico": "Dr. Carlos Mendoza",
+      "expanded": false,
+      "resultados": [
+        {
+          "nombre": "Hemoglobina",
+          "valor": "14.2",
+          "unidad": "g/dL",
+          "rangoReferencia": "12.0-15.5 g/dL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Glóbulos Blancos",
+          "valor": "7,200",
+          "unidad": "/μL",
+          "rangoReferencia": "4,000-11,000 /μL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Hematocrito",
+          "valor": "42.5",
+          "unidad": "%",
+          "rangoReferencia": "36.0-46.0 %",
+          "estado": "normal"
+        }
+      ]
+    },
+    {
+      "id": 9,
+      "nombre": "Hemograma Completo",
+      "tipo": "Examen de Laboratorio",
+      "fecha": "2025-07-20",
+      "medico": "Dr. Carlos Mendoza",
+      "expanded": false,
+      "resultados": [
+        {
+          "nombre": "Hemoglobina",
+          "valor": "14.2",
+          "unidad": "g/dL",
+          "rangoReferencia": "12.0-15.5 g/dL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Glóbulos Blancos",
+          "valor": "7,200",
+          "unidad": "/μL",
+          "rangoReferencia": "4,000-11,000 /μL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Hematocrito",
+          "valor": "42.5",
+          "unidad": "%",
+          "rangoReferencia": "36.0-46.0 %",
+          "estado": "normal"
+        }
+      ]
+    },
+    {
+      "id": 10,
+      "nombre": "Hemograma Completo",
+      "tipo": "Examen de Laboratorio",
+      "fecha": "2025-07-20",
+      "medico": "Dr. Carlos Mendoza",
+      "expanded": false,
+      "resultados": [
+        {
+          "nombre": "Hemoglobina",
+          "valor": "14.2",
+          "unidad": "g/dL",
+          "rangoReferencia": "12.0-15.5 g/dL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Glóbulos Blancos",
+          "valor": "7,200",
+          "unidad": "/μL",
+          "rangoReferencia": "4,000-11,000 /μL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Hematocrito",
+          "valor": "42.5",
+          "unidad": "%",
+          "rangoReferencia": "36.0-46.0 %",
+          "estado": "normal"
+        }
+      ]
+    },
+    {
+      "id": 11,
+      "nombre": "Hemograma Completo",
+      "tipo": "Examen de Laboratorio",
+      "fecha": "2025-07-20",
+      "medico": "Dr. Carlos Mendoza",
+      "expanded": false,
+      "resultados": [
+        {
+          "nombre": "Hemoglobina",
+          "valor": "14.2",
+          "unidad": "g/dL",
+          "rangoReferencia": "12.0-15.5 g/dL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Glóbulos Blancos",
+          "valor": "7,200",
+          "unidad": "/μL",
+          "rangoReferencia": "4,000-11,000 /μL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Hematocrito",
+          "valor": "42.5",
+          "unidad": "%",
+          "rangoReferencia": "36.0-46.0 %",
+          "estado": "normal"
+        }
+      ]
+    },
+    {
+      "id": 12,
+      "nombre": "Hemograma Completo",
+      "tipo": "Examen de Laboratorio",
+      "fecha": "2025-07-20",
+      "medico": "Dr. Carlos Mendoza",
+      "expanded": false,
+      "resultados": [
+        {
+          "nombre": "Hemoglobina",
+          "valor": "14.2",
+          "unidad": "g/dL",
+          "rangoReferencia": "12.0-15.5 g/dL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Glóbulos Blancos",
+          "valor": "7,200",
+          "unidad": "/μL",
+          "rangoReferencia": "4,000-11,000 /μL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Hematocrito",
+          "valor": "42.5",
+          "unidad": "%",
+          "rangoReferencia": "36.0-46.0 %",
+          "estado": "normal"
+        }
+      ]
+    },
+    {
+      "id": 13,
+      "nombre": "Hemograma Completo",
+      "tipo": "Examen de Laboratorio",
+      "fecha": "2025-07-20",
+      "medico": "Dr. Carlos Mendoza",
+      "expanded": false,
+      "resultados": [
+        {
+          "nombre": "Hemoglobina",
+          "valor": "14.2",
+          "unidad": "g/dL",
+          "rangoReferencia": "12.0-15.5 g/dL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Glóbulos Blancos",
+          "valor": "7,200",
+          "unidad": "/μL",
+          "rangoReferencia": "4,000-11,000 /μL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Hematocrito",
+          "valor": "42.5",
+          "unidad": "%",
+          "rangoReferencia": "36.0-46.0 %",
+          "estado": "normal"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "nombre": "Hemograma Completo",
+      "tipo": "Examen de Laboratorio",
+      "fecha": "2025-07-20",
+      "medico": "Dr. Carlos Mendoza",
+      "expanded": false,
+      "resultados": [
+        {
+          "nombre": "Hemoglobina",
+          "valor": "14.2",
+          "unidad": "g/dL",
+          "rangoReferencia": "12.0-15.5 g/dL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Glóbulos Blancos",
+          "valor": "7,200",
+          "unidad": "/μL",
+          "rangoReferencia": "4,000-11,000 /μL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Hematocrito",
+          "valor": "42.5",
+          "unidad": "%",
+          "rangoReferencia": "36.0-46.0 %",
+          "estado": "normal"
+        }
+      ]
+    },
+    {
+      "id": 14,
+      "nombre": "Hemograma Completo",
+      "tipo": "Examen de Laboratorio",
+      "fecha": "2025-07-20",
+      "medico": "Dr. Carlos Mendoza",
+      "expanded": false,
+      "resultados": [
+        {
+          "nombre": "Hemoglobina",
+          "valor": "14.2",
+          "unidad": "g/dL",
+          "rangoReferencia": "12.0-15.5 g/dL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Glóbulos Blancos",
+          "valor": "7,200",
+          "unidad": "/μL",
+          "rangoReferencia": "4,000-11,000 /μL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Hematocrito",
+          "valor": "42.5",
+          "unidad": "%",
+          "rangoReferencia": "36.0-46.0 %",
+          "estado": "normal"
+        }
+      ]
+    },
+    {
+      "id": 15,
+      "nombre": "Hemograma Completo",
+      "tipo": "Examen de Laboratorio",
+      "fecha": "2025-07-20",
+      "medico": "Dr. Carlos Mendoza",
+      "expanded": false,
+      "resultados": [
+        {
+          "nombre": "Hemoglobina",
+          "valor": "14.2",
+          "unidad": "g/dL",
+          "rangoReferencia": "12.0-15.5 g/dL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Glóbulos Blancos",
+          "valor": "7,200",
+          "unidad": "/μL",
+          "rangoReferencia": "4,000-11,000 /μL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Hematocrito",
+          "valor": "42.5",
+          "unidad": "%",
+          "rangoReferencia": "36.0-46.0 %",
+          "estado": "normal"
+        }
+      ]
+    },
+    {
+      "id": 16,
+      "nombre": "Hemograma Completo",
+      "tipo": "Examen de Laboratorio",
+      "fecha": "2025-07-20",
+      "medico": "Dr. Carlos Mendoza",
+      "expanded": false,
+      "resultados": [
+        {
+          "nombre": "Hemoglobina",
+          "valor": "14.2",
+          "unidad": "g/dL",
+          "rangoReferencia": "12.0-15.5 g/dL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Glóbulos Blancos",
+          "valor": "7,200",
+          "unidad": "/μL",
+          "rangoReferencia": "4,000-11,000 /μL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Hematocrito",
+          "valor": "42.5",
+          "unidad": "%",
+          "rangoReferencia": "36.0-46.0 %",
+          "estado": "normal"
+        }
+      ]
+    },
+    {
+      "id": 17,
+      "nombre": "Hemograma Completo",
+      "tipo": "Examen de Laboratorio",
+      "fecha": "2025-07-20",
+      "medico": "Dr. Carlos Mendoza",
+      "expanded": false,
+      "resultados": [
+        {
+          "nombre": "Hemoglobina",
+          "valor": "14.2",
+          "unidad": "g/dL",
+          "rangoReferencia": "12.0-15.5 g/dL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Glóbulos Blancos",
+          "valor": "7,200",
+          "unidad": "/μL",
+          "rangoReferencia": "4,000-11,000 /μL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Hematocrito",
+          "valor": "42.5",
+          "unidad": "%",
+          "rangoReferencia": "36.0-46.0 %",
+          "estado": "normal"
+        }
+      ]
+    },
+    {
+      "id": 18,
+      "nombre": "Hemograma Completo",
+      "tipo": "Examen de Laboratorio",
+      "fecha": "2025-07-20",
+      "medico": "Dr. Carlos Mendoza",
+      "expanded": false,
+      "resultados": [
+        {
+          "nombre": "Hemoglobina",
+          "valor": "14.2",
+          "unidad": "g/dL",
+          "rangoReferencia": "12.0-15.5 g/dL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Glóbulos Blancos",
+          "valor": "7,200",
+          "unidad": "/μL",
+          "rangoReferencia": "4,000-11,000 /μL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Hematocrito",
+          "valor": "42.5",
+          "unidad": "%",
+          "rangoReferencia": "36.0-46.0 %",
+          "estado": "normal"
+        }
+      ]
+    },
+    {
+      "id": 19,
+      "nombre": "Hemograma Completo",
+      "tipo": "Examen de Laboratorio",
+      "fecha": "2025-07-20",
+      "medico": "Dr. Carlos Mendoza",
+      "expanded": false,
+      "resultados": [
+        {
+          "nombre": "Hemoglobina",
+          "valor": "14.2",
+          "unidad": "g/dL",
+          "rangoReferencia": "12.0-15.5 g/dL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Glóbulos Blancos",
+          "valor": "7,200",
+          "unidad": "/μL",
+          "rangoReferencia": "4,000-11,000 /μL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Hematocrito",
+          "valor": "42.5",
+          "unidad": "%",
+          "rangoReferencia": "36.0-46.0 %",
+          "estado": "normal"
+        }
+      ]
+    },
+    {
+      "id": 20,
+      "nombre": "Hemograma Completo",
+      "tipo": "Examen de Laboratorio",
+      "fecha": "2025-07-20",
+      "medico": "Dr. Carlos Mendoza",
+      "expanded": false,
+      "resultados": [
+        {
+          "nombre": "Hemoglobina",
+          "valor": "14.2",
+          "unidad": "g/dL",
+          "rangoReferencia": "12.0-15.5 g/dL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Glóbulos Blancos",
+          "valor": "7,200",
+          "unidad": "/μL",
+          "rangoReferencia": "4,000-11,000 /μL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Hematocrito",
+          "valor": "42.5",
+          "unidad": "%",
+          "rangoReferencia": "36.0-46.0 %",
+          "estado": "normal"
+        }
+      ]
+    },
+    {
+      "id": 21,
+      "nombre": "Hemograma Completo",
+      "tipo": "Examen de Laboratorio",
+      "fecha": "2025-07-20",
+      "medico": "Dr. Carlos Mendoza",
+      "expanded": false,
+      "resultados": [
+        {
+          "nombre": "Hemoglobina",
+          "valor": "14.2",
+          "unidad": "g/dL",
+          "rangoReferencia": "12.0-15.5 g/dL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Glóbulos Blancos",
+          "valor": "7,200",
+          "unidad": "/μL",
+          "rangoReferencia": "4,000-11,000 /μL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Hematocrito",
+          "valor": "42.5",
+          "unidad": "%",
+          "rangoReferencia": "36.0-46.0 %",
+          "estado": "normal"
+        }
+      ]
+    },
+    {
+      "id": 22,
+      "nombre": "Hemograma Completo",
+      "tipo": "Examen de Laboratorio",
+      "fecha": "2025-07-20",
+      "medico": "Dr. Carlos Mendoza",
+      "expanded": false,
+      "resultados": [
+        {
+          "nombre": "Hemoglobina",
+          "valor": "14.2",
+          "unidad": "g/dL",
+          "rangoReferencia": "12.0-15.5 g/dL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Glóbulos Blancos",
+          "valor": "7,200",
+          "unidad": "/μL",
+          "rangoReferencia": "4,000-11,000 /μL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Hematocrito",
+          "valor": "42.5",
+          "unidad": "%",
+          "rangoReferencia": "36.0-46.0 %",
+          "estado": "normal"
+        }
+      ]
+    },
+    {
+      "id": 23,
+      "nombre": "Hemograma Completo",
+      "tipo": "Examen de Laboratorio",
+      "fecha": "2025-07-20",
+      "medico": "Dr. Carlos Mendoza",
+      "expanded": false,
+      "resultados": [
+        {
+          "nombre": "Hemoglobina",
+          "valor": "14.2",
+          "unidad": "g/dL",
+          "rangoReferencia": "12.0-15.5 g/dL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Glóbulos Blancos",
+          "valor": "7,200",
+          "unidad": "/μL",
+          "rangoReferencia": "4,000-11,000 /μL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Hematocrito",
+          "valor": "42.5",
+          "unidad": "%",
+          "rangoReferencia": "36.0-46.0 %",
+          "estado": "normal"
+        }
+      ]
+    },
+    {
+      "id": 24,
+      "nombre": "Hemograma Completo",
+      "tipo": "Examen de Laboratorio",
+      "fecha": "2025-07-20",
+      "medico": "Dr. Carlos Mendoza",
+      "expanded": false,
+      "resultados": [
+        {
+          "nombre": "Hemoglobina",
+          "valor": "14.2",
+          "unidad": "g/dL",
+          "rangoReferencia": "12.0-15.5 g/dL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Glóbulos Blancos",
+          "valor": "7,200",
+          "unidad": "/μL",
+          "rangoReferencia": "4,000-11,000 /μL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Hematocrito",
+          "valor": "42.5",
+          "unidad": "%",
+          "rangoReferencia": "36.0-46.0 %",
+          "estado": "normal"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "nombre": "Hemograma Completo",
+      "tipo": "Examen de Laboratorio",
+      "fecha": "2025-07-20",
+      "medico": "Dr. Carlos Mendoza",
+      "expanded": false,
+      "resultados": [
+        {
+          "nombre": "Hemoglobina",
+          "valor": "14.2",
+          "unidad": "g/dL",
+          "rangoReferencia": "12.0-15.5 g/dL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Glóbulos Blancos",
+          "valor": "7,200",
+          "unidad": "/μL",
+          "rangoReferencia": "4,000-11,000 /μL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Hematocrito",
+          "valor": "42.5",
+          "unidad": "%",
+          "rangoReferencia": "36.0-46.0 %",
+          "estado": "normal"
+        }
+      ]
+    },
+    {
+      "id": 25,
+      "nombre": "Hemograma Completo",
+      "tipo": "Examen de Laboratorio",
+      "fecha": "2025-07-20",
+      "medico": "Dr. Carlos Mendoza",
+      "expanded": false,
+      "resultados": [
+        {
+          "nombre": "Hemoglobina",
+          "valor": "14.2",
+          "unidad": "g/dL",
+          "rangoReferencia": "12.0-15.5 g/dL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Glóbulos Blancos",
+          "valor": "7,200",
+          "unidad": "/μL",
+          "rangoReferencia": "4,000-11,000 /μL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Hematocrito",
+          "valor": "42.5",
+          "unidad": "%",
+          "rangoReferencia": "36.0-46.0 %",
+          "estado": "normal"
+        }
+      ]
+    },
+    {
+      "id": 26,
+      "nombre": "Hemograma Completo",
+      "tipo": "Examen de Laboratorio",
+      "fecha": "2025-07-20",
+      "medico": "Dr. Carlos Mendoza",
+      "expanded": false,
+      "resultados": [
+        {
+          "nombre": "Hemoglobina",
+          "valor": "14.2",
+          "unidad": "g/dL",
+          "rangoReferencia": "12.0-15.5 g/dL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Glóbulos Blancos",
+          "valor": "7,200",
+          "unidad": "/μL",
+          "rangoReferencia": "4,000-11,000 /μL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Hematocrito",
+          "valor": "42.5",
+          "unidad": "%",
+          "rangoReferencia": "36.0-46.0 %",
+          "estado": "normal"
+        }
+      ]
+    },
+    {
+      "id": 27,
+      "nombre": "Hemograma Completo",
+      "tipo": "Examen de Laboratorio",
+      "fecha": "2025-07-20",
+      "medico": "Dr. Carlos Mendoza",
+      "expanded": false,
+      "resultados": [
+        {
+          "nombre": "Hemoglobina",
+          "valor": "14.2",
+          "unidad": "g/dL",
+          "rangoReferencia": "12.0-15.5 g/dL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Glóbulos Blancos",
+          "valor": "7,200",
+          "unidad": "/μL",
+          "rangoReferencia": "4,000-11,000 /μL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Hematocrito",
+          "valor": "42.5",
+          "unidad": "%",
+          "rangoReferencia": "36.0-46.0 %",
+          "estado": "normal"
+        }
+      ]
+    },
+    {
+      "id": 28,
+      "nombre": "Hemograma Completo",
+      "tipo": "Examen de Laboratorio",
+      "fecha": "2025-07-20",
+      "medico": "Dr. Carlos Mendoza",
+      "expanded": false,
+      "resultados": [
+        {
+          "nombre": "Hemoglobina",
+          "valor": "14.2",
+          "unidad": "g/dL",
+          "rangoReferencia": "12.0-15.5 g/dL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Glóbulos Blancos",
+          "valor": "7,200",
+          "unidad": "/μL",
+          "rangoReferencia": "4,000-11,000 /μL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Hematocrito",
+          "valor": "42.5",
+          "unidad": "%",
+          "rangoReferencia": "36.0-46.0 %",
+          "estado": "normal"
+        }
+      ]
+    },
+    {
+      "id": 29,
+      "nombre": "Hemograma Completo",
+      "tipo": "Examen de Laboratorio",
+      "fecha": "2025-07-20",
+      "medico": "Dr. Carlos Mendoza",
+      "expanded": false,
+      "resultados": [
+        {
+          "nombre": "Hemoglobina",
+          "valor": "14.2",
+          "unidad": "g/dL",
+          "rangoReferencia": "12.0-15.5 g/dL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Glóbulos Blancos",
+          "valor": "7,200",
+          "unidad": "/μL",
+          "rangoReferencia": "4,000-11,000 /μL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Hematocrito",
+          "valor": "42.5",
+          "unidad": "%",
+          "rangoReferencia": "36.0-46.0 %",
+          "estado": "normal"
+        }
+      ]
+    },
+    {
+      "id": 30,
+      "nombre": "Hemograma Completo",
+      "tipo": "Examen de Laboratorio",
+      "fecha": "2025-07-20",
+      "medico": "Dr. Carlos Mendoza",
+      "expanded": false,
+      "resultados": [
+        {
+          "nombre": "Hemoglobina",
+          "valor": "14.2",
+          "unidad": "g/dL",
+          "rangoReferencia": "12.0-15.5 g/dL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Glóbulos Blancos",
+          "valor": "7,200",
+          "unidad": "/μL",
+          "rangoReferencia": "4,000-11,000 /μL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Hematocrito",
+          "valor": "42.5",
+          "unidad": "%",
+          "rangoReferencia": "36.0-46.0 %",
+          "estado": "normal"
+        }
+      ]
+    },
+    {
+      "id": 31,
+      "nombre": "Hemograma Completo",
+      "tipo": "Examen de Laboratorio",
+      "fecha": "2025-07-20",
+      "medico": "Dr. Carlos Mendoza",
+      "expanded": false,
+      "resultados": [
+        {
+          "nombre": "Hemoglobina",
+          "valor": "14.2",
+          "unidad": "g/dL",
+          "rangoReferencia": "12.0-15.5 g/dL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Glóbulos Blancos",
+          "valor": "7,200",
+          "unidad": "/μL",
+          "rangoReferencia": "4,000-11,000 /μL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Hematocrito",
+          "valor": "42.5",
+          "unidad": "%",
+          "rangoReferencia": "36.0-46.0 %",
+          "estado": "normal"
+        }
+      ]
+    },
+    {
+      "id": 32,
+      "nombre": "Hemograma Completo",
+      "tipo": "Examen de Laboratorio",
+      "fecha": "2025-07-20",
+      "medico": "Dr. Carlos Mendoza",
+      "expanded": false,
+      "resultados": [
+        {
+          "nombre": "Hemoglobina",
+          "valor": "14.2",
+          "unidad": "g/dL",
+          "rangoReferencia": "12.0-15.5 g/dL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Glóbulos Blancos",
+          "valor": "7,200",
+          "unidad": "/μL",
+          "rangoReferencia": "4,000-11,000 /μL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Hematocrito",
+          "valor": "42.5",
+          "unidad": "%",
+          "rangoReferencia": "36.0-46.0 %",
+          "estado": "normal"
+        }
+      ]
+    },
+    {
+      "id": 33,
+      "nombre": "Hemograma Completo",
+      "tipo": "Examen de Laboratorio",
+      "fecha": "2025-07-20",
+      "medico": "Dr. Carlos Mendoza",
+      "expanded": false,
+      "resultados": [
+        {
+          "nombre": "Hemoglobina",
+          "valor": "14.2",
+          "unidad": "g/dL",
+          "rangoReferencia": "12.0-15.5 g/dL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Glóbulos Blancos",
+          "valor": "7,200",
+          "unidad": "/μL",
+          "rangoReferencia": "4,000-11,000 /μL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Hematocrito",
+          "valor": "42.5",
+          "unidad": "%",
+          "rangoReferencia": "36.0-46.0 %",
+          "estado": "normal"
+        }
+      ]
+    },
+    {
+      "id": 34,
+      "nombre": "Hemograma Completo",
+      "tipo": "Examen de Laboratorio",
+      "fecha": "2025-07-20",
+      "medico": "Dr. Carlos Mendoza",
+      "expanded": false,
+      "resultados": [
+        {
+          "nombre": "Hemoglobina",
+          "valor": "14.2",
+          "unidad": "g/dL",
+          "rangoReferencia": "12.0-15.5 g/dL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Glóbulos Blancos",
+          "valor": "7,200",
+          "unidad": "/μL",
+          "rangoReferencia": "4,000-11,000 /μL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Hematocrito",
+          "valor": "42.5",
+          "unidad": "%",
+          "rangoReferencia": "36.0-46.0 %",
+          "estado": "normal"
+        }
+      ]
+    },
+    {
+      "id": 35,
+      "nombre": "Hemograma Completo",
+      "tipo": "Examen de Laboratorio",
+      "fecha": "2025-07-20",
+      "medico": "Dr. Carlos Mendoza",
+      "expanded": false,
+      "resultados": [
+        {
+          "nombre": "Hemoglobina",
+          "valor": "14.2",
+          "unidad": "g/dL",
+          "rangoReferencia": "12.0-15.5 g/dL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Glóbulos Blancos",
+          "valor": "7,200",
+          "unidad": "/μL",
+          "rangoReferencia": "4,000-11,000 /μL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Hematocrito",
+          "valor": "42.5",
+          "unidad": "%",
+          "rangoReferencia": "36.0-46.0 %",
+          "estado": "normal"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "nombre": "Hemograma Completo",
+      "tipo": "Examen de Laboratorio",
+      "fecha": "2025-07-20",
+      "medico": "Dr. Carlos Mendoza",
+      "expanded": false,
+      "resultados": [
+        {
+          "nombre": "Hemoglobina",
+          "valor": "14.2",
+          "unidad": "g/dL",
+          "rangoReferencia": "12.0-15.5 g/dL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Glóbulos Blancos",
+          "valor": "7,200",
+          "unidad": "/μL",
+          "rangoReferencia": "4,000-11,000 /μL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Hematocrito",
+          "valor": "42.5",
+          "unidad": "%",
+          "rangoReferencia": "36.0-46.0 %",
+          "estado": "normal"
+        }
+      ]
+    },
+    {
+      "id": 36,
+      "nombre": "Hemograma Completo",
+      "tipo": "Examen de Laboratorio",
+      "fecha": "2025-07-20",
+      "medico": "Dr. Carlos Mendoza",
+      "expanded": false,
+      "resultados": [
+        {
+          "nombre": "Hemoglobina",
+          "valor": "14.2",
+          "unidad": "g/dL",
+          "rangoReferencia": "12.0-15.5 g/dL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Glóbulos Blancos",
+          "valor": "7,200",
+          "unidad": "/μL",
+          "rangoReferencia": "4,000-11,000 /μL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Hematocrito",
+          "valor": "42.5",
+          "unidad": "%",
+          "rangoReferencia": "36.0-46.0 %",
+          "estado": "normal"
+        }
+      ]
+    },
+    {
+      "id": 37,
+      "nombre": "Hemograma Completo",
+      "tipo": "Examen de Laboratorio",
+      "fecha": "2025-07-20",
+      "medico": "Dr. Carlos Mendoza",
+      "expanded": false,
+      "resultados": [
+        {
+          "nombre": "Hemoglobina",
+          "valor": "14.2",
+          "unidad": "g/dL",
+          "rangoReferencia": "12.0-15.5 g/dL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Glóbulos Blancos",
+          "valor": "7,200",
+          "unidad": "/μL",
+          "rangoReferencia": "4,000-11,000 /μL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Hematocrito",
+          "valor": "42.5",
+          "unidad": "%",
+          "rangoReferencia": "36.0-46.0 %",
+          "estado": "normal"
+        }
+      ]
+    },
+    {
+      "id": 38,
+      "nombre": "Hemograma Completo",
+      "tipo": "Examen de Laboratorio",
+      "fecha": "2025-07-20",
+      "medico": "Dr. Carlos Mendoza",
+      "expanded": false,
+      "resultados": [
+        {
+          "nombre": "Hemoglobina",
+          "valor": "14.2",
+          "unidad": "g/dL",
+          "rangoReferencia": "12.0-15.5 g/dL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Glóbulos Blancos",
+          "valor": "7,200",
+          "unidad": "/μL",
+          "rangoReferencia": "4,000-11,000 /μL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Hematocrito",
+          "valor": "42.5",
+          "unidad": "%",
+          "rangoReferencia": "36.0-46.0 %",
+          "estado": "normal"
+        }
+      ]
+    },
+    {
+      "id": 39,
+      "nombre": "Hemograma Completo",
+      "tipo": "Examen de Laboratorio",
+      "fecha": "2025-07-20",
+      "medico": "Dr. Carlos Mendoza",
+      "expanded": false,
+      "resultados": [
+        {
+          "nombre": "Hemoglobina",
+          "valor": "14.2",
+          "unidad": "g/dL",
+          "rangoReferencia": "12.0-15.5 g/dL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Glóbulos Blancos",
+          "valor": "7,200",
+          "unidad": "/μL",
+          "rangoReferencia": "4,000-11,000 /μL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Hematocrito",
+          "valor": "42.5",
+          "unidad": "%",
+          "rangoReferencia": "36.0-46.0 %",
+          "estado": "normal"
+        }
+      ]
+    },
+    {
+      "id": 40,
+      "nombre": "Hemograma Completo",
+      "tipo": "Examen de Laboratorio",
+      "fecha": "2025-07-20",
+      "medico": "Dr. Carlos Mendoza",
+      "expanded": false,
+      "resultados": [
+        {
+          "nombre": "Hemoglobina",
+          "valor": "14.2",
+          "unidad": "g/dL",
+          "rangoReferencia": "12.0-15.5 g/dL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Glóbulos Blancos",
+          "valor": "7,200",
+          "unidad": "/μL",
+          "rangoReferencia": "4,000-11,000 /μL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Hematocrito",
+          "valor": "42.5",
+          "unidad": "%",
+          "rangoReferencia": "36.0-46.0 %",
+          "estado": "normal"
+        }
+      ]
+    },
+    {
+      "id": 41,
+      "nombre": "Hemograma Completo",
+      "tipo": "Examen de Laboratorio",
+      "fecha": "2025-07-20",
+      "medico": "Dr. Carlos Mendoza",
+      "expanded": false,
+      "resultados": [
+        {
+          "nombre": "Hemoglobina",
+          "valor": "14.2",
+          "unidad": "g/dL",
+          "rangoReferencia": "12.0-15.5 g/dL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Glóbulos Blancos",
+          "valor": "7,200",
+          "unidad": "/μL",
+          "rangoReferencia": "4,000-11,000 /μL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Hematocrito",
+          "valor": "42.5",
+          "unidad": "%",
+          "rangoReferencia": "36.0-46.0 %",
+          "estado": "normal"
+        }
+      ]
+    },
+    {
+      "id": 42,
+      "nombre": "Hemograma Completo",
+      "tipo": "Examen de Laboratorio",
+      "fecha": "2025-07-20",
+      "medico": "Dr. Carlos Mendoza",
+      "expanded": false,
+      "resultados": [
+        {
+          "nombre": "Hemoglobina",
+          "valor": "14.2",
+          "unidad": "g/dL",
+          "rangoReferencia": "12.0-15.5 g/dL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Glóbulos Blancos",
+          "valor": "7,200",
+          "unidad": "/μL",
+          "rangoReferencia": "4,000-11,000 /μL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Hematocrito",
+          "valor": "42.5",
+          "unidad": "%",
+          "rangoReferencia": "36.0-46.0 %",
+          "estado": "normal"
+        }
+      ]
+    },
+    {
+      "id": 43,
+      "nombre": "Hemograma Completo",
+      "tipo": "Examen de Laboratorio",
+      "fecha": "2025-07-20",
+      "medico": "Dr. Carlos Mendoza",
+      "expanded": false,
+      "resultados": [
+        {
+          "nombre": "Hemoglobina",
+          "valor": "14.2",
+          "unidad": "g/dL",
+          "rangoReferencia": "12.0-15.5 g/dL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Glóbulos Blancos",
+          "valor": "7,200",
+          "unidad": "/μL",
+          "rangoReferencia": "4,000-11,000 /μL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Hematocrito",
+          "valor": "42.5",
+          "unidad": "%",
+          "rangoReferencia": "36.0-46.0 %",
+          "estado": "normal"
+        }
+      ]
+    },
+    {
+      "id": 44,
+      "nombre": "Hemograma Completo",
+      "tipo": "Examen de Laboratorio",
+      "fecha": "2025-07-20",
+      "medico": "Dr. Carlos Mendoza",
+      "expanded": false,
+      "resultados": [
+        {
+          "nombre": "Hemoglobina",
+          "valor": "14.2",
+          "unidad": "g/dL",
+          "rangoReferencia": "12.0-15.5 g/dL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Glóbulos Blancos",
+          "valor": "7,200",
+          "unidad": "/μL",
+          "rangoReferencia": "4,000-11,000 /μL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Hematocrito",
+          "valor": "42.5",
+          "unidad": "%",
+          "rangoReferencia": "36.0-46.0 %",
+          "estado": "normal"
+        }
+      ]
+    },
+    {
+      "id": 45,
+      "nombre": "Hemograma Completo",
+      "tipo": "Examen de Laboratorio",
+      "fecha": "2025-07-20",
+      "medico": "Dr. Carlos Mendoza",
+      "expanded": false,
+      "resultados": [
+        {
+          "nombre": "Hemoglobina",
+          "valor": "14.2",
+          "unidad": "g/dL",
+          "rangoReferencia": "12.0-15.5 g/dL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Glóbulos Blancos",
+          "valor": "7,200",
+          "unidad": "/μL",
+          "rangoReferencia": "4,000-11,000 /μL",
+          "estado": "normal"
+        },
+        {
+          "nombre": "Hematocrito",
+          "valor": "42.5",
+          "unidad": "%",
+          "rangoReferencia": "36.0-46.0 %",
+          "estado": "normal"
+        }
+      ]
+    }
+  ]
+}

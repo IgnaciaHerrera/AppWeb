@@ -1,12 +1,14 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { ToastController } from '@ionic/angular/standalone';
 import { 
   IonContent, IonHeader, IonTitle, IonToolbar, IonButtons, IonBackButton,
   IonGrid, IonRow, IonCol, IonButton, IonIcon, IonList, IonItem, IonLabel, 
   IonFab, IonFabButton, IonModal
 } from '@ionic/angular/standalone';
+
+import { ToastController } from '@ionic/angular/standalone';
+import { ExamenesService, Examen } from '../core/servicios/examen.service'; 
 
 interface ResultadoExamen {
   nombre: string;
@@ -14,18 +16,6 @@ interface ResultadoExamen {
   unidad: string;
   rangoReferencia?: string;
   estado: 'normal' | 'alto' | 'bajo' | 'critico';
-  observaciones?: string;
-}
-
-interface Examen {
-  id: string;
-  nombre: string;
-  tipo: string;
-  fecha: string;
-  medico?: string;
-  descripcion?: string;
-  resultados?: ResultadoExamen[];
-  expanded: boolean;
 }
 
 interface Contadores {
@@ -74,138 +64,35 @@ export class ExamenesPage implements OnInit {
   showScrollButton = false;
   private scrollThreshold = 300;
 
-  // --- Examenes ---
-  examenes: Examen[] = [
-    {
-      id: '1',
-      nombre: 'Hemograma Completo',
-      tipo: 'Examen de Laboratorio',
-      fecha: '20 Julio 2025',
-      medico: 'Dr. Carlos Mendoza',
-      expanded: false,
-      resultados: [
-        { nombre: 'Hemoglobina', valor: '14.2', unidad: 'g/dL', rangoReferencia: '12.0-15.5 g/dL', estado: 'normal' },
-        { nombre: 'Glóbulos Blancos', valor: '7,200', unidad: '/μL', rangoReferencia: '4,000-11,000 /μL', estado: 'normal' },
-        { nombre: 'Hematocrito', valor: '42.5', unidad: '%', rangoReferencia: '36.0-46.0 %', estado: 'normal' }
-      ]
-    },
-    {
-      id: '2',
-      nombre: 'Radiografía de Tórax',
-      tipo: 'Imagenología',
-      fecha: '10 Agosto 2025',
-      medico: 'Dr. Ana Vargas',
-      expanded: false,
-      resultados: [
-        { nombre: 'Campos Pulmonares', valor: 'Normal', unidad: '', estado: 'normal' },
-        { nombre: 'Silueta Cardíaca', valor: 'Normal', unidad: '', estado: 'normal' }
-      ]
-    },
-    {
-      id: '3',
-      nombre: 'Glicemia',
-      tipo: 'Examen de Laboratorio',
-      fecha: '05 Agosto 2025',
-      medico: 'Dr. Luis Prado',
-      expanded: false,
-      resultados: [
-        { nombre: 'Glucosa en Ayunas', valor: '95', unidad: 'mg/dL', rangoReferencia: '70-100 mg/dL', estado: 'normal' }
-      ]
-    },
-    {
-      id: '4',
-      nombre: 'Ecografía Abdominal',
-      tipo: 'Imagenología',
-      fecha: '28 Julio 2025',
-      medico: 'Dr. Patricia Silva',
-      expanded: false,
-      resultados: [
-        { nombre: 'Hígado', valor: 'Normal', unidad: '', estado: 'normal' },
-        { nombre: 'Vesícula Biliar', valor: 'Normal', unidad: '', estado: 'normal' },
-        { nombre: 'Riñones', valor: 'Normal', unidad: '', estado: 'normal' }
-      ]
-    },
-    {
-      id: '5',
-      nombre: 'Perfil Lipídico',
-      tipo: 'Examen de Laboratorio',
-      fecha: '15 Junio 2025',
-      medico: 'Dr. María González',
-      expanded: false,
-      resultados: [
-        { nombre: 'Colesterol Total', valor: '180', unidad: 'mg/dL', rangoReferencia: '<200 mg/dL', estado: 'normal' },
-        { nombre: 'HDL', valor: '55', unidad: 'mg/dL', rangoReferencia: '>40 mg/dL', estado: 'normal' }
-      ]
-    },
-    {
-      id: '6',
-      nombre: 'Tomografía Cerebral',
-      tipo: 'Imagenología',
-      fecha: '02 Mayo 2025',
-      medico: 'Dr. Roberto Chen',
-      expanded: false,
-      resultados: [
-        { nombre: 'Estructuras Cerebrales', valor: 'Normal', unidad: '', estado: 'normal' }
-      ]
-    },
-    {
-    id: '7',
-    nombre: 'Examen de Orina Completo',
-    tipo: 'Examen de Laboratorio',
-    fecha: '18 Diciembre 2024',
-    medico: 'Dra. Andrea Pizarro',
-    expanded: false,
-    resultados: [
-      { nombre: 'Proteínas', valor: 'Negativo', unidad: '', estado: 'normal'},
-      { nombre: 'Glucosa', valor: 'Negativo', unidad: '', estado: 'normal'},
-      { nombre: 'Densidad', valor: '1.020', unidad: '', rangoReferencia: '1.005 - 1.030', estado: 'normal'}
-    ]
-  },
-  {
-    id: '8',
-    nombre: 'Test de TSH',
-    tipo: 'Examen de Laboratorio',
-    fecha: '25 Octubre 2024',
-    medico: 'Dra. Constanza Ramírez',
-    expanded: false,
-    resultados: [
-      {nombre: 'TSH', valor: '2.1', unidad: 'μUI/mL', rangoReferencia: '0.4 - 4.0 μUI/mL', estado: 'normal'}
-    ]
-  },
-  {
-    id: '9',
-    nombre: 'Electrocardiograma',
-    tipo: 'Imagenología',
-    fecha: '08 Septiembre 2024',
-    medico: 'Dr. Rodrigo Cifuentes',
-    expanded: false,
-    resultados: [
-      {nombre: 'Ritmo sinusal', valor: 'Normal', unidad: '',estado: 'normal', observaciones: 'Frecuencia cardíaca dentro de rango normal.'}
-    ]
-  },
-  {
-    id: '10',
-    nombre: 'Ecografía Hepática',
-    tipo: 'Imagenología',
-    fecha: '04 Julio 2024',
-    medico: 'Dr. Pablo Henríquez',
-    expanded: false,
-    resultados: [
-      { nombre: 'Hígado', valor: 'Normal', unidad: '', estado: 'normal', observaciones: 'No se observan alteraciones morfológicas.'}
-    ]
-  }
-  ];
-
+  examenes: Examen[] = [];
   examenesFiltrados: Examen[] = [];
   totalExamenesTexto: string = '';
 
-  constructor(private toastController: ToastController) {}
+  constructor(private toastController: ToastController,
+              private examenesService: ExamenesService
+  ) {}
 
   ngOnInit() {
+    this.cargarExamenes();
     this.calcularContadores();
     this.examenesFiltrados = [...this.examenes];
     this.aplicarOrden();
     this.actualizarTotalExamenesTexto();
+  }
+
+  cargarExamenes() {
+    this.examenesService.listar().subscribe({
+      next: (data) => {
+        this.examenes = data;
+        this.examenesFiltrados = [...this.examenes];
+        this.calcularContadores();
+        this.aplicarOrden();
+        this.actualizarTotalExamenesTexto();
+      },
+      error: (err) => {
+        console.error('Error al cargar exámenes:', err);
+      }
+    });
   }
 
   // --- Scroll ---
