@@ -25,7 +25,6 @@
         <span class="counter-label">Laboratorio</span>
       </div>
     </div>
-
     <div class="counter-card imagenologia">
       <div class="counter-icon">
         <ion-icon name="scan-outline"></ion-icon>
@@ -47,7 +46,6 @@
         <ion-icon name="chevron-down-outline" slot="end"></ion-icon>
       </ion-button>
     </div>
-
     <div class="filter-item">
       <ion-label class="filter-label">ORDENAR</ion-label>
       <ion-button fill="solid" class="filter-button" (click)="abrirSelectorOrden()">
@@ -67,7 +65,7 @@
   <!-- Lista de exámenes -->
   <ion-list lines="none" *ngIf="examenesFiltrados.length > 0">
     <ion-item 
-      *ngFor="let examen of examenesFiltrados" 
+      *ngFor="let examen of examenesVisibles" 
       button 
       (click)="toggleExamen(examen)"
       class="examen-item"
@@ -169,6 +167,17 @@
       </ion-grid>
     </ion-item>
   </ion-list>
+  
+  <!-- Infinite Scroll -->
+  <ion-infinite-scroll 
+    threshold="100px" 
+    (ionInfinite)="onIonInfinite($event)"
+    *ngIf="examenesFiltrados.length > 0">
+    <ion-infinite-scroll-content
+      loadingSpinner="crescent"
+      loadingText="Cargando más exámenes...">
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
   
   <!-- Estado vacio -->
   <div *ngIf="examenesFiltrados.length === 0" class="empty-state">
@@ -308,7 +317,6 @@
               class="check-icon">
             </ion-icon>
           </div>
-
         </div>
       </div>
     </ng-template>
