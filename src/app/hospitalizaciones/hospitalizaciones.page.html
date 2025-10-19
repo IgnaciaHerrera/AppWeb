@@ -4,60 +4,51 @@
       <ion-back-button defaultHref="/tabs/tab5"></ion-back-button>
     </ion-buttons>
     <ion-title>Mis Hospitalizaciones</ion-title>
-
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
+<ion-content [fullscreen]="true" [scrollEvents]="true" (ionScroll)="onScroll($event)" #content>
   <ion-header collapse="condense">
     <ion-toolbar>
       <ion-title size="large">Mis Hospitalizaciones</ion-title>
     </ion-toolbar>
   </ion-header>
-  
-  <!-- título principal -->
-  <ion-grid>
-    <ion-row>
-      <ion-col size="12">
-        <h2 class="section-title">
-          <ion-icon name="bed-outline"></ion-icon>
-          Historial de Hospitalizaciones
-        </h2>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
 
-  <!-- Filtro de orden -->
-  <ion-grid>
-    <ion-row>
-      <ion-col size="12" class="filter-col">
-        <ion-item lines="none">
-          <ion-label>Ordenar por</ion-label>
-          <ion-select 
-            interface="popover" 
-            [(ngModel)]="ordenSeleccionado" 
-            (ionChange)="aplicarOrden()"
-            [selectedText]="getOrdenLabel()">
-            <ion-select-option value="recientes">Más recientes</ion-select-option>
-            <ion-select-option value="antiguas">Más antiguas</ion-select-option>
-            <ion-select-option value="alfabetico-asc">Alfabético (A-Z)</ion-select-option>
-            <ion-select-option value="alfabetico-desc">Alfabético (Z-A)</ion-select-option>
-          </ion-select>
-        </ion-item>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
+  <!-- Contadores -->
+  <div class="counter-row">
+    <app-counter-card
+      icon="bed-outline"
+      [number]="contadores.totalHospitalizaciones"
+      label="Hospitalizaciones"
+      colorClass="hospitalizaciones">
+    </app-counter-card>
 
-  <!-- lista de hospitalizaciones -->
-  <ion-list lines="none" *ngIf="hospitalizaciones.length > 0">
+    <app-counter-card
+      icon="time-outline"
+      [number]="contadores.totalDias"
+      label="Días Internado"
+      colorClass="dias">
+    </app-counter-card>
+  </div>
+
+  <!-- Barra de filtros -->
+  <app-filter-bar
+    [colorTema]="'cyan'"
+    [periodoTexto]="periodoSeleccionadoTexto"
+    [ordenTexto]="getOrdenLabel()"
+    (abrirPeriodo)="abrirSelectorPeriodo()"
+    (abrirOrden)="abrirSelectorOrden()">
+  </app-filter-bar>
+
+  <!-- Lista de hospitalizaciones -->
+  <ion-list lines="none" *ngIf="hospitalizacionesFiltradas.length > 0">
     <ion-item 
-      *ngFor="let hosp of hospitalizaciones" 
+      *ngFor="let hosp of hospitalizacionesVisibles" 
       button 
       (click)="toggleHospitalizacion(hosp)"
       class="hospitalizacion-item"
       [ngClass]="getStatusClass(hosp)">
       <ion-grid>
-        <!-- cabecera -->
         <ion-row class="ion-align-items-center">
           <ion-col size="7">
             <ion-label>
@@ -70,16 +61,17 @@
               {{ getStatusLabel(hosp) }}
             </ion-badge>
           </ion-col>
-          <ion-col size="1">
-            <ion-icon 
-              [name]="hosp.expanded ? 'chevron-up-outline' : 'chevron-down-outline'"
-              class="expand-icon">
+          <ion-col size="1" class="ion-text-end">
+            <ion-icon
+              name="chevron-down-outline"
+              class="expand-icon"
+              [class.rotated]="hosp.expanded">
             </ion-icon>
           </ion-col>
         </ion-row>
-        
-        <!-- detalles expandidos -->
-        <ion-row *ngIf="hosp.expanded" class="hospitalizacion-expanded-row">
+
+        <!-- Detalles expandidos -->
+        <ion-row class="hospitalizacion-expanded-row" [class.expanded]="hosp.expanded">
           <ion-col size="12">
             <div class="detail-container">
               <!-- Fecha de Ingreso -->
@@ -104,7 +96,7 @@
                 </div>
               </div>
               
-              <!-- Médico Responsable -->
+              <!-- Medico Responsable -->
               <div class="detail-item">
                 <div class="detail-icon-wrapper medico-icon">
                   <ion-icon name="person-outline" class="detail-icon"></ion-icon>
@@ -131,21 +123,135 @@
       </ion-grid>
     </ion-item>
   </ion-list>
-  
-  <!-- estado vacío -->
-  <div *ngIf="hospitalizaciones.length === 0" class="empty-state">
+
+  <!-- Infinite Scroll -->
+  <ion-infinite-scroll 
+    threshold="100px" 
+    (ionInfinite)="onIonInfinite($event)"
+    *ngIf="hospitalizacionesFiltradas.length > 0">
+    <ion-infinite-scroll-content
+      loadingSpinner="crescent"
+      loadingText="Cargando más hospitalizaciones...">
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+
+  <!-- Estado vacio -->
+  <div *ngIf="hospitalizacionesFiltradas.length === 0" class="empty-state">
     <ion-icon name="bed-outline" class="empty-icon"></ion-icon>
-    <h3>No hay hospitalizaciones registradas</h3>
+    <h3>No hay hospitalizaciones para este período</h3>
+    <p>Intenta seleccionar otro período o "Todos"</p>
   </div>
 
-    <!-- botón flotante -->
+  <!-- Boton flotante -->
   <ion-fab vertical="bottom" horizontal="end" slot="fixed">
     <ion-fab-button class="fab-add" (click)="abrirModal()">
       <ion-icon name="add"></ion-icon>
     </ion-fab-button>
   </ion-fab>
 
-  <!-- Modal -->
+  <app-scroll-to-top 
+    [visible]="showScrollButton" 
+    [content]="content">
+  </app-scroll-to-top>
+
+  <!-- Modal de periodo -->
+  <ion-modal 
+    [isOpen]="modalPeriodoAbierto" 
+    (didDismiss)="cerrarSelectorPeriodo()"
+    [initialBreakpoint]="1"
+    [breakpoints]="[0, 1]"
+    class="periodo-modal">
+    <ng-template>
+      <div class="modal-wrapper">
+        <div class="modal-header-clean">
+          <h2>Filtrar por período</h2>
+          <ion-button fill="clear" class="close-button" (click)="cerrarSelectorPeriodo()">
+            <ion-icon name="close" slot="icon-only"></ion-icon>
+          </ion-button>
+        </div>
+        <div class="modal-content-clean">
+          <div class="period-option"
+            [class.selected]="periodoSeleccionado === 'todos'"
+            (click)="seleccionarPeriodo('todos')">
+            <div class="option-icon"><ion-icon name="calendar-clear-outline"></ion-icon></div>
+            <div class="option-text"><h3>Todos los períodos</h3><p>Ver todas las hospitalizaciones</p></div>
+            <ion-icon *ngIf="periodoSeleccionado === 'todos'" name="checkmark-circle" class="check-icon"></ion-icon>
+          </div>
+          <div class="period-option"
+            [class.selected]="periodoSeleccionado === 'ultimo-mes'"
+            (click)="seleccionarPeriodo('ultimo-mes')">
+            <div class="option-icon"><ion-icon name="time-outline"></ion-icon></div>
+            <div class="option-text"><h3>Último mes</h3><p>Hospitalizaciones de los últimos 30 días</p></div>
+            <ion-icon *ngIf="periodoSeleccionado === 'ultimo-mes'" name="checkmark-circle" class="check-icon"></ion-icon>
+          </div>
+          <div class="period-option"
+            [class.selected]="periodoSeleccionado === 'ultimos-3-meses'"
+            (click)="seleccionarPeriodo('ultimos-3-meses')">
+            <div class="option-icon"><ion-icon name="stats-chart-outline"></ion-icon></div>
+            <div class="option-text"><h3>Últimos 3 meses</h3><p>Hospitalizaciones de los últimos 90 días</p></div>
+            <ion-icon *ngIf="periodoSeleccionado === 'ultimos-3-meses'" name="checkmark-circle" class="check-icon"></ion-icon>
+          </div>
+          <div class="period-option"
+            [class.selected]="periodoSeleccionado === 'ultimos-6-meses'"
+            (click)="seleccionarPeriodo('ultimos-6-meses')">
+            <div class="option-icon"><ion-icon name="trending-up-outline"></ion-icon></div>
+            <div class="option-text"><h3>Últimos 6 meses</h3><p>Hospitalizaciones del semestre actual</p></div>
+            <ion-icon *ngIf="periodoSeleccionado === 'ultimos-6-meses'" name="checkmark-circle" class="check-icon"></ion-icon>
+          </div>
+          <div class="period-option"
+            [class.selected]="periodoSeleccionado === 'este-anio'"
+            (click)="seleccionarPeriodo('este-anio')">
+            <div class="option-icon"><ion-icon name="calendar-number-outline"></ion-icon></div>
+            <div class="option-text"><h3>Este año</h3><p>Hospitalizaciones del año actual</p></div>
+            <ion-icon *ngIf="periodoSeleccionado === 'este-anio'" name="checkmark-circle" class="check-icon"></ion-icon>
+          </div>
+        </div>
+      </div>
+    </ng-template>
+  </ion-modal>
+
+  <!-- Modal de ordenar -->
+  <ion-modal 
+    [isOpen]="modalOrdenAbierto" 
+    (didDismiss)="cerrarSelectorOrden()"
+    [initialBreakpoint]="1"
+    [breakpoints]="[0, 1]"
+    class="periodo-modal">
+    <ng-template>
+      <div class="modal-wrapper">
+        <div class="modal-header-clean">
+          <h2>Ordenar por</h2>
+          <ion-button fill="clear" class="close-button" (click)="cerrarSelectorOrden()">
+            <ion-icon name="close" slot="icon-only"></ion-icon>
+          </ion-button>
+        </div>
+        <div class="modal-content-clean">
+          <div class="period-option" [class.selected]="ordenSeleccionado === 'recientes'" (click)="seleccionarOrden('recientes')">
+            <div class="option-icon"><ion-icon name="arrow-down-outline"></ion-icon></div>
+            <div class="option-text"><h3>Más recientes</h3><p>Hospitalizaciones más nuevas primero</p></div>
+            <ion-icon *ngIf="ordenSeleccionado === 'recientes'" name="checkmark-circle" class="check-icon"></ion-icon>
+          </div>
+          <div class="period-option" [class.selected]="ordenSeleccionado === 'antiguas'" (click)="seleccionarOrden('antiguas')">
+            <div class="option-icon"><ion-icon name="arrow-up-outline"></ion-icon></div>
+            <div class="option-text"><h3>Más antiguas</h3><p>Hospitalizaciones más antiguas primero</p></div>
+            <ion-icon *ngIf="ordenSeleccionado === 'antiguas'" name="checkmark-circle" class="check-icon"></ion-icon>
+          </div>
+          <div class="period-option" [class.selected]="ordenSeleccionado === 'alfabetico-asc'" (click)="seleccionarOrden('alfabetico-asc')">
+            <div class="option-icon"><ion-icon name="text-outline"></ion-icon></div>
+            <div class="option-text"><h3>A-Z</h3><p>Orden alfabético ascendente</p></div>
+            <ion-icon *ngIf="ordenSeleccionado === 'alfabetico-asc'" name="checkmark-circle" class="check-icon"></ion-icon>
+          </div>
+          <div class="period-option" [class.selected]="ordenSeleccionado === 'alfabetico-desc'" (click)="seleccionarOrden('alfabetico-desc')">
+            <div class="option-icon"><ion-icon name="text-outline"></ion-icon></div>
+            <div class="option-text"><h3>Z-A</h3><p>Orden alfabético descendente</p></div>
+            <ion-icon *ngIf="ordenSeleccionado === 'alfabetico-desc'" name="checkmark-circle" class="check-icon"></ion-icon>
+          </div>
+        </div>
+      </div>
+    </ng-template>
+  </ion-modal>
+
+  <!-- Modal agregar hospitalizacion -->
   <ion-modal [isOpen]="modalAbierto" (didDismiss)="cerrarModal()">
     <ng-template>
       <ion-header>
@@ -158,6 +264,7 @@
           </ion-buttons>
         </ion-toolbar>
       </ion-header>
+
       <ion-content class="ion-padding">
         <div class="form-fields">
           <!-- Motivo -->
@@ -168,7 +275,8 @@
               <ion-input [(ngModel)]="nuevaHosp.motivo" placeholder="Ej. Neumonía aguda"></ion-input>
             </div>
           </div>
-          <!-- Médico -->
+
+          <!-- Medico -->
           <div class="field-group">
             <label class="field-label">Médico Responsable</label>
             <div class="input-container">
@@ -176,6 +284,7 @@
               <ion-input [(ngModel)]="nuevaHosp.medico" placeholder="Ej. Dr. Juan Pérez"></ion-input>
             </div>
           </div>
+
           <!-- Hospital -->
           <div class="field-group">
             <label class="field-label">Hospital / Clínica</label>
@@ -184,6 +293,7 @@
               <ion-input [(ngModel)]="nuevaHosp.hospital" placeholder="Ej. Hospital Central"></ion-input>
             </div>
           </div>
+
           <!-- Fecha de ingreso -->
           <div class="field-group">
             <label class="field-label">Fecha de ingreso</label>
@@ -202,7 +312,8 @@
               </ng-template>
             </ion-popover>
           </div>
-          <!-- Toggle finalización -->
+
+          <!-- Toggle finalizacion -->
           <div class="field-group">
             <label class="field-label">¿La hospitalización ya finalizó?</label>
             <div class="input-container">
@@ -210,7 +321,8 @@
               <ion-toggle [(ngModel)]="finalizada" color="primary"></ion-toggle>
             </div>
           </div>
-          <!-- Fecha de alta (solo si finalizada) -->
+
+          <!-- Fecha de alta -->
           <div class="field-group" *ngIf="finalizada">
             <label class="field-label">Fecha de alta</label>
             <div class="input-container" id="fecha-alta-trigger" button="true">
@@ -230,15 +342,12 @@
           </div>
         </div>
       </ion-content>
+
       <ion-footer>
         <ion-toolbar>
           <div class="modal-buttons">
-            <ion-button expand="block" class="btn-cancelar" (click)="cerrarModal()">
-              Cancelar
-            </ion-button>
-            <ion-button expand="block" class="btn-guardar" (click)="guardarHospitalizacion()" [disabled]="!esFormularioValido()">
-              Guardar
-            </ion-button>
+            <ion-button expand="block" class="btn-cancelar" (click)="cerrarModal()">Cancelar</ion-button>
+            <ion-button expand="block" class="btn-guardar" (click)="guardarHospitalizacion()" [disabled]="!esFormularioValido()">Guardar</ion-button>
           </div>
         </ion-toolbar>
       </ion-footer>

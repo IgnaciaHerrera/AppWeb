@@ -1,0 +1,104 @@
+.filters-container {
+  display: flex;
+  gap: 12px;
+  margin: 16px;
+  padding: 0;
+}
+
+/* Cada bloque (PERiODO / ORDENAR) */
+.filter-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* Etiqueta superior */
+.filter-label {
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: var(--ion-color-medium);
+  letter-spacing: 0.4px;
+  margin: 0;
+  padding: 0 12px;
+  text-transform: uppercase;
+}
+
+/* Boton principal */
+.filter-button {
+  --background: var(--ion-card-background);
+  --color: var(--ion-text-color);
+  --border-radius: 14px;
+  --box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  --padding-start: 14px;
+  --padding-end: 14px;
+  --inner-padding-end: 0;
+  height: 52px;
+  width: 100%;
+  font-size: 0.95rem;
+  font-weight: 700;
+  text-transform: none;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  border-radius: 14px;
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+
+  &:hover {
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.12);
+  }
+
+  &:active {
+    transform: scale(0.98);
+  }
+
+  ion-icon:first-child {
+    font-size: 1.3rem;
+    margin-right: 10px;
+    color: var(--primary-color);
+    flex-shrink: 0;
+  }
+
+  span {
+    flex: 1;
+    text-align: left;
+    font-weight: 700;
+    letter-spacing: 0.1px;
+  }
+
+  ion-icon:last-child {
+    font-size: 1.05rem;
+    margin-left: auto;
+    color: var(--ion-color-medium);
+  }
+}
+
+/* Temas */
+.filters-container.verde {
+  --primary-color: #12b886;
+}
+
+.filters-container.cyan {
+  --primary-color: #22b8cf;
+}
+
+@media (prefers-color-scheme: dark) {
+  .filter-button {
+    --background: rgba(255, 255, 255, 0.05);
+    --box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    color: var(--ion-text-color);
+  }
+
+  .filter-button:hover {
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.4);
+  }
+
+  .filter-label {
+    color: rgba(255, 255, 255, 0.6);
+  }
+
+  ion-icon:last-child {
+    color: rgba(255, 255, 255, 0.6);
+  }
+}

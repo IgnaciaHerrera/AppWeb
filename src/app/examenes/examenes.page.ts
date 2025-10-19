@@ -8,6 +8,10 @@ import {
 } from '@ionic/angular/standalone';
 import { ToastController } from '@ionic/angular/standalone';
 import { ExamenesService, Examen } from '../core/servicios/examen.service'; 
+import { FilterBarComponent } from '../components/filter-bar/filter-bar.component';
+import { ScrollToTopComponent } from '../components/scroll-to-top/scroll-to-top.component';
+import { CounterCardComponent } from '../components/counter-card/counter-card.component';
+
 
 interface ResultadoExamen {
   nombre: string;
@@ -34,7 +38,8 @@ type TipoPeriodo = 'todos' | 'ultimo-mes' | 'ultimos-3-meses' | 'ultimos-6-meses
     CommonModule, FormsModule,
     IonContent, IonHeader, IonTitle, IonToolbar, IonButtons, IonBackButton,
     IonGrid, IonRow, IonCol, IonButton, IonIcon, IonList, IonItem, IonLabel,
-    IonFab, IonFabButton, IonModal, IonInfiniteScroll, IonInfiniteScrollContent
+    IonFab, IonFabButton, IonModal, IonInfiniteScroll, IonInfiniteScrollContent,
+    FilterBarComponent, ScrollToTopComponent, CounterCardComponent 
   ]
 })
 export class ExamenesPage implements OnInit {
@@ -63,9 +68,13 @@ export class ExamenesPage implements OnInit {
   showScrollButton = false;
   private scrollThreshold = 300;
 
-  // --- Variables para lazy loading ---
+  // --- Lazy loading ---
   private itemsPorCarga = 10; 
   private indiceActual = 0; 
+
+  // Bidireccional
+  private lastScrollTop = 0;
+  private buffer = 200;
 
   examenes: Examen[] = [];
   examenesFiltrados: Examen[] = [];
@@ -90,6 +99,7 @@ export class ExamenesPage implements OnInit {
         this.aplicarOrden();
         this.actualizarTotalExamenesTexto();
         this.cargarPrimerosExamenes(); 
+        this.resetInfiniteScroll(); 
       },
       error: (err) => {
         console.error('Error al cargar exámenes:', err);
@@ -106,10 +116,10 @@ export class ExamenesPage implements OnInit {
   cargarMasExamenes() {
     const inicio = this.indiceActual;
     const fin = Math.min(inicio + this.itemsPorCarga, this.examenesFiltrados.length);
-    
+    if (inicio >= fin) return;
+
     const nuevosExamenes = this.examenesFiltrados.slice(inicio, fin);
     this.examenesVisibles = [...this.examenesVisibles, ...nuevosExamenes];
-    
     this.indiceActual = fin;
   }
 
@@ -117,11 +127,11 @@ export class ExamenesPage implements OnInit {
     setTimeout(() => {
       this.cargarMasExamenes();
       event.target.complete();
-      
+
       if (this.indiceActual >= this.examenesFiltrados.length) {
         event.target.disabled = true;
       }
-    }, 700); 
+    }, 500);
   }
 
   resetInfiniteScroll() {
@@ -130,10 +140,38 @@ export class ExamenesPage implements OnInit {
     }
   }
 
-  // --- Scroll ---
+  // --- Scroll bidireccional ---
   onScroll(event: any) {
     const scrollTop = event.detail.scrollTop;
+    const scrollHeight = event.target.scrollHeight;
+    const clientHeight = event.target.clientHeight;
+    const nearBottom = scrollTop + clientHeight + this.buffer >= scrollHeight;
+    const nearTop = scrollTop <= this.buffer;
+
     this.showScrollButton = scrollTop > this.scrollThreshold;
+
+    if (scrollTop > this.lastScrollTop) {
+      if (nearBottom && !this.infiniteScroll?.disabled && this.indiceActual < this.examenesFiltrados.length) {
+      }
+    } else {
+      // === Subiendo ===
+      if (nearTop) {
+        if (this.indiceActual > this.itemsPorCarga) {
+          const nuevoInicio = Math.max(0, this.indiceActual - 2 * this.itemsPorCarga);
+          this.examenesVisibles = this.examenesFiltrados.slice(
+            nuevoInicio,
+            nuevoInicio + this.itemsPorCarga
+          );
+          this.indiceActual = nuevoInicio + this.itemsPorCarga;
+
+          if (this.infiniteScroll?.disabled) {
+            this.infiniteScroll.disabled = false;
+          }
+        }
+      }
+    }
+
+    this.lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
   }
 
   async scrollToTop() {
@@ -211,7 +249,7 @@ export class ExamenesPage implements OnInit {
     this.cerrarSelectorPeriodo();
     this.actualizarTotalExamenesTexto();
     this.cargarPrimerosExamenes(); 
-    this.resetInfiniteScroll(); 
+    this.resetInfiniteScroll();
   }
 
   parsearFechaExamen(fecha: string): Date {
@@ -235,7 +273,7 @@ export class ExamenesPage implements OnInit {
     this.aplicarOrden();
     this.cerrarSelectorOrden();
     this.cargarPrimerosExamenes(); 
-    this.resetInfiniteScroll(); 
+    this.resetInfiniteScroll();
   }
 
   aplicarOrden(): void {

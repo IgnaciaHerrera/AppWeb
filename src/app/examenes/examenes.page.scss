@@ -19,119 +19,6 @@
   gap: 8px;
 }
 
-.counter-card {
-  background: var(--ion-card-background);
-  border-radius: 12px;
-  padding: 12px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  border-left: 3px solid var(--success-color);
-  transition: all 0.3s ease;
-  width: 100%;
-  height: 100%;
-  
-  &:hover {
-    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.12);
-    transform: translateY(-1px);
-  }
-  
-  &.laboratorio,
-  &.imagenologia {
-    border-left-color: var(--success-color);
-    
-    .counter-icon {
-      background: linear-gradient(135deg, var(--success-color), #51cf66);
-    }
-  }
-}
-
-.counter-icon {
-  width: 36px;
-  height: 36px;
-  border-radius: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  
-  ion-icon {
-    font-size: 1.2rem;
-    color: white;
-  }
-}
-
-.counter-info {
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-  
-  .counter-number {
-    font-size: 1.4rem;
-    font-weight: 700;
-    color: var(--ion-text-color);
-    line-height: 1;
-  }
-  
-  .counter-label {
-    font-size: 0.7rem;
-    color: var(--ion-color-medium);
-    font-weight: 500;
-    text-transform: uppercase;
-    letter-spacing: 0.3px;
-    margin-top: 2px;
-  }
-}
-
-/* Filtros*/
-.filters-container {
-  display: flex;
-  gap: 12px;
-  margin: 16px 16px 16px 16px;
-  padding: 0;
-}
-
-.filter-item {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.filter-label {
-  font-size: 0.65rem;
-  font-weight: 700;
-  color: var(--ion-color-medium);
-  letter-spacing: 0.5px;
-  margin: 0;
-  padding: 0 12px;
-  text-transform: uppercase;
-}
-
-.filter-select-item {
-  --background: var(--ion-card-background);
-  --border-radius: 12px;
-  --padding-start: 12px;
-  --padding-end: 12px;
-  --inner-padding-end: 0;
-  --min-height: 48px;
-  border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-  margin: 0;
-}
-
-/* Modo oscuro para filtros */
-@media (prefers-color-scheme: dark) {
-  .filter-select-item {
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-  }
-  
-  .filter-label {
-    color: var(--ion-color-medium);
-  }
-}
-
 .exam-count-container {
   display: flex;
   align-items: center;
@@ -153,41 +40,6 @@
   to { opacity: 1; transform: translateY(0); }
 }
 
-
-/* Boton de periodo */
-.filter-button {
-  --background: var(--ion-card-background);
-  --color: var(--ion-text-color);
-  --border-radius: 12px;
-  --box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-  --padding-start: 12px;
-  --padding-end: 12px;
-  height: 48px;
-  width: 100%;
-  font-size: 0.9rem;
-  font-weight: 600;
-  text-transform: none;
-  margin: 0;
-  
-  ion-icon {
-    &:first-child {
-      color: var(--primary-color);
-      font-size: 1.2rem;
-      margin-right: 8px;
-    }
-    
-    &:last-child {
-      font-size: 1rem;
-      margin-left: 8px;
-      color: var(--ion-color-medium);
-    }
-  }
-  
-  span {
-    flex: 1;
-    text-align: left;
-  }
-}
 
 /* Modal de periodo */
 .periodo-modal {
@@ -693,69 +545,6 @@ ion-fab-button {
   border-radius: 50%; 
 }
 
-/* Scroll to top button*/
-.scroll-to-top-fab {
-  margin-bottom: 16px;
-  margin-left: 16px;
-  opacity: 0;
-  transform: scale(0.5) translateY(20px);
-  transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-  pointer-events: none;
-
-  &.visible {
-    opacity: 1;
-    transform: scale(1) translateY(0);
-    pointer-events: all;
-  }
-}
-
-.scroll-to-top-button {
-  --background: #6c757d !important; /* gris neutro sólido */
-  --background-hover: #5a6268;
-  --background-activated: #495057;
-  --color: #fff;
-  --box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
-  width: 48px;
-  height: 48px;
-  border-radius: 50%;
-  position: relative;
-  overflow: hidden;
-  backdrop-filter: none !important;
-  -webkit-backdrop-filter: none !important;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-
-  ion-icon {
-    font-size: 1.3rem;
-    font-weight: bold;
-    color: #ffffff;
-    animation: bounce-arrow 2s ease-in-out infinite;
-    filter: none; 
-  }
-
-  &::after {
-    content: none !important;
-  }
-
-  &:hover {
-    transform: translateY(-3px) scale(1.05);
-    --box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-  }
-
-  &:active {
-    transform: translateY(-1px) scale(1.02);
-    --box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
-  }
-}
-
-
-/* Animacion del icono */
-@keyframes bounce-arrow {
-  0%, 100% { transform: translateY(0); }
-  25% { transform: translateY(-5px); }
-  50% { transform: translateY(0); }
-  75% { transform: translateY(-2px); }
-}
-
 /* Modal subir examen*/
 .modal-header-content {
   text-align: center;
@@ -1008,13 +797,6 @@ ion-fab-button {
     --imaging-color: #a855f7;
   }
   
-  .counter-card {
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-    
-    &:hover {
-      box-shadow: 0 3px 12px rgba(0, 0, 0, 0.4);
-    }
-  }  
   .examen-item {
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
   }
@@ -1060,32 +842,6 @@ ion-fab-button {
     border-top-color: rgba(255, 255, 255, 0.1);
   }
   
-  .scroll-to-top-button {
-    --background: rgba(80, 80, 80, 0.6) !important;
-    --background-hover: rgba(100, 100, 100, 0.75);
-    --background-activated: rgba(120, 120, 120, 0.8);
-    --color: #ffffff;
-    --box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
-
-    border: 1px solid rgba(255, 255, 255, 0.12);
-
-    &:hover {
-      transform: translateY(-3px) scale(1.05);
-      --box-shadow: 0 10px 26px rgba(0, 0, 0, 0.5);
-      border-color: rgba(255, 255, 255, 0.2);
-    }
-
-    &:active {
-      transform: translateY(-1px) scale(1.02);
-      --box-shadow: 0 4px 14px rgba(0, 0, 0, 0.3);
-    }
-
-    ion-icon {
-      color: #ffffff;
-      filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.5));
-    }
-  }
-
   .expand-icon.rotated {
     color: var(--primary-color);
   }

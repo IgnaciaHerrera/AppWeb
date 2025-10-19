@@ -1,0 +1,19 @@
+<div class="filters-container" [ngClass]="colorTema">
+  <div class="filter-item">
+    <ion-label class="filter-label">PERÍODO</ion-label>
+    <ion-button fill="solid" class="filter-button" (click)="abrirSelectorPeriodo()">
+      <ion-icon name="calendar-outline" slot="start"></ion-icon>
+      <span>{{ periodoTexto }}</span>
+      <ion-icon name="chevron-down-outline" slot="end"></ion-icon>
+    </ion-button>
+  </div>
+
+  <div class="filter-item">
+    <ion-label class="filter-label">ORDENAR</ion-label>
+    <ion-button fill="solid" class="filter-button" (click)="abrirSelectorOrden()">
+      <ion-icon name="swap-vertical-outline" slot="start"></ion-icon>
+      <span>{{ ordenTexto }}</span>
+      <ion-icon name="chevron-down-outline" slot="end"></ion-icon>
+    </ion-button>
+  </div>
+</div>
