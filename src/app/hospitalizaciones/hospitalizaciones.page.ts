@@ -12,6 +12,7 @@ import {
 import { FilterBarComponent } from '../components/filter-bar/filter-bar.component';
 import { ScrollToTopComponent } from '../components/scroll-to-top/scroll-to-top.component';
 import { CounterCardComponent } from '../components/counter-card/counter-card.component';
+import { ApiService } from '../services/api.service';
 
 interface Hospitalizacion {
   id: string;
@@ -89,15 +90,10 @@ export class HospitalizacionesPage implements OnInit {
     fechaAlta: ''
   };
 
-  constructor(private toastController: ToastController) {
-    this.inicializarDatosDePrueba();
-  }
+  constructor(private toastController: ToastController, private api: ApiService) {}
 
   ngOnInit() {
-    this.aplicarOrden();
-    this.aplicarFiltroPeriodo();
-    this.actualizarContadores();
-    this.cargarPrimerasHospitalizaciones(); 
+    this.cargarHospitalizaciones();
   }
 
   // --- Lazy loading ---  
@@ -402,235 +398,71 @@ export class HospitalizacionesPage implements OnInit {
     });
     await toast.present();
   }
+  async cargarHospitalizaciones() {
+    try {
+      console.log('Cargando hospitalizaciones desde la API...');
+      const response: any = await this.api.get('/hospitalizaciones');
 
-  private inicializarDatosDePrueba(): void {
-    this.hospitalizaciones = [
-      {
-        id: '1',
-        motivo: 'Evaluación postoperatoria',
-        fechaIngreso: '2025-10-19',
-        medico: 'Dr. Roberto Silva',
-        hospital: 'Hospital Universitario',
-        expanded: false
-      },
-      {
-        id: '2',
-        motivo: 'Control diabético',
-        fechaIngreso: '2024-07-10',
-        fechaAlta: '2024-07-18',
-        medico: 'Dr. Carlos Mendoza',
-        hospital: 'Hospital Central',
-        expanded: false
-      },
-      {
-        id: '3',
-        motivo: 'Chequeo cardiológico',
-        fechaIngreso: '2024-08-03',
-        fechaAlta: '2024-08-05',
-        medico: 'Dra. Valentina Torres',
-        hospital: 'Clínica Los Andes',
-        expanded: false
-      },
-      {
-        id: '4',
-        motivo: 'Tratamiento de hipertensión',
-        fechaIngreso: '2024-09-01',
-        fechaAlta: '2024-09-09',
-        medico: 'Dr. Andrés Muñoz',
-        hospital: 'Hospital Regional',
-        expanded: false
-      },
-      {
-        id: '5',
-        motivo: 'Cirugía de apendicitis',
-        fechaIngreso: '2024-10-12',
-        fechaAlta: '2024-10-20',
-        medico: 'Dr. Roberto Silva',
-        hospital: 'Hospital Universitario',
-        expanded: false
-      },
-      {
-        id: '6',
-        motivo: 'Revisión traumatológica',
-        fechaIngreso: '2024-11-02',
-        fechaAlta: '2024-11-07',
-        medico: 'Dra. Fernanda López',
-        hospital: 'Clínica Santa María',
-        expanded: false
-      },
-      {
-        id: '7',
-        motivo: 'Evaluación neurológica',
-        fechaIngreso: '2024-11-18',
-        fechaAlta: '2024-11-22',
-        medico: 'Dr. Gabriel Soto',
-        hospital: 'Hospital del Sur',
-        expanded: false
-      },
-      {
-        id: '8',
-        motivo: 'Consulta por migrañas',
-        fechaIngreso: '2024-12-05',
-        fechaAlta: '2024-12-06',
-        medico: 'Dra. Paula Reyes',
-        hospital: 'Clínica Los Andes',
-        expanded: false
-      },
-      {
-        id: '9',
-        motivo: 'Revisión oftalmológica',
-        fechaIngreso: '2024-12-20',
-        fechaAlta: '2024-12-21',
-        medico: 'Dr. Martín Guzmán',
-        hospital: 'Centro de la Visión',
-        expanded: false
-      },
-      {
-        id: '10',
-        motivo: 'Evaluación dermatológica',
-        fechaIngreso: '2025-01-07',
-        fechaAlta: '2025-01-10',
-        medico: 'Dra. Laura Pineda',
-        hospital: 'Clínica Dermosalud',
-        expanded: false
-      },
-      {
-        id: '11',
-        motivo: 'Control postvacuna',
-        fechaIngreso: '2025-01-22',
-        fechaAlta: '2025-01-22',
-        medico: 'Dr. Carlos Mendoza',
-        hospital: 'Hospital Central',
-        expanded: false
-      },
-      {
-        id: '12',
-        motivo: 'Chequeo general anual',
-        fechaIngreso: '2025-02-01',
-        fechaAlta: '2025-02-02',
-        medico: 'Dra. Valentina Torres',
-        hospital: 'Clínica Los Andes',
-        expanded: false
-      },
-      {
-        id: '13',
-        motivo: 'Evaluación nutricional',
-        fechaIngreso: '2025-02-15',
-        fechaAlta: '2025-02-15',
-        medico: 'Dra. María Espinoza',
-        hospital: 'Clínica Vida Saludable',
-        expanded: false
-      },
-      {
-        id: '14',
-        motivo: 'Tratamiento de bronquitis',
-        fechaIngreso: '2025-03-03',
-        fechaAlta: '2025-03-07',
-        medico: 'Dr. Andrés Muñoz',
-        hospital: 'Hospital Regional',
-        expanded: false
-      },
-      {
-        id: '15',
-        motivo: 'Cirugía menor en mano',
-        fechaIngreso: '2025-03-20',
-        fechaAlta: '2025-03-25',
-        medico: 'Dr. Ricardo Vargas',
-        hospital: 'Clínica Santa María',
-        expanded: false
-      },
-      {
-        id: '16',
-        motivo: 'Consulta por alergias',
-        fechaIngreso: '2025-04-04',
-        fechaAlta: '2025-04-05',
-        medico: 'Dra. Paula Reyes',
-        hospital: 'Clínica Los Andes',
-        expanded: false
-      },
-      {
-        id: '17',
-        motivo: 'Control pediátrico',
-        fechaIngreso: '2025-04-18',
-        fechaAlta: '2025-04-18',
-        medico: 'Dr. Martín Guzmán',
-        hospital: 'Hospital Infantil',
-        expanded: false
-      },
-      {
-        id: '18',
-        motivo: 'Chequeo preoperatorio',
-        fechaIngreso: '2025-05-02',
-        fechaAlta: '2025-05-04',
-        medico: 'Dr. Roberto Silva',
-        hospital: 'Hospital Universitario',
-        expanded: false
-      },
-      {
-        id: '19',
-        motivo: 'Evaluación reumatológica',
-        fechaIngreso: '2025-05-20',
-        fechaAlta: '2025-05-24',
-        medico: 'Dra. Fernanda López',
-        hospital: 'Clínica Santa María',
-        expanded: false
-      },
-      {
-        id: '20',
-        motivo: 'Control postparto',
-        fechaIngreso: '2025-06-01',
-        fechaAlta: '2025-06-03',
-        medico: 'Dra. Valentina Torres',
-        hospital: 'Clínica Los Andes',
-        expanded: false
-      },
-      {
-        id: '21',
-        motivo: 'Revisión odontológica',
-        fechaIngreso: '2025-06-14',
-        fechaAlta: '2025-06-14',
-        medico: 'Dr. Sebastián Rojas',
-        hospital: 'Centro Dental Integral',
-        expanded: false
-      },
-      {
-        id: '22',
-        motivo: 'Tratamiento fisioterapéutico',
-        fechaIngreso: '2025-07-02',
-        fechaAlta: '2025-07-09',
-        medico: 'Dr. Gabriel Soto',
-        hospital: 'Clínica Movimiento',
-        expanded: false
-      },
-      {
-        id: '23',
-        motivo: 'Control de colesterol',
-        fechaIngreso: '2025-07-20',
-        fechaAlta: '2025-07-22',
-        medico: 'Dr. Carlos Mendoza',
-        hospital: 'Hospital Central',
-        expanded: false
-      },
-      {
-        id: '24',
-        motivo: 'Evaluación otorrinolaringológica',
-        fechaIngreso: '2025-08-05',
-        fechaAlta: '2025-08-07',
-        medico: 'Dr. Ricardo Vargas',
-        hospital: 'Clínica Santa María',
-        expanded: false
-      },
-      {
-        id: '25',
-        motivo: 'Chequeo ginecológico',
-        fechaIngreso: '2025-09-15',
-        fechaAlta: '2025-09-16',
-        medico: 'Dra. Laura Pineda',
-        hospital: 'Clínica Vida Mujer',
-        expanded: false
+      console.log('Respuesta completa de la API (hospitalizaciones):', response);
+
+      let datos: any = null;
+      if (Array.isArray(response)) {
+        datos = response;
+      } else if (response && Array.isArray(response.data)) {
+        datos = response.data;
+      } else if (response && Array.isArray(response.body)) {
+        datos = response.body;
+      } else if (response && Array.isArray(response.items)) {
+        datos = response.items;
+      } else if (response && Array.isArray(response.hospitalizaciones)) {
+        datos = response.hospitalizaciones;
+      } else if (response && typeof response === 'object' && !Array.isArray(response)) {
+        // Si es un objeto único, convertir a array
+        datos = [response];
+      } else {
+        datos = [];
       }
 
-    ];
-    this.hospitalizacionesFiltradas = [...this.hospitalizaciones];
+      if (!Array.isArray(datos)) {
+        console.error('Formato inesperado de la respuesta de hospitalizaciones');
+        this.hospitalizaciones = [];
+        this.mostrarToast('Error: formato inválido de la API');
+        return;
+      }
+
+      this.hospitalizaciones = datos.map((item: any, index: number) => {
+        return {
+          id: item.id?.toString() || item._id?.toString() || `hosp_${Date.now()}_${index}`,
+          motivo: item.motivo || item.reason || item.title || item.name || 'Sin motivo',
+          fechaIngreso: (item.fechaIngreso || item.fecha_ingreso || item.date || item.fecha || new Date().toISOString()).toString().split('T')[0],
+          fechaAlta: item.fechaAlta || item.fecha_alta || item.endDate || item.alta || undefined,
+          medico: item.medico || item.doctor || item.medico_nombre || 'Desconocido',
+          hospital: item.hospital || item.clinic || item.center || '',
+          expanded: false
+        } as Hospitalizacion;
+      });
+
+      this.hospitalizacionesFiltradas = [...this.hospitalizaciones];
+      this.aplicarOrden();
+      this.aplicarFiltroPeriodo();
+      this.actualizarContadores();
+      this.cargarPrimerasHospitalizaciones();
+      this.resetInfiniteScroll();
+
+      if (this.hospitalizaciones.length === 0) {
+        this.mostrarToast('No hay hospitalizaciones registradas', 'warning');
+      } else {
+        this.mostrarToast(`${this.hospitalizaciones.length} hospitalizaciones cargadas`, 'success');
+      }
+
+    } catch (error: any) {
+      console.error('Error al cargar hospitalizaciones:', error);
+      this.hospitalizaciones = [];
+      let mensaje = 'Error al cargar hospitalizaciones';
+      if (error.status === 0) mensaje = 'Sin conexión con el servidor';
+      else if (error.status === 404) mensaje = 'Endpoint /hospitalizaciones no encontrado';
+      else if (error.status >= 500) mensaje = 'Error interno del servidor';
+      this.mostrarToast(mensaje, 'danger');
+    }
   }
 }
