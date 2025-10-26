@@ -10,7 +10,7 @@ import { CommonModule } from '@angular/common';
   imports: [CommonModule, IonButton, IonLabel, IonIcon]
 })
 export class FilterBarComponent {
-  @Input() colorTema: 'verde' | 'cyan' = 'verde';
+  @Input() colorTema: 'verde' | 'cyan' | 'morado' = 'verde';
   @Input() periodoTexto: string = 'Todos';
   @Input() ordenTexto: string = 'Más recientes';
 

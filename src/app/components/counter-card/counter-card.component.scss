@@ -22,7 +22,7 @@
     transform: translateY(-1px);
   }
 
-  /* Colores por tipo */
+  /* === Colores por tipo === */
   &.laboratorio,
   &.imagenologia {
     border-left-color: #12b886;
@@ -38,7 +38,16 @@
       background: linear-gradient(135deg, #22b8cf, #52c9db);
     }
   }
+
+  &.cirugias,
+  &.programadas {
+    border-left-color: #9b59b6;
+    .counter-icon {
+      background: linear-gradient(135deg, #9b59b6, #b275c6);
+    }
+  }
 }
+
 
 .counter-icon {
   width: 36px;
@@ -95,5 +104,10 @@
   .counter-card.hospitalizaciones .counter-icon,
   .counter-card.dias .counter-icon {
     background: linear-gradient(135deg, #4dd0e1, #73e8ff);
+  }
+
+  .counter-card.cirugias .counter-icon,
+  .counter-card.programadas .counter-icon {
+    background: linear-gradient(135deg, #b275c6, #d39ff2);
   }
 }
