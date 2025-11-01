@@ -11,6 +11,8 @@ import {
 import { CounterCardComponent } from '../components/counter-card/counter-card.component';
 import { FilterBarComponent } from '../components/filter-bar/filter-bar.component';
 import { ScrollToTopComponent } from '../components/scroll-to-top/scroll-to-top.component';
+import { MenuItemComponent } from '../components/menu-item/menu-item.component';
+import { DeleteConfirmModalComponent } from '../components/delete-confirm-modal/delete-confirm-modal.component';
 
 interface Cirugia {
   id: string;
@@ -36,14 +38,15 @@ type PeriodoCirugia = 'todos' | 'ultimo-mes' | 'ultimos-3-meses' | 'ultimos-6-me
     IonList, IonItem, IonLabel, IonIcon, IonGrid, IonRow, IonCol,
     IonBadge, IonFab, IonFabButton, IonModal, IonInput, IonFooter, IonDatetime,
     IonPopover, IonButton, IonInfiniteScroll, IonInfiniteScrollContent,
-    CounterCardComponent, FilterBarComponent, ScrollToTopComponent
+    CounterCardComponent, FilterBarComponent, ScrollToTopComponent,
+    MenuItemComponent, DeleteConfirmModalComponent
   ]
 })
 export class CirugiasPage implements OnInit {
   @ViewChild(IonContent, { static: false }) content!: IonContent;
   @ViewChild(IonInfiniteScroll, { static: false }) infiniteScroll!: IonInfiniteScroll;
 
-  // --- Scroll y Lazy Loading ---
+  // Scroll y Lazy Loading 
   showScrollButton = false;
   private scrollThreshold = 300;
   private itemsPorCarga = 10;
@@ -52,7 +55,7 @@ export class CirugiasPage implements OnInit {
   private buffer = 200;
   cirugiasVisibles: Cirugia[] = [];
 
-  // --- Datos y filtros ---
+  // Datos y filtros 
   cirugias: Cirugia[] = [];
   cirugiasFiltradas: Cirugia[] = [];
   ordenSeleccionado: OrdenCirugia = 'recientes';
@@ -61,14 +64,16 @@ export class CirugiasPage implements OnInit {
   modalPeriodoAbierto = false;
   modalOrdenAbierto = false;
 
-  // --- Contadores ---
+  // Contadores 
   contadores = {
     totalCirugias: 0,
     cirugiasProgramadas: 0
   };
 
-  // --- Modal agregar ---
+  // Modal agregar/editar 
   modalAbierto = false;
+  modoEdicion = false;
+  cirugiaEditandoId: string | null = null;
   fechaFormateada = '';
   nuevaCirugia: Partial<Cirugia> = {
     nombre: '',
@@ -76,6 +81,10 @@ export class CirugiasPage implements OnInit {
     hospital: '',
     fecha: ''
   };
+
+  //  Modal eliminar
+  modalEliminarAbierto = false;
+  cirugiaAEliminar: Cirugia | null = null;
 
   constructor(private toastController: ToastController) {}
 
@@ -86,7 +95,52 @@ export class CirugiasPage implements OnInit {
     this.cargarPrimerasCirugias();
   }
 
-  // === Lazy Loading ===
+  // Editar cirugia 
+  editarCirugia(cirugia: Cirugia) {
+    this.modoEdicion = true;
+    this.cirugiaEditandoId = cirugia.id;
+    this.nuevaCirugia = {
+      nombre: cirugia.nombre,
+      medico: cirugia.medico,
+      hospital: cirugia.hospital,
+      fecha: cirugia.fecha
+    };
+    
+    const fechaObj = new Date(cirugia.fecha);
+    this.fechaFormateada = fechaObj.toLocaleDateString('es-ES', { 
+      day: 'numeric', 
+      month: 'long', 
+      year: 'numeric' 
+    });
+    
+    this.modalAbierto = true;
+  }
+
+  // Confirmar eliminar 
+  confirmarEliminar(cirugia: Cirugia) {
+    this.cirugiaAEliminar = cirugia;
+    this.modalEliminarAbierto = true;
+  }
+
+  cerrarModalEliminar() {
+    this.modalEliminarAbierto = false;
+    this.cirugiaAEliminar = null;
+  }
+
+  // Eliminar cirugia 
+  async eliminarCirugia() {
+    if (!this.cirugiaAEliminar) return;
+
+    const id = this.cirugiaAEliminar.id;
+    this.cirugias = this.cirugias.filter(c => c.id !== id);
+    
+    this.aplicarFiltroPeriodo();
+    this.cerrarModalEliminar();
+    
+    await this.mostrarToast('Cirugía eliminada exitosamente', 'success');
+  }
+
+  // Lazy Loading 
   cargarPrimerasCirugias() {
     this.indiceActual = 0;
     this.cirugiasVisibles = [];
@@ -117,7 +171,7 @@ export class CirugiasPage implements OnInit {
     if (this.infiniteScroll) this.infiniteScroll.disabled = false;
   }
 
-  // === Scroll to Top ===
+  // Scroll to Top 
   onScroll(event: any) {
     const scrollTop = event.detail.scrollTop;
     const scrollHeight = event.target.scrollHeight;
@@ -127,8 +181,7 @@ export class CirugiasPage implements OnInit {
     this.showScrollButton = scrollTop > this.scrollThreshold;
 
     if (scrollTop > this.lastScrollTop) {
-      if (nearBottom && !this.infiniteScroll?.disabled && this.indiceActual < this.cirugiasFiltradas.length) {
-        // handled by infinite scroll
+      if (nearBottom && !this.infiniteScroll?.disabled && this.indiceActual < this.cirugiasFiltradas.length) {        
       }
     } else if (nearTop && this.indiceActual > this.itemsPorCarga) {
       const nuevoInicio = Math.max(0, this.indiceActual - 2 * this.itemsPorCarga);
@@ -144,7 +197,7 @@ export class CirugiasPage implements OnInit {
     await this.content.scrollToTop(500);
   }
 
-  // === Filtros y orden ===
+  // Filtros y orden 
   abrirSelectorPeriodo() { this.modalPeriodoAbierto = true; }
   cerrarSelectorPeriodo() { this.modalPeriodoAbierto = false; }
   abrirSelectorOrden() { this.modalOrdenAbierto = true; }
@@ -253,9 +306,19 @@ export class CirugiasPage implements OnInit {
     this.contadores.cirugiasProgramadas = this.cirugias.filter(c => c.estado === 'Programada').length;
   }
 
-  // === Modal ===
-  abrirModal() { this.modalAbierto = true; }
-  cerrarModal() { this.modalAbierto = false; this.limpiarFormulario(); }
+  // Modal agregar/editar 
+  abrirModal() { 
+    this.modoEdicion = false;
+    this.cirugiaEditandoId = null;
+    this.modalAbierto = true; 
+  }
+  
+  cerrarModal() { 
+    this.modalAbierto = false; 
+    this.modoEdicion = false;
+    this.cirugiaEditandoId = null;
+    this.limpiarFormulario(); 
+  }
 
   limpiarFormulario() {
     this.nuevaCirugia = { nombre: '', medico: '', hospital: '', fecha: '' };
@@ -266,7 +329,11 @@ export class CirugiasPage implements OnInit {
     if (event?.detail?.value) {
       this.nuevaCirugia.fecha = event.detail.value;
       const fechaObj = new Date(event.detail.value);
-      this.fechaFormateada = fechaObj.toLocaleDateString('es-ES', { day: 'numeric', month: 'long', year: 'numeric' });
+      this.fechaFormateada = fechaObj.toLocaleDateString('es-ES', { 
+        day: 'numeric', 
+        month: 'long', 
+        year: 'numeric' 
+      });
     }
   }
 
@@ -282,36 +349,64 @@ export class CirugiasPage implements OnInit {
     }
 
     const fechaCirugia = new Date(this.nuevaCirugia.fecha!);
-    const hoy = new Date(); hoy.setHours(0, 0, 0, 0);
+    const hoy = new Date(); 
+    hoy.setHours(0, 0, 0, 0);
 
-    const nueva: Cirugia = {
-      id: Date.now().toString(),
-      nombre: this.nuevaCirugia.nombre!.trim(),
-      medico: this.nuevaCirugia.medico!.trim(),
-      hospital: this.nuevaCirugia.hospital!.trim(),
-      fecha: this.nuevaCirugia.fecha!.split('T')[0],
-      estado: fechaCirugia > hoy ? 'Programada' : 'Finalizada',
-      expanded: false
-    };
+    if (this.modoEdicion && this.cirugiaEditandoId) {
+      const index = this.cirugias.findIndex(c => c.id === this.cirugiaEditandoId);
+      if (index !== -1) {
+        this.cirugias[index] = {
+          ...this.cirugias[index],
+          nombre: this.nuevaCirugia.nombre!.trim(),
+          medico: this.nuevaCirugia.medico!.trim(),
+          hospital: this.nuevaCirugia.hospital!.trim(),
+          fecha: this.nuevaCirugia.fecha!.split('T')[0],
+          estado: fechaCirugia > hoy ? 'Programada' : 'Finalizada'
+        };
+        
+        this.aplicarFiltroPeriodo();
+        this.cerrarModal();
+        await this.mostrarToast('Cirugía actualizada exitosamente', 'success');
+      }
+    } else {
+      const nueva: Cirugia = {
+        id: Date.now().toString(),
+        nombre: this.nuevaCirugia.nombre!.trim(),
+        medico: this.nuevaCirugia.medico!.trim(),
+        hospital: this.nuevaCirugia.hospital!.trim(),
+        fecha: this.nuevaCirugia.fecha!.split('T')[0],
+        estado: fechaCirugia > hoy ? 'Programada' : 'Finalizada',
+        expanded: false
+      };
 
-    this.cirugias.unshift(nueva);
-    this.aplicarFiltroPeriodo();
-    this.cerrarModal();
-    this.mostrarToast('Cirugía registrada exitosamente', 'success');
+      this.cirugias.unshift(nueva);
+      this.aplicarFiltroPeriodo();
+      this.cerrarModal();
+      await this.mostrarToast('Cirugía registrada exitosamente', 'success');
+    }
   }
 
-  // === Helpers ===
+  // Helpers 
   toggleCirugia(c: Cirugia) { c.expanded = !c.expanded; }
   getStatusClass(c: Cirugia) { return c.estado === 'Programada' ? 'status-programada' : 'status-finalizada'; }
   getBadgeClass(c: Cirugia) { return c.estado === 'Programada' ? 'badge-programada' : 'badge-finalizada'; }
 
   formatFecha(f: string): string {
     const [y, m, d] = f.split('-').map(n => parseInt(n));
-    return new Date(y, m - 1, d).toLocaleDateString('es-ES', { day: 'numeric', month: 'long', year: 'numeric' });
+    return new Date(y, m - 1, d).toLocaleDateString('es-ES', { 
+      day: 'numeric', 
+      month: 'long', 
+      year: 'numeric' 
+    });
   }
 
   async mostrarToast(message: string, color: string = 'primary') {
-    const toast = await this.toastController.create({ message, duration: 2500, position: 'top', color });
+    const toast = await this.toastController.create({ 
+      message, 
+      duration: 2500, 
+      position: 'top', 
+      color 
+    });
     await toast.present();
   }
 

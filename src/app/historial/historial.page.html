@@ -3,84 +3,86 @@
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/tabs/tab5"></ion-back-button>
     </ion-buttons>
-    <ion-title>Mi Historial</ion-title>
+    <ion-title>Mis Consultas</ion-title>
   </ion-toolbar>
 </ion-header>
-<ion-content [fullscreen]="true">
+
+<ion-content [fullscreen]="true" [scrollEvents]="true" (ionScroll)="onScroll($event)" #content>
   <ion-header collapse="condense">
     <ion-toolbar>
-      <ion-title size="large">Mi Historial</ion-title>
+      <ion-title size="large">Mis Consultas</ion-title>
     </ion-toolbar>
   </ion-header>
-  
-  <!-- título principal -->
-  <ion-grid>
-    <ion-row>
-      <ion-col size="12">
-        <h2 class="section-title">
-          <ion-icon name="document-text-outline"></ion-icon>
-          Historial de Consultas
-        </h2>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
-  
-  <!-- filtro de orden -->
-  <ion-grid>
-    <ion-row>
-      <ion-col size="12" class="filter-col">
-        <ion-item lines="none">
-          <ion-label>Ordenar por</ion-label>
-          <ion-select 
-            interface="popover" 
-            [(ngModel)]="ordenSeleccionado" 
-            (ionChange)="aplicarOrden()"
-            [selectedText]="getOrdenLabel()">
-            <ion-select-option value="recientes">Más recientes</ion-select-option>
-            <ion-select-option value="antiguas">Más antiguas</ion-select-option>
-            <ion-select-option value="alfabetico-asc">Alfabético (A-Z)</ion-select-option>
-            <ion-select-option value="alfabetico-desc">Alfabético (Z-A)</ion-select-option>
-          </ion-select>
-        </ion-item>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
-  
-  <!-- lista de consultas -->
-  <ion-list lines="none" *ngIf="consultas.length > 0">
+
+  <!-- Contadores -->
+  <div class="counter-row">
+    <app-counter-card
+      icon="document-text-outline"
+      [number]="contadores.totalConsultas"
+      label="Consultas Totales"
+      colorClass="laboratorio">
+    </app-counter-card>
+    <app-counter-card
+      icon="time-outline"
+      [number]="contadores.consultasProgramadas"
+      label="Programadas"
+      colorClass="imagenologia">
+    </app-counter-card>
+  </div>
+
+  <!-- Filtros (PERIODO + ORDEN) -->
+  <app-filter-bar
+    [colorTema]="'verde'"
+    [periodoTexto]="periodoSeleccionadoTexto"
+    [ordenTexto]="getOrdenLabel()"
+    (abrirPeriodo)="abrirSelectorPeriodo()"
+    (abrirOrden)="abrirSelectorOrden()">
+  </app-filter-bar>
+
+  <!-- Lista consultas-->
+  <ion-list lines="none" *ngIf="consultasFiltradas.length > 0">
     <ion-item 
-      *ngFor="let consulta of consultas" 
-      button 
-      (click)="toggleConsulta(consulta)"
+      *ngFor="let consulta of consultasVisibles" 
       class="consulta-item"
       [ngClass]="getStatusClass(consulta)">
+      
+      <!-- Menu (tres puntos) -->
+      <app-menu-item
+        [itemId]="consulta.id"
+        (onEdit)="editarConsulta(consulta)"
+        (onDelete)="confirmarEliminar(consulta)">
+      </app-menu-item>
+
       <ion-grid>
-        <!-- cabecera -->
         <ion-row class="ion-align-items-center">
-          <ion-col size="7">
+          <!-- Contenido consulta -->
+          <ion-col size="7" (click)="toggleConsulta(consulta)">
             <ion-label>
-              <h3>{{ consulta.tipoConsulta }}</h3>
+              <h3>{{ consulta.nombre }}</h3>
               <p>{{ formatFecha(consulta.fecha) }}</p>
             </ion-label>
           </ion-col>
-          <ion-col size="4" class="badge-col">
+
+          <!-- Badge-->
+          <ion-col size="4" class="badge-col" (click)="toggleConsulta(consulta)">
             <ion-badge [class]="getBadgeClass(consulta)" class="status-badge-spaced">
               {{ consulta.estado }}
             </ion-badge>
           </ion-col>
-          <ion-col size="1">
+
+          <!-- Flecha expandir -->
+          <ion-col size="1" class="ion-text-end" (click)="toggleConsulta(consulta)">
             <ion-icon 
-              [name]="consulta.expanded ? 'chevron-up-outline' : 'chevron-down-outline'"
-              class="expand-icon">
+              name="chevron-down-outline"
+              class="expand-icon"
+              [class.rotated]="consulta.expanded">
             </ion-icon>
           </ion-col>
         </ion-row>
-        
-        <!-- detalles expandidos -->
-        <ion-row *ngIf="consulta.expanded" class="consulta-expanded-row">
+
+        <ion-row class="consulta-expanded-row" [class.expanded]="consulta.expanded">
           <ion-col size="12">
             <div class="detail-container">
-              <!-- Fecha de la Consulta -->
               <div class="detail-item">
                 <div class="detail-icon-wrapper fecha-icon">
                   <ion-icon name="calendar-outline" class="detail-icon"></ion-icon>
@@ -90,8 +92,7 @@
                   <p class="detail-value">{{ formatFecha(consulta.fecha) }}</p>
                 </div>
               </div>
-              
-              <!-- Médico -->
+
               <div class="detail-item">
                 <div class="detail-icon-wrapper medico-icon">
                   <ion-icon name="person-outline" class="detail-icon"></ion-icon>
@@ -101,19 +102,17 @@
                   <p class="detail-value">{{ consulta.medico }}</p>
                 </div>
               </div>
-              
-              <!-- Especialidad -->
-              <div class="detail-item" *ngIf="consulta.especialidad">
-                <div class="detail-icon-wrapper especialidad-icon">
-                  <ion-icon name="medical-outline" class="detail-icon"></ion-icon>
+
+              <div class="detail-item">
+                <div class="detail-icon-wrapper hospital-icon">
+                  <ion-icon name="business-outline" class="detail-icon"></ion-icon>
                 </div>
                 <div class="detail-content">
-                  <p class="detail-label">Especialidad</p>
-                  <p class="detail-value">{{ consulta.especialidad }}</p>
+                  <p class="detail-label">Hospital / Clínica</p>
+                  <p class="detail-value">{{ consulta.hospital }}</p>
                 </div>
               </div>
-              
-              <!-- Diagnóstico -->
+
               <div class="detail-item" *ngIf="consulta.diagnostico">
                 <div class="detail-icon-wrapper diagnostico-icon">
                   <ion-icon name="clipboard-outline" class="detail-icon"></ion-icon>
@@ -123,8 +122,7 @@
                   <p class="detail-value">{{ consulta.diagnostico }}</p>
                 </div>
               </div>
-              
-              <!-- Tratamiento -->
+
               <div class="detail-item" *ngIf="consulta.tratamiento">
                 <div class="detail-icon-wrapper tratamiento-icon">
                   <ion-icon name="bandage-outline" class="detail-icon"></ion-icon>
@@ -140,26 +138,39 @@
       </ion-grid>
     </ion-item>
   </ion-list>
-  
-  <!-- estado vacío -->
-  <div *ngIf="consultas.length === 0" class="empty-state">
+
+  <ion-infinite-scroll threshold="100px" (ionInfinite)="onIonInfinite($event)" *ngIf="consultasFiltradas.length > 0">
+    <ion-infinite-scroll-content
+      loadingSpinner="crescent"
+      loadingText="Cargando más consultas...">
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+
+  <!-- Estado vacio -->
+  <div *ngIf="consultasFiltradas.length === 0" class="empty-state">
     <ion-icon name="document-text-outline" class="empty-icon"></ion-icon>
-    <h3>No hay consultas registradas</h3>
+    <h3>No hay consultas para este período</h3>
+    <p>Prueba cambiar el filtro o añadir una nueva consulta.</p>
   </div>
 
-  <!-- botón flotante -->
+  <!-- Boton flotante -->
   <ion-fab vertical="bottom" horizontal="end" slot="fixed">
     <ion-fab-button class="fab-add" (click)="abrirModal()">
       <ion-icon name="add"></ion-icon>
     </ion-fab-button>
   </ion-fab>
 
-  <!-- Modal Consulta -->
+  <app-scroll-to-top 
+    [visible]="showScrollButton" 
+    [content]="content">
+  </app-scroll-to-top>
+
+  <!-- Modal agregar/editar consulta -->
   <ion-modal [isOpen]="modalAbierto" (didDismiss)="cerrarModal()">
     <ng-template>
       <ion-header>
         <ion-toolbar class="modal-header" style="--background: #20c997; --color: white;">
-          <ion-title>Registrar Consulta</ion-title>
+          <ion-title>{{ modoEdicion ? 'Editar consulta' : 'Agregar nueva consulta' }}</ion-title>
           <ion-buttons slot="end">
             <ion-button (click)="cerrarModal()">
               <ion-icon name="close"></ion-icon>
@@ -169,39 +180,35 @@
       </ion-header>
       <ion-content class="ion-padding">
         <div class="form-fields">
-          <!-- Tipo de consulta -->
           <div class="field-group">
-            <label class="field-label">Tipo de Consulta</label>
+            <label class="field-label">Nombre Consulta (Especialidad)</label>
             <div class="input-container">
               <ion-icon name="document-text-outline" class="input-icon"></ion-icon>
-              <ion-input [(ngModel)]="nuevaConsulta.tipoConsulta" placeholder="Ej. Control general"></ion-input>
+              <ion-input [(ngModel)]="nuevaConsulta.nombre" placeholder="Ej. Cardiología"></ion-input>
             </div>
           </div>
-          <!-- Médico -->
           <div class="field-group">
-            <label class="field-label">Médico tratante</label>
+            <label class="field-label">Médico Tratante</label>
             <div class="input-container">
               <ion-icon name="person-outline" class="input-icon"></ion-icon>
-              <ion-input [(ngModel)]="nuevaConsulta.medico" placeholder="Ej. Dra. Ana Vargas"></ion-input>
+              <ion-input [(ngModel)]="nuevaConsulta.medico" placeholder="Ej. Dr. Carlos Mendoza"></ion-input>
             </div>
           </div>
-          <!-- Especialidad -->
           <div class="field-group">
-            <label class="field-label">Especialidad</label>
+            <label class="field-label">Hospital / Clínica</label>
             <div class="input-container">
-              <ion-icon name="medical-outline" class="input-icon"></ion-icon>
-              <ion-input [(ngModel)]="nuevaConsulta.especialidad" placeholder="Ej. Cardiología"></ion-input>
+              <ion-icon name="business-outline" class="input-icon"></ion-icon>
+              <ion-input [(ngModel)]="nuevaConsulta.hospital" placeholder="Ej. Hospital Central"></ion-input>
             </div>
           </div>
-          <!-- Fecha -->
           <div class="field-group">
-            <label class="field-label">Fecha de la consulta</label>
-            <div class="input-container" id="fecha-trigger" button="true">
+            <label class="field-label">Fecha de Consulta</label>
+            <div class="input-container" id="fecha-consulta-trigger" button="true">
               <ion-icon name="calendar-outline" class="input-icon"></ion-icon>
               <ion-input readonly="true" [value]="fechaFormateada" placeholder="Selecciona una fecha"></ion-input>
               <ion-icon name="chevron-down-outline" slot="end" class="select-arrow"></ion-icon>
             </div>
-            <ion-popover trigger="fecha-trigger" [showBackdrop]="true">
+            <ion-popover trigger="fecha-consulta-trigger" [showBackdrop]="true">
               <ng-template>
                 <ion-datetime
                   presentation="date"
@@ -211,7 +218,6 @@
               </ng-template>
             </ion-popover>
           </div>
-          <!-- Toggle: ¿Consulta finalizada? -->
           <div class="field-group">
             <label class="field-label">¿La consulta ya finalizó?</label>
             <div class="input-container toggle-container">
@@ -222,20 +228,19 @@
               </ion-toggle>
             </div>
           </div>
-          <!-- Diagnóstico y tratamiento (solo si finalizó) -->
           <div *ngIf="consultaFinalizada">
             <div class="field-group">
               <label class="field-label">Diagnóstico</label>
               <div class="input-container">
                 <ion-icon name="clipboard-outline" class="input-icon"></ion-icon>
-                <ion-input [(ngModel)]="nuevaConsulta.diagnostico" placeholder="Ej. Hipertensión controlada"></ion-input>
+                <ion-input [(ngModel)]="nuevaConsulta.diagnostico" placeholder="Ej. Presión arterial controlada"></ion-input>
               </div>
             </div>
             <div class="field-group">
               <label class="field-label">Tratamiento</label>
               <div class="input-container">
                 <ion-icon name="bandage-outline" class="input-icon"></ion-icon>
-                <ion-textarea [(ngModel)]="nuevaConsulta.tratamiento" placeholder="Ej. Continuar medicación y dieta equilibrada"></ion-textarea>
+                <ion-textarea [(ngModel)]="nuevaConsulta.tratamiento" placeholder="Ej. Continuar medicación actual"></ion-textarea>
               </div>
             </div>
           </div>
@@ -244,11 +249,123 @@
       <ion-footer>
         <ion-toolbar>
           <div class="modal-buttons">
-            <ion-button expand="block" class="btn-cancelar" (click)="cerrarModal()">Cancelar</ion-button>
-            <ion-button expand="block" class="btn-guardar" (click)="guardarConsulta()" [disabled]="!esFormularioValido()">Guardar</ion-button>
+            <ion-button expand="block" class="btn-cancelar" (click)="cerrarModal()">
+              Cancelar
+            </ion-button>
+            <ion-button expand="block" class="btn-guardar" (click)="guardarConsulta()" [disabled]="!esFormularioValido()">
+              {{ modoEdicion ? 'Guardar cambios' : 'Guardar' }}
+            </ion-button>
           </div>
         </ion-toolbar>
       </ion-footer>
+    </ng-template>
+  </ion-modal>
+
+  <!-- Modal eliminacion -->
+  <app-delete-confirm-modal
+    [isOpen]="modalEliminarAbierto"
+    [itemName]="consultaAEliminar?.nombre || ''"
+    title="Eliminar consulta"
+    message="¿Estás seguro de eliminar"
+    (onCancel)="cerrarModalEliminar()"
+    (onConfirm)="eliminarConsulta()"
+    (didDismiss)="cerrarModalEliminar()">
+  </app-delete-confirm-modal>
+
+  <!-- Modal de periodo -->
+  <ion-modal 
+    [isOpen]="modalPeriodoAbierto" 
+    (didDismiss)="cerrarSelectorPeriodo()"
+    [initialBreakpoint]="1"
+    [breakpoints]="[0, 1]"
+    class="periodo-modal">
+    <ng-template>
+      <div class="modal-wrapper">
+        <div class="modal-header-clean">
+          <h2>Filtrar por período</h2>
+          <ion-button fill="clear" class="close-button" (click)="cerrarSelectorPeriodo()">
+            <ion-icon name="close" slot="icon-only"></ion-icon>
+          </ion-button>
+        </div>
+        <div class="modal-content-clean">
+          <div class="period-option"
+            [class.selected]="periodoSeleccionado === 'todos'"
+            (click)="seleccionarPeriodo('todos')">
+            <div class="option-icon"><ion-icon name="calendar-clear-outline"></ion-icon></div>
+            <div class="option-text"><h3>Todos los períodos</h3><p>Ver todas las consultas</p></div>
+            <ion-icon *ngIf="periodoSeleccionado === 'todos'" name="checkmark-circle" class="check-icon"></ion-icon>
+          </div>
+          <div class="period-option"
+            [class.selected]="periodoSeleccionado === 'ultimo-mes'"
+            (click)="seleccionarPeriodo('ultimo-mes')">
+            <div class="option-icon"><ion-icon name="time-outline"></ion-icon></div>
+            <div class="option-text"><h3>Último mes</h3><p>Consultas de los últimos 30 días</p></div>
+            <ion-icon *ngIf="periodoSeleccionado === 'ultimo-mes'" name="checkmark-circle" class="check-icon"></ion-icon>
+          </div>
+          <div class="period-option"
+            [class.selected]="periodoSeleccionado === 'ultimos-3-meses'"
+            (click)="seleccionarPeriodo('ultimos-3-meses')">
+            <div class="option-icon"><ion-icon name="stats-chart-outline"></ion-icon></div>
+            <div class="option-text"><h3>Últimos 3 meses</h3><p>Consultas de los últimos 90 días</p></div>
+            <ion-icon *ngIf="periodoSeleccionado === 'ultimos-3-meses'" name="checkmark-circle" class="check-icon"></ion-icon>
+          </div>
+          <div class="period-option"
+            [class.selected]="periodoSeleccionado === 'ultimos-6-meses'"
+            (click)="seleccionarPeriodo('ultimos-6-meses')">
+            <div class="option-icon"><ion-icon name="trending-up-outline"></ion-icon></div>
+            <div class="option-text"><h3>Últimos 6 meses</h3><p>Consultas del semestre actual</p></div>
+            <ion-icon *ngIf="periodoSeleccionado === 'ultimos-6-meses'" name="checkmark-circle" class="check-icon"></ion-icon>
+          </div>
+          <div class="period-option"
+            [class.selected]="periodoSeleccionado === 'este-anio'"
+            (click)="seleccionarPeriodo('este-anio')">
+            <div class="option-icon"><ion-icon name="calendar-number-outline"></ion-icon></div>
+            <div class="option-text"><h3>Este año</h3><p>Consultas del año actual</p></div>
+            <ion-icon *ngIf="periodoSeleccionado === 'este-anio'" name="checkmark-circle" class="check-icon"></ion-icon>
+          </div>
+        </div>
+      </div>
+    </ng-template>
+  </ion-modal>
+
+  <!-- Modal de ordenar -->
+  <ion-modal 
+    [isOpen]="modalOrdenAbierto" 
+    (didDismiss)="cerrarSelectorOrden()"
+    [initialBreakpoint]="1"
+    [breakpoints]="[0, 1]"
+    class="periodo-modal">
+    <ng-template>
+      <div class="modal-wrapper">
+        <div class="modal-header-clean">
+          <h2>Ordenar por</h2>
+          <ion-button fill="clear" class="close-button" (click)="cerrarSelectorOrden()">
+            <ion-icon name="close" slot="icon-only"></ion-icon>
+          </ion-button>
+        </div>
+        <div class="modal-content-clean">
+          <div class="period-option" [class.selected]="ordenSeleccionado === 'recientes'" (click)="seleccionarOrden('recientes')">
+            <div class="option-icon"><ion-icon name="arrow-down-outline"></ion-icon></div>
+            <div class="option-text"><h3>Más recientes</h3><p>Consultas más nuevas primero</p></div>
+            <ion-icon *ngIf="ordenSeleccionado === 'recientes'" name="checkmark-circle" class="check-icon"></ion-icon>
+          </div>
+          <div class="period-option" [class.selected]="ordenSeleccionado === 'antiguas'" (click)="seleccionarOrden('antiguas')">
+            <div class="option-icon"><ion-icon name="arrow-up-outline"></ion-icon></div>
+            <div class="option-text"><h3>Más antiguas</h3><p>Consultas más antiguas primero</p></div>
+            <ion-icon *ngIf="ordenSeleccionado === 'antiguas'" name="checkmark-circle" class="check-icon"></ion-icon>
+          </div>
+          <div class="period-option" [class.selected]="ordenSeleccionado === 'alfabetico-asc'" (click)="seleccionarOrden('alfabetico-asc')">
+            <div class="option-icon"><ion-icon name="text-outline"></ion-icon></div>
+            <div class="option-text"><h3>A-Z</h3><p>Orden alfabético ascendente</p></div>
+            <ion-icon *ngIf="ordenSeleccionado === 'alfabetico-asc'" name="checkmark-circle" class="check-icon"></ion-icon>
+          </div>
+          <div class="period-option" [class.selected]="ordenSeleccionado === 'alfabetico-desc'" (click)="seleccionarOrden('alfabetico-desc')">
+            <div class="option-icon"><ion-icon name="text-outline"></ion-icon></div>
+            <div class="option-text"><h3>Z-A</h3><p>Orden alfabético descendente</p></div>
+            <ion-icon *ngIf="ordenSeleccionado === 'alfabetico-desc'" name="checkmark-circle" class="check-icon"></ion-icon>
+          </div>
+        </div>
+      </div>
     </ng-template>
   </ion-modal>
 </ion-content>

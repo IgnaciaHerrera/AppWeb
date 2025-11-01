@@ -4,15 +4,13 @@
   margin: 16px;
   padding: 0;
 }
-
-/* Cada bloque (PERiODO / ORDENAR) */
+/* Cada bloque (PERÍODO / ORDENAR) */
 .filter-item {
   flex: 1;
   display: flex;
   flex-direction: column;
   gap: 8px;
 }
-
 /* Etiqueta superior */
 .filter-label {
   font-size: 0.68rem;
@@ -23,7 +21,6 @@
   padding: 0 12px;
   text-transform: uppercase;
 }
-
 /* Boton principal */
 .filter-button {
   --background: var(--ion-card-background);
@@ -44,64 +41,71 @@
   justify-content: flex-start;
   border-radius: 14px;
   transition: box-shadow 0.2s ease, transform 0.2s ease;
-
+  
   &:hover {
     box-shadow: 0 3px 12px rgba(0, 0, 0, 0.12);
   }
-
+  
   &:active {
     transform: scale(0.98);
   }
-
+  
   ion-icon:first-child {
     font-size: 1.3rem;
     margin-right: 10px;
     color: var(--primary-color);
     flex-shrink: 0;
   }
-
+  
   span {
     flex: 1;
     text-align: left;
     font-weight: 700;
     letter-spacing: 0.1px;
   }
-
+  
   ion-icon:last-child {
     font-size: 1.05rem;
     margin-left: auto;
     color: var(--ion-color-medium);
   }
 }
-
 /* Temas */
 .filters-container.verde {
   --primary-color: #12b886;
 }
-
 .filters-container.cyan {
   --primary-color: #22b8cf;
 }
-
 .filters-container.morado {
   --primary-color: #9b59b6;
 }
-
+.filters-container.rojo {
+  --primary-color: #fa5252;
+}
+/* Tema naranja para medicamentos */
+.filters-container.naranja {
+  --primary-color: #f59f00;
+}
+/* NUEVO: Tema rosa para diagnósticos */
+.filters-container.rosa {
+  --primary-color: #e91e63;
+}
 @media (prefers-color-scheme: dark) {
   .filter-button {
     --background: rgba(255, 255, 255, 0.05);
     --box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
     color: var(--ion-text-color);
   }
-
+  
   .filter-button:hover {
     box-shadow: 0 3px 12px rgba(0, 0, 0, 0.4);
   }
-
+  
   .filter-label {
     color: rgba(255, 255, 255, 0.6);
   }
-
+  
   ion-icon:last-child {
     color: rgba(255, 255, 255, 0.6);
   }

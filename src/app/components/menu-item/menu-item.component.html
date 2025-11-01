@@ -1,0 +1,43 @@
+<!-- Boton tres puntos -->
+<ion-button 
+  fill="clear" 
+  class="menu-button-absolute"
+  [id]="'menu-trigger-' + itemId"
+  (click)="$event.stopPropagation()">
+  <ion-icon slot="icon-only" name="ellipsis-vertical"></ion-icon>
+</ion-button>
+
+<!-- Popover menu -->
+<ion-popover 
+  [trigger]="'menu-trigger-' + itemId" 
+  triggerAction="click"
+  [dismissOnSelect]="true"
+  side="bottom"
+  alignment="start"
+  class="menu-popover">
+  <ng-template>
+    <ion-content class="menu-content">
+      <ion-list lines="none" class="menu-list">
+        <ion-item 
+          *ngIf="showEdit"
+          button 
+          detail="false"
+          class="menu-item"
+          (click)="handleEdit()">
+          <ion-icon name="create-outline" slot="start" class="menu-icon edit"></ion-icon>
+          <ion-label>{{ editLabel }}</ion-label>
+        </ion-item>
+        
+        <ion-item 
+          *ngIf="showDelete"
+          button 
+          detail="false"
+          class="menu-item delete"
+          (click)="handleDelete()">
+          <ion-icon name="trash-outline" slot="start" class="menu-icon delete"></ion-icon>
+          <ion-label>{{ deleteLabel }}</ion-label>
+        </ion-item>
+      </ion-list>
+    </ion-content>
+  </ng-template>
+</ion-popover>

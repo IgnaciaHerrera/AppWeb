@@ -3,7 +3,6 @@
   flex: 1;
   min-width: 0; 
 }
-
 .counter-card {
   background: var(--ion-card-background);
   border-radius: 12px;
@@ -21,8 +20,7 @@
     box-shadow: 0 3px 12px rgba(0, 0, 0, 0.12);
     transform: translateY(-1px);
   }
-
-  /* === Colores por tipo === */
+  /*  Colores por tipo */
   &.laboratorio,
   &.imagenologia {
     border-left-color: #12b886;
@@ -46,8 +44,31 @@
       background: linear-gradient(135deg, #9b59b6, #b275c6);
     }
   }
-}
 
+  &.alergias,
+  &.severas {
+    border-left-color: #fa5252;
+    .counter-icon {
+      background: linear-gradient(135deg, #fa5252, #ff6b6b);
+    }
+  }
+ 
+  &.medicamentos,
+  &.activos {
+    border-left-color: #f59f00;
+    .counter-icon {
+      background: linear-gradient(135deg, #f59f00, #ffa94d);
+    }
+  }
+
+  &.diagnosticos,
+  &.criticos {
+    border-left-color: #e91e63;
+    .counter-icon {
+      background: linear-gradient(135deg, #e91e63, #f06292);
+    }
+  }
+}
 
 .counter-icon {
   width: 36px;
@@ -57,13 +78,12 @@
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-
+  
   ion-icon {
     font-size: 1.2rem;
     color: white;
   }
 }
-
 .counter-info {
   display: flex;
   flex-direction: column;
@@ -86,7 +106,6 @@
   }
 }
 
-/* Dark mode */
 @media (prefers-color-scheme: dark) {
   .counter-card {
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
@@ -95,19 +114,30 @@
       box-shadow: 0 3px 12px rgba(0, 0, 0, 0.4);
     }
   }
-
   .counter-card.laboratorio .counter-icon,
   .counter-card.imagenologia .counter-icon {
     background: linear-gradient(135deg, #20c997, #51cf66);
   }
-
   .counter-card.hospitalizaciones .counter-icon,
   .counter-card.dias .counter-icon {
     background: linear-gradient(135deg, #4dd0e1, #73e8ff);
   }
-
   .counter-card.cirugias .counter-icon,
   .counter-card.programadas .counter-icon {
     background: linear-gradient(135deg, #b275c6, #d39ff2);
+  }
+  .counter-card.alergias .counter-icon,
+  .counter-card.severas .counter-icon {
+    background: linear-gradient(135deg, #ff6b6b, #ff8787);
+  }
+
+  .counter-card.medicamentos .counter-icon,
+  .counter-card.activos .counter-icon {
+    background: linear-gradient(135deg, #ffa94d, #ffc078);
+  }
+
+  .counter-card.diagnosticos .counter-icon,
+  .counter-card.criticos .counter-icon {
+    background: linear-gradient(135deg, #f06292, #f48fb1);
   }
 }

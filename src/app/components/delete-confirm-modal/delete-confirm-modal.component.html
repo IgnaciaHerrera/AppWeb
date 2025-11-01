@@ -1,0 +1,35 @@
+<ion-modal 
+  [isOpen]="isOpen" 
+  (didDismiss)="handleDismiss()" 
+  class="delete-modal">
+  <ng-template>
+    <div class="delete-modal-content">
+      <div class="delete-icon-wrapper">
+        <ion-icon name="warning-outline" class="delete-warning-icon"></ion-icon>
+      </div>
+      
+      <h2>{{ title }}</h2>
+      <p class="delete-message">
+        {{ message }} <strong>"{{ itemName }}"</strong>?
+      </p>
+      <p class="delete-warning">{{ warningText }}</p>
+
+      <div class="delete-buttons">
+        <ion-button 
+          expand="block" 
+          fill="outline" 
+          class="btn-cancelar-delete" 
+          (click)="handleCancel()">
+          {{ cancelText }}
+        </ion-button>
+        
+        <ion-button 
+          expand="block" 
+          class="btn-eliminar-confirm" 
+          (click)="handleConfirm()">
+          {{ confirmText }}
+        </ion-button>
+      </div>
+    </div>
+  </ng-template>
+</ion-modal>

@@ -4,96 +4,87 @@
       <ion-back-button defaultHref="/tabs/tab5"></ion-back-button>
     </ion-buttons>
     <ion-title>Mis Alergias</ion-title>
-    <ion-buttons slot="end">
-      <ion-button fill="clear" (click)="probarConexion()">
-        <ion-icon name="wifi-outline"></ion-icon>
-      </ion-button>
-      <ion-button fill="clear" (click)="recargarAlergias()">
-        <ion-icon name="refresh-outline"></ion-icon>
-      </ion-button>
-      <ion-button fill="clear" (click)="abrirModal()">
-        <ion-icon name="add-outline"></ion-icon>
-      </ion-button>
-    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
+<ion-content [fullscreen]="true" [scrollEvents]="true" (ionScroll)="onScroll($event)" #content>
   <ion-header collapse="condense">
     <ion-toolbar>
       <ion-title size="large">Mis Alergias</ion-title>
     </ion-toolbar>
   </ion-header>
 
-  <!-- título principal -->
-  <ion-grid>
-    <ion-row>
-      <ion-col size="12">
-        <h2 class="section-title">
-          <ion-icon name="warning-outline"></ion-icon>
-          Alergias Registradas
-        </h2>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
+  <!-- === Contadores === -->
+  <div class="counter-row">
+    <app-counter-card
+      icon="warning-outline"
+      [number]="contadores.totalAlergias"
+      label="Total de Alergias"
+      colorClass="alergias">
+    </app-counter-card>
+    <app-counter-card
+      icon="alert-circle-outline"
+      [number]="contadores.alergiasSeveras"
+      label="Alergias Severas"
+      colorClass="severas">
+    </app-counter-card>
+  </div>
 
-  <!-- filtro de orden -->
-  <ion-grid>
-    <ion-row>
-      <ion-col size="12" class="filter-col">
-        <ion-item lines="none">
-          <ion-label>Ordenar por</ion-label>
-          <ion-select 
-            interface="popover" 
-            [(ngModel)]="ordenSeleccionado" 
-            (ionChange)="aplicarOrden()"
-            [selectedText]="getOrdenLabel()">
-            <ion-select-option value="recientes">Más recientes</ion-select-option>
-            <ion-select-option value="antiguas">Más antiguas</ion-select-option>
-            <ion-select-option value="alfabetico-asc">Alfabético (A-Z)</ion-select-option>
-            <ion-select-option value="alfabetico-desc">Alfabético (Z-A)</ion-select-option>
-          </ion-select>
-        </ion-item>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
+  <!-- === Filtros (PERIODO + ORDEN) === -->
+  <app-filter-bar
+    [colorTema]="'rojo'"
+    [periodoTexto]="periodoSeleccionadoTexto"
+    [ordenTexto]="getOrdenLabel()"
+    (abrirPeriodo)="abrirSelectorPeriodo()"
+    (abrirOrden)="abrirSelectorOrden()">
+  </app-filter-bar>
 
-  <!-- lista de alergias -->
-  <ion-list lines="none" *ngIf="alergias.length > 0">
+  <!-- === Lista alergias === -->
+  <ion-list lines="none" *ngIf="alergiasFiltradas.length > 0">
     <ion-item 
-      *ngFor="let alergia of alergias" 
-      button 
-      (click)="toggleAlergia(alergia)"
+      *ngFor="let alergia of alergiasVisibles" 
       class="alergia-item"
       [ngClass]="getAlergiaGradeClass(alergia)">
+      
+      <!-- Menu (tres puntos) -->
+      <app-menu-item
+        [itemId]="alergia.id"
+        (onEdit)="editarAlergia(alergia)"
+        (onDelete)="confirmarEliminar(alergia)">
+      </app-menu-item>
+
       <ion-grid>
-        <!-- cabecera -->
         <ion-row class="ion-align-items-center">
-          <ion-col size="7">
+          <!-- Contenido alergia -->
+          <ion-col size="7" (click)="toggleAlergia(alergia)">
             <ion-label>
               <h3>{{ alergia.nombre }}</h3>
               <p>{{ alergia.descripcion }}</p>
             </ion-label>
           </ion-col>
-          <ion-col size="4" class="badge-col">
-            <ion-badge [color]="getBadgeColor(alergia)" class="grade-badge-spaced">
+
+          <!-- Badge -->
+          <ion-col size="4" class="badge-col" (click)="toggleAlergia(alergia)">
+            <ion-badge [class]="getBadgeClass(alergia)" class="status-badge-spaced">
               {{ getGradeLabel(alergia.grado) }}
             </ion-badge>
           </ion-col>
-          <ion-col size="1">
+
+          <!-- Flecha expandir -->
+          <ion-col size="1" class="ion-text-end" (click)="toggleAlergia(alergia)">
             <ion-icon 
-              [name]="alergia.expanded ? 'chevron-up-outline' : 'chevron-down-outline'"
-              class="expand-icon">
+              name="chevron-down-outline"
+              class="expand-icon"
+              [class.rotated]="alergia.expanded">
             </ion-icon>
           </ion-col>
         </ion-row>
 
-        <!-- detalles expandidos -->
-        <ion-row *ngIf="alergia.expanded" class="alergia-expanded-row">
+        <ion-row class="alergia-expanded-row" [class.expanded]="alergia.expanded">
           <ion-col size="12">
             <div class="detail-container">
-              <div class="detail-item" [ngClass]="'severity-' + alergia.grado">
-                <div class="detail-icon-wrapper">
+              <div class="detail-item">
+                <div class="detail-icon-wrapper severity-icon" [ngClass]="'severity-' + alergia.grado">
                   <ion-icon [name]="getSeverityIcon(alergia.grado)" class="detail-icon"></ion-icon>
                 </div>
                 <div class="detail-content">
@@ -102,12 +93,12 @@
                 </div>
               </div>
               <div class="detail-item">
-                <div class="detail-icon-wrapper date-icon">
+                <div class="detail-icon-wrapper fecha-icon">
                   <ion-icon name="calendar-outline" class="detail-icon"></ion-icon>
                 </div>
                 <div class="detail-content">
-                  <p class="detail-label">Fecha Registro</p>
-                  <p class="detail-value">{{ alergia.fechaRegistro }}</p>
+                  <p class="detail-label">Fecha de Registro</p>
+                  <p class="detail-value">{{ formatFecha(alergia.fechaRegistro) }}</p>
                 </div>
               </div>
             </div>
@@ -117,25 +108,38 @@
     </ion-item>
   </ion-list>
 
-  <!-- estado vacío -->
-  <div *ngIf="alergias.length === 0" class="empty-state">
+  <ion-infinite-scroll threshold="100px" (ionInfinite)="onIonInfinite($event)" *ngIf="alergiasFiltradas.length > 0">
+    <ion-infinite-scroll-content
+      loadingSpinner="crescent"
+      loadingText="Cargando más alergias...">
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+
+  <!-- Estado vacio -->
+  <div *ngIf="alergiasFiltradas.length === 0" class="empty-state">
     <ion-icon name="shield-checkmark-outline" class="empty-icon"></ion-icon>
-    <h3>No hay alergias registradas</h3>
+    <h3>No hay alergias para este período</h3>
+    <p>Prueba cambiar el filtro o añadir una nueva alergia.</p>
   </div>
 
-  <!-- botón flotante -->
+  <!-- Boton flotante -->
   <ion-fab vertical="bottom" horizontal="end" slot="fixed">
-    <ion-fab-button (click)="abrirModal()" class="fab-add">
+    <ion-fab-button class="fab-add" (click)="abrirModal()">
       <ion-icon name="add"></ion-icon>
     </ion-fab-button>
   </ion-fab>
 
-  <!-- modal -->
+  <app-scroll-to-top 
+    [visible]="showScrollButton" 
+    [content]="content">
+  </app-scroll-to-top>
+
+  <!-- Modal agregar/editar alergia -->
   <ion-modal [isOpen]="modalAbierto" (didDismiss)="cerrarModal()">
     <ng-template>
       <ion-header>
         <ion-toolbar class="modal-header" style="--background: #fa5252; --color: white;">
-          <ion-title>Agregar nueva alergia</ion-title>
+          <ion-title>{{ modoEdicion ? 'Editar alergia' : 'Agregar nueva alergia' }}</ion-title>
           <ion-buttons slot="end">
             <ion-button (click)="cerrarModal()">
               <ion-icon name="close"></ion-icon>
@@ -148,28 +152,28 @@
         <div class="form-fields">
           <!-- Nombre -->
           <div class="field-group">
-            <label class="field-label">Nombre</label>
+            <label class="field-label">Nombre de la Alergia</label>
             <div class="input-container">
               <ion-icon name="medical-outline" class="input-icon"></ion-icon>
-              <ion-input [(ngModel)]="nuevaAlergia.nombre" placeholder="ej. Penicilina"></ion-input>
+              <ion-input [(ngModel)]="nuevaAlergia.nombre" placeholder="Ej. Penicilina"></ion-input>
             </div>
           </div>
 
-          <!-- Descripción -->
+          <!-- Descripcion -->
           <div class="field-group">
             <label class="field-label">Descripción</label>
             <div class="input-container">
               <ion-icon name="document-text-outline" class="input-icon"></ion-icon>
-              <ion-textarea [(ngModel)]="nuevaAlergia.descripcion" placeholder="Describe la alergia"></ion-textarea>
+              <ion-textarea [(ngModel)]="nuevaAlergia.descripcion" placeholder="Describe los síntomas"></ion-textarea>
             </div>
           </div>
 
           <!-- Grado -->
           <div class="field-group">
-            <label class="field-label">Grado</label>
+            <label class="field-label">Grado de Severidad</label>
             <div class="input-container">
               <ion-icon name="warning-outline" class="input-icon"></ion-icon>
-              <ion-select [(ngModel)]="nuevaAlergia.grado" placeholder="Selecciona">
+              <ion-select [(ngModel)]="nuevaAlergia.grado" placeholder="Selecciona el grado">
                 <ion-select-option value="leve">Leve</ion-select-option>
                 <ion-select-option value="moderado">Moderado</ion-select-option>
                 <ion-select-option value="severo">Severo</ion-select-option>
@@ -179,20 +183,18 @@
 
           <!-- Fecha -->
           <div class="field-group">
-            <label class="field-label">Fecha</label>
-            <div class="input-container" id="fecha-trigger" button="true">
+            <label class="field-label">Fecha de Registro</label>
+            <div class="input-container" id="fecha-alergia-trigger" button="true">
               <ion-icon name="calendar-outline" class="input-icon"></ion-icon>
               <ion-input readonly="true" [value]="fechaFormateada" placeholder="Selecciona una fecha"></ion-input>
               <ion-icon name="chevron-down-outline" slot="end" class="select-arrow"></ion-icon>
             </div>
-
-            <ion-popover trigger="fecha-trigger" [showBackdrop]="true">
+            <ion-popover trigger="fecha-alergia-trigger" [showBackdrop]="true">
               <ng-template>
                 <ion-datetime
                   presentation="date"
                   [(ngModel)]="nuevaAlergia.fechaRegistro"
-                  (ionChange)="onFechaChange($event)"
-                  [max]="fechaMaxima">
+                  (ionChange)="onFechaChange($event)">
                 </ion-datetime>
               </ng-template>
             </ion-popover>
@@ -207,11 +209,119 @@
               Cancelar
             </ion-button>
             <ion-button expand="block" class="btn-guardar" (click)="guardarAlergia()" [disabled]="!esFormularioValido()">
-              Guardar
+              {{ modoEdicion ? 'Guardar cambios' : 'Guardar' }}
             </ion-button>
           </div>
         </ion-toolbar>
       </ion-footer>
+    </ng-template>
+  </ion-modal>
+
+  <!-- Modal de eliminacion -->
+  <app-delete-confirm-modal
+    [isOpen]="modalEliminarAbierto"
+    [itemName]="alergiaAEliminar?.nombre || ''"
+    title="Eliminar alergia"
+    message="¿Estás seguro de eliminar"
+    (onCancel)="cerrarModalEliminar()"
+    (onConfirm)="eliminarAlergia()"
+    (didDismiss)="cerrarModalEliminar()">
+  </app-delete-confirm-modal>
+
+  <!-- Modal de periodo -->
+  <ion-modal 
+    [isOpen]="modalPeriodoAbierto" 
+    (didDismiss)="cerrarSelectorPeriodo()"
+    [initialBreakpoint]="1"
+    [breakpoints]="[0, 1]"
+    class="periodo-modal">
+    <ng-template>
+      <div class="modal-wrapper">
+        <div class="modal-header-clean">
+          <h2>Filtrar por período</h2>
+          <ion-button fill="clear" class="close-button" (click)="cerrarSelectorPeriodo()">
+            <ion-icon name="close" slot="icon-only"></ion-icon>
+          </ion-button>
+        </div>
+        <div class="modal-content-clean">
+          <div class="period-option"
+            [class.selected]="periodoSeleccionado === 'todos'"
+            (click)="seleccionarPeriodo('todos')">
+            <div class="option-icon"><ion-icon name="calendar-clear-outline"></ion-icon></div>
+            <div class="option-text"><h3>Todos los períodos</h3><p>Ver todas las alergias</p></div>
+            <ion-icon *ngIf="periodoSeleccionado === 'todos'" name="checkmark-circle" class="check-icon"></ion-icon>
+          </div>
+          <div class="period-option"
+            [class.selected]="periodoSeleccionado === 'ultimo-mes'"
+            (click)="seleccionarPeriodo('ultimo-mes')">
+            <div class="option-icon"><ion-icon name="time-outline"></ion-icon></div>
+            <div class="option-text"><h3>Último mes</h3><p>Alergias de los últimos 30 días</p></div>
+            <ion-icon *ngIf="periodoSeleccionado === 'ultimo-mes'" name="checkmark-circle" class="check-icon"></ion-icon>
+          </div>
+          <div class="period-option"
+            [class.selected]="periodoSeleccionado === 'ultimos-3-meses'"
+            (click)="seleccionarPeriodo('ultimos-3-meses')">
+            <div class="option-icon"><ion-icon name="stats-chart-outline"></ion-icon></div>
+            <div class="option-text"><h3>Últimos 3 meses</h3><p>Alergias de los últimos 90 días</p></div>
+            <ion-icon *ngIf="periodoSeleccionado === 'ultimos-3-meses'" name="checkmark-circle" class="check-icon"></ion-icon>
+          </div>
+          <div class="period-option"
+            [class.selected]="periodoSeleccionado === 'ultimos-6-meses'"
+            (click)="seleccionarPeriodo('ultimos-6-meses')">
+            <div class="option-icon"><ion-icon name="trending-up-outline"></ion-icon></div>
+            <div class="option-text"><h3>Últimos 6 meses</h3><p>Alergias del semestre actual</p></div>
+            <ion-icon *ngIf="periodoSeleccionado === 'ultimos-6-meses'" name="checkmark-circle" class="check-icon"></ion-icon>
+          </div>
+          <div class="period-option"
+            [class.selected]="periodoSeleccionado === 'este-anio'"
+            (click)="seleccionarPeriodo('este-anio')">
+            <div class="option-icon"><ion-icon name="calendar-number-outline"></ion-icon></div>
+            <div class="option-text"><h3>Este año</h3><p>Alergias del año actual</p></div>
+            <ion-icon *ngIf="periodoSeleccionado === 'este-anio'" name="checkmark-circle" class="check-icon"></ion-icon>
+          </div>
+        </div>
+      </div>
+    </ng-template>
+  </ion-modal>
+
+  <!-- Modal de ordenar -->
+  <ion-modal 
+    [isOpen]="modalOrdenAbierto" 
+    (didDismiss)="cerrarSelectorOrden()"
+    [initialBreakpoint]="1"
+    [breakpoints]="[0, 1]"
+    class="periodo-modal">
+    <ng-template>
+      <div class="modal-wrapper">
+        <div class="modal-header-clean">
+          <h2>Ordenar por</h2>
+          <ion-button fill="clear" class="close-button" (click)="cerrarSelectorOrden()">
+            <ion-icon name="close" slot="icon-only"></ion-icon>
+          </ion-button>
+        </div>
+        <div class="modal-content-clean">
+          <div class="period-option" [class.selected]="ordenSeleccionado === 'recientes'" (click)="seleccionarOrden('recientes')">
+            <div class="option-icon"><ion-icon name="arrow-down-outline"></ion-icon></div>
+            <div class="option-text"><h3>Más recientes</h3><p>Alergias más nuevas primero</p></div>
+            <ion-icon *ngIf="ordenSeleccionado === 'recientes'" name="checkmark-circle" class="check-icon"></ion-icon>
+          </div>
+          <div class="period-option" [class.selected]="ordenSeleccionado === 'antiguas'" (click)="seleccionarOrden('antiguas')">
+            <div class="option-icon"><ion-icon name="arrow-up-outline"></ion-icon></div>
+            <div class="option-text"><h3>Más antiguas</h3><p>Alergias más antiguas primero</p></div>
+            <ion-icon *ngIf="ordenSeleccionado === 'antiguas'" name="checkmark-circle" class="check-icon"></ion-icon>
+          </div>
+          <div class="period-option" [class.selected]="ordenSeleccionado === 'alfabetico-asc'" (click)="seleccionarOrden('alfabetico-asc')">
+            <div class="option-icon"><ion-icon name="text-outline"></ion-icon></div>
+            <div class="option-text"><h3>A-Z</h3><p>Orden alfabético ascendente</p></div>
+            <ion-icon *ngIf="ordenSeleccionado === 'alfabetico-asc'" name="checkmark-circle" class="check-icon"></ion-icon>
+          </div>
+          <div class="period-option" [class.selected]="ordenSeleccionado === 'alfabetico-desc'" (click)="seleccionarOrden('alfabetico-desc')">
+            <div class="option-icon"><ion-icon name="text-outline"></ion-icon></div>
+            <div class="option-text"><h3>Z-A</h3><p>Orden alfabético descendente</p></div>
+            <ion-icon *ngIf="ordenSeleccionado === 'alfabetico-desc'" name="checkmark-circle" class="check-icon"></ion-icon>
+          </div>
+        </div>
+      </div>
     </ng-template>
   </ion-modal>
 </ion-content>

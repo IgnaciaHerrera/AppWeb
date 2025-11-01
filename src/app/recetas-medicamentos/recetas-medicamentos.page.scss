@@ -1,60 +1,198 @@
 :host {
-  --orange-accent: #f59f00;
+  --orange-primary: #f59f00;
   --green-success: #20c997;
-  --blue-info: #4dabf7;
-  --red-danger: #fa5252;
-  --gray-medium: #6c757d;
-  --purple-info: #9775fa;
+  --gray-inactive: #6c757d;
 }
 
-/* segment de navegación */
-.segment-container {
-  padding: 16px;
-  background: var(--ion-background-color);
-}
-
-.custom-segment {
-  background: var(--ion-card-background);
-  border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-}
-
-.custom-segment ion-segment-button {
-  --background: transparent;
-  --background-checked: var(--orange-accent);
-  --color: var(--ion-color-medium);
-  --color-checked: white;
-  --indicator-color: transparent;
-  --border-radius: 8px;
-  font-weight: 500;
-  font-size: 0.9rem;
-  margin: 4px;
-  min-height: 40px;
-}
-
-.custom-segment ion-segment-button ion-label {
-  margin: 0;
-}
-
-.custom-segment ion-segment-button.segment-button-checked {
-  font-weight: 600;
-}
-
-/* títulos */
-.section-title {
-  font-size: 1.1rem;
-  font-weight: 700;
-  color: var(--ion-text-color);
-  margin: 16px 16px 8px;
+.counter-row {
   display: flex;
-  align-items: center;
+  flex-direction: row;
+  margin: 16px 16px 12px 16px; 
   gap: 8px;
 }
 
-.section-title ion-icon {
-  color: var(--orange-accent);
+/* Modal de periodo */
+.periodo-modal {
+  --height: auto;
+  --border-radius: 20px 20px 0 0;
+  --box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.1);
+  
+  &::part(content) {
+    border-radius: 20px 20px 0 0;
+  }
 }
 
+.modal-wrapper {
+  background: var(--ion-background-color);
+  border-radius: 20px 20px 0 0;
+  min-height: 400px;
+  max-height: 85vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.modal-header-clean {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 26px 20px 12px; 
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+  flex-shrink: 0;
+  position: relative;
+  
+  h2 {
+    font-size: 1.1rem; 
+    font-weight: 700;
+    color: var(--ion-text-color);
+    margin: 0;
+    text-align: center;
+  }
+  
+  .close-button {
+    --padding-start: 8px;
+    --padding-end: 8px;
+    margin: 0;
+    position: absolute;
+    right: 12px;
+    
+    ion-icon {
+      font-size: 1.3rem; 
+      color: var(--ion-color-medium);
+    }
+  }
+}
+
+.modal-content-clean {
+  padding: 16px 20px;
+  overflow-y: auto;
+  flex: 1;
+}
+
+/* Opcion de periodo */
+.period-option {
+  display: flex;
+  align-items: center;
+  gap: 12px; 
+  padding: 12px; 
+  background: rgba(0, 0, 0, 0.05);
+  border-radius: 12px; 
+  border: 2px solid transparent;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-bottom: 12px; 
+  
+  &:active {
+    transform: scale(0.98);
+  }
+  
+  &.selected {
+    border-color: var(--orange-primary);
+    background: rgba(245, 159, 0, 0.15); 
+    
+    .option-icon {
+      background: var(--orange-primary);
+      
+      ion-icon {
+        color: rgb(10, 10, 10) !important; 
+      }
+    }
+    
+    .option-text h3 {
+      color: var(--orange-primary);
+      font-weight: 700; 
+    }
+  }
+}
+
+.option-icon {
+  width: 40px; 
+  height: 40px; 
+  border-radius: 10px; 
+  background: rgba(0, 0, 0, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: all 0.3s ease;
+  
+  ion-icon {
+    font-size: 1.3rem; 
+    color: #6c757d;
+  }
+}
+
+.option-text {
+  flex: 1;
+  
+  h3 {
+    font-size: 0.95rem; 
+    font-weight: 600;
+    color: var(--ion-text-color);
+    margin: 0 0 2px 0; 
+    transition: color 0.3s ease;
+  }
+  
+  p {
+    font-size: 0.75rem; 
+    color: var(--ion-color-medium);
+    margin: 0;
+  }
+}
+
+.check-icon {
+  font-size: 1.3rem; 
+  color: var(--orange-primary);
+  flex-shrink: 0;
+  animation: checkPop 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+@keyframes checkPop {
+  0% {
+    transform: scale(0);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.periodo-modal::part(handle) {
+  background: rgba(0, 0, 0, 0.2);
+}
+
+@media (prefers-color-scheme: dark) {
+  .periodo-modal::part(handle) {
+    background: rgba(255, 255, 255, 0.3);
+  }
+}
+
+@media (prefers-color-scheme: dark) {  
+  .modal-header-clean {
+    border-bottom-color: rgba(255, 255, 255, 0.1);
+  }
+  
+  .period-option {
+    background: rgba(255, 255, 255, 0.05); 
+    
+    &.selected {
+      background: rgba(245, 159, 0, 0.15);
+    }
+  }
+ 
+  .period-option.selected .option-icon ion-icon {
+    color: white !important; 
+  }
+
+  .option-icon {
+    background: rgba(255, 255, 255, 0.08);
+  }
+}
+
+/* Subseccion */
 .subsection-title {
   font-size: 0.9rem;
   font-weight: 600;
@@ -64,20 +202,20 @@
   letter-spacing: 0.5px;
 }
 
-/* listas */
 ion-list {
   background: transparent;
   margin: 0 16px;
 }
 
-/* cards de medicamentos */
+/* Card de medicamento */
 .medicamento-item {
   background: var(--ion-card-background);
   margin-bottom: 12px;
   border-radius: 12px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-  border-left: 4px solid transparent;
+  border-left: 4px solid var(--orange-primary);
   transition: all 0.3s ease;
+  position: relative;
 }
 
 .medicamento-item ion-label h3 {
@@ -87,27 +225,35 @@ ion-list {
   margin-bottom: 4px;
 }
 
-.medicamento-item.cronico {
+.medicamento-item ion-label p {
+  font-size: 0.8rem;
+  color: var(--ion-color-medium);
+  margin: 0;
+}
+
+.medicamento-item.status-cronico {
   border-left-color: var(--green-success);
 }
 
-.medicamento-item.corta-duracion {
-  border-left-color: var(--orange-accent);
+.medicamento-item.status-corta-duracion {
+  border-left-color: var(--orange-primary);
 }
 
-.medicamento-item.finalizado {
-  border-left-color: var(--gray-medium);
+.medicamento-item.status-finalizado {
+  border-left-color: var(--gray-inactive);
 }
 
 .medicamento-item:hover {
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
 }
 
-.medicamento-item ion-item {
-  --background: transparent;
-  --padding-start: 16px;
-  --padding-end: 16px;
+.medicamento-item > ion-item {
+  --padding-start: 0;
+  --padding-end: 0;
+  --inner-padding-start: 0;
   --inner-padding-end: 0;
+  --inner-padding-top: 12px;
+  --inner-padding-bottom: 12px;
 }
 
 .medicamento-item ion-grid {
@@ -115,6 +261,7 @@ ion-list {
   width: 100%;
   padding-top: 8px;
   padding-bottom: 8px;
+  position: relative;
 }
 
 .medicamento-item ion-col {
@@ -122,22 +269,98 @@ ion-list {
   padding-right: 0 !important;
 }
 
-/* badges */
+.medicamento-expanded-row {
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  border-top: 1px solid transparent;
+  transition: max-height 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+              opacity 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+              padding 0.35s ease,
+              margin 0.35s ease,
+              border-color 0.2s ease;
+  padding-top: 0;
+  margin-top: 0;
+  transform: translateY(-10px);
+
+  &.expanded {
+    max-height: 3000px;
+    opacity: 1;
+    padding-top: 12px;
+    margin-top: 8px;
+    border-top-color: rgba(0, 0, 0, 0.08);
+    transform: translateY(0);
+    transition: max-height 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                opacity 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                padding 0.4s ease,
+                margin 0.4s ease,
+                border-color 0.3s ease,
+                transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+}
+
+.expand-icon {
+  color: var(--ion-color-medium);
+  transition: transform 0.35s cubic-bezier(0.4, 0.0, 0.2, 1),
+              color 0.25s ease;
+  font-size: 1.4rem;
+  display: block;
+  margin-right: 12px;
+
+  &.rotated {
+    transform: rotate(180deg);
+  }
+}
+
+/* Color del expand icon segun estado */
+.medicamento-item.status-cronico .expand-icon.rotated {
+  color: var(--green-success);
+}
+
+.medicamento-item.status-corta-duracion .expand-icon.rotated {
+  color: var(--orange-primary);
+}
+
+.medicamento-item.status-finalizado .expand-icon.rotated {
+  color: var(--gray-inactive);
+}
+
+/* Badge personalizado */
 .badge-col {
   display: flex;
   justify-content: flex-start;
+  align-items: center;
   padding-left: 8px;
+  padding-right: 4px;
 }
 
-.type-badge-spaced {
-  margin-left: 16px;
+.status-badge-spaced {
+  margin-left: 8px;
+  margin-right: 4px;
 }
 
-/* detalles expandidos - nuevo diseño */
-.medicamento-expanded-row {
-  padding-top: 12px;
-  margin-top: 8px;
-  border-top: 1px solid rgba(0, 0, 0, 0.08);
+/* Badges personalizados */
+ion-badge {
+  font-weight: 600;
+  font-size: 0.6rem;
+  border-radius: 10px;
+  padding: 3px 10px;
+  line-height: 1.2;
+}
+
+ion-badge.badge-cronico {
+  --background: var(--green-success);
+  --color: white;
+}
+
+ion-badge.badge-corta-duracion {
+  --background: var(--orange-primary);
+  --color: white;
+}
+
+ion-badge.badge-finalizado {
+  --background: var(--gray-inactive);
+  --color: white;
 }
 
 .detail-container {
@@ -150,14 +373,14 @@ ion-list {
   display: flex;
   align-items: center;
   padding: 12px;
-  background: rgba(0, 0, 0, 0.02);
+  background: rgba(245, 159, 0, 0.03);
   border-radius: 8px;
   gap: 12px;
   transition: all 0.2s ease;
 }
 
 .detail-item:hover {
-  background: rgba(0, 0, 0, 0.04);
+  background: rgba(245, 159, 0, 0.06);
 }
 
 .detail-icon-wrapper {
@@ -175,30 +398,41 @@ ion-list {
   color: white;
 }
 
-/* Iconos de tipo con colores */
-.type-cronico .detail-icon-wrapper {
+.tipo-icon,
+.fecha-icon,
+.medico-icon,
+.fin-icon {
+  background: var(--orange-primary);
+}
+
+/* Cronico */
+.medicamento-item.status-cronico .fecha-icon,
+.medicamento-item.status-cronico .fin-icon {
   background: var(--green-success);
 }
 
-.type-corta-duracion .detail-icon-wrapper {
-  background: var(--orange-accent);
+.medicamento-item.status-cronico .detail-item {
+  background: rgba(32, 201, 151, 0.05); 
 }
 
-/* Iconos específicos */
-.date-icon {
-  background: var(--blue-info);
+.medicamento-item.status-cronico .detail-item:hover {
+  background: rgba(32, 201, 151, 0.1);
 }
 
-.end-date-icon {
-  background: var(--red-danger);
+.medicamento-item.status-cronico .tipo-icon {
+  background: var(--green-success);
 }
 
-.doctor-icon {
-  background: var(--purple-info);
+.medicamento-item.status-finalizado .detail-item {
+  background: rgba(108, 117, 125, 0.08); 
 }
 
-.duration-icon {
-  background: var(--gray-medium);
+.medicamento-item.status-finalizado .detail-item:hover {
+  background: rgba(108, 117, 125, 0.15);
+}
+
+.medicamento-item.status-finalizado .detail-icon-wrapper {
+  background: var(--gray-inactive); 
 }
 
 .detail-content {
@@ -224,311 +458,111 @@ ion-list {
   margin: 0;
 }
 
-/* progreso mejorado */
-.progress-section {
-  margin-top: 16px;
-  padding: 16px;
-  background: rgba(245, 159, 0, 0.05);
-  border-radius: 8px;
-  border: 1px solid rgba(245, 159, 0, 0.1);
-}
-
-.progress-header {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin-bottom: 12px;
-}
-
-.progress-icon {
-  color: var(--orange-accent);
-  font-size: 1.1rem;
-}
-
-.progress-section .schedule-title {
-  font-size: 0.85rem;
-  color: var(--orange-accent);
-  margin: 0;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
-.progress-section ion-progress-bar {
-  --color: var(--orange-accent);
-  --buffer-color: rgba(245, 159, 0, 0.1);
-  height: 8px;
-  border-radius: 4px;
-  margin-bottom: 8px;
-}
-
-.progress-section .progress-text {
-  display: flex;
-  justify-content: space-between;
-  font-size: 0.75rem;
-  color: var(--orange-accent);
-  font-weight: 500;
-}
-
-/* recetas */
-.receta-item-simple {
-  background: var(--ion-card-background);
-  margin: 0 16px 16px;
-  border-radius: 16px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
-  border-left: 4px solid var(--orange-accent);
-}
-
-.receta-item-simple ion-item {
-  --background: transparent;
-  --padding-start: 16px;
-  --padding-end: 16px;
-}
-
-.receta-header-simple {
-  margin-bottom: 12px;
-}
-
-.receta-header-simple .receta-info h3 {
-  font-size: 1rem;
-  font-weight: 700;
-  color: var(--ion-text-color);
-  margin: 0 0 4px 0;
-}
-
-.receta-header-simple .receta-info p {
-  font-size: 0.85rem;
-  color: var(--ion-color-medium);
-  margin: 0;
-}
-
-.doctor-info {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 8px 12px;
-  background: rgba(0, 0, 0, 0.02);
-  border-radius: 8px;
-  margin-bottom: 12px;
-}
-
-.doctor-info ion-icon {
-  color: var(--orange-accent);
-}
-
-.doctor-info .doctor-name {
-  font-size: 0.85rem;
-  font-weight: 600;
-  color: var(--ion-text-color);
-  margin: 0;
-}
-
-.doctor-info .doctor-specialty {
-  font-size: 0.75rem;
-  color: var(--ion-color-medium);
-  margin: 0;
-}
-
-.medicamentos-preview .preview-title {
-  font-size: 0.85rem;
-  font-weight: 600;
-  color: var(--ion-color-medium);
-  margin: 0 0 8px 0;
-  text-transform: uppercase;
-  letter-spacing: 0.3px;
-}
-
-.medicamentos-preview .medicamentos-chips {
-  display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
-}
-
-.medicamentos-preview .medicamentos-chips ion-chip {
-  margin: 0;
-  --background: rgba(var(--ion-color-primary-rgb), 0.1);
-  --color: var(--ion-color-primary);
-}
-
-.medicamentos-preview .medicamentos-chips ion-chip ion-icon {
-  color: var(--ion-color-primary);
-}
-
-/* modal */
-.doctor-simple {
-  text-align: center;
-  padding: 16px 0;
-}
-
-.doctor-simple h3 {
-  font-size: 1.2rem;
-  font-weight: 700;
-  color: var(--ion-text-color);
-  margin: 0 0 8px;
-}
-
-.doctor-simple p {
-  font-size: 0.9rem;
-  color: var(--ion-color-medium);
-  margin: 0;
-}
-
-.patient-name-clean {
-  font-size: 1.3rem;
-  font-weight: 600;
-  color: var(--ion-text-color);
-  margin: 0 0 12px;
-  text-align: center;
-}
-
-.meta-card-simple {
-  background: rgba(245, 159, 0, 0.05);
-  margin: 16px;
-  text-align: center;
-  border: 1px solid rgba(245, 159, 0, 0.2);
-}
-
-.meta-card-simple .receta-number-only .meta-label {
-  font-size: 0.8rem;
-  color: var(--ion-color-medium);
-  margin: 0 0 8px;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
-.meta-card-simple .receta-number-only .meta-value {
-  font-size: 1.2rem;
-  font-weight: 700;
-  color: var(--orange-accent);
-  margin: 0;
-}
-
-.medication-prescription {
-  background: rgba(0, 0, 0, 0.02);
-  border-radius: 8px;
-  padding: 12px;
-  margin-bottom: 12px;
-  border-left: 3px solid var(--green-success);
-}
-
-.medication-prescription h4 {
-  font-size: 1rem;
-  font-weight: 700;
-  color: var(--ion-text-color);
-  margin: 0 0 8px;
-}
-
-.medication-prescription .detail-item {
+/* Estado vacio */
+.empty-state {
   display: flex;
   flex-direction: column;
-  margin-bottom: 8px;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 20px;
+  text-align: center;
 }
 
-.medication-prescription .detail-item .detail-label {
-  font-size: 0.7rem;
-  color: var(--ion-color-medium);
-  margin: 0 0 2px;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
+.empty-state .empty-icon {
+  font-size: 4rem;
+  color: var(--orange-primary);
+  margin-bottom: 16px;
 }
 
-.medication-prescription .detail-item .detail-value {
-  font-size: 0.8rem;
+.empty-state h3 {
+  font-size: 1.2rem;
+  font-weight: 600;
   color: var(--ion-text-color);
-  font-weight: 500;
-  margin: 0;
+  margin: 0 0 8px 0;
 }
 
-.medication-prescription ion-chip {
-  --background: rgba(var(--ion-color-primary-rgb), 0.1);
-  --color: var(--ion-color-primary);
-  margin-top: 8px;
-}
-
-/* icono expandir */
-.expand-icon {
+.empty-state p {
+  font-size: 0.9rem;
   color: var(--ion-color-medium);
-  transition: transform 0.2s ease;
+  margin: 0 0 24px 0;
+  line-height: 1.4;
 }
 
-
-/* modo oscuro */
 @media (prefers-color-scheme: dark) {
   :host {
-    --orange-accent: #ffa94d;
+    --orange-primary: #ffa94d;
     --green-success: #51cf66;
-    --blue-info: #74c0fc;
-    --purple-info: #b197fc;
+    --gray-inactive: #adb5bd;
   }
   
-  .medicamento-item,
-  .receta-item-simple {
+  .medicamento-item {
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
   }
   
   .medicamento-expanded-row {
-    border-top-color: rgba(255, 255, 255, 0.1);
+    &.expanded {
+      border-top-color: rgba(255, 255, 255, 0.1);
+    }
   }
   
-  .detail-item,
-  .medication-prescription,
-  .doctor-info {
-    background: rgba(255, 255, 255, 0.03);
+  .medicamento-item.status-cronico .detail-item {
+    background: rgba(81, 207, 102, 0.08);
   }
   
-  .detail-item:hover {
-    background: rgba(255, 255, 255, 0.06);
+  .medicamento-item.status-cronico .detail-item:hover {
+    background: rgba(81, 207, 102, 0.15);
+  }
+
+  .medicamento-item.status-corta-duracion .detail-item {
+    background: rgba(255, 169, 77, 0.08);
+  }
+
+  .medicamento-item.status-corta-duracion .detail-item:hover {
+    background: rgba(255, 169, 77, 0.15);
   }
   
+  .medicamento-item.status-finalizado .detail-item {
+    background: rgba(173, 181, 189, 0.08);
+  }
+  
+  .medicamento-item.status-finalizado .detail-item:hover {
+    background: rgba(173, 181, 189, 0.15);
+  }
+  
+  ion-badge.badge-cronico {
+    --background: var(--green-success);
+  }
+  
+  ion-badge.badge-corta-duracion {
+    --background: var(--orange-primary);
+  }
+
+  ion-badge.badge-finalizado {
+    --background: var(--gray-inactive);
+  }
+
   .progress-section {
     background: rgba(255, 169, 77, 0.1);
     border-color: rgba(255, 169, 77, 0.2);
   }
-  
-  .custom-segment {
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-  }
-  
-  .meta-card-simple {
-    background: rgba(255, 169, 77, 0.1);
-    border-color: rgba(255, 169, 77, 0.3);
-  }
 }
 
-/* botón flotante */
+/* Boton flotante */
 .fab-add {
   --background: #f59f00;
   --color: white;
 }
 
 /* Modal */
-:root {
-  --modal-bg: #ffffff;
-  --modal-border: #ccc;
-  --modal-border-hover: #999;
-  --modal-text: #2c3e50;
-  --modal-placeholder: #888;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --modal-bg: #2d2d2d;
-    --modal-border: #555;
-    --modal-border-hover: #777;
-    --modal-text: #f1f1f1;
-    --modal-placeholder: #aaa;
-  }
-}
-
 .modal-header {
   --background: #f59f00 !important; 
   --color: white !important;
-  
+
   ion-title {
     font-weight: 600 !important;
     color: white !important;
   }
-  
+
   ion-button {
     --color: white !important;
   }
@@ -568,28 +602,39 @@ ion-list {
   height: 56px !important; 
   transition: all 0.3s ease !important;
   position: relative !important;
-  
+
   &:hover {
     border-color: var(--ion-color-medium) !important;
   }
-  
+
   &:focus-within {
     border-color: #f59f00 !important;
-    box-shadow: 0 0 0 3px rgba(245, 159, 0, 0.25) !important;
+    box-shadow: 0 0 0 3px rgba(245, 159, 0, 0.2) !important;
   }
-  
+
   ion-input,
-  ion-select {
+  ion-select,
+  ion-textarea {
     flex: 1 !important;
     --padding-start: 8px !important;
+    --padding-end: 0 !important;
     --background: transparent !important;
     --color: var(--ion-text-color) !important;
+    --placeholder-color: var(--ion-color-medium) !important;
+    --placeholder-opacity: 1 !important;
     font-size: 1rem !important;
     font-weight: 500 !important;
+    height: 100% !important;
+  }
+
+  ion-textarea {
+    display: flex !important;
+    align-items: center !important; 
+    resize: none !important;
   }
 }
 
-/* Iconos */
+/* Iconos de input */
 .input-icon {
   font-size: 22px !important;
   margin-right: 12px !important;
@@ -609,7 +654,41 @@ ion-list {
   margin-left: 8px !important;
 }
 
-/* Botones del modal */
+/* Estados de validacion */
+.field-group.error .input-container {
+  border-color: #e74c3c !important;
+  box-shadow: 0 0 0 3px rgba(231, 76, 60, 0.15) !important;
+}
+
+.field-group.success .input-container {
+  border-color: #27ae60 !important;
+  box-shadow: 0 0 0 3px rgba(39, 174, 96, 0.15) !important;
+}
+
+.field-group.error .input-icon {
+  color: #e74c3c !important;
+}
+
+.field-group.success .input-icon {
+  color: #27ae60 !important;
+}
+
+.error-message {
+  color: #e74c3c !important;
+  font-size: 0.85rem !important;
+  margin-top: 6px !important;
+  margin-left: 16px !important;
+  font-weight: 500 !important;
+  opacity: 0 !important;
+  transform: translateY(-10px) !important;
+  transition: all 0.3s ease !important;
+}
+
+.field-group.error .error-message {
+  opacity: 1 !important;
+  transform: translateY(0) !important;
+}
+
 .modal-buttons {
   display: flex !important;
   width: 100% !important;
@@ -632,7 +711,6 @@ ion-list {
   --color: white !important;
 }
 
-/* Animación */
 @keyframes slideInUp {
   from {
     opacity: 0;
@@ -651,3 +729,4 @@ ion-list {
 .field-group:nth-child(5) { animation-delay: 0.5s !important; }
 .field-group:nth-child(6) { animation-delay: 0.6s !important; }
 .field-group:nth-child(7) { animation-delay: 0.7s !important; }
+.field-group:nth-child(8) { animation-delay: 0.8s !important; }

@@ -3,48 +3,44 @@
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/tabs/tab5"></ion-back-button>
     </ion-buttons>
-    <ion-title>Recetas y Medicamentos</ion-title>
-    <ion-buttons slot="end">
-      <ion-button fill="clear">
-        <ion-icon name="alarm-outline"></ion-icon>
-      </ion-button>
-    </ion-buttons>
+    <ion-title>Mis Medicamentos</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
+<ion-content [fullscreen]="true" [scrollEvents]="true" (ionScroll)="onScroll($event)" #content>
   <ion-header collapse="condense">
     <ion-toolbar>
-      <ion-title size="large">Recetas y Medicamentos</ion-title>
+      <ion-title size="large">Mis Medicamentos</ion-title>
     </ion-toolbar>
   </ion-header>
 
-  <!-- Tabs -->
-  <div class="segment-container">
-    <ion-segment [(ngModel)]="selectedTab" (ionChange)="onTabChange($event)" class="custom-segment">
-      <ion-segment-button value="medicamentos">
-        <ion-label>Medicamentos</ion-label>
-      </ion-segment-button>
-      <ion-segment-button value="recetas">
-        <ion-label>Recetas</ion-label>
-      </ion-segment-button>
-    </ion-segment>
+  <!-- Contadores -->
+  <div class="counter-row">
+    <app-counter-card
+      icon="medical-outline"
+      [number]="contadores.totalMedicamentos"
+      label="Medicamentos Totales"
+      colorClass="medicamentos">
+    </app-counter-card>
+    <app-counter-card
+      icon="pulse-outline"
+      [number]="contadores.medicamentosActivos"
+      label="Activos"
+      colorClass="activos">
+    </app-counter-card>
   </div>
 
-  <!-- SECCIÓN MEDICAMENTOS -->
-  <div *ngIf="selectedTab === 'medicamentos'">
-    <ion-grid>
-      <ion-row>
-        <ion-col size="12">
-          <h2 class="section-title">
-            <ion-icon name="medical-outline"></ion-icon>
-            Mis Medicamentos
-          </h2>
-        </ion-col>
-      </ion-row>
-    </ion-grid>
+  <!-- FIiltros (PERIODO + ORDEN) -->
+  <app-filter-bar
+    [colorTema]="'naranja'"
+    [periodoTexto]="periodoSeleccionadoTexto"
+    [ordenTexto]="getOrdenLabel()"
+    (abrirPeriodo)="abrirSelectorPeriodo()"
+    (abrirOrden)="abrirSelectorOrden()">
+  </app-filter-bar>
 
-    <!-- Activos -->
+  <!-- Medicamentos activos -->
+  <div *ngIf="medicamentosActivos.length > 0">
     <ion-grid>
       <ion-row>
         <ion-col size="12">
@@ -56,44 +52,46 @@
     <ion-list lines="none">
       <ion-item 
         *ngFor="let medicamento of medicamentosActivos" 
-        button 
-        (click)="toggleMedicamento(medicamento)"
         class="medicamento-item"
-        [ngClass]="getMedicamentoTypeClass(medicamento)">
+        [ngClass]="getStatusClass(medicamento)">
         
+        <!-- Menu (tres puntos) -->
+        <app-menu-item
+          [itemId]="medicamento.id"
+          (onEdit)="editarMedicamento(medicamento)"
+          (onDelete)="confirmarEliminar(medicamento)">
+        </app-menu-item>
+
         <ion-grid>
           <ion-row class="ion-align-items-center">
-            <ion-col size="7">
+            <ion-col size="7" (click)="toggleMedicamento(medicamento)">
               <ion-label>
                 <h3>{{ medicamento.nombre }}</h3>
                 <p>{{ medicamento.dosis }} - {{ medicamento.presentacion }}</p>
                 <p class="schedule">{{ medicamento.horario }}</p>
               </ion-label>
             </ion-col>
-            
-            <ion-col size="4" class="badge-col">
-              <ion-badge [color]="getBadgeColor(medicamento)" class="type-badge-spaced">
-                {{ medicamento.tipo === 'corta-duracion' && medicamento.fechaInicio && medicamento.fechaFin ? 
-                   calcularDiasLabel(medicamento.fechaInicio, medicamento.fechaFin) : 
-                   getBadgeLabel(medicamento) }}
+            <ion-col size="4" class="badge-col" (click)="toggleMedicamento(medicamento)">
+              <ion-badge [class]="getBadgeClass(medicamento)" class="status-badge-spaced">
+                {{ medicamento.tipo === 'corta-duracion' && medicamento.fechaFin ? 
+                   calcularDiasLabel(medicamento.fechaInicio, medicamento.fechaFin) : 'Crónico' }}
               </ion-badge>
             </ion-col>
-            
-            <ion-col size="1">
+            <ion-col size="1" class="ion-text-end" (click)="toggleMedicamento(medicamento)">
               <ion-icon 
-                [name]="medicamento.expanded ? 'chevron-up-outline' : 'chevron-down-outline'"
-                class="expand-icon">
+                name="chevron-down-outline"
+                class="expand-icon"
+                [class.rotated]="medicamento.expanded">
               </ion-icon>
             </ion-col>
           </ion-row>
 
-          <!-- Detalles expandidos -->
-          <ion-row *ngIf="medicamento.expanded" class="medicamento-expanded-row">
+          <ion-row class="medicamento-expanded-row" [class.expanded]="medicamento.expanded">
             <ion-col size="12">
               <div class="detail-container">
-                <!-- Tipo de tratamiento -->
-                <div class="detail-item" [ngClass]="'type-' + medicamento.tipo">
-                  <div class="detail-icon-wrapper">
+                <!-- Tipo -->
+                <div class="detail-item">
+                  <div class="detail-icon-wrapper tipo-icon">
                     <ion-icon [name]="getTipoIcon(medicamento.tipo)" class="detail-icon"></ion-icon>
                   </div>
                   <div class="detail-content">
@@ -102,50 +100,26 @@
                   </div>
                 </div>
 
-                <!-- Fecha de inicio -->
+                <!-- Fecha inicio -->
                 <div class="detail-item">
-                  <div class="detail-icon-wrapper date-icon">
+                  <div class="detail-icon-wrapper fecha-icon">
                     <ion-icon name="calendar-outline" class="detail-icon"></ion-icon>
                   </div>
                   <div class="detail-content">
                     <p class="detail-label">Inicio</p>
-                    <p class="detail-value">{{ formatearFecha(medicamento.fechaInicio) }}</p>
+                    <p class="detail-value">{{ formatFecha(medicamento.fechaInicio) }}</p>
                   </div>
                 </div>
 
-                <!-- Fecha fin (solo para corta duración) -->
+                <!-- Fecha fin (solo corta duracion) -->
                 <div *ngIf="medicamento.tipo === 'corta-duracion' && medicamento.fechaFin" class="detail-item">
-                  <div class="detail-icon-wrapper end-date-icon">
+                  <div class="detail-icon-wrapper fin-icon">
                     <ion-icon name="flag-outline" class="detail-icon"></ion-icon>
                   </div>
                   <div class="detail-content">
                     <p class="detail-label">Finaliza</p>
-                    <p class="detail-value">{{ formatearFecha(medicamento.fechaFin) }}</p>
+                    <p class="detail-value">{{ formatFecha(medicamento.fechaFin) }}</p>
                   </div>
-                </div>
-
-                <!-- Médico -->
-                <div class="detail-item">
-                  <div class="detail-icon-wrapper doctor-icon">
-                    <ion-icon name="person-outline" class="detail-icon"></ion-icon>
-                  </div>
-                  <div class="detail-content">
-                    <p class="detail-label">Médico</p>
-                    <p class="detail-value">{{ medicamento.medico }}</p>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Progreso (solo para corta duración) -->
-              <div *ngIf="medicamento.tipo === 'corta-duracion' && medicamento.progreso" class="progress-section">
-                <div class="progress-header">
-                  <ion-icon name="stats-chart-outline" class="progress-icon"></ion-icon>
-                  <p class="schedule-title">Progreso del tratamiento</p>
-                </div>
-                <ion-progress-bar [value]="medicamento.progreso.porcentaje"></ion-progress-bar>
-                <div class="progress-text">
-                  <span>{{ medicamento.progreso.diasTomados }}</span>
-                  <span>{{ medicamento.progreso.diasRestantes }}</span>
                 </div>
               </div>
             </ion-col>
@@ -153,8 +127,10 @@
         </ion-grid>
       </ion-item>
     </ion-list>
+  </div>
 
-    <!-- Finalizados -->
+  <!-- === Medicamentos finalizados === -->
+  <div *ngIf="medicamentosFinalizados.length > 0">
     <ion-grid>
       <ion-row>
         <ion-col size="12">
@@ -166,55 +142,60 @@
     <ion-list lines="none">
       <ion-item 
         *ngFor="let medicamento of medicamentosFinalizados" 
-        button 
-        (click)="toggleMedicamento(medicamento)"
-        class="medicamento-item finalizado">
+        class="medicamento-item"
+        [ngClass]="getStatusClass(medicamento)">
         
+        <!-- Menu (tres puntos) -->
+        <app-menu-item
+          [itemId]="medicamento.id"
+          (onEdit)="editarMedicamento(medicamento)"
+          (onDelete)="confirmarEliminar(medicamento)">
+        </app-menu-item>
+
         <ion-grid>
           <ion-row class="ion-align-items-center">
-            <ion-col size="7">
+            <ion-col size="7" (click)="toggleMedicamento(medicamento)">
               <ion-label>
                 <h3>{{ medicamento.nombre }}</h3>
                 <p>{{ medicamento.dosis }} - {{ medicamento.presentacion }}</p>
-                <p class="schedule">Finalizado el {{ formatearFecha(medicamento.fechaFin!) }}</p>
               </ion-label>
             </ion-col>
-            
-            <ion-col size="4" class="badge-col">
-              <ion-badge color="medium" class="type-badge-spaced">Completado</ion-badge>
+            <ion-col size="4" class="badge-col" (click)="toggleMedicamento(medicamento)">
+              <ion-badge [class]="getBadgeClass(medicamento)" class="status-badge-spaced">
+                Completado
+              </ion-badge>
             </ion-col>
-            
-            <ion-col size="1">
+            <ion-col size="1" class="ion-text-end" (click)="toggleMedicamento(medicamento)">
               <ion-icon 
-                [name]="medicamento.expanded ? 'chevron-up-outline' : 'chevron-down-outline'"
-                class="expand-icon">
+                name="chevron-down-outline"
+                class="expand-icon"
+                [class.rotated]="medicamento.expanded">
               </ion-icon>
             </ion-col>
           </ion-row>
 
-          <!-- Detalles finalizados -->
-          <ion-row *ngIf="medicamento.expanded" class="medicamento-expanded-row">
+          <ion-row class="medicamento-expanded-row" [class.expanded]="medicamento.expanded">
             <ion-col size="12">
               <div class="detail-container">
                 <!-- Inicio -->
                 <div class="detail-item">
-                  <div class="detail-icon-wrapper date-icon">
+                  <div class="detail-icon-wrapper fecha-icon">
                     <ion-icon name="calendar-outline" class="detail-icon"></ion-icon>
                   </div>
                   <div class="detail-content">
                     <p class="detail-label">Inicio</p>
-                    <p class="detail-value">{{ formatearFecha(medicamento.fechaInicio) }}</p>
+                    <p class="detail-value">{{ formatFecha(medicamento.fechaInicio) }}</p>
                   </div>
                 </div>
 
-                <!-- Duración -->
+                <!-- Fin -->
                 <div class="detail-item">
-                  <div class="detail-icon-wrapper duration-icon">
-                    <ion-icon name="time-outline" class="detail-icon"></ion-icon>
+                  <div class="detail-icon-wrapper fin-icon">
+                    <ion-icon name="flag-outline" class="detail-icon"></ion-icon>
                   </div>
                   <div class="detail-content">
-                    <p class="detail-label">Duración</p>
-                    <p class="detail-value">{{ medicamento.duracion }}</p>
+                    <p class="detail-label">Fin</p>
+                    <p class="detail-value">{{ formatFecha(medicamento.fechaFin!) }}</p>
                   </div>
                 </div>
               </div>
@@ -225,19 +206,38 @@
     </ion-list>
   </div>
 
-  <!-- botón flotante -->
+  <ion-infinite-scroll threshold="100px" (ionInfinite)="onIonInfinite($event)" *ngIf="medicamentosFiltrados.length > 0">
+    <ion-infinite-scroll-content
+      loadingSpinner="crescent"
+      loadingText="Cargando más medicamentos...">
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+
+  <!-- Estado vacio -->
+  <div *ngIf="medicamentosFiltrados.length === 0" class="empty-state">
+    <ion-icon name="medical-outline" class="empty-icon"></ion-icon>
+    <h3>No hay medicamentos para este período</h3>
+    <p>Prueba cambiar el filtro o añadir un nuevo medicamento.</p>
+  </div>
+
+  <!-- Boton flotante -->
   <ion-fab vertical="bottom" horizontal="end" slot="fixed">
     <ion-fab-button class="fab-add" (click)="abrirModal()">
       <ion-icon name="add"></ion-icon>
     </ion-fab-button>
   </ion-fab>
 
-  <!-- Modal Medicamento -->
+  <app-scroll-to-top 
+    [visible]="showScrollButton" 
+    [content]="content">
+  </app-scroll-to-top>
+
+  <!-- Modal agregar/editar medicamento -->
   <ion-modal [isOpen]="modalAbierto" (didDismiss)="cerrarModal()">
     <ng-template>
       <ion-header>
         <ion-toolbar class="modal-header" style="--background: #f59f00; --color: white;">
-          <ion-title>Agregar Medicamento</ion-title>
+          <ion-title>{{ modoEdicion ? 'Editar medicamento' : 'Agregar Medicamento' }}</ion-title>
           <ion-buttons slot="end">
             <ion-button (click)="cerrarModal()">
               <ion-icon name="close"></ion-icon>
@@ -248,7 +248,7 @@
 
       <ion-content class="ion-padding">
         <div class="form-fields">
-          <!-- Nombre del medicamento -->
+          <!-- Nombre -->
           <div class="field-group">
             <label class="field-label">Nombre del medicamento</label>
             <div class="input-container">
@@ -282,7 +282,7 @@
             </div>
           </div>
 
-          <!-- Horario/Frecuencia -->
+          <!-- Frecuencia -->
           <div class="field-group">
             <label class="field-label">Frecuencia</label>
             <div class="input-container">
@@ -291,7 +291,7 @@
             </div>
           </div>
 
-          <!-- Tipo de tratamiento -->
+          <!-- Tipo -->
           <div class="field-group">
             <label class="field-label">Tipo de tratamiento</label>
             <div class="input-container">
@@ -303,7 +303,7 @@
             </div>
           </div>
 
-          <!-- Fecha de inicio -->
+          <!-- Fecha inicio -->
           <div class="field-group">
             <label class="field-label">Fecha de inicio</label>
             <div class="input-container" id="fecha-inicio-trigger" button="true">
@@ -322,7 +322,7 @@
             </ion-popover>
           </div>
 
-          <!-- Fecha fin (solo para corta duración) -->
+          <!-- Fecha fin (solo corta duracion) -->
           <div class="field-group" *ngIf="tipoTratamiento === 'corta-duracion'">
             <label class="field-label">Fecha de finalización</label>
             <div class="input-container" id="fecha-fin-trigger" button="true">
@@ -340,15 +340,6 @@
               </ng-template>
             </ion-popover>
           </div>
-
-          <!-- Médico -->
-          <div class="field-group">
-            <label class="field-label">Médico responsable</label>
-            <div class="input-container">
-              <ion-icon name="person-outline" class="input-icon"></ion-icon>
-              <ion-input [(ngModel)]="nuevoMedicamento.medico" placeholder="Ej. Dr. Carlos Mendoza"></ion-input>
-            </div>
-          </div>
         </div>
       </ion-content>
 
@@ -359,7 +350,7 @@
               Cancelar
             </ion-button>
             <ion-button expand="block" class="btn-guardar" (click)="guardarMedicamento()" [disabled]="!esFormularioValido()">
-              Guardar
+              {{ modoEdicion ? 'Guardar cambios' : 'Guardar' }}
             </ion-button>
           </div>
         </ion-toolbar>
@@ -367,192 +358,101 @@
     </ng-template>
   </ion-modal>
 
-  <!-- SECCIÓN RECETAS -->
-  <div *ngIf="selectedTab === 'recetas'">
-    <ion-grid>
-      <ion-row>
-        <ion-col size="12">
-          <h2 class="section-title">
-            <ion-icon name="document-text-outline"></ion-icon>
-            Mis Recetas
-          </h2>
-        </ion-col>
-      </ion-row>
-    </ion-grid>
+  <!-- Modal eliminacion -->
+  <app-delete-confirm-modal
+    [isOpen]="modalEliminarAbierto"
+    [itemName]="medicamentoAEliminar?.nombre || ''"
+    title="Eliminar medicamento"
+    message="¿Estás seguro de eliminar"
+    (onCancel)="cerrarModalEliminar()"
+    (onConfirm)="eliminarMedicamento()"
+    (didDismiss)="cerrarModalEliminar()">
+  </app-delete-confirm-modal>
 
-    <ion-list lines="none">
-      <ion-item 
-        *ngFor="let receta of recetas" 
-        button 
-        (click)="verRecetaCompleta(receta)"
-        class="receta-item-simple">
-        
-        <ion-grid>
-          <ion-row class="ion-align-items-center">
-            <ion-col size="12">
-              <div class="receta-header-simple">
-                <div class="receta-info">
-                  <h3>{{ receta.titulo }}</h3>
-                  <p>{{ receta.fecha }}</p>
-                </div>
-              </div>
-            </ion-col>
-          </ion-row>
-          <ion-row>
-            <ion-col size="12">
-              <div class="doctor-info">
-                <ion-icon name="person-outline"></ion-icon>
-                <div>
-                  <p class="doctor-name">{{ receta.doctor.nombre }}</p>
-                  <p class="doctor-specialty">{{ receta.doctor.especialidad }}</p>
-                </div>
-              </div>
-            </ion-col>
-          </ion-row>
-          <ion-row>
-            <ion-col size="12">
-              <div class="medicamentos-preview">
-                <p class="preview-title">Medicamentos ({{ receta.medicamentos.length }})</p>
-                <div class="medicamentos-chips">
-                  <ion-chip *ngFor="let med of receta.medicamentos" outline="true">
-                    <ion-icon name="medical-outline"></ion-icon>
-                    <ion-label>{{ med.nombre }}</ion-label>
-                  </ion-chip>
-                </div>
-              </div>
-            </ion-col>
-          </ion-row>
-          <ion-row>
-            <ion-col size="12">
-              <ion-button 
-                fill="clear" 
-                size="small" 
-                (click)="verRecetaCompleta(receta); $event.stopPropagation()">
-                <ion-icon name="eye-outline" slot="start"></ion-icon>
-                Ver Receta Completa
-              </ion-button>
-            </ion-col>
-          </ion-row>
-        </ion-grid>
-      </ion-item>
-    </ion-list>
-  </div>
-
-  <!-- Modal Receta -->
-  <ion-modal [isOpen]="mostrarRecetaModal" (didDismiss)="cerrarRecetaModal()">
+  <!-- Modal de periodo -->
+  <ion-modal 
+    [isOpen]="modalPeriodoAbierto" 
+    (didDismiss)="cerrarSelectorPeriodo()"
+    [initialBreakpoint]="1"
+    [breakpoints]="[0, 1]"
+    class="periodo-modal">
     <ng-template>
-      <ion-header>
-        <ion-toolbar>
-          <ion-title>Receta Médica Oficial</ion-title>
-          <ion-buttons slot="end">
-            <ion-button (click)="cerrarRecetaModal()">
-              <ion-icon name="close-outline"></ion-icon>
-            </ion-button>
-          </ion-buttons>
-        </ion-toolbar>
-      </ion-header>
-      
-      <ion-content *ngIf="recetaSeleccionada">
-        <!-- Doctor -->
-        <ion-card>
-          <ion-card-content>
-            <div class="doctor-simple">
-              <h3>{{ recetaSeleccionada.doctor.nombre }}</h3>
-              <p>{{ recetaSeleccionada.doctor.especialidad }}</p>
-            </div>
-          </ion-card-content>
-        </ion-card>
+      <div class="modal-wrapper">
+        <div class="modal-header-clean">
+          <h2>Filtrar por período</h2>
+          <ion-button fill="clear" class="close-button" (click)="cerrarSelectorPeriodo()">
+            <ion-icon name="close" slot="icon-only"></ion-icon>
+          </ion-button>
+        </div>
+        <div class="modal-content-clean">
+          <div class="period-option" [class.selected]="periodoSeleccionado === 'todos'" (click)="seleccionarPeriodo('todos')">
+            <div class="option-icon"><ion-icon name="calendar-clear-outline"></ion-icon></div>
+            <div class="option-text"><h3>Todos los períodos</h3><p>Ver todos los medicamentos</p></div>
+            <ion-icon *ngIf="periodoSeleccionado === 'todos'" name="checkmark-circle" class="check-icon"></ion-icon>
+          </div>
+          <div class="period-option" [class.selected]="periodoSeleccionado === 'ultimo-mes'" (click)="seleccionarPeriodo('ultimo-mes')">
+            <div class="option-icon"><ion-icon name="time-outline"></ion-icon></div>
+            <div class="option-text"><h3>Último mes</h3><p>Medicamentos de los últimos 30 días</p></div>
+            <ion-icon *ngIf="periodoSeleccionado === 'ultimo-mes'" name="checkmark-circle" class="check-icon"></ion-icon>
+          </div>
+          <div class="period-option" [class.selected]="periodoSeleccionado === 'ultimos-3-meses'" (click)="seleccionarPeriodo('ultimos-3-meses')">
+            <div class="option-icon"><ion-icon name="stats-chart-outline"></ion-icon></div>
+            <div class="option-text"><h3>Últimos 3 meses</h3><p>Medicamentos de los últimos 90 días</p></div>
+            <ion-icon *ngIf="periodoSeleccionado === 'ultimos-3-meses'" name="checkmark-circle" class="check-icon"></ion-icon>
+          </div>
+          <div class="period-option" [class.selected]="periodoSeleccionado === 'ultimos-6-meses'" (click)="seleccionarPeriodo('ultimos-6-meses')">
+            <div class="option-icon"><ion-icon name="trending-up-outline"></ion-icon></div>
+            <div class="option-text"><h3>Últimos 6 meses</h3><p>Medicamentos del semestre actual</p></div>
+            <ion-icon *ngIf="periodoSeleccionado === 'ultimos-6-meses'" name="checkmark-circle" class="check-icon"></ion-icon>
+          </div>
+          <div class="period-option" [class.selected]="periodoSeleccionado === 'este-anio'" (click)="seleccionarPeriodo('este-anio')">
+            <div class="option-icon"><ion-icon name="calendar-number-outline"></ion-icon></div>
+            <div class="option-text"><h3>Este año</h3><p>Medicamentos del año actual</p></div>
+            <ion-icon *ngIf="periodoSeleccionado === 'este-anio'" name="checkmark-circle" class="check-icon"></ion-icon>
+          </div>
+        </div>
+      </div>
+    </ng-template>
+  </ion-modal>
 
-        <!-- Paciente -->
-        <ion-card>
-          <ion-card-header>
-            <ion-card-subtitle>Datos del Paciente</ion-card-subtitle>
-          </ion-card-header>
-          <ion-card-content>
-            <h2 class="patient-name-clean">{{ recetaSeleccionada.paciente.nombre }}</h2>
-            <ion-grid>
-              <ion-row>
-                <ion-col size="6">
-                  <span>RUT: {{ recetaSeleccionada.paciente.rut }}</span>
-                </ion-col>
-                <ion-col size="6">
-                  <span>Fecha: {{ recetaSeleccionada.fecha }}</span>
-                </ion-col>
-              </ion-row>
-            </ion-grid>
-          </ion-card-content>
-        </ion-card>
-
-        <!-- Número de receta -->
-        <ion-card class="meta-card-simple">
-          <ion-card-content>
-            <div class="receta-number-only">
-              <p class="meta-label">Número de Receta</p>
-              <p class="meta-value">{{ recetaSeleccionada.numero }}</p>
-            </div>
-          </ion-card-content>
-        </ion-card>
-
-        <!-- Medicamentos -->
-        <ion-card>
-          <ion-card-header>
-            <ion-card-title>
-              <ion-icon name="medical-outline"></ion-icon>
-              Medicamentos Prescritos
-            </ion-card-title>
-          </ion-card-header>
-          <ion-card-content>
-            <div *ngFor="let medicamento of recetaSeleccionada.medicamentos" class="medication-prescription">
-              <h4>{{ medicamento.nombre }}</h4>
-              <ion-grid>
-                <ion-row>
-                  <ion-col size="6">
-                    <div class="detail-item">
-                      <span class="detail-label">Dosis</span>
-                      <span class="detail-value">{{ medicamento.dosis }}</span>
-                    </div>
-                  </ion-col>
-                  <ion-col size="6">
-                    <div class="detail-item">
-                      <span class="detail-label">Frecuencia</span>
-                      <span class="detail-value">{{ medicamento.frecuencia }}</span>
-                    </div>
-                  </ion-col>
-                </ion-row>
-                <ion-row>
-                  <ion-col size="6">
-                    <div class="detail-item">
-                      <span class="detail-label">Duración</span>
-                      <span class="detail-value">{{ medicamento.duracion }}</span>
-                    </div>
-                  </ion-col>
-                  <ion-col size="6">
-                    <div class="detail-item">
-                      <span class="detail-label">Cantidad</span>
-                      <span class="detail-value">{{ medicamento.cantidad }}</span>
-                    </div>
-                  </ion-col>
-                </ion-row>
-              </ion-grid>
-              <ion-chip color="primary">
-                <ion-label>Vía: {{ medicamento.via }}</ion-label>
-              </ion-chip>
-            </div>
-          </ion-card-content>
-        </ion-card>
-
-        <!-- Descargar -->
-        <ion-grid>
-          <ion-row>
-            <ion-col size="12">
-              <ion-button expand="block" (click)="descargarReceta(recetaSeleccionada)">
-                <ion-icon name="download-outline" slot="start"></ion-icon>
-                Descargar PDF
-              </ion-button>
-            </ion-col>
-          </ion-row>
-        </ion-grid>
-      </ion-content>
+  <!-- Modal de ordenar -->
+  <ion-modal 
+    [isOpen]="modalOrdenAbierto" 
+    (didDismiss)="cerrarSelectorOrden()"
+    [initialBreakpoint]="1"
+    [breakpoints]="[0, 1]"
+    class="periodo-modal">
+    <ng-template>
+      <div class="modal-wrapper">
+        <div class="modal-header-clean">
+          <h2>Ordenar por</h2>
+          <ion-button fill="clear" class="close-button" (click)="cerrarSelectorOrden()">
+            <ion-icon name="close" slot="icon-only"></ion-icon>
+          </ion-button>
+        </div>
+        <div class="modal-content-clean">
+          <div class="period-option" [class.selected]="ordenSeleccionado === 'recientes'" (click)="seleccionarOrden('recientes')">
+            <div class="option-icon"><ion-icon name="arrow-down-outline"></ion-icon></div>
+            <div class="option-text"><h3>Más recientes</h3><p>Medicamentos más nuevos primero</p></div>
+            <ion-icon *ngIf="ordenSeleccionado === 'recientes'" name="checkmark-circle" class="check-icon"></ion-icon>
+          </div>
+          <div class="period-option" [class.selected]="ordenSeleccionado === 'antiguas'" (click)="seleccionarOrden('antiguas')">
+            <div class="option-icon"><ion-icon name="arrow-up-outline"></ion-icon></div>
+            <div class="option-text"><h3>Más antiguas</h3><p>Medicamentos más antiguas primero</p></div>
+            <ion-icon *ngIf="ordenSeleccionado === 'antiguas'" name="checkmark-circle" class="check-icon"></ion-icon>
+          </div>
+          <div class="period-option" [class.selected]="ordenSeleccionado === 'alfabetico-asc'" (click)="seleccionarOrden('alfabetico-asc')">
+            <div class="option-icon"><ion-icon name="text-outline"></ion-icon></div>
+            <div class="option-text"><h3>A-Z</h3><p>Orden alfabético ascendente</p></div>
+            <ion-icon *ngIf="ordenSeleccionado === 'alfabetico-asc'" name="checkmark-circle" class="check-icon"></ion-icon>
+          </div>
+          <div class="period-option" [class.selected]="ordenSeleccionado === 'alfabetico-desc'" (click)="seleccionarOrden('alfabetico-desc')">
+            <div class="option-icon"><ion-icon name="text-outline"></ion-icon></div>
+            <div class="option-text"><h3>Z-A</h3><p>Orden alfabético descendente</p></div>
+            <ion-icon *ngIf="ordenSeleccionado === 'alfabetico-desc'" name="checkmark-circle" class="check-icon"></ion-icon>
+          </div>
+        </div>
+      </div>
     </ng-template>
   </ion-modal>
 </ion-content>

@@ -167,9 +167,7 @@
   .periodo-modal::part(handle) {
     background: rgba(255, 255, 255, 0.3);
   }
-}
-
-@media (prefers-color-scheme: dark) {  
+  
   .modal-header-clean {
     border-bottom-color: rgba(255, 255, 255, 0.1);
   }
@@ -196,7 +194,7 @@ ion-list {
   margin: 0 16px;
 }
 
-/* card de cirugía */
+/* Card de cirugia */
 .cirugia-item {
   background: var(--ion-card-background);
   margin-bottom: 12px;
@@ -204,6 +202,7 @@ ion-list {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
   border-left: 4px solid var(--purple-primary);
   transition: all 0.3s ease;
+  position: relative;
 }
 
 .cirugia-item ion-label h3 {
@@ -245,6 +244,7 @@ ion-list {
   width: 100%;
   padding-top: 8px;
   padding-bottom: 8px;
+  position: relative;
 }
 
 .cirugia-item ion-col {
@@ -266,8 +266,7 @@ ion-list {
   margin-top: 0;
   transform: translateY(-10px);
 
-  &.expanded,
-  &[ng-reflect-ng-if="true"] {
+  &.expanded {
     max-height: 3000px;
     opacity: 1;
     padding-top: 12px;
@@ -289,13 +288,13 @@ ion-list {
               color 0.25s ease;
   font-size: 1.4rem;
   display: block;
+  margin-right: 12px;
 
   &.rotated {
     transform: rotate(180deg);
   }
 }
 
-/* Color del expand icon según estado */
 .cirugia-item.status-programada .expand-icon.rotated {
   color: var(--gray-inactive);
 }
@@ -304,18 +303,18 @@ ion-list {
   color: var(--purple-primary);
 }
 
-/* badge personalizado */
+/* Badge personalizado */
 .badge-col {
   display: flex;
   justify-content: flex-start;
   align-items: center;
   padding-left: 8px;
-  padding-right: 12px;
+  padding-right: 4px;
 }
 
 .status-badge-spaced {
-  margin-left: 16px;
-  margin-right: 8px;
+  margin-left: 8px;
+  margin-right: 4px;
 }
 
 /* Badges personalizados */
@@ -336,7 +335,6 @@ ion-badge.badge-finalizada {
   --background: var(--purple-primary);
   --color: white;
 }
-
 
 .detail-container {
   display: flex;
@@ -448,13 +446,7 @@ ion-badge.badge-finalizada {
   line-height: 1.4;
 }
 
-/* icono expandir */
-.expand-icon {
-  color: var(--ion-color-medium);
-  transition: transform 0.2s ease;
-}
-
-/* modo oscuro */
+/* Modo oscuro */
 @media (prefers-color-scheme: dark) {
   :host {
     --purple-primary: #bb7dd8;
@@ -496,31 +488,13 @@ ion-badge.badge-finalizada {
   }
 }
 
-/* botón flotante */
+/* Boton flotante */
 .fab-add {
   --background: #9b59b6;
   --color: white;
 }
 
 /* Modal */
-:root {
-  --modal-bg: #ffffff;
-  --modal-border: #ccc;
-  --modal-border-hover: #999;
-  --modal-text: #2c3e50;
-  --modal-placeholder: #888;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --modal-bg: #2d2d2d;
-    --modal-border: #555;
-    --modal-border-hover: #777;
-    --modal-text: #f1f1f1;
-    --modal-placeholder: #aaa;
-  }
-}
-
 .modal-header {
   --background: #9b59b6 !important; 
   --color: white !important;

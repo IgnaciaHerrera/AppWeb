@@ -1,0 +1,113 @@
+:host {
+  --primary-color: #9b59b6;
+}
+
+/* Menu tres puntos */
+.menu-button-absolute {
+  --padding-start: 6px;
+  --padding-end: 6px;
+  --padding-top: 6px;
+  --padding-bottom: 6px;
+  position: absolute;
+  top: 10px;
+  left: -12px;
+  z-index: 10;
+  margin: 0;
+  height: 36px;
+  width: 36px;
+  
+  ion-icon {
+    font-size: 1.2rem;
+    color: var(--ion-color-medium);
+  }
+  
+  &:active {
+    transform: scale(0.92);
+  }
+}
+
+/* Popover del menu */
+.menu-popover {
+  --width: 180px;
+  --box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+  --backdrop-opacity: 0.2;
+  
+  &::part(content) {
+    border-radius: 12px;
+    overflow: hidden;
+  }
+}
+
+.menu-content {
+  --padding-start: 0;
+  --padding-end: 0;
+  --padding-top: 4px;
+  --padding-bottom: 4px;
+}
+
+.menu-list {
+  background: transparent;
+  padding: 0;
+}
+
+.menu-item {
+  --padding-start: 16px;
+  --padding-end: 16px;
+  --inner-padding-end: 0;
+  --min-height: 48px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  
+  ion-label {
+    font-weight: 500;
+    color: var(--ion-text-color);
+  }
+  
+  &:hover {
+    --background: rgba(0, 0, 0, 0.04);
+  }
+  
+  &:active {
+    --background: rgba(0, 0, 0, 0.08);
+  }
+  
+  &.delete {
+    ion-label {
+      color: #e74c3c;
+    }
+    
+    &:hover {
+      --background: rgba(231, 76, 60, 0.08);
+    }
+    
+    &:active {
+      --background: rgba(231, 76, 60, 0.15);
+    }
+  }
+}
+
+.menu-icon {
+  font-size: 1.2rem;
+  margin-right: 12px;
+  
+  &.edit {
+    color: var(--primary-color);
+  }
+  
+  &.delete {
+    color: #e74c3c;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  .menu-item {
+    &:hover {
+      --background: rgba(255, 255, 255, 0.06);
+    }
+    
+    &:active {
+      --background: rgba(255, 255, 255, 0.1);
+    }
+  }
+}

@@ -14,7 +14,7 @@
     </ion-toolbar>
   </ion-header>
 
-  <!-- === CONTADORES === -->
+  <!-- Contadores -->
   <div class="counter-row">
     <app-counter-card
       icon="bandage-outline"
@@ -31,7 +31,7 @@
     </app-counter-card>
   </div>
 
-  <!-- === FILTROS (PERIODO + ORDEN) === -->
+  <!-- Filtros (PERIODO + ORDEN) -->
   <app-filter-bar
     [colorTema]="'morado'"
     [periodoTexto]="periodoSeleccionadoTexto"
@@ -40,28 +40,39 @@
     (abrirOrden)="abrirSelectorOrden()">
   </app-filter-bar>
 
-  <!-- === LISTA DE CIRUGÍAS === -->
+  <!-- Lista de cirugias -->
   <ion-list lines="none" *ngIf="cirugiasFiltradas.length > 0">
     <ion-item 
       *ngFor="let cirugia of cirugiasVisibles" 
-      button 
-      (click)="toggleCirugia(cirugia)"
       class="cirugia-item"
       [ngClass]="getStatusClass(cirugia)">
+      
+      <!-- Menu (tres puntos) -->
+      <app-menu-item
+        [itemId]="cirugia.id"
+        (onEdit)="editarCirugia(cirugia)"
+        (onDelete)="confirmarEliminar(cirugia)">
+      </app-menu-item>
+
       <ion-grid>
         <ion-row class="ion-align-items-center">
-          <ion-col size="7">
+          <!-- Contenido cirugia -->
+          <ion-col size="7" (click)="toggleCirugia(cirugia)">
             <ion-label>
               <h3>{{ cirugia.nombre }}</h3>
               <p>{{ formatFecha(cirugia.fecha) }}</p>
             </ion-label>
           </ion-col>
-          <ion-col size="4" class="badge-col">
+
+          <!-- Badge -->
+          <ion-col size="4" class="badge-col" (click)="toggleCirugia(cirugia)">
             <ion-badge [class]="getBadgeClass(cirugia)" class="status-badge-spaced">
               {{ cirugia.estado }}
             </ion-badge>
           </ion-col>
-          <ion-col size="1" class="ion-text-end">
+
+          <!-- Flecha expandir -->
+          <ion-col size="1" class="ion-text-end" (click)="toggleCirugia(cirugia)">
             <ion-icon 
               name="chevron-down-outline"
               class="expand-icon"
@@ -116,14 +127,14 @@
     </ion-infinite-scroll-content>
   </ion-infinite-scroll>
 
-  <!-- Estado vacío -->
+  <!-- Estado vacio -->
   <div *ngIf="cirugiasFiltradas.length === 0" class="empty-state">
     <ion-icon name="medical-outline" class="empty-icon"></ion-icon>
     <h3>No hay cirugías para este período</h3>
     <p>Prueba cambiar el filtro o añadir una nueva cirugía.</p>
   </div>
 
-  <!-- Botón flotante -->
+  <!-- Boton flotante -->
   <ion-fab vertical="bottom" horizontal="end" slot="fixed">
     <ion-fab-button class="fab-add" (click)="abrirModal()">
       <ion-icon name="add"></ion-icon>
@@ -135,12 +146,12 @@
     [content]="content">
   </app-scroll-to-top>
 
-  <!-- Modal agregar cirugía -->
+  <!-- Modal agregar/editar cirugia -->
   <ion-modal [isOpen]="modalAbierto" (didDismiss)="cerrarModal()">
     <ng-template>
       <ion-header>
         <ion-toolbar class="modal-header" style="--background: #9b59b6; --color: white;">
-          <ion-title>Agregar nueva cirugía</ion-title>
+          <ion-title>{{ modoEdicion ? 'Editar cirugía' : 'Agregar nueva cirugía' }}</ion-title>
           <ion-buttons slot="end">
             <ion-button (click)="cerrarModal()">
               <ion-icon name="close"></ion-icon>
@@ -204,13 +215,24 @@
               Cancelar
             </ion-button>
             <ion-button expand="block" class="btn-guardar" (click)="guardarCirugia()" [disabled]="!esFormularioValido()">
-              Guardar
+              {{ modoEdicion ? 'Guardar cambios' : 'Guardar' }}
             </ion-button>
           </div>
         </ion-toolbar>
       </ion-footer>
     </ng-template>
   </ion-modal>
+
+  <!-- Modal de eliminacion -->
+  <app-delete-confirm-modal
+    [isOpen]="modalEliminarAbierto"
+    [itemName]="cirugiaAEliminar?.nombre || ''"
+    title="Eliminar cirugía"
+    message="¿Estás seguro de eliminar"
+    (onCancel)="cerrarModalEliminar()"
+    (onConfirm)="eliminarCirugia()"
+    (didDismiss)="cerrarModalEliminar()">
+  </app-delete-confirm-modal>
 
   <!-- Modal de periodo -->
   <ion-modal 

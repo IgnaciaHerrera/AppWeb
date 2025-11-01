@@ -1,0 +1,118 @@
+/* Modal de confirmación de eliminacion */
+.delete-modal {
+  --height: auto;
+  --border-radius: 16px;
+  --box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  
+  &::part(content) {
+    border-radius: 16px;
+    max-width: 90%;
+    margin: auto;
+  }
+}
+
+.delete-modal-content {
+  padding: 32px 24px 24px;
+  text-align: center;
+  background: var(--ion-background-color);
+  border-radius: 16px;
+}
+
+.delete-icon-wrapper {
+  width: 72px;
+  height: 72px;
+  margin: 0 auto 20px;
+  background: rgba(231, 76, 60, 0.1);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: scaleIn 0.3s ease-out;
+}
+
+.delete-warning-icon {
+  font-size: 2.5rem;
+  color: #e74c3c;
+}
+
+.delete-modal-content h2 {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--ion-text-color);
+  margin: 0 0 12px 0;
+}
+
+.delete-message {
+  font-size: 0.95rem;
+  color: var(--ion-text-color);
+  margin: 0 0 8px 0;
+  line-height: 1.5;
+  
+  strong {
+    color: #000000;
+    font-weight: 600;
+  }
+}
+
+.delete-warning {
+  font-size: 0.85rem;
+  color: var(--ion-color-medium);
+  margin: 0 0 24px 0;
+  font-style: italic;
+}
+
+.delete-buttons {
+  display: flex;
+  gap: 12px;
+  margin-top: 24px;
+  
+  ion-button {
+    flex: 1;
+    font-weight: 600;
+    margin: 0;
+  }
+}
+
+.btn-cancelar-delete {
+  --border-color: var(--ion-color-medium);
+  --color: var(--ion-text-color);
+  
+  &:hover {
+    --background: rgba(0, 0, 0, 0.04);
+  }
+}
+
+.btn-eliminar-confirm {
+  --background: #e74c3c;
+  --color: white;
+  
+  &:hover {
+    --background: #c0392b;
+  }
+}
+
+@keyframes scaleIn {
+  0% {
+    transform: scale(0);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  .btn-cancelar-delete {
+    &:hover {
+      --background: rgba(255, 255, 255, 0.06);
+    }
+  }
+  
+  .delete-message strong {
+    color: #ffffff;
+  }
+}
