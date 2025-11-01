@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { Router } from '@angular/router';
+import { ThemeService } from '../services/theme.service';
 
 @Component({
   selector: 'app-tab6',
@@ -18,16 +19,22 @@ export class Tab6Page implements OnInit {
   paciente = {
     nombre: 'María Elena Rodríguez',
     rut: '12.345.678-9',
-    email: 'maria.rodriguez@email.com',
+    email: 'maria.rodriguez@gmail.com',
     telefono: '+56 9 8765 4321',
     ultimoAcceso: '07/09/2025 14:35'
   };
 
-  constructor(private router: Router) {}
+  constructor(
+    private router: Router,
+    private themeService: ThemeService
+  ) {}
 
   ngOnInit() {
-    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
-    this.darkMode = prefersDark.matches;
+    this.darkMode = this.themeService.isDarkMode();
+  }
+
+  onDarkModeToggle() {
+    this.themeService.toggleDarkMode(this.darkMode);
   }
 
   cambiarPassword() {
@@ -35,12 +42,7 @@ export class Tab6Page implements OnInit {
   }
 
   logout() {
-    // Aquí podrías limpiar storage o variables si tuvieras auth real
     this.router.navigateByUrl('/login', { replaceUrl: true });
-  }
-
-  onDarkModeToggle() {
-    document.body.classList.toggle('dark', this.darkMode);
   }
 
   cambiarIdioma(): void {
