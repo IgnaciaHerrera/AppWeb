@@ -28,24 +28,11 @@
     <div class="welcome-content">
       <div class="user-greeting">
         <h1>Hola, {{ paciente.nombre }}</h1>
-        <p>Bienvenida a tu aplicación médica</p>
+        <p>Bienvenido/a a tu aplicación médica</p>
       </div>
     </div>
   </div>
-
-  <!-- Recordatorios de Medicamentos -->
-  <div class="reminders-section" *ngIf="medicamentosActivos.length > 0">
-    <h2 class="section-title">
-      <ion-icon name="medical-outline"></ion-icon>
-      Recordatorios de Medicamentos
-    </h2>
-
-    <app-medicamento-card
-      *ngFor="let med of medicamentosActivos"
-      [medicamento]="med">
-    </app-medicamento-card>
-  </div>
-
+  
   <!-- Accesos rápidos -->
   <div class="quick-access-section">
     <h2 class="section-title">

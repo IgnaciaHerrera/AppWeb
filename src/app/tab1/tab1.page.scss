@@ -56,76 +56,6 @@
   }
 }
 
-.reminders-section {
-  margin-bottom: 24px;
-}
-
-.reminder-card {
-  margin: 0 16px 10px;
-  border-radius: 12px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.06);
-  border-left: 4px solid var(--teal-primary);
-  
-  ion-card-content {
-    padding: 12px;
-  }
-}
-
-.reminder-content {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.reminder-icon {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  
-  &.reminder-medicamento {
-    background: rgba(28, 105, 127, 0.1); 
-    color: #1c697f; 
-  }
-  
-  ion-icon {
-    font-size: 1.2rem;
-  }
-}
-
-.reminder-info {
-  flex: 1;
-  
-  h3 {
-    font-size: 0.9rem;
-    font-weight: 600;
-    color: var(--ion-text-color);
-    margin: 0 0 2px 0;
-  }
-  
-  p {
-    font-size: 0.8rem;
-    color: var(--gray-medium);
-    margin: 0 0 4px 0;
-  }
-}
-
-.reminder-time {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  font-size: 0.75rem;
-  color: var(--teal-primary);
-  font-weight: 500;
-  
-  ion-icon {
-    font-size: 0.8rem;
-  }
-}
-
 .quick-access-section {
   margin-bottom: 24px;
 }
@@ -201,10 +131,19 @@
   margin-bottom: 24px;
 }
 
+// Estilos mejorados para las tarjetas de consultas con borde izquierdo
 .appointment-card {
   margin: 0 16px 10px;
   border-radius: 12px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.06);
+  border-left: 4px solid var(--teal-primary);
+  overflow: hidden;
+  transition: all 0.2s ease;
+  
+  &:hover {
+    transform: translateX(2px);
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+  }
   
   ion-card-content {
     padding: 12px;
@@ -239,6 +178,7 @@
     color: var(--teal-primary);
     margin: 2px 0 0 0;
     line-height: 1;
+    text-transform: uppercase;
   }
 }
 
@@ -275,6 +215,7 @@
   }
 }
 
+// Modo oscuro
 body.dark {
   :host {
     --teal-primary: #2dd4bf;
@@ -287,50 +228,23 @@ body.dark {
     background: linear-gradient(135deg, #0f766e, #134e4a);
   }
   
-  .reminder-card, .quick-card, .appointment-card, .emergency-card {
+  .quick-card, .appointment-card {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
   }
   
   .appointment-date {
     background: var(--teal-light);
   }
+  
+  .appointment-card {
+    border-left-color: var(--teal-primary);
+  }
 }
 
-/* ====== TOAST PERSONALIZADO ====== */
+// Toast personalizado
 .toast-bienvenida {
   --background: var(--teal-primary);
   --color: #fff;
   font-weight: 600;
   text-align: center;
-}
-
-.welcome-header {
-  background: linear-gradient(135deg, var(--teal-primary), #2dd4bf);
-  padding: 20px 16px 24px;
-  margin-bottom: 16px;
-}
-
-.welcome-content {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 16px;
-}
-
-.user-greeting {
-  flex: 1;
-  
-  h1 {
-    color: white;
-    font-size: 1.4rem;
-    font-weight: 700;
-    margin: 0 0 4px 0;
-    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
-  }
-  
-  p {
-    color: rgba(255, 255, 255, 0.9);
-    font-size: 0.9rem;
-    margin: 0;
-  }
 }

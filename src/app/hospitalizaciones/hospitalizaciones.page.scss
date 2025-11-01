@@ -208,6 +208,7 @@ ion-list {
   border-radius: 12px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
   transition: all 0.3s ease;
+  position: relative;
 }
 
 .hospitalizacion-item:hover {
@@ -264,6 +265,7 @@ ion-list {
   width: 100%;
   padding-top: 8px;
   padding-bottom: 8px;
+  position: relative;
 }
 
 .hospitalizacion-item ion-col {
@@ -276,17 +278,17 @@ ion-list {
   justify-content: flex-start;
   align-items: center; 
   padding-left: 8px;
-  padding-right: 12px; 
+  padding-right: 4px;
 }
 
 .status-badge-spaced {
-  margin-left: 16px;
-  margin-right: 8px; 
+  margin-left: 8px;
+  margin-right: 4px;
 }
 
 ion-badge {
   font-weight: 600;
-  font-size: 0.70rem; 
+  font-size: 0.6rem;
   border-radius: 10px; 
   padding: 3px 10px; 
   line-height: 1.2; 
@@ -310,6 +312,7 @@ ion-badge.badge-finalizada {
               color 0.25s ease;
   font-size: 1.4rem;
   display: block;
+  margin-right: 12px;
 
   &.rotated {
     transform: rotate(180deg);
@@ -339,8 +342,7 @@ ion-badge.badge-finalizada {
   margin-top: 0;
   transform: translateY(-10px);
 
-  &.expanded,
-  &[ng-reflect-ng-if="true"] {
+  &.expanded {
     max-height: 3000px;
     opacity: 1;
     padding-top: 12px;
@@ -495,7 +497,9 @@ ion-badge.badge-finalizada {
   }
   
   .hospitalizacion-expanded-row {
-    border-top-color: rgba(255, 255, 255, 0.1);
+    &.expanded {
+      border-top-color: rgba(255, 255, 255, 0.1);
+    }
   }
   
   /* En curso - modo oscuro */
@@ -540,24 +544,6 @@ ion-badge.badge-finalizada {
 }
 
 /* Modal */
-:root {
-  --modal-bg: #ffffff;
-  --modal-border: #ccc;
-  --modal-border-hover: #999;
-  --modal-text: #2c3e50;
-  --modal-placeholder: #888;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --modal-bg: #2d2d2d;
-    --modal-border: #555;
-    --modal-border-hover: #777;
-    --modal-text: #f1f1f1;
-    --modal-placeholder: #aaa;
-  }
-}
-
 .modal-header {
   --background: #22b8cf !important; 
   --color: white !important;
@@ -680,3 +666,4 @@ ion-badge.badge-finalizada {
 .field-group:nth-child(3) { animation-delay: 0.3s !important; }
 .field-group:nth-child(4) { animation-delay: 0.4s !important; }
 .field-group:nth-child(5) { animation-delay: 0.5s !important; }
+.field-group:nth-child(6) { animation-delay: 0.6s !important; }

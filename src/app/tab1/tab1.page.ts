@@ -4,8 +4,6 @@ import { FormsModule } from '@angular/forms';
 import { IonicModule, ToastController } from '@ionic/angular';
 import { Router } from '@angular/router';
 
-
-import { MedicamentoCardComponent } from '../components/medicamento-card/medicamento-card.component';
 import { CitaCardComponent } from '../components/cita-card/cita-card.component';
 import { QuickAccessCardComponent } from '../components/quick-access-card/quick-access-card.component';
 
@@ -17,7 +15,7 @@ interface Cita {
   especialidad: string;
   medico: string;
   centro: string;
-  hora: string;
+
 }
 
 interface MedicamentoActivo {
@@ -33,7 +31,7 @@ interface MedicamentoActivo {
   templateUrl: './tab1.page.html',
   styleUrls: ['./tab1.page.scss'],
   standalone: true,
-  imports: [IonicModule, CommonModule, FormsModule, MedicamentoCardComponent, CitaCardComponent, QuickAccessCardComponent],
+  imports: [IonicModule, CommonModule, FormsModule, CitaCardComponent, QuickAccessCardComponent],
 })
 export class Tab1Page implements OnInit {
   paciente = {
@@ -48,23 +46,6 @@ export class Tab1Page implements OnInit {
     historial: 7
   };
 
-  medicamentosActivos: MedicamentoActivo[] = [
-    {
-      id: '1',
-      nombre: 'Losartán',
-      dosis: '50 mg',
-      forma: 'Comprimidos',
-      frecuencia: 'Cada 12 horas'
-    },
-    {
-      id: '2',
-      nombre: 'Amoxicilina',
-      dosis: '500 mg',
-      forma: 'Cápsulas',
-      frecuencia: 'Cada 8 horas por 7 días'
-    }
-  ];
-
   proximasCitas: Cita[] = [
     {
       id: '1',
@@ -73,7 +54,6 @@ export class Tab1Page implements OnInit {
       especialidad: 'Cardiología',
       medico: 'Dr. Carlos Mendoza',
       centro: 'Hospital Cardiovascular',
-      hora: '10:30'
     },
     {
       id: '2',
@@ -82,7 +62,6 @@ export class Tab1Page implements OnInit {
       especialidad: 'Laboratorio',
       medico: 'Exámenes de Sangre',
       centro: 'LabMed',
-      hora: '08:00'
     }
   ];
 

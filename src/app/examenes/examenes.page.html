@@ -49,23 +49,28 @@
   <ion-list lines="none" *ngIf="examenesFiltrados.length > 0">
     <ion-item 
       *ngFor="let examen of examenesVisibles" 
-      button 
-      (click)="toggleExamen(examen)"
       class="examen-item"
       [ngClass]="getExamenTypeClass(examen)">
       
+      <!-- Menu (tres puntos)-->
+      <app-menu-item
+        [itemId]="examen.id"
+        (onEdit)="editarExamen(examen)"
+        (onDelete)="confirmarEliminar(examen)">
+      </app-menu-item>
+
       <ion-grid>
         <ion-row class="ion-align-items-center">
-          <ion-col size="10">
+          <ion-col size="10" (click)="toggleExamen(examen)">
             <ion-label>
               <h3>{{ examen.nombre }}</h3>
-              <p class="examen-fecha">{{ examen.fecha }}</p>
+              <p class="examen-fecha">{{ formatFecha(examen.fecha) }}</p>
             </ion-label>
           </ion-col>
           
-          <ion-col size="2" class="ion-text-end">
+          <ion-col size="2" class="ion-text-end" (click)="toggleExamen(examen)">
             <ion-icon 
-              [name]="'chevron-down-outline'"
+              name="chevron-down-outline"
               class="expand-icon"
               [class.rotated]="examen.expanded">
             </ion-icon>
@@ -96,18 +101,7 @@
                 </div>
                 <div class="detail-content">
                   <p class="detail-label">Fecha</p>
-                  <p class="detail-value">{{ examen.fecha }}</p>
-                </div>
-              </div>
-
-              <!-- Medico -->
-              <div *ngIf="examen.medico" class="detail-item">
-                <div class="detail-icon-wrapper doctor-icon">
-                  <ion-icon name="person-outline" class="detail-icon"></ion-icon>
-                </div>
-                <div class="detail-content">
-                  <p class="detail-label">Médico Solicitante</p>
-                  <p class="detail-value">{{ examen.medico }}</p>
+                  <p class="detail-value">{{ formatFecha(examen.fecha) }}</p>
                 </div>
               </div>
             </div>
@@ -134,17 +128,6 @@
                 </div>
               </div>
             </div>
-
-            <!-- Acciones -->
-            <div class="actions-section">
-              <ion-button 
-                fill="outline" 
-                size="small" 
-                color="success">
-                <ion-icon name="download-outline" slot="start"></ion-icon>
-                Descargar PDF
-              </ion-button>
-            </div>
           </ion-col>
         </ion-row>
       </ion-grid>
@@ -169,12 +152,35 @@
     <p>Intenta seleccionar otro período o "Todos"</p>
   </div>
   
-  <!-- Boton flotante -->
-  <ion-fab slot="fixed" vertical="bottom" horizontal="end">
-    <ion-fab-button (click)="abrirModal()">
-      <ion-icon name="add-outline"></ion-icon>
+  <!-- Fab con menu desplegable -->
+  <ion-fab slot="fixed" vertical="bottom" horizontal="end" #fabMenu (ionFabDidOpen)="onFabOpen()" (ionFabDidClose)="onFabClose()">
+    <ion-fab-button class="fab-main">
+      <ion-icon name="add-outline" class="fab-icon-main"></ion-icon>
+      <ion-icon name="close-outline" class="fab-icon-close"></ion-icon>
     </ion-fab-button>
+    
+    <ion-fab-list side="top">
+      <div class="fab-option-container">
+        <ion-fab-button 
+          class="fab-option fab-manual"
+          (click)="abrirModalManual()">
+          <ion-icon name="create-outline"></ion-icon>
+        </ion-fab-button>
+        <span class="fab-label">Agregar manualmente</span>
+      </div>
+      
+      <div class="fab-option-container">
+        <ion-fab-button 
+          class="fab-option fab-upload"
+          (click)="abrirModalSubir()">
+          <ion-icon name="cloud-upload-outline"></ion-icon>
+        </ion-fab-button>
+        <span class="fab-label">Subir archivo</span>
+      </div>
+    </ion-fab-list>
   </ion-fab>
+
+  <div class="fab-backdrop" [class.visible]="fabMenuActivado" (click)="cerrarFabMenu()"></div>
 
   <!-- Boton Scroll to Top -->
   <app-scroll-to-top 
@@ -393,14 +399,218 @@
     </ng-template>
   </ion-modal>
 
-  <!-- Modal subir examen-->
-  <ion-modal [isOpen]="isModalOpen" (didDismiss)="cerrarModal()">
+  <!-- Modal agregar/editar -->
+  <ion-modal [isOpen]="modalManualAbierto" (didDismiss)="cerrarModalManual()">
+    <ng-template>
+      <ion-header>
+        <ion-toolbar class="modal-header" style="--background: #12b886; --color: white;">
+          <ion-title>{{ modoEdicion ? 'Editar examen' : 'Agregar nuevo examen' }}</ion-title>
+          <ion-buttons slot="end">
+            <ion-button (click)="cerrarModalManual()">
+              <ion-icon name="close"></ion-icon>
+            </ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+
+      <ion-content class="ion-padding">
+        <div class="form-fields">
+          <!-- Nombre del examen -->
+          <div class="field-group">
+            <label class="field-label">Nombre del Examen</label>
+            <div class="input-container">
+              <ion-icon name="document-text-outline" class="input-icon"></ion-icon>
+              <ion-input [(ngModel)]="nuevoExamen.nombre" placeholder="Ej. Hemograma completo"></ion-input>
+            </div>
+          </div>
+
+          <!-- Tipo de examen -->
+          <div class="field-group">
+            <label class="field-label">Tipo de Examen</label>
+            <div class="input-container" id="tipo-examen-trigger" button="true">
+              <ion-icon name="flask-outline" class="input-icon"></ion-icon>
+              <ion-input readonly="true" [value]="nuevoExamen.tipo" placeholder="Selecciona un tipo"></ion-input>
+              <ion-icon name="chevron-down-outline" slot="end" class="select-arrow"></ion-icon>
+            </div>
+
+            <ion-popover trigger="tipo-examen-trigger" [showBackdrop]="true" #tipoPopover>
+              <ng-template>
+                <ion-list>
+                  <ion-item button (click)="seleccionarTipo('Laboratorio'); tipoPopover.dismiss()">
+                    <ion-label>Laboratorio</ion-label>
+                  </ion-item>
+                  <ion-item button (click)="seleccionarTipo('Imagenología'); tipoPopover.dismiss()">
+                    <ion-label>Imagenología</ion-label>
+                  </ion-item>
+                </ion-list>
+              </ng-template>
+            </ion-popover>
+          </div>
+
+          <!-- Fecha -->
+          <div class="field-group">
+            <label class="field-label">Fecha del Examen</label>
+            <div class="input-container" id="fecha-examen-trigger" button="true">
+              <ion-icon name="calendar-outline" class="input-icon"></ion-icon>
+              <ion-input readonly="true" [value]="fechaFormateada" placeholder="Selecciona una fecha"></ion-input>
+              <ion-icon name="chevron-down-outline" slot="end" class="select-arrow"></ion-icon>
+            </div>
+
+            <ion-popover trigger="fecha-examen-trigger" [showBackdrop]="true">
+              <ng-template>
+                <ion-datetime
+                  presentation="date"
+                  [(ngModel)]="nuevoExamen.fechaISO"
+                  (ionChange)="onFechaChange($event)">
+                </ion-datetime>
+              </ng-template>
+            </ion-popover>
+          </div>
+
+          <!-- Seccion de Resultados -->
+          <div class="field-group">
+            <div class="resultados-header">
+              <label class="field-label">Resultados (Opcional)</label>
+              <ion-button 
+                fill="solid"
+                size="small"
+                class="btn-agregar-resultado"
+                (click)="agregarResultado()">
+                <ion-icon name="add-circle" slot="start"></ion-icon>
+                Agregar resultado
+              </ion-button>
+            </div>
+
+            <!-- Lista de resultados -->
+            <div class="resultados-list" *ngIf="nuevoExamen.resultados && nuevoExamen.resultados.length > 0">
+              <div class="resultado-item" *ngFor="let resultado of nuevoExamen.resultados; let i = index">
+                <div class="resultado-item-header">
+                  <span class="resultado-numero">Resultado {{ i + 1 }}</span>
+                  <ion-button 
+                    fill="clear" 
+                    size="small" 
+                    color="danger"
+                    (click)="eliminarResultado(i)">
+                    <ion-icon name="trash-outline" slot="icon-only"></ion-icon>
+                  </ion-button>
+                </div>
+
+                <!-- Nombre del resultado -->
+                <div class="resultado-field">
+                  <ion-input 
+                    [(ngModel)]="resultado.nombre" 
+                    placeholder="Nombre del resultado (Ej. Glucosa)">
+                  </ion-input>
+                </div>
+
+                <!-- Valor y Unidad -->
+                <div class="resultado-row">
+                  <div class="resultado-field resultado-field-half">
+                    <ion-input 
+                      [(ngModel)]="resultado.valor" 
+                      type="text"
+                      placeholder="Valor (Ej. 95)">
+                    </ion-input>
+                  </div>
+                  <div class="resultado-field resultado-field-half">
+                    <ion-input 
+                      [(ngModel)]="resultado.unidad" 
+                      placeholder="Unidad (Ej. mg/dL)">
+                    </ion-input>
+                  </div>
+                </div>
+
+                <!-- Rango de Referencia -->
+                <div class="resultado-field">
+                  <ion-input 
+                    [(ngModel)]="resultado.rangoReferencia" 
+                    placeholder="Rango de referencia (Ej. 70-100)">
+                  </ion-input>
+                </div>
+
+                <!-- Estado -->
+                <div class="resultado-field">
+                  <div class="input-container" [id]="'estado-trigger-' + i" button="true">
+                    <ion-icon name="fitness-outline" class="input-icon"></ion-icon>
+                    <ion-input 
+                      readonly="true" 
+                      [value]="getEstadoLabel(resultado.estado)" 
+                      placeholder="Selecciona el estado">
+                    </ion-input>
+                    <ion-icon name="chevron-down-outline" slot="end" class="select-arrow"></ion-icon>
+                  </div>
+
+                  <ion-popover [trigger]="'estado-trigger-' + i" [showBackdrop]="true" class="estado-popover" #estadoPopover>
+                    <ng-template>
+                      <div class="estado-popover-content">
+                        <ion-list lines="none">
+                          <ion-item 
+                            button 
+                            class="estado-option estado-normal"
+                            (click)="resultado.estado = 'normal'; estadoPopover.dismiss()">
+                            <ion-icon name="checkmark-circle" slot="start"></ion-icon>
+                            <ion-label>Normal</ion-label>
+                          </ion-item>
+                          <ion-item 
+                            button 
+                            class="estado-option estado-alto"
+                            (click)="resultado.estado = 'alto'; estadoPopover.dismiss()">
+                            <ion-icon name="arrow-up-circle" slot="start"></ion-icon>
+                            <ion-label>Alto</ion-label>
+                          </ion-item>
+                          <ion-item 
+                            button 
+                            class="estado-option estado-bajo"
+                            (click)="resultado.estado = 'bajo'; estadoPopover.dismiss()">
+                            <ion-icon name="arrow-down-circle" slot="start"></ion-icon>
+                            <ion-label>Bajo</ion-label>
+                          </ion-item>
+                          <ion-item 
+                            button 
+                            class="estado-option estado-critico"
+                            (click)="resultado.estado = 'critico'; estadoPopover.dismiss()">
+                            <ion-icon name="warning" slot="start"></ion-icon>
+                            <ion-label>Crítico</ion-label>
+                          </ion-item>
+                        </ion-list>
+                      </div>
+                    </ng-template>
+                  </ion-popover>
+                </div>
+              </div>
+            </div>
+
+            <div class="resultados-empty" *ngIf="!nuevoExamen.resultados || nuevoExamen.resultados.length === 0">
+              <ion-icon name="analytics-outline"></ion-icon>
+              <p>No hay resultados agregados</p>
+            </div>
+          </div>
+        </div>
+      </ion-content>
+
+      <ion-footer>
+        <ion-toolbar>
+          <div class="modal-buttons">
+            <ion-button expand="block" class="btn-cancelar" (click)="cerrarModalManual()">
+              Cancelar
+            </ion-button>
+            <ion-button expand="block" class="btn-guardar" (click)="guardarExamen()" [disabled]="!esFormularioValido()">
+              {{ modoEdicion ? 'Guardar cambios' : 'Guardar' }}
+            </ion-button>
+          </div>
+        </ion-toolbar>
+      </ion-footer>
+    </ng-template>
+  </ion-modal>
+
+  <!-- Modal subir archivo -->
+  <ion-modal [isOpen]="modalSubirAbierto" (didDismiss)="cerrarModalSubir()">
     <ng-template>
       <ion-header>
         <ion-toolbar style="--background: #12b886; --color: white;">
           <ion-title>Subir Examen</ion-title>
           <ion-buttons slot="end">
-            <ion-button (click)="cerrarModal()">
+            <ion-button (click)="cerrarModalSubir()">
               <ion-icon name="close-outline"></ion-icon>
             </ion-button>
           </ion-buttons>
@@ -468,7 +678,7 @@
           <ion-button 
             fill="solid"
             color="medium"
-            (click)="cerrarModal()">
+            (click)="cerrarModalSubir()">
             <ion-icon name="close-outline" slot="start"></ion-icon>
             Cancelar
           </ion-button>
@@ -483,4 +693,15 @@
       </ion-toolbar>
     </ng-template>
   </ion-modal>
+
+  <!-- Modal eliminacion -->
+  <app-delete-confirm-modal
+    [isOpen]="modalEliminarAbierto"
+    [itemName]="examenAEliminar?.nombre || ''"
+    title="Eliminar examen"
+    message="¿Estás seguro de eliminar"
+    (onCancel)="cerrarModalEliminar()"
+    (onConfirm)="eliminarExamen()"
+    (didDismiss)="cerrarModalEliminar()">
+  </app-delete-confirm-modal>
 </ion-content>

@@ -44,24 +44,35 @@
   <ion-list lines="none" *ngIf="hospitalizacionesFiltradas.length > 0">
     <ion-item 
       *ngFor="let hosp of hospitalizacionesVisibles" 
-      button 
-      (click)="toggleHospitalizacion(hosp)"
       class="hospitalizacion-item"
       [ngClass]="getStatusClass(hosp)">
+      
+      <!-- MENÚ REUTILIZABLE -->
+      <app-menu-item
+        [itemId]="hosp.id"
+        (onEdit)="editarHospitalizacion(hosp)"
+        (onDelete)="confirmarEliminar(hosp)">
+      </app-menu-item>
+
       <ion-grid>
         <ion-row class="ion-align-items-center">
-          <ion-col size="7">
+          <!-- CONTENIDO HOSPITALIZACIÓN -->
+          <ion-col size="7" (click)="toggleHospitalizacion(hosp)">
             <ion-label>
               <h3>{{ hosp.motivo }}</h3>
               <p>{{ formatFecha(hosp.fechaIngreso) }}</p>
             </ion-label>
           </ion-col>
-          <ion-col size="4" class="badge-col">
+
+          <!-- BADGE -->
+          <ion-col size="4" class="badge-col" (click)="toggleHospitalizacion(hosp)">
             <ion-badge [class]="getBadgeClass(hosp)" class="status-badge-spaced">
               {{ getStatusLabel(hosp) }}
             </ion-badge>
           </ion-col>
-          <ion-col size="1" class="ion-text-end">
+
+          <!-- FLECHA EXPANDIR -->
+          <ion-col size="1" class="ion-text-end" (click)="toggleHospitalizacion(hosp)">
             <ion-icon
               name="chevron-down-outline"
               class="expand-icon"
@@ -153,6 +164,122 @@
     [visible]="showScrollButton" 
     [content]="content">
   </app-scroll-to-top>
+
+  <!-- Modal agregar/editar hospitalizacion -->
+  <ion-modal [isOpen]="modalAbierto" (didDismiss)="cerrarModal()">
+    <ng-template>
+      <ion-header>
+        <ion-toolbar class="modal-header" style="--background: #22b8cf; --color: white;">
+          <ion-title>{{ modoEdicion ? 'Editar Hospitalización' : 'Agregar Hospitalización' }}</ion-title>
+          <ion-buttons slot="end">
+            <ion-button (click)="cerrarModal()">
+              <ion-icon name="close"></ion-icon>
+            </ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+
+      <ion-content class="ion-padding">
+        <div class="form-fields">
+          <!-- Motivo -->
+          <div class="field-group">
+            <label class="field-label">Motivo de Hospitalización</label>
+            <div class="input-container">
+              <ion-icon name="medical-outline" class="input-icon"></ion-icon>
+              <ion-input [(ngModel)]="nuevaHosp.motivo" placeholder="Ej. Neumonía aguda"></ion-input>
+            </div>
+          </div>
+
+          <!-- Medico -->
+          <div class="field-group">
+            <label class="field-label">Médico Responsable</label>
+            <div class="input-container">
+              <ion-icon name="person-outline" class="input-icon"></ion-icon>
+              <ion-input [(ngModel)]="nuevaHosp.medico" placeholder="Ej. Dr. Juan Pérez"></ion-input>
+            </div>
+          </div>
+
+          <!-- Hospital -->
+          <div class="field-group">
+            <label class="field-label">Hospital / Clínica</label>
+            <div class="input-container">
+              <ion-icon name="business-outline" class="input-icon"></ion-icon>
+              <ion-input [(ngModel)]="nuevaHosp.hospital" placeholder="Ej. Hospital Central"></ion-input>
+            </div>
+          </div>
+
+          <!-- Fecha de ingreso -->
+          <div class="field-group">
+            <label class="field-label">Fecha de ingreso</label>
+            <div class="input-container" id="fecha-ingreso-trigger" button="true">
+              <ion-icon name="calendar-outline" class="input-icon"></ion-icon>
+              <ion-input readonly="true" [value]="fechaIngresoFormateada" placeholder="Selecciona la fecha de ingreso"></ion-input>
+              <ion-icon name="chevron-down-outline" slot="end" class="select-arrow"></ion-icon>
+            </div>
+            <ion-popover trigger="fecha-ingreso-trigger" [showBackdrop]="true">
+              <ng-template>
+                <ion-datetime
+                  presentation="date"
+                  [(ngModel)]="nuevaHosp.fechaIngreso"
+                  (ionChange)="onFechaIngresoChange($event)">
+                </ion-datetime>
+              </ng-template>
+            </ion-popover>
+          </div>
+
+          <!-- Toggle finalizacion -->
+          <div class="field-group">
+            <label class="field-label">¿La hospitalización ya finalizó?</label>
+            <div class="input-container">
+              <ion-icon name="checkmark-done-outline" class="input-icon"></ion-icon>
+              <ion-toggle [(ngModel)]="finalizada" color="primary"></ion-toggle>
+            </div>
+          </div>
+
+          <!-- Fecha de alta -->
+          <div class="field-group" *ngIf="finalizada">
+            <label class="field-label">Fecha de alta</label>
+            <div class="input-container" id="fecha-alta-trigger" button="true">
+              <ion-icon name="calendar-clear-outline" class="input-icon"></ion-icon>
+              <ion-input readonly="true" [value]="fechaAltaFormateada" placeholder="Selecciona la fecha de salida"></ion-input>
+              <ion-icon name="chevron-down-outline" slot="end" class="select-arrow"></ion-icon>
+            </div>
+            <ion-popover trigger="fecha-alta-trigger" [showBackdrop]="true">
+              <ng-template>
+                <ion-datetime
+                  presentation="date"
+                  [(ngModel)]="nuevaHosp.fechaAlta"
+                  (ionChange)="onFechaAltaChange($event)">
+                </ion-datetime>
+              </ng-template>
+            </ion-popover>
+          </div>
+        </div>
+      </ion-content>
+
+      <ion-footer>
+        <ion-toolbar>
+          <div class="modal-buttons">
+            <ion-button expand="block" class="btn-cancelar" (click)="cerrarModal()">Cancelar</ion-button>
+            <ion-button expand="block" class="btn-guardar" (click)="guardarHospitalizacion()" [disabled]="!esFormularioValido()">
+              {{ modoEdicion ? 'Guardar cambios' : 'Guardar' }}
+            </ion-button>
+          </div>
+        </ion-toolbar>
+      </ion-footer>
+    </ng-template>
+  </ion-modal>
+
+  <!-- MODAL DE ELIMINACIÓN REUTILIZABLE -->
+  <app-delete-confirm-modal
+    [isOpen]="modalEliminarAbierto"
+    [itemName]="hospitalizacionAEliminar?.motivo || ''"
+    title="Eliminar hospitalización"
+    message="¿Estás seguro de eliminar"
+    (onCancel)="cerrarModalEliminar()"
+    (onConfirm)="eliminarHospitalizacion()"
+    (didDismiss)="cerrarModalEliminar()">
+  </app-delete-confirm-modal>
 
   <!-- Modal de periodo -->
   <ion-modal 
@@ -248,109 +375,6 @@
           </div>
         </div>
       </div>
-    </ng-template>
-  </ion-modal>
-
-  <!-- Modal agregar hospitalizacion -->
-  <ion-modal [isOpen]="modalAbierto" (didDismiss)="cerrarModal()">
-    <ng-template>
-      <ion-header>
-        <ion-toolbar class="modal-header" style="--background: #22b8cf; --color: white;">
-          <ion-title>Agregar Hospitalización</ion-title>
-          <ion-buttons slot="end">
-            <ion-button (click)="cerrarModal()">
-              <ion-icon name="close"></ion-icon>
-            </ion-button>
-          </ion-buttons>
-        </ion-toolbar>
-      </ion-header>
-
-      <ion-content class="ion-padding">
-        <div class="form-fields">
-          <!-- Motivo -->
-          <div class="field-group">
-            <label class="field-label">Motivo de Hospitalización</label>
-            <div class="input-container">
-              <ion-icon name="medical-outline" class="input-icon"></ion-icon>
-              <ion-input [(ngModel)]="nuevaHosp.motivo" placeholder="Ej. Neumonía aguda"></ion-input>
-            </div>
-          </div>
-
-          <!-- Medico -->
-          <div class="field-group">
-            <label class="field-label">Médico Responsable</label>
-            <div class="input-container">
-              <ion-icon name="person-outline" class="input-icon"></ion-icon>
-              <ion-input [(ngModel)]="nuevaHosp.medico" placeholder="Ej. Dr. Juan Pérez"></ion-input>
-            </div>
-          </div>
-
-          <!-- Hospital -->
-          <div class="field-group">
-            <label class="field-label">Hospital / Clínica</label>
-            <div class="input-container">
-              <ion-icon name="business-outline" class="input-icon"></ion-icon>
-              <ion-input [(ngModel)]="nuevaHosp.hospital" placeholder="Ej. Hospital Central"></ion-input>
-            </div>
-          </div>
-
-          <!-- Fecha de ingreso -->
-          <div class="field-group">
-            <label class="field-label">Fecha de ingreso</label>
-            <div class="input-container" id="fecha-ingreso-trigger" button="true">
-              <ion-icon name="calendar-outline" class="input-icon"></ion-icon>
-              <ion-input readonly="true" [value]="fechaIngresoFormateada" placeholder="Selecciona la fecha de ingreso"></ion-input>
-              <ion-icon name="chevron-down-outline" slot="end" class="select-arrow"></ion-icon>
-            </div>
-            <ion-popover trigger="fecha-ingreso-trigger" [showBackdrop]="true">
-              <ng-template>
-                <ion-datetime
-                  presentation="date"
-                  [(ngModel)]="nuevaHosp.fechaIngreso"
-                  (ionChange)="onFechaIngresoChange($event)">
-                </ion-datetime>
-              </ng-template>
-            </ion-popover>
-          </div>
-
-          <!-- Toggle finalizacion -->
-          <div class="field-group">
-            <label class="field-label">¿La hospitalización ya finalizó?</label>
-            <div class="input-container">
-              <ion-icon name="checkmark-done-outline" class="input-icon"></ion-icon>
-              <ion-toggle [(ngModel)]="finalizada" color="primary"></ion-toggle>
-            </div>
-          </div>
-
-          <!-- Fecha de alta -->
-          <div class="field-group" *ngIf="finalizada">
-            <label class="field-label">Fecha de alta</label>
-            <div class="input-container" id="fecha-alta-trigger" button="true">
-              <ion-icon name="calendar-clear-outline" class="input-icon"></ion-icon>
-              <ion-input readonly="true" [value]="fechaAltaFormateada" placeholder="Selecciona la fecha de salida"></ion-input>
-              <ion-icon name="chevron-down-outline" slot="end" class="select-arrow"></ion-icon>
-            </div>
-            <ion-popover trigger="fecha-alta-trigger" [showBackdrop]="true">
-              <ng-template>
-                <ion-datetime
-                  presentation="date"
-                  [(ngModel)]="nuevaHosp.fechaAlta"
-                  (ionChange)="onFechaAltaChange($event)">
-                </ion-datetime>
-              </ng-template>
-            </ion-popover>
-          </div>
-        </div>
-      </ion-content>
-
-      <ion-footer>
-        <ion-toolbar>
-          <div class="modal-buttons">
-            <ion-button expand="block" class="btn-cancelar" (click)="cerrarModal()">Cancelar</ion-button>
-            <ion-button expand="block" class="btn-guardar" (click)="guardarHospitalizacion()" [disabled]="!esFormularioValido()">Guardar</ion-button>
-          </div>
-        </ion-toolbar>
-      </ion-footer>
     </ng-template>
   </ion-modal>
 </ion-content>

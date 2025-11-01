@@ -12,7 +12,8 @@ import {
 import { FilterBarComponent } from '../components/filter-bar/filter-bar.component';
 import { ScrollToTopComponent } from '../components/scroll-to-top/scroll-to-top.component';
 import { CounterCardComponent } from '../components/counter-card/counter-card.component';
-import { ApiService } from '../services/api.service';
+import { MenuItemComponent } from '../components/menu-item/menu-item.component';
+import { DeleteConfirmModalComponent } from '../components/delete-confirm-modal/delete-confirm-modal.component';
 
 interface Hospitalizacion {
   id: string;
@@ -38,7 +39,8 @@ type TipoPeriodo = 'todos' | 'ultimo-mes' | 'ultimos-3-meses' | 'ultimos-6-meses
     IonList, IonItem, IonLabel, IonIcon, IonGrid, IonRow, IonCol,
     IonBadge, IonFab, IonFabButton, IonModal, IonButton, IonFooter, IonDatetime, 
     IonPopover, IonInput, IonToggle, IonInfiniteScroll, IonInfiniteScrollContent,
-    FilterBarComponent, ScrollToTopComponent, CounterCardComponent
+    FilterBarComponent, ScrollToTopComponent, CounterCardComponent,
+    MenuItemComponent, DeleteConfirmModalComponent
   ]
 })
 export class HospitalizacionesPage implements OnInit {
@@ -53,9 +55,6 @@ export class HospitalizacionesPage implements OnInit {
   hospitalizaciones: Hospitalizacion[] = [];
   hospitalizacionesFiltradas: Hospitalizacion[] = [];
   hospitalizacionesVisibles: Hospitalizacion[] = []; 
-
-  // --- Texto contador ---
-  totalHospitalizacionesTexto: string = '';
 
   // --- Lazy loading bidireccional ---
   private itemsPorCarga = 10;
@@ -76,8 +75,10 @@ export class HospitalizacionesPage implements OnInit {
   periodoSeleccionadoTexto = 'Todos';
   modalPeriodoAbierto = false;
 
-  // --- Modal agregar ---
+  // --- Modal agregar/editar ---
   modalAbierto = false;
+  modoEdicion = false;
+  hospitalizacionEditandoId: string | null = null;
   fechaIngresoFormateada = '';
   fechaAltaFormateada = '';
   finalizada = false;
@@ -90,10 +91,76 @@ export class HospitalizacionesPage implements OnInit {
     fechaAlta: ''
   };
 
-  constructor(private toastController: ToastController, private api: ApiService) {}
+  // --- Modal eliminar ---
+  modalEliminarAbierto = false;
+  hospitalizacionAEliminar: Hospitalizacion | null = null;
+
+  constructor(private toastController: ToastController) {}
 
   ngOnInit() {
-    this.cargarHospitalizaciones();
+    this.inicializarDatosDePrueba();
+    this.aplicarFiltroPeriodo();
+    this.actualizarContadores();
+    this.cargarPrimerasHospitalizaciones();
+  }
+
+  // === EDITAR HOSPITALIZACIÓN ===
+  editarHospitalizacion(hosp: Hospitalizacion) {
+    this.modoEdicion = true;
+    this.hospitalizacionEditandoId = hosp.id;
+    this.nuevaHosp = {
+      motivo: hosp.motivo,
+      medico: hosp.medico,
+      hospital: hosp.hospital,
+      fechaIngreso: hosp.fechaIngreso,
+      fechaAlta: hosp.fechaAlta
+    };
+    
+    const fechaIngresoObj = new Date(hosp.fechaIngreso);
+    this.fechaIngresoFormateada = fechaIngresoObj.toLocaleDateString('es-ES', { 
+      day: 'numeric', 
+      month: 'long', 
+      year: 'numeric' 
+    });
+    
+    if (hosp.fechaAlta) {
+      const fechaAltaObj = new Date(hosp.fechaAlta);
+      this.fechaAltaFormateada = fechaAltaObj.toLocaleDateString('es-ES', { 
+        day: 'numeric', 
+        month: 'long', 
+        year: 'numeric' 
+      });
+      this.finalizada = true;
+    } else {
+      this.fechaAltaFormateada = '';
+      this.finalizada = false;
+    }
+    
+    this.modalAbierto = true;
+  }
+
+  // === CONFIRMAR ELIMINAR ===
+  confirmarEliminar(hosp: Hospitalizacion) {
+    this.hospitalizacionAEliminar = hosp;
+    this.modalEliminarAbierto = true;
+  }
+
+  cerrarModalEliminar() {
+    this.modalEliminarAbierto = false;
+    this.hospitalizacionAEliminar = null;
+  }
+
+  // === ELIMINAR HOSPITALIZACIÓN ===
+  async eliminarHospitalizacion() {
+    if (!this.hospitalizacionAEliminar) return;
+
+    const id = this.hospitalizacionAEliminar.id;
+    this.hospitalizaciones = this.hospitalizaciones.filter(h => h.id !== id);
+    
+    this.aplicarFiltroPeriodo();
+    this.cerrarModalEliminar();
+    
+    await this.mostrarToast('Hospitalización eliminada exitosamente', 'success');
   }
 
   // --- Lazy loading ---  
@@ -274,11 +341,17 @@ export class HospitalizacionesPage implements OnInit {
     return new Date(anio, mes - 1, dia);
   }
 
-  // --- Modal agregar --- 
-  abrirModal() { this.modalAbierto = true; }
+  // === Modal agregar/editar === 
+  abrirModal() { 
+    this.modoEdicion = false;
+    this.hospitalizacionEditandoId = null;
+    this.modalAbierto = true; 
+  }
   
   cerrarModal() {
     this.modalAbierto = false;
+    this.modoEdicion = false;
+    this.hospitalizacionEditandoId = null;
     this.nuevaHosp = { motivo: '', medico: '', hospital: '', fechaIngreso: '', fechaAlta: '' };
     this.fechaIngresoFormateada = '';
     this.fechaAltaFormateada = '';
@@ -324,22 +397,42 @@ export class HospitalizacionesPage implements OnInit {
       return;
     }
 
-    const nueva: Hospitalizacion = {
-      id: Date.now().toString(),
-      motivo: this.nuevaHosp.motivo!.trim(),
-      medico: this.nuevaHosp.medico!.trim(),
-      hospital: this.nuevaHosp.hospital!.trim(),
-      fechaIngreso: this.nuevaHosp.fechaIngreso!.split('T')[0],
-      fechaAlta: this.finalizada && this.nuevaHosp.fechaAlta 
-        ? this.nuevaHosp.fechaAlta.split('T')[0] 
-        : undefined,
-      expanded: false
-    };
+    if (this.modoEdicion && this.hospitalizacionEditandoId) {
+      const index = this.hospitalizaciones.findIndex(h => h.id === this.hospitalizacionEditandoId);
+      if (index !== -1) {
+        this.hospitalizaciones[index] = {
+          ...this.hospitalizaciones[index],
+          motivo: this.nuevaHosp.motivo!.trim(),
+          medico: this.nuevaHosp.medico!.trim(),
+          hospital: this.nuevaHosp.hospital!.trim(),
+          fechaIngreso: this.nuevaHosp.fechaIngreso!.split('T')[0],
+          fechaAlta: this.finalizada && this.nuevaHosp.fechaAlta 
+            ? this.nuevaHosp.fechaAlta.split('T')[0] 
+            : undefined
+        };
+        
+        this.aplicarFiltroPeriodo();
+        this.cerrarModal();
+        await this.mostrarToast('Hospitalización actualizada correctamente', 'success');
+      }
+    } else {
+      const nueva: Hospitalizacion = {
+        id: Date.now().toString(),
+        motivo: this.nuevaHosp.motivo!.trim(),
+        medico: this.nuevaHosp.medico!.trim(),
+        hospital: this.nuevaHosp.hospital!.trim(),
+        fechaIngreso: this.nuevaHosp.fechaIngreso!.split('T')[0],
+        fechaAlta: this.finalizada && this.nuevaHosp.fechaAlta 
+          ? this.nuevaHosp.fechaAlta.split('T')[0] 
+          : undefined,
+        expanded: false
+      };
 
-    this.hospitalizaciones.unshift(nueva);
-    this.aplicarFiltroPeriodo(); 
-    this.cerrarModal();
-    this.mostrarToast('Hospitalización registrada correctamente', 'success');
+      this.hospitalizaciones.unshift(nueva);
+      this.aplicarFiltroPeriodo(); 
+      this.cerrarModal();
+      await this.mostrarToast('Hospitalización registrada correctamente', 'success');
+    }
     this.actualizarContadores();
   }
 
@@ -398,71 +491,22 @@ export class HospitalizacionesPage implements OnInit {
     });
     await toast.present();
   }
-  async cargarHospitalizaciones() {
-    try {
-      console.log('Cargando hospitalizaciones desde la API...');
-      const response: any = await this.api.get('/hospitalizaciones');
 
-      console.log('Respuesta completa de la API (hospitalizaciones):', response);
-
-      let datos: any = null;
-      if (Array.isArray(response)) {
-        datos = response;
-      } else if (response && Array.isArray(response.data)) {
-        datos = response.data;
-      } else if (response && Array.isArray(response.body)) {
-        datos = response.body;
-      } else if (response && Array.isArray(response.items)) {
-        datos = response.items;
-      } else if (response && Array.isArray(response.hospitalizaciones)) {
-        datos = response.hospitalizaciones;
-      } else if (response && typeof response === 'object' && !Array.isArray(response)) {
-        // Si es un objeto único, convertir a array
-        datos = [response];
-      } else {
-        datos = [];
-      }
-
-      if (!Array.isArray(datos)) {
-        console.error('Formato inesperado de la respuesta de hospitalizaciones');
-        this.hospitalizaciones = [];
-        this.mostrarToast('Error: formato inválido de la API');
-        return;
-      }
-
-      this.hospitalizaciones = datos.map((item: any, index: number) => {
-        return {
-          id: item.id?.toString() || item._id?.toString() || `hosp_${Date.now()}_${index}`,
-          motivo: item.motivo || item.reason || item.title || item.name || 'Sin motivo',
-          fechaIngreso: (item.fechaIngreso || item.fecha_ingreso || item.date || item.fecha || new Date().toISOString()).toString().split('T')[0],
-          fechaAlta: item.fechaAlta || item.fecha_alta || item.endDate || item.alta || undefined,
-          medico: item.medico || item.doctor || item.medico_nombre || 'Desconocido',
-          hospital: item.hospital || item.clinic || item.center || '',
-          expanded: false
-        } as Hospitalizacion;
-      });
-
-      this.hospitalizacionesFiltradas = [...this.hospitalizaciones];
-      this.aplicarOrden();
-      this.aplicarFiltroPeriodo();
-      this.actualizarContadores();
-      this.cargarPrimerasHospitalizaciones();
-      this.resetInfiniteScroll();
-
-      if (this.hospitalizaciones.length === 0) {
-        this.mostrarToast('No hay hospitalizaciones registradas', 'warning');
-      } else {
-        this.mostrarToast(`${this.hospitalizaciones.length} hospitalizaciones cargadas`, 'success');
-      }
-
-    } catch (error: any) {
-      console.error('Error al cargar hospitalizaciones:', error);
-      this.hospitalizaciones = [];
-      let mensaje = 'Error al cargar hospitalizaciones';
-      if (error.status === 0) mensaje = 'Sin conexión con el servidor';
-      else if (error.status === 404) mensaje = 'Endpoint /hospitalizaciones no encontrado';
-      else if (error.status >= 500) mensaje = 'Error interno del servidor';
-      this.mostrarToast(mensaje, 'danger');
-    }
+  // === DATOS SIMULADOS ===
+  inicializarDatosDePrueba() {
+    this.hospitalizaciones = [
+      { id: '1', motivo: 'Neumonía aguda', fechaIngreso: '2024-10-15', fechaAlta: '2024-10-22', medico: 'Dr. Carlos Mendoza', hospital: 'Hospital Central', expanded: false },
+      { id: '2', motivo: 'Apendicitis aguda', fechaIngreso: '2024-09-08', fechaAlta: '2024-09-12', medico: 'Dra. Ana Silva', hospital: 'Clínica Los Andes', expanded: false },
+      { id: '3', motivo: 'Fractura de cadera', fechaIngreso: '2025-10-28', medico: 'Dr. Roberto Fuentes', hospital: 'Hospital Traumatológico', expanded: false },
+      { id: '4', motivo: 'Infarto agudo de miocardio', fechaIngreso: '2024-08-20', fechaAlta: '2024-09-05', medico: 'Dra. Patricia López', hospital: 'Clínica Cardio', expanded: false },
+      { id: '5', motivo: 'Pancreatitis aguda', fechaIngreso: '2024-07-14', fechaAlta: '2024-07-25', medico: 'Dr. José Ramírez', hospital: 'Hospital Universitario', expanded: false },
+      { id: '6', motivo: 'Obstrucción intestinal', fechaIngreso: '2024-06-10', fechaAlta: '2024-06-18', medico: 'Dra. María Torres', hospital: 'Clínica Santa Isabel', expanded: false },
+      { id: '7', motivo: 'Accidente cerebrovascular', fechaIngreso: '2024-05-22', fechaAlta: '2024-06-15', medico: 'Dr. Luis Ortega', hospital: 'Hospital Regional', expanded: false },
+      { id: '8', motivo: 'Sepsis severa', fechaIngreso: '2024-04-18', fechaAlta: '2024-05-02', medico: 'Dra. Sofía Álvarez', hospital: 'Hospital Metropolitano', expanded: false },
+      { id: '9', motivo: 'Colecistitis aguda', fechaIngreso: '2024-03-25', fechaAlta: '2024-03-30', medico: 'Dr. Ricardo Núñez', hospital: 'Clínica del Sol', expanded: false },
+      { id: '10', motivo: 'Insuficiencia respiratoria', fechaIngreso: '2024-02-14', fechaAlta: '2024-03-01', medico: 'Dra. Carolina Bravo', hospital: 'Hospital Pulmonar', expanded: false },
+      { id: '11', motivo: 'Trombosis venosa profunda', fechaIngreso: '2024-01-20', fechaAlta: '2024-01-28', medico: 'Dr. Andrés Valdivia', hospital: 'Clínica Vascular', expanded: false },
+      { id: '12', motivo: 'Hemorragia digestiva', fechaIngreso: '2023-12-10', fechaAlta: '2023-12-20', medico: 'Dra. Laura Fernández', hospital: 'Hospital Central', expanded: false }
+    ];
   }
 }

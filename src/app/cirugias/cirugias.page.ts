@@ -90,9 +90,53 @@ export class CirugiasPage implements OnInit {
 
   ngOnInit() {
     this.inicializarDatosDePrueba();
+    this.normalizarFechasCirugias(); // Normalizar fechas después de cargar datos
+    this.actualizarEstadosCirugias(); // Actualizar estados basados en fecha actual
     this.aplicarFiltroPeriodo();
     this.actualizarContadores();
     this.cargarPrimerasCirugias();
+  }
+
+  // **NUEVO: Método para normalizar fechas ISO a formato YYYY-MM-DD**
+  private normalizarFecha(fecha: string): string {
+    if (!fecha) return '';
+    
+    // Si ya está en formato YYYY-MM-DD, retornar tal cual
+    if (/^\d{4}-\d{2}-\d{2}$/.test(fecha)) {
+      return fecha;
+    }    
+    // Si viene en formato ISO (con T y timezone), extraer solo la fecha
+    if (fecha.includes('T')) {
+      return fecha.split('T')[0];
+    }
+    
+    return fecha;
+  }
+
+  // Normalizar todas las fechas de las cirugias
+  private normalizarFechasCirugias(): void {
+    this.cirugias = this.cirugias.map(cirugia => ({
+      ...cirugia,
+      fecha: this.normalizarFecha(cirugia.fecha)
+    }));
+  }
+
+  private actualizarEstadosCirugias(): void {
+    const hoy = new Date();
+    hoy.setHours(0, 0, 0, 0);
+
+    this.cirugias = this.cirugias.map(cirugia => {
+      const fechaCirugia = this.parsearFecha(cirugia.fecha);
+      fechaCirugia.setHours(0, 0, 0, 0);
+
+
+      const estadoCorrecto = fechaCirugia <= hoy ? 'Finalizada' : 'Programada';
+
+      return {
+        ...cirugia,
+        estado: estadoCorrecto
+      };
+    });
   }
 
   // Editar cirugia 
@@ -106,7 +150,10 @@ export class CirugiasPage implements OnInit {
       fecha: cirugia.fecha
     };
     
-    const fechaObj = new Date(cirugia.fecha);
+    // Parsear la fecha correctamente sin problemas de zona horaria
+    const [anio, mes, dia] = cirugia.fecha.split('-').map(n => parseInt(n));
+    const fechaObj = new Date(anio, mes - 1, dia);
+    
     this.fechaFormateada = fechaObj.toLocaleDateString('es-ES', { 
       day: 'numeric', 
       month: 'long', 
@@ -297,7 +344,9 @@ export class CirugiasPage implements OnInit {
   }
 
   parsearFecha(fecha: string): Date {
-    const [anio, mes, dia] = fecha.split('-').map(n => parseInt(n));
+    // Normalizar la fecha antes de parsearla
+    const fechaNormalizada = this.normalizarFecha(fecha);
+    const [anio, mes, dia] = fechaNormalizada.split('-').map(n => parseInt(n));
     return new Date(anio, mes - 1, dia);
   }
 
@@ -327,8 +376,14 @@ export class CirugiasPage implements OnInit {
 
   onFechaChange(event: any) {
     if (event?.detail?.value) {
-      this.nuevaCirugia.fecha = event.detail.value;
-      const fechaObj = new Date(event.detail.value);
+      // Normalizar la fecha del evento
+      const fechaNormalizada = this.normalizarFecha(event.detail.value);
+      this.nuevaCirugia.fecha = fechaNormalizada;
+      
+      // Parsear la fecha correctamente sin problemas de zona horaria
+      const [anio, mes, dia] = fechaNormalizada.split('-').map(n => parseInt(n));
+      const fechaObj = new Date(anio, mes - 1, dia);
+      
       this.fechaFormateada = fechaObj.toLocaleDateString('es-ES', { 
         day: 'numeric', 
         month: 'long', 
@@ -348,9 +403,19 @@ export class CirugiasPage implements OnInit {
       return;
     }
 
-    const fechaCirugia = new Date(this.nuevaCirugia.fecha!);
+    // Normalizar la fecha antes de guardar
+    const fechaNormalizada = this.normalizarFecha(this.nuevaCirugia.fecha!);
+    
+    // Parsear fechas correctamente sin problemas de zona horaria
+    const [anioCirugia, mesCirugia, diaCirugia] = fechaNormalizada.split('-').map(n => parseInt(n));
+    const fechaCirugia = new Date(anioCirugia, mesCirugia - 1, diaCirugia);
+    fechaCirugia.setHours(0, 0, 0, 0);
+    
     const hoy = new Date(); 
     hoy.setHours(0, 0, 0, 0);
+
+    // Determinar estado
+    const estadoCirugia = fechaCirugia > hoy ? 'Programada' : 'Finalizada';
 
     if (this.modoEdicion && this.cirugiaEditandoId) {
       const index = this.cirugias.findIndex(c => c.id === this.cirugiaEditandoId);
@@ -360,8 +425,8 @@ export class CirugiasPage implements OnInit {
           nombre: this.nuevaCirugia.nombre!.trim(),
           medico: this.nuevaCirugia.medico!.trim(),
           hospital: this.nuevaCirugia.hospital!.trim(),
-          fecha: this.nuevaCirugia.fecha!.split('T')[0],
-          estado: fechaCirugia > hoy ? 'Programada' : 'Finalizada'
+          fecha: fechaNormalizada,
+          estado: estadoCirugia
         };
         
         this.aplicarFiltroPeriodo();
@@ -374,8 +439,8 @@ export class CirugiasPage implements OnInit {
         nombre: this.nuevaCirugia.nombre!.trim(),
         medico: this.nuevaCirugia.medico!.trim(),
         hospital: this.nuevaCirugia.hospital!.trim(),
-        fecha: this.nuevaCirugia.fecha!.split('T')[0],
-        estado: fechaCirugia > hoy ? 'Programada' : 'Finalizada',
+        fecha: fechaNormalizada,
+        estado: estadoCirugia,
         expanded: false
       };
 
@@ -392,7 +457,8 @@ export class CirugiasPage implements OnInit {
   getBadgeClass(c: Cirugia) { return c.estado === 'Programada' ? 'badge-programada' : 'badge-finalizada'; }
 
   formatFecha(f: string): string {
-    const [y, m, d] = f.split('-').map(n => parseInt(n));
+    const fechaNormalizada = this.normalizarFecha(f);
+    const [y, m, d] = fechaNormalizada.split('-').map(n => parseInt(n));
     return new Date(y, m - 1, d).toLocaleDateString('es-ES', { 
       day: 'numeric', 
       month: 'long', 
@@ -412,7 +478,7 @@ export class CirugiasPage implements OnInit {
 
   inicializarDatosDePrueba() {
     this.cirugias = [
-      { id: '1', nombre: 'Apendicectomía', medico: 'Dr. Juan Herrera', hospital: 'Clínica Central', fecha: '2024-06-24', estado: 'Finalizada', expanded: false },
+      { id: '1', nombre: 'Apendicectomía', medico: 'Dr. Juan Herrera', hospital: 'Clínica Central', fecha: '2025-11-02T00:00:00.000Z', estado: 'Finalizada', expanded: false },
       { id: '2', nombre: 'Bypass gástrico', medico: 'Dra. Ana Vargas', hospital: 'Hospital Universitario', fecha: '2024-08-15', estado: 'Finalizada', expanded: false },
       { id: '3', nombre: 'Colecistectomía laparoscópica', medico: 'Dr. Pablo Medina', hospital: 'Clínica Los Andes', fecha: '2025-10-30', estado: 'Programada', expanded: false },
       { id: '4', nombre: 'Reparación de hernia inguinal', medico: 'Dr. Carlos Pérez', hospital: 'Hospital del Sur', fecha: '2024-11-03', estado: 'Finalizada', expanded: false },

@@ -9,7 +9,6 @@ interface Cita {
   especialidad: string;
   medico: string;
   centro: string;
-  hora: string;
 }
 
 @Component({
