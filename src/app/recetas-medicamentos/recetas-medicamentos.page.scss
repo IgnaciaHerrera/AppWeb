@@ -164,13 +164,13 @@
   background: rgba(0, 0, 0, 0.2);
 }
 
-@media (prefers-color-scheme: dark) {
+:host-context(body.dark) {
   .periodo-modal::part(handle) {
     background: rgba(255, 255, 255, 0.3);
   }
 }
 
-@media (prefers-color-scheme: dark) {  
+:host-context(body.dark) {  
   .modal-header-clean {
     border-bottom-color: rgba(255, 255, 255, 0.1);
   }
@@ -488,7 +488,7 @@ ion-badge.badge-finalizado {
   line-height: 1.4;
 }
 
-@media (prefers-color-scheme: dark) {
+:host-context(body.dark) {
   :host {
     --orange-primary: #ffa94d;
     --green-success: #51cf66;

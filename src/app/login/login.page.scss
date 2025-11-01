@@ -265,7 +265,7 @@
   }
 }
 
-@media (prefers-color-scheme: dark) {
+:host-context(body.dark) {
   :host {
     --primary-color: #4fb3cc;
     --primary-light: rgba(79, 179, 204, 0.15);

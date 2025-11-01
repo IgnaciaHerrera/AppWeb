@@ -194,13 +194,13 @@
   background: rgba(0, 0, 0, 0.2);
 }
 
-@media (prefers-color-scheme: dark) {
+:host-context(body.dark) {
   .periodo-modal::part(handle) {
     background: rgba(255, 255, 255, 0.3);
   }
 }
 
-@media (prefers-color-scheme: dark) {  
+:host-context(body.dark) {  
   .modal-header-clean {
     border-bottom-color: rgba(255, 255, 255, 0.1);
   }
@@ -479,7 +479,7 @@ ion-list {
   }
 }
 
-@media (prefers-color-scheme: dark) {
+:host-context(body.dark) {
   .resultado-completo {
     background: rgba(255, 255, 255, 0.05);
     
@@ -676,7 +676,7 @@ ion-fab-list[side="top"] {
   pointer-events: all;
 }
 
-@media (prefers-color-scheme: dark) {
+:host-context(body.dark) {
   .fab-option {
     --background: #20c997 !important;
     
@@ -1183,7 +1183,7 @@ ion-fab-list[side="top"] {
   51%, 100% { opacity: 0.7; }
 }
 
-@media (prefers-color-scheme: dark) {
+:host-context(body.dark) {
   :host {
     --primary-color: #20c997;
     --green-light: #51cf66;
@@ -1311,7 +1311,7 @@ ion-content {
   }
 }
 
-@media (prefers-color-scheme: dark) {
+:host-context(body.dark) {
   ion-content {
     .upload-header-icon ion-icon,
     .footer-buttons ion-button ion-icon[name="cloud-upload-outline"],
@@ -1374,7 +1374,7 @@ ion-content {
   }
 }
 
-@media (prefers-color-scheme: dark) {
+:host-context(body.dark) {
   .estado-option:hover {
     --background: rgba(255, 255, 255, 0.1);
   }

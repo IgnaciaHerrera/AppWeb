@@ -405,7 +405,7 @@ export class ExamenesPage implements OnInit {
     this.modoEdicion = false;
     this.examenEditandoId = null;
     this.limpiarFormulario();
-    this.cerrarFabMenu(); // ⭐ LÍNEA AGREGADA
+    this.cerrarFabMenu(); 
   }
 
   limpiarFormulario() {
@@ -494,7 +494,7 @@ export class ExamenesPage implements OnInit {
     this.modalSubirAbierto = false;
     this.selectedFile = null;
     if (this.fileInput?.nativeElement) this.fileInput.nativeElement.value = '';
-    this.cerrarFabMenu(); // ⭐ LÍNEA AGREGADA
+    this.cerrarFabMenu(); 
   }
 
   getFileSize(bytes: number): string {

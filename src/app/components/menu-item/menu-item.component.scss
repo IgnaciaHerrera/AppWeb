@@ -100,7 +100,7 @@
   }
 }
 
-@media (prefers-color-scheme: dark) {
+:host-context(body.dark) {
   .menu-item {
     &:hover {
       --background: rgba(255, 255, 255, 0.06);

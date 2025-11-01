@@ -83,15 +83,16 @@
 .filters-container.rojo {
   --primary-color: #fa5252;
 }
-/* Tema naranja para medicamentos */
+
 .filters-container.naranja {
   --primary-color: #f59f00;
 }
-/* NUEVO: Tema rosa para diagnósticos */
+
 .filters-container.rosa {
   --primary-color: #e91e63;
 }
-@media (prefers-color-scheme: dark) {
+
+:host-context(body.dark) {
   .filter-button {
     --background: rgba(255, 255, 255, 0.05);
     --box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);

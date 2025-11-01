@@ -164,34 +164,6 @@
   background: rgba(0, 0, 0, 0.2);
 }
 
-@media (prefers-color-scheme: dark) {
-  .periodo-modal::part(handle) {
-    background: rgba(255, 255, 255, 0.3);
-  }
-}
-
-@media (prefers-color-scheme: dark) {  
-  .modal-header-clean {
-    border-bottom-color: rgba(255, 255, 255, 0.1);
-  }
-  
-  .period-option {
-    background: rgba(255, 255, 255, 0.05); 
-    
-    &.selected {
-      background: rgba(250, 82, 82, 0.2);
-    }
-  }
- 
-  .period-option.selected .option-icon ion-icon {
-    color: white !important; 
-  }
-
-  .option-icon {
-    background: rgba(255, 255, 255, 0.08);
-  }
-}
-
 ion-list {
   background: transparent;
   margin: 0 16px;
@@ -475,60 +447,6 @@ ion-badge.badge-severo {
   line-height: 1.4;
 }
 
-@media (prefers-color-scheme: dark) {
-  :host {
-    --red-primary: #ff6b6b;
-    --green-success: #51cf66;
-    --yellow-warning: #ffa94d;
-  }
-  
-  .alergia-item {
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-  }
-  
-  .alergia-expanded-row {
-    &.expanded {
-      border-top-color: rgba(255, 255, 255, 0.1);
-    }
-  }
-  
-  .alergia-item.grade-leve .detail-item {
-    background: rgba(81, 207, 102, 0.05);
-  }
-  
-  .alergia-item.grade-leve .detail-item:hover {
-    background: rgba(81, 207, 102, 0.08);
-  }
-  
-  .alergia-item.grade-moderado .detail-item {
-    background: rgba(255, 169, 77, 0.05);
-  }
-  
-  .alergia-item.grade-moderado .detail-item:hover {
-    background: rgba(255, 169, 77, 0.08);
-  }
-  
-  .alergia-item.grade-severo .detail-item {
-    background: rgba(255, 107, 107, 0.05);
-  }
-  
-  .alergia-item.grade-severo .detail-item:hover {
-    background: rgba(255, 107, 107, 0.08);
-  }
-  
-  ion-badge.badge-leve {
-    --background: var(--green-success);
-  }
-  
-  ion-badge.badge-moderado {
-    --background: var(--yellow-warning);
-  }
-  
-  ion-badge.badge-severo {
-    --background: var(--red-primary);
-  }
-}
-
 /* Boton flotante */
 .fab-add {
   --background: #fa5252;
@@ -703,3 +621,155 @@ ion-badge.badge-severo {
 .field-group:nth-child(3) { animation-delay: 0.3s !important; }
 .field-group:nth-child(4) { animation-delay: 0.4s !important; }
 .field-group:nth-child(5) { animation-delay: 0.5s !important; }
+
+:host-context(body.dark) {
+  --red-primary: #ff6b6b;
+  --green-success: #51cf66;
+  --yellow-warning: #ffa94d;
+  
+  .periodo-modal::part(handle) {
+    background: rgba(255, 255, 255, 0.3) !important;
+  }
+  
+  .modal-header-clean {
+    border-bottom-color: rgba(255, 255, 255, 0.1) !important;
+  }
+  
+  .period-option {
+    background: rgba(255, 255, 255, 0.05) !important;
+    
+    &.selected {
+      background: rgba(250, 82, 82, 0.2) !important;
+      
+      .option-icon ion-icon {
+        color: white !important;
+      }
+    }
+  }
+
+  .option-icon {
+    background: rgba(255, 255, 255, 0.08) !important;
+  }
+  
+  .alergia-item {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3) !important;
+  }
+  
+  .alergia-expanded-row {
+    &.expanded {
+      border-top-color: rgba(255, 255, 255, 0.1) !important;
+    }
+  }
+  
+  .alergia-item.grade-leve .detail-item {
+    background: rgba(81, 207, 102, 0.05) !important;
+    
+    &:hover {
+      background: rgba(81, 207, 102, 0.08) !important;
+    }
+  }
+  
+  .alergia-item.grade-moderado .detail-item {
+    background: rgba(255, 169, 77, 0.05) !important;
+    
+    &:hover {
+      background: rgba(255, 169, 77, 0.08) !important;
+    }
+  }
+  
+  .alergia-item.grade-severo .detail-item {
+    background: rgba(255, 107, 107, 0.05) !important;
+    
+    &:hover {
+      background: rgba(255, 107, 107, 0.08) !important;
+    }
+  }
+  
+  ion-badge.badge-leve {
+    --background: var(--green-success) !important;
+  }
+  
+  ion-badge.badge-moderado {
+    --background: var(--yellow-warning) !important;
+  }
+  
+  ion-badge.badge-severo {
+    --background: var(--red-primary) !important;
+  }
+}
+
+body.dark {
+  :host {
+    --red-primary: #ff6b6b !important;
+    --green-success: #51cf66 !important;
+    --yellow-warning: #ffa94d !important;
+  }
+  
+  .periodo-modal::part(handle) {
+    background: rgba(255, 255, 255, 0.3) !important;
+  }
+  
+  .modal-header-clean {
+    border-bottom-color: rgba(255, 255, 255, 0.1) !important;
+  }
+  
+  .period-option {
+    background: rgba(255, 255, 255, 0.05) !important;
+    
+    &.selected {
+      background: rgba(250, 82, 82, 0.2) !important;
+      
+      .option-icon ion-icon {
+        color: white !important;
+      }
+    }
+  }
+
+  .option-icon {
+    background: rgba(255, 255, 255, 0.08) !important;
+  }
+  
+  .alergia-item {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3) !important;
+  }
+  
+  .alergia-expanded-row.expanded {
+    border-top-color: rgba(255, 255, 255, 0.1) !important;
+  }
+  
+  .alergia-item.grade-leve .detail-item {
+    background: rgba(81, 207, 102, 0.05) !important;
+    
+    &:hover {
+      background: rgba(81, 207, 102, 0.08) !important;
+    }
+  }
+  
+  .alergia-item.grade-moderado .detail-item {
+    background: rgba(255, 169, 77, 0.05) !important;
+    
+    &:hover {
+      background: rgba(255, 169, 77, 0.08) !important;
+    }
+  }
+  
+  .alergia-item.grade-severo .detail-item {
+    background: rgba(255, 107, 107, 0.05) !important;
+    
+    &:hover {
+      background: rgba(255, 107, 107, 0.08) !important;
+    }
+  }
+  
+  ion-badge.badge-leve {
+    --background: #51cf66 !important;
+  }
+  
+  ion-badge.badge-moderado {
+    --background: #ffa94d !important;
+  }
+  
+  ion-badge.badge-severo {
+    --background: #ff6b6b !important;
+  }
+}
