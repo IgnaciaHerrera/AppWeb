@@ -465,3 +465,142 @@ body.dark {
     opacity: 0.15;
   }
 }
+
+
+body.light {
+  --ion-background-color: #ffffff !important;
+  --ion-text-color: #000000 !important;
+  --ion-card-background: #ffffff !important;
+  
+  --teal-primary: #1c697f !important;
+  --teal-light: #e0f2f1 !important;
+  --teal-dark: #0f4c59 !important;
+  --gray-light: #f8fafc !important;
+  --gray-medium: #6b7280 !important;
+
+  .reminder-card,
+  .quick-card,
+  .appointment-card,
+  .perfil-card,
+  .card-item {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.06) !important;
+    background: #ffffff !important;
+  }
+
+  .appointment-date {
+    background: #e0f2f1 !important;
+  }
+
+  .quick-icon::after {
+    opacity: 0.2 !important;
+  }
+}
+
+body.dark {
+  --teal-primary: #2dd4bf;
+  --teal-light: #134e4a;
+  --teal-dark: #0f766e;
+  --gray-light: #2c2c2e;
+
+  .reminder-card,
+  .quick-card,
+  .appointment-card,
+  .perfil-card,
+  .card-item {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  }
+
+  .quick-card:hover {
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+  }
+
+  .appointment-date {
+    background: var(--teal-light);
+  }
+
+  .appointment-card {
+    border-left-color: var(--teal-primary);
+  }
+
+  .card-item:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  }
+
+  .quick-icon::after {
+    opacity: 0.15;
+  }
+}
+
+
+body.dark {
+  ion-modal,
+  ion-popover,
+  ion-alert,
+  ion-action-sheet {
+    --ion-background-color: #1e1e1e !important;
+    --ion-text-color: #ffffff !important;
+    --ion-card-background: #1e1e1e !important;
+    --ion-item-background: #1e1e1e !important;
+    --ion-toolbar-background: #1e1e1e !important;
+    --ion-border-color: #333333 !important;
+    --ion-color-medium: rgba(255, 255, 255, 0.6) !important;
+
+    ion-content,
+    .modal-wrapper,
+    .popover-content,
+    .action-sheet-container {
+      background: var(--ion-background-color) !important;
+      color: var(--ion-text-color) !important;
+    }
+
+    ion-label,
+    ion-text,
+    ion-title,
+    h1, h2, h3, h4, h5, h6,
+    p, span {
+      color: var(--ion-text-color) !important;
+    }
+
+    ion-input,
+    ion-select,
+    ion-datetime,
+    ion-textarea {
+      --background: transparent !important;
+      --color: #ffffff !important;
+      --placeholder-color: rgba(255, 255, 255, 0.5) !important;
+      --padding-start: 12px !important;
+      --padding-end: 12px !important;
+      
+      border: none !important;
+      box-shadow: none !important;
+    }
+
+    ion-item {
+      --background: transparent !important;
+      --border-color: rgba(255, 255, 255, 0.1) !important;
+      color: var(--ion-text-color) !important;
+    }
+
+    ion-list {
+      background: transparent !important;
+    }
+
+    ion-button {
+      --color: var(--ion-color-primary-contrast) !important;
+    }
+  }
+}
+
+:host-context(body.dark) ion-modal {
+  .input-container,
+  .resultado-item,
+  .resultado-field ion-input {
+    background: rgba(255, 255, 255, 0.05) !important;
+  }
+  
+  ion-input,
+  ion-textarea,
+  ion-select {
+    background: transparent !important;
+  }
+}

@@ -9,21 +9,21 @@
 
 <ion-content class="detalle-content">
   <!-- Lista de secciones -->
-  <ion-list lines="none" class="lista-secciones">
+  <ion-list lines="none" class="lista-secciones" *ngIf="mostrarCards">
     <app-ficha-item
       titulo="Datos Personales"
       icon="person-outline"
       colorClass="blue"
       (action)="goTo('datos-personales')">
     </app-ficha-item>
-
+    
     <app-ficha-item
       titulo="Exámenes"
       icon="document-text-outline"
       colorClass="teal"
       (action)="goTo('examenes')">
     </app-ficha-item>
-    
+
     <app-ficha-item
       titulo="Alergias"
       icon="alert-circle-outline"

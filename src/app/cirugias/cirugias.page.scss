@@ -163,7 +163,10 @@
   background: rgba(0, 0, 0, 0.2);
 }
 
-:host-context(body.dark){
+:host-context(body.dark) {
+  --purple-primary: #bb7dd8;
+  --gray-inactive: #bdc3c7;
+
   .periodo-modal::part(handle) {
     background: rgba(255, 255, 255, 0.3);
   }
@@ -177,11 +180,11 @@
     
     &.selected {
       background: rgba(156, 77, 158, 0.2);
+      
+      .option-icon ion-icon {
+        color: white !important; 
+      }
     }
-  }
- 
-  .period-option.selected .option-icon ion-icon {
-    color: white !important; 
   }
 
   .option-icon {
@@ -346,14 +349,10 @@ ion-badge.badge-finalizada {
   display: flex;
   align-items: center;
   padding: 12px;
-  background: rgba(155, 89, 182, 0.03);
+  background: rgba(155, 89, 182, 0.06);
   border-radius: 8px;
   gap: 12px;
   transition: all 0.2s ease;
-}
-
-.detail-item:hover {
-  background: rgba(155, 89, 182, 0.06);
 }
 
 .detail-icon-wrapper {
@@ -378,11 +377,7 @@ ion-badge.badge-finalizada {
 }
 
 .cirugia-item.status-programada .detail-item {
-  background: rgba(149, 165, 166, 0.08); 
-}
-
-.cirugia-item.status-programada .detail-item:hover {
-  background: rgba(149, 165, 166, 0.15);
+  background: rgba(149, 165, 166, 0.15); 
 }
 
 .cirugia-item.status-programada .detail-icon-wrapper {
@@ -446,13 +441,7 @@ ion-badge.badge-finalizada {
   line-height: 1.4;
 }
 
-/* Modo oscuro */
 :host-context(body.dark) {
-  :host {
-    --purple-primary: #bb7dd8;
-    --gray-inactive: #bdc3c7;
-  }
-  
   .cirugia-item {
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
   }
@@ -464,18 +453,10 @@ ion-badge.badge-finalizada {
   }
   
   .cirugia-item.status-programada .detail-item {
-    background: rgba(189, 195, 199, 0.08);
-  }
-  
-  .cirugia-item.status-programada .detail-item:hover {
     background: rgba(189, 195, 199, 0.15);
   }
-  
+   
   .cirugia-item.status-finalizada .detail-item {
-    background: rgba(187, 125, 216, 0.05);
-  }
-  
-  .cirugia-item.status-finalizada .detail-item:hover {
     background: rgba(187, 125, 216, 0.08);
   }
   

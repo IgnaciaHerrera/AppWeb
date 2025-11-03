@@ -341,28 +341,15 @@ ion-badge.badge-severo {
 
 /* Fondo segun severidad */
 .alergia-item.grade-leve .detail-item {
-  background: rgba(32, 201, 151, 0.08);
+  background: rgba(32, 201, 151, 0.09);
 }
 
 .alergia-item.grade-moderado .detail-item {
-  background: rgba(253, 126, 20, 0.08);
+  background: rgba(253, 126, 20, 0.09);
 }
 
 .alergia-item.grade-severo .detail-item {
-  background: rgba(250, 82, 82, 0.08);
-}
-
-/* Hover segun severidad */
-.alergia-item.grade-leve .detail-item:hover {
-  background: rgba(32, 201, 151, 0.12);
-}
-
-.alergia-item.grade-moderado .detail-item:hover {
-  background: rgba(253, 126, 20, 0.12);
-}
-
-.alergia-item.grade-severo .detail-item:hover {
-  background: rgba(250, 82, 82, 0.12);
+  background: rgba(250, 82, 82, 0.09);
 }
 
 /* Iconos */

@@ -11,16 +11,16 @@ export class ThemeService {
   }
 
   private initializeTheme() {
-
     const savedTheme = localStorage.getItem('darkMode');
     
     if (savedTheme !== null) {
-
+      
       this.darkMode = savedTheme === 'true';
     } else {
- 
+      
       const prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
       this.darkMode = prefersDark.matches;
+            
       localStorage.setItem('darkMode', this.darkMode.toString());
     }
     
@@ -33,14 +33,41 @@ export class ThemeService {
 
   toggleDarkMode(enable: boolean) {
     this.darkMode = enable;
+    
     localStorage.setItem('darkMode', enable.toString());
+    
+    
     this.applyTheme(enable);
+    
+    console.log('Tema cambiado manualmente:', enable ? 'Oscuro' : 'Claro');
   }
 
   private applyTheme(isDark: boolean) {
-    document.body.classList.toggle('dark', isDark);
-    document.documentElement.classList.toggle('dark', isDark);
+    
+    if (isDark) {
+      document.body.classList.add('dark');
+      document.body.classList.remove('light');
+      document.documentElement.classList.add('dark');
+      document.documentElement.classList.remove('light');
+    } else {
+      
+      document.body.classList.remove('dark');
+      document.body.classList.add('light');
+      document.documentElement.classList.remove('dark');
+      document.documentElement.classList.add('light');
+    }
     
     console.log('Tema aplicado:', isDark ? 'Oscuro' : 'Claro');
+    console.log('Body classes:', document.body.className);
+  }
+
+  // Método opcional: resetear a las preferencias del sistema
+  resetToSystemPreference() {
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
+    this.darkMode = prefersDark.matches;
+    localStorage.setItem('darkMode', this.darkMode.toString());
+    this.applyTheme(this.darkMode);
+    
+    console.log('Tema reseteado a preferencias del sistema');
   }
 }

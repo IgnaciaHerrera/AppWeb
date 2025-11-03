@@ -15,14 +15,23 @@ import { FichaItemComponent } from '../components/ficha-item/ficha-item.componen
   imports: [
     CommonModule, FormsModule,
     IonHeader, IonToolbar, IonTitle, IonContent,
-    IonList,FichaItemComponent
+    IonList, FichaItemComponent
   ],
 })
 export class Tab5Page implements OnInit {
+  mostrarCards = false; 
 
   constructor(private router: Router) {}
 
   ngOnInit() {}
+
+  ionViewWillEnter() {
+    this.mostrarCards = false;
+    
+    setTimeout(() => {
+      this.mostrarCards = true;
+    }, 50);
+  }
 
   goTo(path: string) {
     this.router.navigateByUrl(path);

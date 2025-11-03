@@ -15,13 +15,13 @@ import { ThemeService } from '../services/theme.service';
 export class Tab6Page implements OnInit {
 
   darkMode: boolean = false;
+  isPrivacyModalOpen: boolean = false;
   
   paciente = {
     nombre: 'María Elena Rodríguez',
     rut: '12.345.678-9',
     email: 'maria.rodriguez@gmail.com',
-    telefono: '+56 9 8765 4321',
-    ultimoAcceso: '07/09/2025 14:35'
+    telefono: '+56 9 8765 4321'
   };
 
   constructor(
@@ -37,23 +37,19 @@ export class Tab6Page implements OnInit {
     this.themeService.toggleDarkMode(this.darkMode);
   }
 
-  cambiarPassword() {
-    alert('Aun no existe esta función :v');
+  verPoliticasPrivacidad() {
+    this.isPrivacyModalOpen = true;
+  }
+
+  cerrarModal() {
+    this.isPrivacyModalOpen = false;
+  }
+
+  editarFoto() {
+    alert('Función para cambiar foto de perfil - próximamente');
   }
 
   logout() {
     this.router.navigateByUrl('/login', { replaceUrl: true });
-  }
-
-  cambiarIdioma(): void {
-    alert('Función para cambiar idioma - próximamente');
-  }
-
-  verPoliticasPrivacidad(): void {
-    alert('Función para ver políticas de privacidad - próximamente');
-  }
-
-  editarFoto(): void {
-    alert('Función para cambiar foto de perfil - próximamente');
   }
 }

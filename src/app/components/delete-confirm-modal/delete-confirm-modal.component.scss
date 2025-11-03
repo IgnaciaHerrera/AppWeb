@@ -1,4 +1,3 @@
-/* Modal de confirmación de eliminacion */
 .delete-modal {
   --height: auto;
   --border-radius: 16px;
@@ -47,11 +46,6 @@
   color: var(--ion-text-color);
   margin: 0 0 8px 0;
   line-height: 1.5;
-  
-  strong {
-    color: #000000;
-    font-weight: 600;
-  }
 }
 
 .delete-warning {
@@ -74,20 +68,36 @@
 }
 
 .btn-cancelar-delete {
-  --border-color: var(--ion-color-medium);
-  --color: var(--ion-text-color);
+  --background: #6c757d; 
+  --color: #ffffff; 
+  --border-radius: 8px;
+  --box-shadow: none; 
+  --border-width: 0; 
   
   &:hover {
-    --background: rgba(0, 0, 0, 0.04);
+    --background: #5a6268; 
+  }
+  
+  &:active {
+    --background: #545b62;
+  }
+  
+  &:focus {
+    --box-shadow: none !important; 
   }
 }
 
 .btn-eliminar-confirm {
   --background: #e74c3c;
   --color: white;
+  --border-radius: 8px;
   
   &:hover {
     --background: #c0392b;
+  }
+  
+  &:active {
+    --background: #a93226;
   }
 }
 
@@ -106,13 +116,46 @@
 }
 
 :host-context(body.dark) {
+  .delete-modal-content {
+    background: #2a2a2a !important;
+  }
+
+  .delete-modal-content h2 {
+    color: #ffffff !important;
+  }
+
+  .delete-message {
+    color: #ffffff !important;
+  }
+
+  .delete-warning {
+    color: rgba(255, 255, 255, 0.6) !important;
+  }
+
   .btn-cancelar-delete {
+    --background: #6c757d !important; 
+    --color: #ffffff !important; 
+    
     &:hover {
-      --background: rgba(255, 255, 255, 0.06);
+      --background: #5a6268 !important;
+    }
+    
+    &:active {
+      --background: #545b62 !important;
     }
   }
   
-  .delete-message strong {
-    color: #ffffff;
+  .btn-eliminar-confirm {
+    --background: #e74c3c !important;
+    --color: #ffffff !important;
+    
+    &:hover {
+      --background: #c0392b !important;
+    }
+    
+    &:active {
+      --background: #a93226 !important;
+    }
   }
 }
+

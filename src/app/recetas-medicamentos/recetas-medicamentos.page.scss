@@ -373,7 +373,7 @@ ion-badge.badge-finalizado {
   display: flex;
   align-items: center;
   padding: 12px;
-  background: rgba(245, 159, 0, 0.03);
+  background: rgba(245, 159, 0, 0.05);
   border-radius: 8px;
   gap: 12px;
   transition: all 0.2s ease;
@@ -412,11 +412,7 @@ ion-badge.badge-finalizado {
 }
 
 .medicamento-item.status-cronico .detail-item {
-  background: rgba(32, 201, 151, 0.05); 
-}
-
-.medicamento-item.status-cronico .detail-item:hover {
-  background: rgba(32, 201, 151, 0.1);
+  background: rgba(32, 201, 151, 0.1); 
 }
 
 .medicamento-item.status-cronico .tipo-icon {
@@ -424,7 +420,7 @@ ion-badge.badge-finalizado {
 }
 
 .medicamento-item.status-finalizado .detail-item {
-  background: rgba(108, 117, 125, 0.08); 
+  background: rgba(108, 117, 125, 0.09); 
 }
 
 .medicamento-item.status-finalizado .detail-item:hover {

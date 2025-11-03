@@ -348,14 +348,10 @@ ion-badge.badge-finalizada {
   display: flex;
   align-items: center;
   padding: 12px;
-  background: rgba(32, 201, 151, 0.03);
+  background: rgba(32, 201, 151, 0.06);
   border-radius: 8px;
   gap: 12px;
   transition: all 0.2s ease;
-}
-
-.detail-item:hover {
-  background: rgba(32, 201, 151, 0.06);
 }
 
 .detail-icon-wrapper {
@@ -382,11 +378,7 @@ ion-badge.badge-finalizada {
 }
 
 .consulta-item.status-programada .detail-item {
-  background: rgba(149, 165, 166, 0.08); 
-}
-
-.consulta-item.status-programada .detail-item:hover {
-  background: rgba(149, 165, 166, 0.15);
+  background: rgba(149, 165, 166, 0.1); 
 }
 
 .consulta-item.status-programada .detail-icon-wrapper {

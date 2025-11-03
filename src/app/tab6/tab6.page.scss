@@ -155,8 +155,8 @@
 .config-content {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   width: 100%;
-  gap: 12px;
 }
 
 .action-content {
@@ -182,22 +182,6 @@
   color: var(--primary-color);
 }
 
-.item-icon.warning {
-  background: rgba(245, 158, 11, 0.1);
-}
-
-.item-icon.warning ion-icon {
-  color: var(--warning-color);
-}
-
-.item-icon.info {
-  background: rgba(59, 130, 246, 0.1);
-}
-
-.item-icon.info ion-icon {
-  color: var(--info-color);
-}
-
 .config-icon {
   width: 36px;
   height: 36px;
@@ -212,22 +196,6 @@
 .config-icon ion-icon {
   font-size: 1.1rem;
   color: var(--primary-color);
-}
-
-.config-icon.warning {
-  background: rgba(245, 158, 11, 0.1);
-}
-
-.config-icon.warning ion-icon {
-  color: var(--warning-color);
-}
-
-.config-icon.info {
-  background: rgba(59, 130, 246, 0.1);
-}
-
-.config-icon.info ion-icon {
-  color: var(--info-color);
 }
 
 .action-icon {
@@ -262,9 +230,24 @@
   color: var(--info-color);
 }
 
+.action-icon.success {
+  background: rgba(16, 185, 129, 0.1);
+}
+
+.action-icon.success ion-icon {
+  color: var(--success-color);
+}
+
 .item-details {
   flex: 1;
   min-width: 0;
+}
+
+.config-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 1;
 }
 
 .config-details {
@@ -320,14 +303,7 @@
   color: var(--gray-medium);
   font-size: 1rem;
   margin-left: auto;
-}
-
-// Configuración específica
-.config-info {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  flex: 1;
+  flex-shrink: 0;
 }
 
 ion-toggle {
@@ -336,13 +312,86 @@ ion-toggle {
   --background: #e5e7eb;
   --background-checked: var(--primary-color);
   --handle-box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  margin-left: auto !important;
+  margin: 0 !important;
+  flex-shrink: 0;
+}
+
+// Banner de privacidad
+.privacy-banner {
+  margin: 8px 16px 24px;
+  padding: 16px;
+  background: linear-gradient(135deg, rgba(28, 105, 127, 0.1), rgba(16, 185, 129, 0.1));
+  border-radius: 12px;
+  border: 1px solid rgba(28, 105, 127, 0.2);
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.privacy-icon {
+  font-size: 2rem;
+  color: var(--primary-color);
+  flex-shrink: 0;
+}
+
+.privacy-text {
+  flex: 1;
+}
+
+.privacy-title {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--ion-text-color);
+  margin: 0 0 4px 0;
+}
+
+.privacy-description {
+  font-size: 0.8rem;
+  color: var(--gray-medium);
+  margin: 0;
+  line-height: 1.4;
+}
+
+// Banner de privacidad
+.privacy-banner {
+  margin: 8px 16px 24px;
+  padding: 16px;
+  background: linear-gradient(135deg, rgba(28, 105, 127, 0.1), rgba(16, 185, 129, 0.1));
+  border-radius: 12px;
+  border: 1px solid rgba(28, 105, 127, 0.2);
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.privacy-icon {
+  font-size: 2rem;
+  color: var(--primary-color);
+  flex-shrink: 0;
+}
+
+.privacy-text {
+  flex: 1;
+}
+
+.privacy-title {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--ion-text-color);
+  margin: 0 0 4px 0;
+}
+
+.privacy-description {
+  font-size: 0.8rem;
+  color: var(--gray-medium);
+  margin: 0;
+  line-height: 1.4;
 }
 
 // Sección de acciones
 .actions-section {
   padding: 16px;
-  margin-top: 24px;
+  margin-top: 8px;
 }
 
 .logout-btn {
@@ -384,16 +433,66 @@ body.dark .config-icon,
 body.dark .action-icon {
   background: var(--gray-light);
 }
-body.dark .item-icon.warning,
-body.dark .config-icon.warning,
 body.dark .action-icon.warning {
   background: rgba(245, 158, 11, 0.2);
 }
-body.dark .item-icon.info,
-body.dark .config-icon.info,
 body.dark .action-icon.info {
   background: rgba(59, 130, 246, 0.2);
 }
+body.dark .action-icon.success {
+  background: rgba(16, 185, 129, 0.2);
+}
 body.dark ion-toggle {
   --background: #3a3a3c;
+}
+body.dark .privacy-banner {
+  background: linear-gradient(135deg, rgba(28, 105, 127, 0.2), rgba(16, 185, 129, 0.2));
+  border-color: rgba(28, 105, 127, 0.3);
+}
+
+// Estilos del Modal de Privacidad
+.privacy-content {
+  text-align: center;
+  max-width: 400px;
+  margin: 0 auto;
+  padding-top: 40px;
+
+  .privacy-icon-header {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 24px;
+
+    ion-icon {
+      font-size: 4rem;
+      color: var(--primary-color);
+    }
+  }
+
+  h2 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--ion-text-color);
+    margin: 0 0 20px 0;
+  }
+
+  .privacy-message {
+    font-size: 1rem;
+    line-height: 1.7;
+    color: var(--gray-medium);
+    margin: 0 0 60px 0;
+    padding: 0 20px;
+  }
+
+  .last-update {
+    text-align: center;
+    font-size: 0.75rem;
+    color: var(--gray-medium);
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+  }
+}
+
+body.dark .privacy-content .last-update {
+  border-top-color: rgba(255, 255, 255, 0.1);
 }

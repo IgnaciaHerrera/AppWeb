@@ -23,7 +23,7 @@
       <ion-avatar class="profile-avatar">
         <img src="assets/img/avatar.png" alt="Foto de perfil" />
       </ion-avatar>
-      <ion-button fill="clear" size="small" class="edit-photo-btn" aria-label="Cambiar foto de perfil">
+      <ion-button fill="clear" size="small" class="edit-photo-btn" (click)="editarFoto()" aria-label="Cambiar foto de perfil">
         <ion-icon name="camera-outline"></ion-icon>
       </ion-button>
     </div>
@@ -67,28 +67,16 @@
             </div>
           </div>
         </ion-item>
-        
-        <ion-item class="info-item">
-          <div class="item-content">
-            <div class="item-icon">
-              <ion-icon name="time-outline"></ion-icon>
-            </div>
-            <div class="item-details">
-              <p class="item-label">Último acceso</p>
-              <p class="item-value">07/09/2025 14:35</p>
-            </div>
-          </div>
-        </ion-item>
       </ion-list>
     </ion-card-content>
   </ion-card>
 
-  <!-- Preferencias y configuración -->
+  <!-- Preferencias -->
   <ion-card class="info-card">
     <ion-card-header>
       <ion-card-title>
         <ion-icon name="settings-outline"></ion-icon>
-        Configuración
+        Preferencias
       </ion-card-title>
     </ion-card-header>
     <ion-card-content>
@@ -104,59 +92,31 @@
                 <p class="config-description">Cambiar apariencia de la app</p>
               </div>
             </div>
-            <ion-toggle [(ngModel)]="darkMode" (ionChange)="onDarkModeToggle()"></ion-toggle>
-          </div>
-        </ion-item>
-        
-        <ion-item class="config-item" button (click)="cambiarIdioma()">
-          <div class="config-content">
-            <div class="config-info">
-              <div class="config-icon">
-                <ion-icon name="language-outline"></ion-icon>
-              </div>
-              <div class="config-details">
-                <p class="config-label">Idioma</p>
-                <p class="config-description">Español</p>
-              </div>
-            </div>
-            <ion-icon name="chevron-forward-outline" class="chevron-icon"></ion-icon>
+            <ion-toggle slot="end" [(ngModel)]="darkMode" (ionChange)="onDarkModeToggle()"></ion-toggle>
           </div>
         </ion-item>
       </ion-list>
     </ion-card-content>
   </ion-card>
 
-  <!-- Seguridad y privacidad -->
+  <!-- Privacidad y Seguridad -->
   <ion-card class="info-card">
     <ion-card-header>
       <ion-card-title>
-        <ion-icon name="lock-closed-outline"></ion-icon>
-        Seguridad y Privacidad
+        <ion-icon name="shield-checkmark-outline"></ion-icon>
+        Privacidad y Seguridad
       </ion-card-title>
     </ion-card-header>
     <ion-card-content>
       <ion-list lines="none">
-        <ion-item class="action-item" button (click)="cambiarPassword()">
-          <div class="action-content">
-            <div class="action-icon warning">
-              <ion-icon name="key-outline"></ion-icon>
-            </div>
-            <div class="action-details">
-              <p class="action-label">Cambiar Contraseña</p>
-              <p class="action-description">Actualizar credenciales de acceso</p>
-            </div>
-            <ion-icon name="chevron-forward-outline" class="chevron-icon"></ion-icon>
-          </div>
-        </ion-item>
-        
         <ion-item class="action-item" button (click)="verPoliticasPrivacidad()">
           <div class="action-content">
-            <div class="action-icon info">
-              <ion-icon name="document-text-outline"></ion-icon>
+            <div class="action-icon success">
+              <ion-icon name="information-circle-outline"></ion-icon>
             </div>
             <div class="action-details">
-              <p class="action-label">Políticas de Privacidad</p>
-              <p class="action-description">Ver términos y condiciones</p>
+              <p class="action-label">Acerca de</p>
+              <p class="action-description">Información de la aplicación</p>
             </div>
             <ion-icon name="chevron-forward-outline" class="chevron-icon"></ion-icon>
           </div>
@@ -173,7 +133,36 @@
     </ion-button>
     
     <div class="app-version">
-      <p>Versión 1.0.0 - Última actualización: Sep 2025</p>
+      <p>Versión 1.0.0 - Última actualización: Nov 2025</p>
     </div>
   </div>
 </ion-content>
+
+<ion-modal [isOpen]="isPrivacyModalOpen" (didDismiss)="cerrarModal()">
+  <ng-template>
+    <ion-header>
+      <ion-toolbar>
+        <ion-buttons slot="start">
+          <ion-button (click)="cerrarModal()">
+            <ion-icon name="close"></ion-icon>
+          </ion-button>
+        </ion-buttons>
+        <ion-title>Acerca de</ion-title>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content class="ion-padding">
+      <div class="privacy-content">
+        
+        <div class="privacy-icon-header">
+          <ion-icon name="lock-closed"></ion-icon>
+        </div>
+
+        <h2>Tu información está protegida</h2>
+        
+        <p class="privacy-message">Solo tú tienes acceso a tu información médica. Tus datos están almacenados de forma segura.</p>
+
+        <p class="last-update">Versión 1.0.0 • Nov 2025</p>
+      </div>
+    </ion-content>
+  </ng-template>
+</ion-modal>
