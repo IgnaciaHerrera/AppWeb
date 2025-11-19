@@ -14,6 +14,7 @@ import { ScrollToTopComponent } from '../components/scroll-to-top/scroll-to-top.
 import { CounterCardComponent } from '../components/counter-card/counter-card.component';
 import { MenuItemComponent } from '../components/menu-item/menu-item.component';
 import { DeleteConfirmModalComponent } from '../components/delete-confirm-modal/delete-confirm-modal.component';
+import { ApiService } from '../services/api.service';
 
 interface Hospitalizacion {
   id: string;
@@ -95,13 +96,60 @@ export class HospitalizacionesPage implements OnInit {
   modalEliminarAbierto = false;
   hospitalizacionAEliminar: Hospitalizacion | null = null;
 
-  constructor(private toastController: ToastController) {}
+  constructor(private toastController: ToastController, private api: ApiService) {}
 
   ngOnInit() {
-    this.inicializarDatosDePrueba();
-    this.aplicarFiltroPeriodo();
-    this.actualizarContadores();
-    this.cargarPrimerasHospitalizaciones();
+    // Intentamos cargar desde la API; si falla, usamos datos de prueba local.
+    this.cargarHospitalizacionesDesdeApi();
+  }
+
+  async cargarHospitalizacionesDesdeApi() {
+    try {
+      console.log('Cargando hospitalizaciones desde API...');
+      const response: any = await this.api.get('/hospitalizaciones');
+
+      let datos: any = null;
+      if (Array.isArray(response)) {
+        datos = response;
+      } else if (response && Array.isArray(response.data)) {
+        datos = response.data;
+      } else if (response && Array.isArray(response.body)) {
+        datos = response.body;
+      } else if (response && Array.isArray(response.items)) {
+        datos = response.items;
+      } else if (response && Array.isArray(response.hospitalizaciones)) {
+        datos = response.hospitalizaciones;
+      } else if (response && typeof response === 'object') {
+        // si viene un objeto único, encapsulamos
+        datos = [response];
+      }
+
+      if (!Array.isArray(datos) || datos.length === 0) {
+        console.warn('API devolvió datos vacíos o en formato inesperado, usando datos locales de prueba');
+        this.inicializarDatosDePrueba();
+      } else {
+        this.hospitalizaciones = datos.map((item: any, index: number) => ({
+          id: (item.idHospitalizacion || item.id || item._id) ? String(item.idHospitalizacion || item.id || item._id) : `temp_${Date.now()}_${index}`,
+          motivo: item.motivo || item.reason || item.causa || 'Sin motivo',
+          fechaIngreso: item.fechaIngreso || item.fecha_ingreso || item.dateIngreso || new Date().toISOString().split('T')[0],
+          fechaAlta: item.fechaAlta || item.fecha_alta || item.dateAlta || undefined,
+          medico: item.medico || item.doctor || item.medicoResponsable || 'N/D',
+          hospital: item.hospital || item.institucion || 'N/D',
+          expanded: false
+        } as Hospitalizacion));
+
+        this.aplicarFiltroPeriodo();
+        this.actualizarContadores();
+        this.cargarPrimerasHospitalizaciones();
+      }
+    } catch (err: any) {
+      console.error('Error cargando hospitalizaciones desde API:', err);
+      this.mostrarToast('No fue posible cargar hospitalizaciones desde el servidor, usando datos locales', 'warning');
+      this.inicializarDatosDePrueba();
+      this.aplicarFiltroPeriodo();
+      this.actualizarContadores();
+      this.cargarPrimerasHospitalizaciones();
+    }
   }
 
   // === EDITAR HOSPITALIZACIÓN ===

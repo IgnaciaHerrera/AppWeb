@@ -14,6 +14,8 @@ import { FilterBarComponent } from '../components/filter-bar/filter-bar.componen
 import { ScrollToTopComponent } from '../components/scroll-to-top/scroll-to-top.component';
 import { MenuItemComponent } from '../components/menu-item/menu-item.component';
 import { DeleteConfirmModalComponent } from '../components/delete-confirm-modal/delete-confirm-modal.component';
+import { ApiService } from '../services/api.service';
+import { environment } from 'src/environments/environment';
 
 interface Alergia {
   id: string;
@@ -87,14 +89,65 @@ export class AlergiasPage implements OnInit {
   modalEliminarAbierto = false;
   alergiaAEliminar: Alergia | null = null;
 
-  constructor(private toastController: ToastController) {}
+  constructor(private toastController: ToastController, private api: ApiService) {}
 
   ngOnInit() {
-    this.inicializarDatosDePrueba();
-    this.aplicarFiltroPeriodo();
-    this.actualizarContadores();
-    this.cargarPrimerasAlergias();
+    // Cargar desde la API; si falla, usar datos de prueba como fallback
+    this.cargarAlergias();
   }
+
+  async cargarAlergias() {
+    try {
+      console.log('Cargando alergias desde API...');
+      const response: any = await this.api.get('/alergias');
+
+      let datos: any = null;
+      if (Array.isArray(response)) {
+        datos = response;
+      } else if (response && Array.isArray(response.data)) {
+        datos = response.data;
+      } else if (response && Array.isArray(response.body)) {
+        datos = response.body;
+      } else if (response && Array.isArray(response.items)) {
+        datos = response.items;
+      } else if (response && Array.isArray(response.alergias)) {
+        datos = response.alergias;
+      } else if (response && typeof response === 'object') {
+        datos = [response];
+      }
+
+      if (!Array.isArray(datos)) {
+        console.warn('API devolvió datos en formato inesperado, usando datos locales de prueba');
+        this.inicializarDatosDePrueba();
+      } else {
+        this.alergias = datos.map((item: any, index: number) => ({
+          id: String(item.idAlergia || item.id || item._id || `temp_${Date.now()}_${index}`),
+          nombre: item.nombre || item.name || 'Sin nombre',
+          descripcion: item.descripcion || item.description || 'Sin descripción',
+          grado: (item.grado || item.grade || 'leve') as 'leve' | 'moderado' | 'severo',
+          fechaRegistro: item.fechaRegistro || item.fecha_registro || item.date || new Date().toISOString().split('T')[0],
+          expanded: false
+        } as Alergia));
+
+        this.aplicarFiltroPeriodo();
+        this.actualizarContadores();
+        this.cargarPrimerasAlergias();
+
+        if (this.alergias.length === 0) {
+          // Si la API devolvió un array vacío, respetarlo (no cargar datos de prueba)
+          console.log('API devolvió un array vacío de alergias');
+        }
+      }
+    } catch (error: any) {
+      console.error('Error al cargar alergias desde API:', error);
+      this.mostrarToast('No fue posible cargar alergias desde el servidor, usando datos locales', 'warning');
+      this.inicializarDatosDePrueba();
+      this.aplicarFiltroPeriodo();
+      this.actualizarContadores();
+      this.cargarPrimerasAlergias();
+    }
+  }
+
 
   // Editar alergia 
   editarAlergia(alergia: Alergia) {
@@ -133,12 +186,39 @@ export class AlergiasPage implements OnInit {
     if (!this.alergiaAEliminar) return;
 
     const id = this.alergiaAEliminar.id;
-    this.alergias = this.alergias.filter(a => a.id !== id);
-    
-    this.aplicarFiltroPeriodo();
-    this.cerrarModalEliminar();
-    
-    await this.mostrarToast('Alergia eliminada exitosamente', 'success');
+    try {
+      // Intentar eliminar en el servidor
+      const resultado: any = await this.api.delete(`/alergias/${id}`);
+      console.log('DELETE response:', resultado);
+      // Recargar desde la API para mantener sincronía
+      await this.cargarAlergias();
+      this.cerrarModalEliminar();
+      await this.mostrarToast('Alergia eliminada en servidor', 'success');
+    } catch (err: any) {
+      console.error('Error eliminando alergia en servidor:', err);
+      // Fallback local si falla (solo si realmente no hubo respuesta del servidor)
+      // Mostrar detalles para depuración
+      const status = err?.status ?? 'unknown';
+      const body = err?.error ?? err?.message ?? JSON.stringify(err);
+      console.error('DELETE error status:', status);
+      console.error('DELETE error body:', body);
+
+      // Fallback local
+      this.alergias = this.alergias.filter(a => a.id !== id);
+      this.aplicarFiltroPeriodo();
+      this.cerrarModalEliminar();
+      await this.mostrarToast(`Alergia eliminada localmente (server ${status}): ${typeof body === 'string' ? body : JSON.stringify(body)}`, 'warning');
+    }
+  }
+
+  /**
+   * Eliminar directamente sin abrir modal de confirmación.
+   * Se usa desde botones que deben ejecutar la acción inmediatamente.
+   */
+  async eliminarAlergiaDirecta(alergia: Alergia) {
+    this.alergiaAEliminar = alergia;
+    // llamamos al mismo flujo que ya maneja la eliminación y el fallback
+    await this.eliminarAlergia();
   }
 
   // Lazy Loading 
@@ -349,36 +429,90 @@ export class AlergiasPage implements OnInit {
       this.mostrarToast('Por favor completa todos los campos requeridos', 'warning');
       return;
     }
+    // Construir payload común
+    const payload: any = {
+      nombre: this.nuevaAlergia.nombre!.trim(),
+      descripcion: this.nuevaAlergia.descripcion!.trim(),
+      grado: this.nuevaAlergia.grado!,
+      fechaRegistro: this.nuevaAlergia.fechaRegistro!.split('T')[0]
+    };
 
-    if (this.modoEdicion && this.alergiaEditandoId) {
-      const index = this.alergias.findIndex(a => a.id === this.alergiaEditandoId);
-      if (index !== -1) {
-        this.alergias[index] = {
-          ...this.alergias[index],
-          nombre: this.nuevaAlergia.nombre!.trim(),
-          descripcion: this.nuevaAlergia.descripcion!.trim(),
-          grado: this.nuevaAlergia.grado!,
-          fechaRegistro: this.nuevaAlergia.fechaRegistro!.split('T')[0]
+    // Adjuntar ids si existen en localStorage
+    try {
+      const idFicha = await this.obtenerIdFichaMedica();
+      if (idFicha) payload.idFichaMedica = idFicha;
+    } catch (e) {
+      console.warn('No se pudo obtener idFichaMedica', e);
+    }
+
+  const idUsuario = this.obtenerIdDesdeLocalStorage('idUsuario') || this.obtenerIdDesdeLocalStorage('usuarioId') || environment.userId;
+  if (idUsuario) payload.idUsuario = idUsuario;
+
+    const idPaciente = this.obtenerIdDesdeLocalStorage('idPaciente') || this.obtenerIdDesdeLocalStorage('pacienteId');
+    if (idPaciente) payload.idPaciente = idPaciente;
+
+    try {
+      // Cuando llamamos al backend, enviamos SOLO los campos que la entidad Alergia
+      // soporta: nombre y descripcion. El resto se mantiene localmente en la UI.
+      const apiPayload: any = {
+        nombre: payload.nombre,
+        descripcion: payload.descripcion
+      };
+      console.log('POSTing to API payload:', apiPayload);
+
+      if (this.modoEdicion && this.alergiaEditandoId) {
+        // Para PUT el backend espera la entidad completa o al menos el id
+        const url = `/alergias/${this.alergiaEditandoId}`;
+        // Construir payload con idAlergia (numérico) + nombre/descripcion
+        const putPayload: any = {
+          idAlergia: parseInt(String(this.alergiaEditandoId), 10),
+          nombre: apiPayload.nombre,
+          descripcion: apiPayload.descripcion
         };
-        
+        console.log('PUTing to API payload:', putPayload);
+        await this.api.put(url, putPayload);
+        this.mostrarToast('Alergia actualizada en servidor', 'success');
+      } else {
+        // Crear nueva alergia en la API (enviar solo nombre/descripcion)
+        await this.api.post('/alergias', apiPayload);
+        this.mostrarToast('Alergia creada en servidor', 'success');
+      }
+
+      this.cerrarModal();
+      this.limpiarFormulario();
+      // Recargar desde la API para sincronizar
+      await this.cargarAlergias();
+    } catch (error: any) {
+      console.error('Error al guardar alergia en API:', error);
+      // Fallback: actualizar localmente para no romper UX
+      if (this.modoEdicion && this.alergiaEditandoId) {
+        const index = this.alergias.findIndex(a => a.id === this.alergiaEditandoId);
+        if (index !== -1) {
+          this.alergias[index] = {
+            ...this.alergias[index],
+            nombre: payload.nombre,
+            descripcion: payload.descripcion,
+            grado: payload.grado,
+            fechaRegistro: payload.fechaRegistro
+          };
+        }
         this.aplicarFiltroPeriodo();
         this.cerrarModal();
-        await this.mostrarToast('Alergia actualizada exitosamente', 'success');
+        await this.mostrarToast('Alergia actualizada localmente (servidor no disponible)', 'warning');
+      } else {
+        const nueva: Alergia = {
+          id: Date.now().toString(),
+          nombre: payload.nombre,
+          descripcion: payload.descripcion,
+          grado: payload.grado,
+          fechaRegistro: payload.fechaRegistro,
+          expanded: false
+        };
+        this.alergias.unshift(nueva);
+        this.aplicarFiltroPeriodo();
+        this.cerrarModal();
+        await this.mostrarToast('Alergia registrada localmente (servidor no disponible)', 'warning');
       }
-    } else {
-      const nueva: Alergia = {
-        id: Date.now().toString(),
-        nombre: this.nuevaAlergia.nombre!.trim(),
-        descripcion: this.nuevaAlergia.descripcion!.trim(),
-        grado: this.nuevaAlergia.grado!,
-        fechaRegistro: this.nuevaAlergia.fechaRegistro!.split('T')[0],
-        expanded: false
-      };
-
-      this.alergias.unshift(nueva);
-      this.aplicarFiltroPeriodo();
-      this.cerrarModal();
-      await this.mostrarToast('Alergia registrada exitosamente', 'success');
     }
   }
 
@@ -458,5 +592,35 @@ export class AlergiasPage implements OnInit {
       { id: '15', nombre: 'Anestesia local', descripcion: 'Lidocaína y derivados', grado: 'moderado', fechaRegistro: '2025-08-14', expanded: false },
       { id: '16', nombre: 'Soya', descripcion: 'Proteína de soya', grado: 'leve', fechaRegistro: '2025-09-08', expanded: false }
     ];
+  }
+
+  /** Intentar resolver id de ficha médica (o paciente) desde localStorage */
+  private async obtenerIdFichaMedica(): Promise<number | null> {
+    try {
+      const claves = ['idFichaMedica', 'fichaId', 'idFicha', 'idPaciente', 'pacienteId'];
+      for (const k of claves) {
+        const v = localStorage.getItem(k);
+        if (v) {
+          const n = parseInt(v, 10);
+          if (!isNaN(n) && n > 0) return n;
+        }
+      }
+      return null;
+    } catch (err) {
+      console.warn('Error leyendo idFichaMedica desde localStorage', err);
+      return null;
+    }
+  }
+
+  private obtenerIdDesdeLocalStorage(key: string): number | null {
+    try {
+      const v = localStorage.getItem(key);
+      if (!v) return null;
+      const n = parseInt(v, 10);
+      return isNaN(n) ? null : n;
+    } catch (err) {
+      console.warn(`Error leyendo ${key} desde localStorage`, err);
+      return null;
+    }
   }
 }
