@@ -1,0 +1,139 @@
+* { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
+    body { background-color: #f8f9fb; color: #333; }
+
+    header {
+      background: #1c687f;
+      color: white;
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    header .title { font-size: 1.2rem; font-weight: 600; }
+    header nav { display: flex; gap: 1.5rem; align-items: center; }
+    header nav a { color: white; text-decoration: none; font-weight: 500; }
+    header nav a:hover { text-decoration: underline; }
+
+    main { padding: 2rem; }
+
+    .card_titulo {
+      background: white;
+      padding: 1rem 1.5rem;
+      border-radius: 18px;
+      box-shadow: 0 5px 3px rgba(0,0,0,0.1);
+      
+    }
+    .card_titulo h3 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #333;
+    }
+
+    .card_titulo .subtitulo {
+    font-size: 1rem;
+    font-weight: 400;
+    color: #6c757d;
+    margin-top: 0.25rem;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.5rem;
+      margin-top: 2rem;
+      padding: 1rem 1.5rem;
+    }
+
+    .card {
+      background: white;
+      padding: 1rem 1.5rem;
+      border-radius: 18px;
+      box-shadow: 0 5px 3px rgba(0,0,0,0.1);
+    }
+    .card .subtitulo {
+    font-size: 1rem;
+    font-weight: 400;
+    color: #6c757d;
+    margin-top: 0.25rem;
+    }
+
+
+        .card-opcion {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    padding: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between; /* ✅ flecha a la derecha */
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .card-opcion:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+    }
+
+    .card-contenido {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    }
+
+    .icono {
+    background-color: #e8f0f2;
+    color: #1c687f;
+    font-size: 1.8rem;
+    border-radius: 8px;
+    padding: 0.5rem;
+    }
+
+    .texto h4 {
+    margin: 0;
+    font-size: 1.1rem;
+    font-weight: 600;
+    }
+
+    .texto p {
+    margin: 0;
+    color: #6c757d;
+    font-size: 0.9rem;
+    }
+
+    .btn-flecha {
+    border: none;
+    background: transparent;
+    border-radius: 50%;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s ease;
+    color: #6c757d;
+    }
+
+    .btn-flecha:hover {
+    background: #e8f0f2;
+    color: #1c687f;
+    }
+
+
+    .actividad-reciente {
+      background: white;
+      padding: 1rem 1.5rem;
+      border-radius: 18px;
+      box-shadow: 0 5px 3px rgba(0,0,0,0.1);
+      margin-top: 2rem;
+    }
+
+
+    .card-actividad {
+      background: #f9fafc;
+      padding: 1rem 1.5rem;
+      border-radius: 10px;  
+      box-shadow: 0 5px 3px rgba(0,0,0,0.1);
+    }
+
+
+    canvas { width: 100% !important; height: 300px !important; }
