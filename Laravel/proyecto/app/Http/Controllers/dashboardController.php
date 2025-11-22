@@ -12,7 +12,6 @@ class DashboardController extends Controller
         try {
             $apiUrl = env('SERVERLESS_API_URL');
 
-            // Si no hay URL de API configurada, devolver datos de ejemplo para desarrollo
             if (empty($apiUrl)) {
                 \Log::warning('SERVERLESS_API_URL no está configurada. Usando datos de ejemplo para el dashboard.');
 
@@ -31,17 +30,14 @@ class DashboardController extends Controller
                     ['mes' => 6, 'nombre_mes' => 'June', 'total_consultas' => 30],
                 ];
             } else {
-                // Obtener datos desde la API
                 $diagnosticosFrecuentes = $this->getApiData("{$apiUrl}/mas-diagnosticadas");
                 $consultasPorMes = $this->getApiData("{$apiUrl}/consultas-por-mes");
             }
 
-            // Ordenar las consultas por número de mes (1 = enero, 12 = diciembre)
             usort($consultasPorMes, function ($a, $b) {
                 return $a['mes'] <=> $b['mes'];
             });
 
-            // Traducción de meses al español
             $mesesEspañol = [
                 'January' => 'Enero',
                 'February' => 'Febrero',
@@ -57,13 +53,12 @@ class DashboardController extends Controller
                 'December' => 'Diciembre'
             ];
 
-            // Log para debugging
             \Log::info('Datos dashboard:', [
                 'consultasPorMes' => $consultasPorMes,
                 'diagnosticosFrecuentes' => $diagnosticosFrecuentes
             ]);
 
-            // Pasar datos a la vista
+           
             return view('dashboard', [
                 'diagnosticosFrecuentes' => $diagnosticosFrecuentes,
                 'consultasPorMes' => $consultasPorMes,
@@ -91,7 +86,6 @@ class DashboardController extends Controller
 
         $data = $response->json() ?? [];
 
-        // Log para debugging
         \Log::info("Datos de {$url}: " . json_encode($data));
 
         return $data;

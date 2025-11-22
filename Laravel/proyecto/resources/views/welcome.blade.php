@@ -1,131 +1,167 @@
-  <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Sistema de Salud - Dashboard</title>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
   <link rel="stylesheet" href="{{ asset('css/welcome.css') }}">
 </head>
 <body>
   <header>
-    <div class="title"> SISTEMA DE GESTIÓN DE FICHAS MÉDICAS</div>
-    <nav>
-      <a href=''>Inicio</a>
-      <a href="/dashboard">Dashboard</a>
-      <a href="#">Reportes</a>
-      <a href="#">Fichas Médicas</a>
-      <a href="#">Dr. Carlos Mendoza</a>
-    </nav>
+    <div class="header-content">
+      <div class="title">SISTEMA DE GESTIÓN DE FICHAS MÉDICAS</div>
+      <nav>
+        <a href='' class="nav-link active">Inicio</a>
+        <a href="/dashboard" class="nav-link">Dashboard</a>
+        <a href="/reportes" class="nav-link">Reportes</a>
+        <a href="/fichas" class="nav-link">Fichas Médicas</a>
+        <div class="user-profile">
+          <i class="bi bi-person-circle"></i>
+          <span>Dr. Carlos Mendoza</span>
+        </div>
+      </nav>
+    </div>
   </header>
-  <main>
-  <div class="card_titulo">
-    <h3>Bienvenido/a Dr. Carlos Mendoza</h3>
-    <p class="subtitulo">Hoy es lunes, 27 de octubre</p>
-  </div>
+  
+  <main class="main-container">
+    <!-- Sección de bienvenida -->
+    <section class="welcome-section">
+      <div class="welcome-card">
+        <h1>Bienvenido/a Dr. Carlos Mendoza</h1>
+        <p class="subtitle" id="current-date">Hoy es lunes, 27 de octubre</p>
+      </div>
+    </section>
+    
+    <!-- Sección de accesos rápidos -->
+    <section class="quick-access">
+      <h2>Accesos Rápidos</h2>
+      <div class="cards-grid">
+        <div class="card-option">
+          <div class="card-content">
+            <div class="icon">
+              <i class="bi bi-bar-chart"></i>
+            </div>
+            <div class="text">
+              <h3>Dashboard</h3>
+              <p>Métricas y estadísticas generales</p>
+            </div>
+          </div>
+          <a href="/dashboard" class="arrow-btn">
+            <i class="bi bi-arrow-right"></i>
+          </a>
+        </div>
+        
+        <div class="card-option">
+          <div class="card-content">
+            <div class="icon">
+              <i class="bi bi-file-earmark-bar-graph"></i>
+            </div>
+            <div class="text">
+              <h3>Reportes</h3>
+              <p>Informes detallados y exportación</p>
+            </div>
+          </div>
+          <a href="#" class="arrow-btn">
+            <i class="bi bi-arrow-right"></i>
+          </a>
+        </div>
 
-  <div class="cards">
-    <div class="card-opcion">
-      <div class="card-contenido">
-        <div class="icono">
-          <i class="bi bi-bar-chart"></i>
+        <div class="card-option">
+          <div class="card-content">
+            <div class="icon">
+              <i class="bi bi-people"></i>
+            </div>
+            <div class="text">
+              <h3>Fichas Médicas</h3>
+              <p>Gestión de pacientes</p>
+            </div>
+          </div>
+          <a href="#" class="arrow-btn">
+            <i class="bi bi-arrow-right"></i>
+          </a>
         </div>
-        <div class="texto">
-          <h4>Dashboard</h4>
-          <p>Métricas y estadísticas generales</p>
+        
+        <div class="card-option">
+          <div class="card-content">
+            <div class="icon highlight">
+              <i class="bi bi-plus-lg"></i>
+            </div>
+            <div class="text">
+              <h3>Nueva Ficha Médica</h3>
+              <p>Registrar nuevo paciente</p>
+            </div>
+          </div>
+          <a href="#" class="arrow-btn">
+            <i class="bi bi-arrow-right"></i>
+          </a>
         </div>
       </div>
-      <a href="/dashboard" class="btn-flecha">
-        <i class="bi bi-arrow-right"></i>
-      </a>
-    </div>
-    <div class="card-opcion">
-      <div class="card-contenido">
-        <div class="icono">
-          <i class="bi bi-file-earmark-bar-graph"></i>
-        </div>
-        <div class="texto">
-          <h4>Reportes</h4>
-          <p>Informes detallados y exportación</p>
-        </div>
+    </section>
+    
+    <!-- Sección de actividad reciente -->
+    <section class="recent-activity">
+      <div class="activity-header">
+        <h2>Actividad Reciente</h2>
+        <a href="#" class="view-all">Ver todo</a>
       </div>
-      <button class="btn-flecha">
-        <i class="bi bi-arrow-right"></i>
-      </button>
-    </div>
+      
+      <div class="activity-list">
+        <div class="activity-card">
+          <div class="card-content">
+            <div class="icon">
+              <i class="bi bi-person-check"></i>
+            </div>
+            <div class="text">
+              <h4>Pedro Sánchez</h4>
+              <p>Consulta Finalizada - Cardiología</p>
+              <span class="time">Hace 2 horas</span>
+            </div>
+          </div>
+        </div>
 
-    <div class="card-opcion">
-      <div class="card-contenido">
-        <div class="icono">
-          <i class="bi bi-people"></i>
+        <div class="activity-card">
+          <div class="card-content">
+            <div class="icon">
+              <i class="bi bi-person-check"></i>
+            </div>
+            <div class="text">
+              <h4>Ignacia Fernandez</h4>
+              <p>Consulta Finalizada - Pediatría</p>
+              <span class="time">Hace 4 horas</span>
+            </div>
+          </div>
         </div>
-        <div class="texto">
-          <h4>Fichas Médicas</h4>
-          <p>Gestión de pacientes</p>
+
+        <div class="activity-card">
+          <div class="card-content">
+            <div class="icon">
+              <i class="bi bi-person-check"></i>
+            </div>
+            <div class="text">
+              <h4>Jaime Gonzalez</h4>
+              <p>Consulta Finalizada - Medicina General</p>
+              <span class="time">Hace 6 horas</span>
+            </div>
+          </div>
         </div>
       </div>
-      <button class="btn-flecha">
-        <i class="bi bi-arrow-right"></i>
-      </button>
-    </div>
-    <div class="card-opcion">
-      <div class="card-contenido">
-        <div class="icono" style="background-color: #e9f7ef; color: #198754;">
-          <i class="bi bi-plus-lg"></i>
-        </div>
-        <div class="texto">
-          <h4>Nueva Ficha Médica</h4>
-          <p>Registrar nuevo paciente</p>
-        </div>
-      </div>
-      <button class="btn-flecha">
-        <i class="bi bi-arrow-right"></i>
-      </button>
-    </div>
-  </div>
+    </section>
+  </main>
 
-  <div class="actividad-reciente">
-  <h3>Actividad reciente</h3>
-  <div class="card-actividad">
-    <div class="card-contenido">
-      <div class="icono">
-        <i class="bi bi-people"></i>
-      </div>
-      <div class="texto">
-        <h4>Pedro Sánchez</h4>
-        <p>Consulta Finalizada - Cardiología</p>
-      </div>
-    </div>
-  </div>
-
-  <div class="card-actividad">
-    <div class="card-contenido">
-      <div class="icono">
-        <i class="bi bi-people"></i>
-      </div>
-      <div class="texto">
-        <h4>Ignacia Fernandez</h4>
-        <p>Consulta Finalizada - Pediatría</p>
-      </div>
-    </div>
-  </div>
-
-  <div class="card-actividad">
-    <div class="card-contenido">
-      <div class="icono">
-        <i class="bi bi-people"></i>
-      </div>
-      <div class="texto">
-        <h4>Jaime Gonzalez</h4>
-        <p>Consulta Finalizada - Medicina General</p>
-      </div>
-    </div>
-  </div>
-</div>
-
-</main>
-
+  <script>
+    // Función para actualizar la fecha actual
+    function updateCurrentDate() {
+      const options = { weekday: 'long', day: 'numeric', month: 'long' };
+      const today = new Date();
+      const formattedDate = today.toLocaleDateString('es-ES', options);
+      document.getElementById('current-date').textContent = `Hoy es ${formattedDate}`;
+    }
+    
+    // Actualizar la fecha al cargar la página
+    document.addEventListener('DOMContentLoaded', updateCurrentDate);
+  </script>
 </body>
 </html>
