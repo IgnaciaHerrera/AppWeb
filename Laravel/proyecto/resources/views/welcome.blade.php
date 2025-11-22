@@ -27,7 +27,6 @@
   </header>
   
   <main class="main-container">
-    <!-- Sección de bienvenida -->
     <section class="welcome-section">
       <div class="welcome-card">
         <h1>Bienvenido/a Dr. Carlos Mendoza</h1>
@@ -35,7 +34,6 @@
       </div>
     </section>
     
-    <!-- Sección de accesos rápidos -->
     <section class="quick-access">
       <h2>Accesos Rápidos</h2>
       <div class="cards-grid">
@@ -64,7 +62,7 @@
               <p>Informes detallados y exportación</p>
             </div>
           </div>
-          <a href="#" class="arrow-btn">
+          <a href="/reportes" class="arrow-btn">
             <i class="bi bi-arrow-right"></i>
           </a>
         </div>
@@ -79,7 +77,7 @@
               <p>Gestión de pacientes</p>
             </div>
           </div>
-          <a href="#" class="arrow-btn">
+          <a href="/fichas" class="arrow-btn">
             <i class="bi bi-arrow-right"></i>
           </a>
         </div>
@@ -101,7 +99,7 @@
       </div>
     </section>
     
-    <!-- Sección de actividad reciente -->
+
     <section class="recent-activity">
       <div class="activity-header">
         <h2>Actividad Reciente</h2>

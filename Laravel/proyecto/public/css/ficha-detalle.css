@@ -1,0 +1,811 @@
+/* FICHA DETALLE - ESTILOS */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+      --primary-color: #1c687f;
+      --primary-light: #e8f0f2;
+      --secondary-color: #198754;
+      --warning-color: #fd7e14;
+      --danger-color: #dc3545;
+      --info-color: #0d6efd;
+      --text-dark: #333;
+      --text-medium: #6c757d;
+      --text-light: #8e9a9d;
+      --white: #ffffff;
+      --background: #f8f9fb;
+      --card-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+      --hover-shadow: 0 8px 16px rgba(0, 0, 0, 0.12);
+      --border-radius: 12px;
+      --success-light: #e9f7ef;
+      --warning-light: #fff3e6;
+      --danger-light: #fde8e8;
+      --info-light: #e6f2ff;
+    }
+
+body {
+  font-family: 'Inter', sans-serif;
+  background-color: #f8f9fa;
+  color: #333;
+  line-height: 1.6;
+}
+
+.main-container {
+  max-width: 1200px;
+  margin: 20px auto;
+  padding: 20px;
+}
+
+/* Breadcrumb */
+.breadcrumb {
+  font-size: 0.875rem;
+  color: #6c757d;
+  margin-bottom: 20px;
+}
+.breadcrumb a {
+  color: #007bff;
+  text-decoration: none;
+}
+.breadcrumb a:hover {
+  text-decoration: underline;
+}
+.breadcrumb span {
+  font-weight: 600;
+}
+
+/* Header Section */
+header {
+      background: var(--primary-color);
+      color: var(--white);
+      padding: 1rem 0;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .header-content {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    header .title { 
+      font-size: 1.2rem; 
+      font-weight: 600; 
+      letter-spacing: 0.5px;
+    }
+
+    header nav { 
+      display: flex; 
+      gap: 1.5rem; 
+      align-items: center; 
+    }
+
+    .nav-link { 
+      color: var(--white); 
+      text-decoration: none; 
+      font-weight: 500;
+      padding: 0.5rem 0.75rem;
+      border-radius: 4px;
+      transition: background-color 0.2s ease;
+    }
+
+/* Patient Header */
+.patient-header {
+  background-color: var(--primary-color); /* Azul oscuro como en la imagen */
+  color: white;
+  padding: 20px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.patient-info-card {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.patient-avatar {
+  width: 60px;
+  height: 60px;
+  background-color: #fff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #285e61;
+  font-size: 1.5rem;
+}
+
+.patient-details h3 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 5px;
+}
+
+.patient-meta {
+  display: flex;
+  gap: 20px;
+  font-size: 0.875rem;
+}
+
+.meta-item {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.meta-item i {
+  font-size: 1rem;
+}
+
+/* Tabs */
+.tabs {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+  border-bottom: 1px solid #dee2e6;
+  padding-bottom: 10px;
+  overflow-x: auto;
+}
+
+.tab-button {
+  background: none;
+  border: none;
+  padding: 10px 15px;
+  cursor: pointer;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+  color: #6c757d;
+  position: relative;
+}
+
+.tab-button:hover {
+  color: #495057;
+}
+
+.tab-button.active {
+  color: #285e61;
+  border-bottom: 2px solid #285e61;
+}
+
+.tab-button.active::after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background-color: #285e61;
+}
+
+/* Tab Content */
+.tab-content {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.tab-pane {
+  display: none;
+  animation: fadeIn 0.3s ease;
+}
+
+.tab-pane.active {
+  display: block;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Consultation Card */
+.consultation-card {
+  background: white;
+  border: 1px solid #dee2e6;
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.consultation-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #eee;
+}
+
+.consultation-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 600;
+  color: #285e61;
+}
+
+.consultation-date {
+  font-size: 0.875rem;
+  color: #6c757d;
+}
+
+.consultation-body {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 15px;
+  font-size: 0.875rem;
+}
+
+.consultation-doctor,
+.consultation-diagnosis,
+.consultation-treatment,
+.consultation-next {
+  padding: 10px;
+  background: #f8f9fa;
+  border-radius: 4px;
+}
+
+.consultation-doctor strong,
+.consultation-diagnosis strong,
+.consultation-treatment strong,
+.consultation-next strong {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: 600;
+  color: #495057;
+}
+
+.consultation-next {
+  text-align: right;
+}
+
+/* Status Badge */
+.status-badge {
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  display: inline-block;
+}
+
+.status-active {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.status-warning {
+  background-color: #fff3cd;
+  color: #856404;
+}
+
+.status-inactive {
+  background-color: #f8d7da;
+  color: #721c24;
+}
+
+/* Medications */
+.medication-list {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.medication-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px;
+  background: white;
+  border: 1px solid #dee2e6;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.medication-name {
+  font-weight: 600;
+  color: #285e61;
+}
+
+.medication-dosage,
+.medication-frequency,
+.medication-duration {
+  font-size: 0.875rem;
+  color: #6c757d;
+}
+
+/* Exams */
+.exam-list {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.exam-item {
+  padding: 15px;
+  background: white;
+  border: 1px solid #dee2e6;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.exam-name {
+  font-weight: 600;
+  color: #285e61;
+}
+
+/* Hospitalizations */
+.hospitalization-list {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.hospitalization-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px;
+  background: white;
+  border: 1px solid #dee2e6;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.hospitalization-reason {
+  font-weight: 600;
+  color: #285e61;
+}
+
+/* Hospitalization Item */
+.hospitalization-item {
+  background: white;
+  border: 1px solid #dee2e6;
+  border-radius: 8px;
+  padding: 15px;
+  margin-bottom: 15px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.hospitalization-header {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  margin-bottom: 10px;
+}
+
+.hospitalization-reason,
+.hospitalization-hospital {
+  font-size: 0.875rem;
+  color: #495057;
+}
+
+.hospitalization-dates {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  margin-bottom: 10px;
+  font-size: 0.875rem;
+  color: #6c757d;
+}
+
+.hospitalization-date {
+  display: flex;
+  flex-direction: column;
+}
+
+.hospitalization-date strong {
+  font-weight: 600;
+  color: #495057;
+  margin-bottom: 2px;
+}
+
+.text-muted {
+  color: #6c757d;
+  font-style: italic;
+}
+
+/* Status Badge */
+.status-badge {
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  display: inline-block;
+}
+
+.status-active {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.status-warning {
+  background-color: #fff3cd;
+  color: #856404;
+}
+
+.status-inactive {
+  background-color: #f8d7da;
+  color: #721c24;
+}
+
+/* Surgeries */
+.surgery-list {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.surgery-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px;
+  background: white;
+  border: 1px solid #dee2e6;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.surgery-name {
+  font-weight: 600;
+  color: #285e61;
+}
+
+.surgery-date,
+.surgery-medic {
+  font-size: 0.875rem;
+  color: #6c757d;
+}
+
+/* Allergies */
+.allergy-list {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.allergy-item {
+  padding: 15px;
+  background: white;
+  border: 1px solid #dee2e6;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.allergy-name {
+  font-weight: 600;
+  color: #285e61;
+}
+
+.allergy-severity {
+  font-size: 0.875rem;
+  color: #6c757d;
+}
+
+.allergy-description {
+  font-size: 0.875rem;
+  color: #6c757d;
+  margin-top: 5px;
+}
+
+/* Prescriptions */
+.prescription-list {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.prescription-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px;
+  background: white;
+  border: 1px solid #dee2e6;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.prescription-medicamento {
+  font-weight: 600;
+  color: #285e61;
+}
+
+.prescription-dosage,
+.prescription-frecuency {
+  font-size: 0.875rem;
+  color: #6c757d;
+}
+
+/* Empty State */
+.empty-state {
+  text-align: center;
+  padding: 40px 20px;
+  color: #6c757d;
+  font-size: 0.875rem;
+}
+
+.empty-state i {
+  font-size: 2rem;
+  margin-bottom: 10px;
+  color: #adb5bd;
+}
+
+
+.btn {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.2s ease;
+}
+
+.btn-primary {
+  background-color: #285e61;
+  color: white;
+}
+
+.btn-primary:hover {
+  background-color: #214b4d;
+}
+
+.btn-success {
+  background-color: #28a745;
+  color: white;
+}
+
+.btn-success:hover {
+  background-color: #218838;
+}
+
+.btn-info {
+  background-color: #17a2b8;
+  color: white;
+}
+
+.btn-info:hover {
+  background-color: #138496;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .patient-header {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .patient-meta {
+    flex-wrap: wrap;
+  }
+
+  .consultation-body {
+    grid-template-columns: 1fr;
+  }
+
+  .tab-button {
+    padding: 8px 12px;
+    font-size: 0.8rem;
+  }
+
+  .action-buttons-footer {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .btn {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+/* Para el estado de las consultas en la imagen (Completada/Con seguimiento) */
+.consultation-status {
+  text-align: right;
+}
+
+.consultation-status .status-badge {
+  padding: 3px 6px;
+  font-size: 0.7rem;
+}
+
+/* Estilo para los encabezados de sección (como "Control Cardiológico") */
+.section-title {
+  font-weight: 600;
+  color: #285e61;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.section-title i {
+  font-size: 1.2rem;
+}
+
+/* Para los subcampos dentro de las consultas (Diagnóstico, Tratamiento, Próximo Control) */
+.field-label {
+  font-size: 0.75rem;
+  color: #6c757d;
+  font-weight: 500;
+  margin-bottom: 3px;
+}
+
+.field-value {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #333;
+}
+
+/* Para los exámenes de laboratorio (cuadros con valores) */
+.lab-exam-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.lab-exam-item {
+  background: white;
+  border: 1px solid #dee2e6;
+  border-radius: 4px;
+  padding: 10px;
+  text-align: center;
+}
+
+.lab-exam-item .value {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 5px;
+}
+
+.lab-exam-item .label {
+  font-size: 0.75rem;
+  color: #6c757d;
+}
+
+.lab-exam-item .status {
+  font-size: 0.75rem;
+  font-weight: 500;
+  margin-top: 5px;
+}
+
+.status-normal {
+  color: #28a745;
+}
+
+.status-elevado {
+  color: #dc3545;
+}
+
+.status-controlado {
+  color: #ffc107;
+}
+
+/* Para alergias con fondo coloreado */
+.allergy-item.severe {
+  background-color: #ffecec;
+  border-left: 4px solid #dc3545;
+}
+
+.allergy-item.moderate {
+  background-color: #fff8e1;
+  border-left: 4px solid #ffc107;
+}
+
+.allergy-item.mild {
+  background-color: #e3f2fd;
+  border-left: 4px solid #2196f3;
+}
+
+/* Para los botones de pestañas con íconos */
+.tab-button i {
+  font-size: 1rem;
+}
+
+/* Para el título de la sección de medicamentos activos */
+.medications-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 600;
+  color: #285e61;
+  margin-bottom: 15px;
+}
+
+.medications-title i {
+  font-size: 1.2rem;
+}
+
+/* Para el historial de medicamentos */
+.history-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 600;
+  color: #285e61;
+  margin-bottom: 15px;
+}
+
+.history-title i {
+  font-size: 1.2rem;
+}
+
+/* Para los estados de medicamentos (Activo, Temporal, Completado) */
+.medication-status {
+  padding: 3px 6px;
+  border-radius: 12px;
+  font-size: 0.7rem;
+  font-weight: 500;
+  display: inline-block;
+}
+
+.medication-status.active {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.medication-status.temporal {
+  background-color: #fff3cd;
+  color: #856404;
+}
+
+.medication-status.completed {
+  background-color: #cce5ff;
+  color: #004085;
+}
+
+/* Para los campos de inicio y duración */
+.medication-field {
+  font-size: 0.75rem;
+  color: #6c757d;
+  margin-top: 3px;
+}
+
+/* Para los exámenes de imagen (fondo morado claro) */
+.image-exam {
+  background-color: #f3e5f5;
+  border: 1px solid #e1bee7;
+  padding: 15px;
+  border-radius: 8px;
+  margin-top: 10px;
+}
+
+.image-exam .title {
+  font-weight: 600;
+  color: #7b1fa2;
+  margin-bottom: 5px;
+}
+
+.image-exam .description {
+  font-size: 0.875rem;
+  color: #424242;
+  margin-bottom: 10px;
+}
+
+.image-exam .status {
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: #28a745;
+  padding: 3px 6px;
+  border-radius: 12px;
+  background-color: #d4edda;
+}

@@ -16,3 +16,6 @@ Route::get('/reportes', function () {
 Route::get('/dashboard', [DashboardController::class, 'index']);
 
 Route::get('/fichas', [fichasController::class, 'index'])->name('fichas.index');
+Route::get('/fichas/{id}', [fichasController::class, 'show'])->name('fichas.show');
+Route::get('/fichas/{id}/edit', [fichasController::class, 'edit'])->name('fichas.edit');
+Route::delete('/fichas/{id}', [fichasController::class, 'destroy'])->name('fichas.destroy');

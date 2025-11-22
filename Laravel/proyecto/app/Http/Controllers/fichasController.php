@@ -76,6 +76,91 @@ class fichasController extends Controller
         }
     }
 
+    public function show($id)
+{
+    try {
+        $apiUrl = env('SERVERLESS_API_URL');
+
+        if (empty($apiUrl)) {
+            // ... datos de ejemplo ...
+        } else {
+            $url = "{$apiUrl}/ficha-completa/{$id}";
+            $response = Http::timeout(30)->get($url);
+
+            if ($response->failed()) {
+                throw new \Exception("Error al consultar: {$url} - Status: " . $response->status());
+            }
+
+            $data = $response->json();
+
+            $paciente = $data['paciente'] ?? [];
+            $consultas = $data['consultas'] ?? [];
+            $medicamentos = $data['medicamentos'] ?? [];
+            $hospitalizaciones = $data['hospitalizaciones'] ?? [];
+            $cirugias = $data['cirugias'] ?? [];
+            $alergias = $data['alergias'] ?? [];
+            $recetas = $data['recetas'] ?? [];
+            
+            // 🔑 Agrupar exámenes por idExamen
+            $examenesRaw = $data['examenes'] ?? [];
+            $examenes = [];
+            
+            foreach ($examenesRaw as $examen) {
+                $examId = $examen['idExamen'];
+                
+                // Si es la primera vez que vemos este examen, creamos la estructura base
+                if (!isset($examenes[$examId])) {
+                    $examenes[$examId] = [
+                        'idExamen' => $examen['idExamen'],
+                        'nombre' => $examen['nombre'],
+                        'procedimiento' => $examen['procedimiento'],
+                        'tratamiento' => $examen['tratamiento'],
+                        'detalles' => []
+                    ];
+                }
+                
+                // Añadimos el detalle del examen
+                $examenes[$examId]['detalles'][] = [
+                    'dato' => $examen['dato_nombre'],
+                    'valor' => $examen['valor'],
+                    'unidad' => $examen['unidad'],
+                    'rango_referencia' => $examen['vrReferencia']
+                ];
+            }
+            
+            // Convertimos a array indexado
+            $examenes = array_values($examenes);
+        }
+
+        return view('ficha-detalle', compact(
+            'paciente',
+            'consultas',
+            'medicamentos',
+            'examenes',
+            'hospitalizaciones',
+            'cirugias',
+            'alergias',
+            'recetas'
+        ));
+
+    } catch (\Throwable $e) {
+        \Log::error('Error en FichaMedicaController@show: ' . $e->getMessage());
+        return redirect()->route('fichas.index')->withErrors(['api_error' => $e->getMessage()]);
+    }
+}
+
+    public function edit($id)
+    {
+        // Lógica para editar una ficha
+        return response()->json(['message' => "Editando ficha del paciente ID: $id"]);
+    }
+
+    public function destroy($id)
+    {
+        // Lógica para eliminar una ficha
+        return response()->json(['message' => "Eliminando ficha del paciente ID: $id"]);
+    }
+
     private function getApiData($url)
     {
         $response = Http::timeout(30)->get($url);

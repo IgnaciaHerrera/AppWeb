@@ -57,7 +57,6 @@
               <th>Edad</th>
               <th>Tipo Sanguíneo</th>
               <th>Última Consulta</th>
-              <th>Estado</th>
               <th>Acciones</th>
             </tr>
           </thead>
@@ -78,17 +77,8 @@
                   <td>{{ $paciente['tipo_sanguineo'] }}</td>
                   <td>{{ \Carbon\Carbon::parse($paciente['ultima_consulta'])->format('d/m/Y') }}</td>
                   <td>
-                    <span class="status-badge 
-                      @if($paciente['estado'] == 'Activo') status-active
-                      @elseif($paciente['estado'] == 'Hospitalizado') status-hospitalized
-                      @else status-inactive
-                      @endif">
-                      {{ $paciente['estado'] }}
-                    </span>
-                  </td>
-                  <td>
                     <div class="action-buttons-cell">
-                     {{-- <a href="{{ route('fichas.show', $paciente['id']) }}" class="action-btn" title="Ver ficha">
+                     <a href="{{ route('fichas.show', $paciente['id']) }}" class="action-btn" title="Ver ficha">
                         <i class="bi bi-eye"></i>
                       </a>
                       <a href="{{ route('fichas.edit', $paciente['id']) }}" class="action-btn" title="Editar">
@@ -100,7 +90,7 @@
                         <button type="submit" class="action-btn" title="Eliminar" onclick="return confirm('¿Estás seguro de eliminar esta ficha?')">
                           <i class="bi bi-trash"></i>
                         </button>
-                      </form>--}}
+                      </form>
                     </div>
                   </td>
                 </tr>
