@@ -617,58 +617,56 @@
         </ion-toolbar>
       </ion-header>
       
-      <ion-content class="ion-padding">
-        <div class="modal-header-content">
-          <div class="upload-header-icon">
-            <ion-icon name="cloud-upload-outline"></ion-icon>
+      <ion-content class="ion-padding upload-modal-content">
+        <div class="upload-content-wrapper">
+          <div class="modal-header-content">
+            <div class="upload-header-icon">
+              <ion-icon name="cloud-upload-outline"></ion-icon>
+            </div>
+            <h2>Seleccione un archivo</h2>
+            <p class="subtitle">Sube tu examen médico en formato PDF</p>
           </div>
-          <h2>Seleccione un archivo</h2>
-          <p class="subtitle">Sube tu examen médico en formato PDF</p>
-        </div>
-        
-        <div class="file-upload-container">
-          <div 
-            class="file-upload-zone" 
-            [class.file-selected]="selectedFile"
-            (click)="fileInput.click()">
-            
-            <div *ngIf="!selectedFile" class="upload-state">
-              <div class="upload-icon-container">
-                <ion-icon name="document-outline" class="document-icon"></ion-icon>
-                <ion-icon name="add-circle" class="add-icon"></ion-icon>
-              </div>
-              <h3>Seleccione su archivo aquí</h3>
-              <p>haz clic para seleccionarlo</p>
-            </div>
-            
-            <div *ngIf="selectedFile" class="file-selected-state">
-              <div class="file-preview">
-                <div class="file-icon-container">
-                  <ion-icon name="document-text" class="file-icon"></ion-icon>
+          
+          <div class="file-upload-container">
+            <div 
+              class="file-upload-zone" 
+              [class.file-selected]="selectedFile"
+              (click)="fileInput.click()">
+              
+              <div *ngIf="!selectedFile" class="upload-state">
+                <div class="upload-icon-container">
+                  <ion-icon name="document-outline" class="document-icon"></ion-icon>
+                  <ion-icon name="add-circle" class="add-icon"></ion-icon>
                 </div>
-                <div class="file-info">
-                  <h4>{{ selectedFile.name }}</h4>
-                  <p class="file-size">{{ getFileSize(selectedFile.size) }}</p>
-                  <div class="file-status">
-                    <ion-icon name="checkmark-circle" class="success-icon"></ion-icon>
-                    <span>Archivo listo para subir</span>
+                <h3>Seleccione su archivo aquí</h3>
+                <p>haz clic para seleccionarlo</p>
+              </div>
+              
+              <div *ngIf="selectedFile" class="file-selected-state">
+                <div class="file-preview">
+                  <div class="file-icon-container">
+                    <ion-icon name="document-text" class="file-icon"></ion-icon>
                   </div>
+                  <div class="file-info">
+                    <h4>{{ selectedFile.name }}</h4>
+                    <p class="file-size">{{ getFileSize(selectedFile.size) }}</p>
+                  </div>
+                  <ion-button 
+                    fill="clear" 
+                    color="medium" 
+                    (click)="removeFile($event)">
+                    <ion-icon name="close-circle-outline"></ion-icon>
+                  </ion-button>
                 </div>
-                <ion-button 
-                  fill="clear" 
-                  color="medium" 
-                  (click)="removeFile($event)">
-                  <ion-icon name="close-circle-outline"></ion-icon>
-                </ion-button>
               </div>
+              
+              <input 
+                type="file" 
+                accept="application/pdf" 
+                hidden 
+                #fileInput 
+                (change)="onFileSelected($event)">
             </div>
-            
-            <input 
-              type="file" 
-              accept="application/pdf" 
-              hidden 
-              #fileInput 
-              (change)="onFileSelected($event)">
           </div>
         </div>
       </ion-content>
@@ -678,16 +676,18 @@
           <ion-button 
             fill="solid"
             color="medium"
+            [disabled]="cargandoPDF"
             (click)="cerrarModalSubir()">
             <ion-icon name="close-outline" slot="start"></ion-icon>
             Cancelar
           </ion-button>
           <ion-button 
-            [disabled]="!selectedFile" 
+            [disabled]="!selectedFile || cargandoPDF" 
             style="--background: #12b886; --color: white;"
             (click)="subirExamen()">
-            <ion-icon name="cloud-upload-outline" slot="start"></ion-icon>
-            Subir Examen
+            <ion-spinner *ngIf="cargandoPDF" name="crescent"></ion-spinner>
+            <ion-icon *ngIf="!cargandoPDF" name="cloud-upload-outline" slot="start"></ion-icon>
+            {{ cargandoPDF ? 'Procesando...' : 'Subir Examen' }}
           </ion-button>
         </div>
       </ion-toolbar>

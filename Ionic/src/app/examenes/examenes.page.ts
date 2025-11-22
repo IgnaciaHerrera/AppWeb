@@ -6,13 +6,15 @@ import {
   IonGrid, IonRow, IonCol, IonButton, IonIcon, IonList, IonItem, IonLabel, 
   IonFab, IonFabButton, IonFabList, IonModal, IonInfiniteScroll, 
   IonInfiniteScrollContent, IonInput, IonFooter, IonDatetime, IonPopover,
-  ToastController
+  ToastController, IonSpinner
 } from '@ionic/angular/standalone';
 import { FilterBarComponent } from '../components/filter-bar/filter-bar.component';
 import { ScrollToTopComponent } from '../components/scroll-to-top/scroll-to-top.component';
 import { CounterCardComponent } from '../components/counter-card/counter-card.component';
 import { MenuItemComponent } from '../components/menu-item/menu-item.component';
 import { DeleteConfirmModalComponent } from '../components/delete-confirm-modal/delete-confirm-modal.component';
+import { ExamenesPdfService } from '../services/examenes-pdf.service';
+import { ApiService } from '../services/api.service';
 
 interface ResultadoExamen {
   nombre: string;
@@ -49,7 +51,7 @@ type TipoPeriodo = 'todos' | 'ultimo-mes' | 'ultimos-3-meses' | 'ultimos-6-meses
     IonContent, IonHeader, IonTitle, IonToolbar, IonButtons, IonBackButton,
     IonGrid, IonRow, IonCol, IonButton, IonIcon, IonList, IonItem, IonLabel,
     IonFab, IonFabButton, IonFabList, IonModal, IonInfiniteScroll, 
-    IonInfiniteScrollContent, IonInput, IonFooter, IonDatetime, IonPopover,
+    IonInfiniteScrollContent, IonInput, IonFooter, IonDatetime, IonPopover, IonSpinner,
     FilterBarComponent, ScrollToTopComponent, CounterCardComponent,
     MenuItemComponent, DeleteConfirmModalComponent
   ]
@@ -97,6 +99,7 @@ export class ExamenesPage implements OnInit {
   // Modal subir archivo 
   modalSubirAbierto = false;
   selectedFile: File | null = null;
+  cargandoPDF = false;
 
   //  Modal eliminar 
   modalEliminarAbierto = false;
@@ -105,13 +108,95 @@ export class ExamenesPage implements OnInit {
   // FAB Menu 
   fabMenuActivado = false;
 
-  constructor(private toastController: ToastController) {}
+  constructor(
+    private toastController: ToastController,
+    private pdfService: ExamenesPdfService,
+    private api: ApiService
+  ) {}
 
   ngOnInit() {
-    this.inicializarDatosDePrueba();
-    this.aplicarFiltroPeriodo();
-    this.calcularContadores();
-    this.cargarPrimerosExamenes();
+    this.cargarExamenesDesdeBackend();
+  }
+
+  // CARGAR DESDE API
+  private async cargarExamenesDesdeBackend() {
+    try {
+      console.log('Cargando exámenes desde API...');
+      const response: any = await this.api.get('/examenes');
+
+      let datos: any = null;
+      if (Array.isArray(response)) {
+        datos = response;
+      } else if (response && Array.isArray(response.data)) {
+        datos = response.data;
+      } else if (response && Array.isArray(response.body)) {
+        datos = response.body;
+      } else if (response && Array.isArray(response.items)) {
+        datos = response.items;
+      } else if (response && Array.isArray(response.examenes)) {
+        datos = response.examenes;
+      } else if (response && typeof response === 'object') {
+        datos = [response];
+      }
+
+      if (!Array.isArray(datos)) {
+        console.warn('API devolvió datos en formato inesperado');
+        this.inicializarDatosDePrueba();
+      } else {
+        this.examenes = datos.map((item: any, index: number) => ({
+          id: String(item.id || item.idExamen || item._id || `temp_${Date.now()}_${index}`),
+          nombre: item.nombre || item.name || 'Sin nombre',
+          tipo: item.tipo || item.type || 'Sin tipo',
+          fecha: item.fecha || item.fecha_registro || item.date || new Date().toISOString().split('T')[0],
+          resultados: (item.resultados || item.results || []).map((r: any) => ({
+            nombre: r.nombre || r.name || '',
+            valor: r.valor || r.value || '',
+            unidad: r.unidad || r.unit || '',
+            rangoReferencia: r.rangoReferencia || r.rango_referencia || r.range || '',
+            estado: (r.estado || r.status || 'normal') as 'normal' | 'alto' | 'bajo' | 'critico'
+          })),
+          expanded: false
+        }));
+
+        this.aplicarFiltroPeriodo();
+        this.calcularContadores();
+        this.cargarPrimerosExamenes();
+
+        if (this.examenes.length === 0) {
+          console.log('API devolvió un array vacío de exámenes');
+        }
+      }
+    } catch (error: any) {
+      console.error('Error al cargar exámenes desde API:', error);
+      await this.mostrarToast('No fue posible cargar exámenes desde el servidor', 'warning');
+      this.inicializarDatosDePrueba();
+      this.aplicarFiltroPeriodo();
+      this.calcularContadores();
+      this.cargarPrimerosExamenes();
+    }
+  }
+
+  private inicializarDatosDePrueba() {
+    this.examenes = [
+      {
+        id: '1',
+        nombre: 'Hemograma',
+        tipo: 'Laboratorio',
+        fecha: '2025-11-15',
+        resultados: [
+          { nombre: 'RBC', valor: '4.5', unidad: 'M/µL', estado: 'normal' }
+        ],
+        expanded: false
+      },
+      {
+        id: '2',
+        nombre: 'Radiografía de Pecho',
+        tipo: 'Imagenología',
+        fecha: '2025-11-14',
+        resultados: [],
+        expanded: false
+      }
+    ];
   }
 
   // Gestionar resultados del examen
@@ -181,18 +266,39 @@ export class ExamenesPage implements OnInit {
     this.examenAEliminar = null;
   }
 
-  // Eliminar examen
+  // Eliminar examen 
   async eliminarExamen() {
     if (!this.examenAEliminar) return;
 
     const id = this.examenAEliminar.id;
-    this.examenes = this.examenes.filter(e => e.id !== id);
     
-    this.aplicarFiltroPeriodo();
-    this.calcularContadores();
-    this.cerrarModalEliminar();
-    
-    await this.mostrarToast('Examen eliminado exitosamente', 'success');
+    try {
+      // Intentar eliminar en el servidor
+      try {
+        const resultado: any = await this.api.delete(`/examenes/${id}`);
+        console.log('DELETE response:', resultado);
+        this.mostrarToast('Examen eliminado en servidor', 'success');
+      } catch (err: any) {
+        console.error('Error eliminando examen en servidor:', err);
+        // Fallback local si falla
+        const status = err?.status ?? 'unknown';
+        const body = err?.error ?? err?.message ?? JSON.stringify(err);
+        console.error('DELETE error status:', status);
+        console.error('DELETE error body:', body);
+
+        // Elimina localmente sin sincronizar
+        this.examenes = this.examenes.filter(e => e.id !== id);
+        this.aplicarFiltroPeriodo();
+        await this.mostrarToast(`Examen eliminado localmente (sin conexión)`, 'warning');
+      }
+
+      // Recargar desde la API para mantener sincronía
+      await this.cargarExamenesDesdeBackend();
+      this.cerrarModalEliminar();
+    } catch (error: any) {
+      console.error('Error al eliminar examen:', error);
+      await this.mostrarToast('Error al eliminar el examen', 'danger');
+    }
   }
 
   // Lazy Loading 
@@ -237,7 +343,7 @@ export class ExamenesPage implements OnInit {
 
     if (scrollTop > this.lastScrollTop) {
       if (nearBottom && !this.infiniteScroll?.disabled && this.indiceActual < this.examenesFiltrados.length) {
-        
+        // Cargar más al bajar
       }
     } else if (nearTop && this.indiceActual > this.itemsPorCarga) {
       const nuevoInicio = Math.max(0, this.indiceActual - 2 * this.itemsPorCarga);
@@ -440,6 +546,7 @@ export class ExamenesPage implements OnInit {
     return !!(this.nuevoExamen.nombre?.trim() && this.nuevoExamen.tipo?.trim() && this.nuevoExamen.fecha);
   }
 
+  // Guardar examen 
   async guardarExamen() {
     if (!this.esFormularioValido()) {
       this.mostrarToast('Por favor completa todos los campos requeridos', 'warning');
@@ -451,36 +558,72 @@ export class ExamenesPage implements OnInit {
       r.nombre.trim() !== '' || r.valor.trim() !== ''
     ) || [];
 
-    if (this.modoEdicion && this.examenEditandoId) {
-      const index = this.examenes.findIndex(e => e.id === this.examenEditandoId);
-      if (index !== -1) {
-        this.examenes[index] = {
-          ...this.examenes[index],
-          nombre: this.nuevoExamen.nombre!.trim(),
-          tipo: this.nuevoExamen.tipo!.trim(),
-          fecha: this.nuevoExamen.fecha!.split('T')[0],
-          resultados: resultadosValidos.length > 0 ? resultadosValidos : undefined
-        };
-        
-        this.aplicarFiltroPeriodo();
-        this.cerrarModalManual();
-        await this.mostrarToast('Examen actualizado exitosamente', 'success');
-      }
-    } else {
-      const nuevo: Examen = {
-        id: Date.now().toString(),
-        nombre: this.nuevoExamen.nombre!.trim(),
-        tipo: this.nuevoExamen.tipo!.trim(),
-        fecha: this.nuevoExamen.fecha!.split('T')[0],
-        resultados: resultadosValidos.length > 0 ? resultadosValidos : undefined,
-        expanded: false
-      };
+    const examenPayload = {
+      nombre: this.nuevoExamen.nombre!.trim(),
+      tipo: this.nuevoExamen.tipo!.trim(),
+      fecha: this.nuevoExamen.fecha!.split('T')[0],
+      medico: '',
+      resultados: resultadosValidos.map(r => ({
+        nombre: r.nombre,
+        valor: r.valor,
+        unidad: r.unidad,
+        rangoReferencia: r.rangoReferencia || '',
+        estado: r.estado
+      }))
+    };
 
-      this.examenes.unshift(nuevo);
-      this.aplicarFiltroPeriodo();
-      this.calcularContadores();
+    try {
+      if (this.modoEdicion && this.examenEditandoId) {
+        // EDITAR - Intentar via API primero
+        try {
+          await this.api.put(`/examenes/${this.examenEditandoId}`, examenPayload);
+          console.log('Examen actualizado vía API');
+          this.mostrarToast('Examen actualizado en servidor', 'success');
+        } catch (apiError) {
+          console.warn('Error al actualizar via API, actualizando localmente:', apiError);
+          // Fallback: actualizar localmente
+          const index = this.examenes.findIndex(e => e.id === this.examenEditandoId);
+          if (index !== -1) {
+            this.examenes[index] = {
+              ...this.examenes[index],
+              nombre: examenPayload.nombre,
+              tipo: examenPayload.tipo,
+              fecha: examenPayload.fecha,
+              resultados: examenPayload.resultados as any
+            };
+          }
+          this.aplicarFiltroPeriodo();
+          this.mostrarToast('Examen actualizado localmente (sin conexión)', 'warning');
+        }
+      } else {
+        // CREAR NUEVO - Intentar via API primero
+        try {
+          await this.api.post('/examenes', examenPayload);
+          console.log('Examen creado vía API');
+          this.mostrarToast('Examen creado en servidor', 'success');
+        } catch (apiError) {
+          console.warn('Error al crear via API, guardando localmente:', apiError);
+          // Fallback: agregar localmente con ID temporal
+          const nuevoExamen: Examen = {
+            id: `temp_${Date.now()}`,
+            nombre: examenPayload.nombre,
+            tipo: examenPayload.tipo,
+            fecha: examenPayload.fecha,
+            resultados: examenPayload.resultados as any,
+            expanded: false
+          };
+          this.examenes.push(nuevoExamen);
+          this.aplicarFiltroPeriodo();
+          this.mostrarToast('Examen creado localmente (sin conexión)', 'warning');
+        }
+      }
+
       this.cerrarModalManual();
-      await this.mostrarToast('Examen registrado exitosamente', 'success');
+      // Recargar desde la API
+      await this.cargarExamenesDesdeBackend();
+    } catch (error: any) {
+      console.error('Error al guardar examen:', error);
+      await this.mostrarToast('Error al guardar el examen', 'danger');
     }
   }
 
@@ -512,31 +655,135 @@ export class ExamenesPage implements OnInit {
     if (this.fileInput?.nativeElement) this.fileInput.nativeElement.value = '';
   }
 
-  validateFile(file: File): boolean {
-    if (file.type !== 'application/pdf') return false;
+  async validateFile(file: File): Promise<boolean> {
+    // Validar tipo de archivo
+    if (file.type !== 'application/pdf') {
+      await this.mostrarToast('Solo se permiten archivos PDF', 'danger');
+      return false;
+    }
+    
     const maxSize = 10 * 1024 * 1024;
-    return file.size <= maxSize;
+    if (file.size > maxSize) {
+      await this.mostrarToast('El archivo es muy grande. Máximo 10 MB', 'danger');
+      return false;
+    }
+    
+    return true;
   }
 
-  onFileSelected(event: Event) {
+  async onFileSelected(event: Event) {
     const input = event.target as HTMLInputElement;
     if (input.files && input.files.length > 0) {
       const file = input.files[0];
-      if (this.validateFile(file)) this.selectedFile = file;
-      else input.value = '';
+      const esValido = await this.validateFile(file);
+      
+      if (esValido) {
+        this.selectedFile = file;
+      } else {
+        this.selectedFile = null;
+        input.value = '';
+      }
     }
   }
 
+  // Subir examen PDF 
   async subirExamen() {
-    if (this.selectedFile) {
-      try {
-        console.log('Subiendo examen:', this.selectedFile.name);
-        await this.mostrarToast('Examen subido exitosamente', 'success');
-        this.cerrarModalSubir();
-      } catch (error) {
-        console.error('Error al subir examen:', error);
-        await this.mostrarToast('Error al subir el examen', 'danger');
+    if (!this.selectedFile) {
+      await this.mostrarToast('Por favor selecciona un archivo', 'warning');
+      return;
+    }
+
+    this.cargandoPDF = true;
+    try {
+      console.log('Procesando PDF:', this.selectedFile.name);
+      
+      const examenExtraido = await this.pdfService.procesarPDF(this.selectedFile);
+      
+      // VALIDACIÓN 1: Nombre válido
+      const nombreEsGenerico = !examenExtraido.nombre || 
+                               examenExtraido.nombre === 'Examen de Laboratorio' ||
+                               examenExtraido.nombre.trim() === '';
+      
+      // VALIDACIÓN 2: Resultados encontrados
+      const tieneResultados = examenExtraido.resultados && 
+                             examenExtraido.resultados.length > 0;
+      
+      // VALIDACIÓN 3: Fecha válida
+      const fechaEsValida = examenExtraido.fecha && 
+                           examenExtraido.fecha !== new Date().toISOString().split("T")[0];
+      
+      // Si falla alguna validación crítica
+      if (nombreEsGenerico && !tieneResultados) {
+        await this.mostrarToast('Este PDF no parece ser un examen médico válido. No se encontró información reconocible.', 'danger');
+        this.cargandoPDF = false;
+        return;
       }
+      
+      // Si no tiene resultados pero tiene nombre
+      if (!tieneResultados) {
+        await this.mostrarToast('No se encontraron resultados en este PDF. Verifica que sea un examen de laboratorio con valores numéricos.', 'danger');
+        this.cargandoPDF = false;
+        return;
+      }
+      
+      // Si el nombre es genérico pero tiene resultados
+      if (nombreEsGenerico && tieneResultados) {
+        await this.mostrarToast(' No se pudo identificar el nombre del examen, pero se guardarán los resultados encontrados.', 'warning');
+        // Continuar con el guardado
+      }
+
+      // Crear payload del examen
+      const examenPayload = {
+        nombre: examenExtraido.nombre,
+        tipo: examenExtraido.tipo,
+        fecha: examenExtraido.fecha,
+        medico: examenExtraido.medico,
+        resultados: examenExtraido.resultados.map(r => ({
+          nombre: r.nombre,
+          valor: r.valor,
+          unidad: r.unidad,
+          rangoReferencia: r.rangoReferencia,
+          estado: r.estado
+        }))
+      };
+
+      try {
+        // Intentar guardar via API
+        await this.api.post('/examenes', examenPayload);
+        console.log('Examen guardado vía API');
+        await this.mostrarToast('Examen registrado en servidor', 'success');
+      } catch (apiError) {
+        console.warn('Error al guardar via API, guardando localmente:', apiError);
+        // Fallback: agregar localmente
+        const nuevoExamen: Examen = {
+          id: `temp_${Date.now()}`,
+          nombre: examenPayload.nombre,
+          tipo: examenPayload.tipo,
+          fecha: examenPayload.fecha,
+          resultados: examenPayload.resultados as any,
+          expanded: false
+        };
+        this.examenes.push(nuevoExamen);
+        this.aplicarFiltroPeriodo();
+        await this.mostrarToast('Examen registrado localmente (sin conexión)', 'warning');
+      }
+
+      this.cerrarModalSubir();
+    } catch (error) {
+      console.error('Error al procesar examen:', error);
+      
+      // Mensajes de error más específicos
+      if (error instanceof Error) {
+        if (error.message.includes('Invalid PDF') || error.message.includes('invalid')) {
+          await this.mostrarToast('El archivo no es un PDF válido o está corrupto', 'danger');
+        } else {
+          await this.mostrarToast('Este PDF no tiene el formato de examen esperado. Intenta con otro archivo.', 'danger');
+        }
+      } else {
+        await this.mostrarToast('Error inesperado al procesar el PDF. Intenta con otro archivo.', 'danger');
+      }
+    } finally {
+      this.cargandoPDF = false;
     }
   }
 
@@ -585,122 +832,5 @@ export class ExamenesPage implements OnInit {
       color 
     });
     await toast.present();
-  }
-
-  inicializarDatosDePrueba() {
-    this.examenes = [
-      {
-        id: '1',
-        nombre: 'Hemograma Completo',
-        tipo: 'Laboratorio',
-        fecha: '2025-10-15',
-        resultados: [
-          { nombre: 'Hemoglobina', valor: '14.2', unidad: 'g/dL', rangoReferencia: '13.5 - 17.5', estado: 'normal' }
-        ],
-        expanded: false
-      },
-      {
-        id: '2',
-        nombre: 'Perfil Lipídico',
-        tipo: 'Laboratorio',
-        fecha: '2025-10-02',
-        resultados: [
-          { nombre: 'Colesterol Total', valor: '220', unidad: 'mg/dL', rangoReferencia: '< 200', estado: 'alto' },
-          { nombre: 'HDL', valor: '45', unidad: 'mg/dL', rangoReferencia: '> 40', estado: 'normal' },
-          { nombre: 'LDL', valor: '150', unidad: 'mg/dL', rangoReferencia: '< 130', estado: 'alto' },
-          { nombre: 'Triglicéridos', valor: '180', unidad: 'mg/dL', rangoReferencia: '< 150', estado: 'alto' }
-        ],
-        expanded: false
-      },
-      {
-        id: '3',
-        nombre: 'Radiografía de Tórax',
-        tipo: 'Imagenología',
-        fecha: '2025-09-28',
-        expanded: false
-      },
-      {
-        id: '4',
-        nombre: 'Glicemia en Ayunas',
-        tipo: 'Laboratorio',
-        fecha: '2025-09-20',
-        resultados: [
-          { nombre: 'Glucosa', valor: '105', unidad: 'mg/dL', rangoReferencia: '70 - 100', estado: 'alto' }
-        ],
-        expanded: false
-      },
-      {
-        id: '5',
-        nombre: 'Ecografía Abdominal',
-        tipo: 'Imagenología',
-        fecha: '2025-09-12',
-        expanded: false
-      },
-      {
-        id: '6',
-        nombre: 'Perfil Tiroideo',
-        tipo: 'Laboratorio',
-        fecha: '2025-08-05',
-        resultados: [
-          { nombre: 'TSH', valor: '2.5', unidad: 'mU/L', rangoReferencia: '0.4 - 4.0', estado: 'normal' },
-          { nombre: 'T4 Libre', valor: '1.2', unidad: 'ng/dL', rangoReferencia: '0.8 - 1.8', estado: 'normal' }
-        ],
-        expanded: false
-      },
-      {
-        id: '7',
-        nombre: 'Tomografía de Abdomen',
-        tipo: 'Imagenología',
-        fecha: '2025-07-22',
-        expanded: false
-      },
-      {
-        id: '8',
-        nombre: 'Orina Completa',
-        tipo: 'Laboratorio',
-        fecha: '2025-07-10',
-        resultados: [
-          { nombre: 'pH', valor: '6.0', unidad: '', rangoReferencia: '5.0 - 7.0', estado: 'normal' },
-          { nombre: 'Densidad', valor: '1.020', unidad: '', rangoReferencia: '1.010 - 1.025', estado: 'normal' }
-        ],
-        expanded: false
-      },
-      {
-        id: '9',
-        nombre: 'Resonancia Magnética de Rodilla',
-        tipo: 'Imagenología',
-        fecha: '2025-06-25',
-        expanded: false
-      },
-      {
-        id: '10',
-        nombre: 'Pruebas Hepáticas',
-        tipo: 'Laboratorio',
-        fecha: '2025-06-15',
-        resultados: [
-          { nombre: 'ALT', valor: '25', unidad: 'U/L', rangoReferencia: '7 - 56', estado: 'normal' },
-          { nombre: 'AST', valor: '22', unidad: 'U/L', rangoReferencia: '10 - 40', estado: 'normal' },
-          { nombre: 'Bilirrubina Total', valor: '0.8', unidad: 'mg/dL', rangoReferencia: '0.3 - 1.2', estado: 'normal' }
-        ],
-        expanded: false
-      },
-      {
-        id: '11',
-        nombre: 'Electrocardiograma',
-        tipo: 'Imagenología',
-        fecha: '2025-05-08',
-        expanded: false
-      },
-      {
-        id: '12',
-        nombre: 'Hemoglobina Glicosilada',
-        tipo: 'Laboratorio',
-        fecha: '2025-05-01',
-        resultados: [
-          { nombre: 'HbA1c', valor: '6.2', unidad: '%', rangoReferencia: '< 5.7', estado: 'alto' }
-        ],
-        expanded: false
-      }
-    ];
   }
 }

@@ -210,12 +210,17 @@
     
     &.selected {
       background: rgba(32, 201, 151, 0.15);
+      
+      .option-icon {
+        background: #20c997;
+        
+        ion-icon {
+          color: white !important;
+        }
+      }
     }
   }
- 
-  .period-option.selected .option-icon ion-icon {
-    color: white !important; 
-  }
+  
   .option-icon {
     background: rgba(255, 255, 255, 0.08);
   }
@@ -938,16 +943,15 @@ ion-fab-list[side="top"] {
 .field-group:nth-child(3) { animation-delay: 0.3s !important; }
 .field-group:nth-child(4) { animation-delay: 0.4s !important; }
 
-/* Modal subir archivo */
 .modal-header-content {
   text-align: center;
-  margin-bottom: 32px;
-  padding: 20px 0;
+  margin-bottom: 24px;
+  padding: 40px 0 0 0;
 }
 
 .upload-header-icon {
-  width: 64px;
-  height: 64px;
+  width: 56px;
+  height: 56px;
   background: linear-gradient(135deg, var(--primary-color), var(--green-medium));
   border-radius: 50%;
   display: flex;
@@ -957,20 +961,20 @@ ion-fab-list[side="top"] {
   box-shadow: 0 4px 16px rgba(18, 184, 134, 0.3);
   
   ion-icon {
-    font-size: 2rem;
-    color: white;
+    font-size: 1.8rem;
+    color: var(--green-dark);
   }
 }
 
 .modal-header-content h2 {
-  font-size: 1.4rem;
+  font-size: 1.3rem;
   font-weight: 700;
   color: var(--ion-text-color);
-  margin: 0 0 8px 0;
+  margin: 0 0 12px 0;
 }
 
 .subtitle {
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   color: var(--ion-color-medium);
   margin: 0;
   line-height: 1.4;
@@ -979,14 +983,14 @@ ion-fab-list[side="top"] {
 .file-upload-container {
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 20px;
 }
 
 .file-upload-zone {
-  border: 2px dashed rgba(18, 184, 134, 0.5);
+  border: 2px dashed rgba(18, 184, 134, 0.4);
   border-radius: 16px;
-  background: rgba(18, 184, 134, 0.02);
-  padding: 40px 20px;
+  background: rgba(18, 184, 134, 0.03);
+  padding: 32px 20px;
   text-align: center;
   cursor: pointer;
   transition: all 0.3s ease;
@@ -1002,11 +1006,11 @@ ion-fab-list[side="top"] {
     bottom: 0;
     background: linear-gradient(45deg, 
       transparent 25%, 
-      rgba(18, 184, 134, 0.05) 25%, 
-      rgba(18, 184, 134, 0.05) 50%, 
+      rgba(18, 184, 134, 0.03) 25%, 
+      rgba(18, 184, 134, 0.03) 50%, 
       transparent 50%, 
       transparent 75%, 
-      rgba(18, 184, 134, 0.05) 75%);
+      rgba(18, 184, 134, 0.03) 75%);
     background-size: 20px 20px;
     opacity: 0;
     transition: opacity 0.3s ease;
@@ -1014,9 +1018,9 @@ ion-fab-list[side="top"] {
   
   &:hover {
     border-color: var(--primary-color);
-    background: rgba(18, 184, 134, 0.05);
+    background: rgba(18, 184, 134, 0.06);
     transform: translateY(-2px);
-    box-shadow: 0 8px 24px rgba(18, 184, 134, 0.15);
+    box-shadow: 0 6px 20px rgba(18, 184, 134, 0.15);
     
     &::before {
       opacity: 1;
@@ -1034,7 +1038,7 @@ ion-fab-list[side="top"] {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 16px;
+  gap: 12px;
 }
 
 .upload-icon-container {
@@ -1042,31 +1046,33 @@ ion-fab-list[side="top"] {
   margin-bottom: 8px;
   
   .document-icon {
-    font-size: 3rem;
-    color: #333333 !important;
+    font-size: 3.5rem;
+    color: var(--ion-color-medium);
+    opacity: 0.7;
   }
   
   .add-icon {
     position: absolute;
-    bottom: -4px;
-    right: -4px;
-    font-size: 1.2rem;
-    color: #12b886 !important;
-    background: #ffffff !important;
+    bottom: -2px;
+    right: -2px;
+    font-size: 1.3rem;
+    color: var(--green-dark);
+    background: var(--primary-color);
     border-radius: 50%;
-    padding: 2px;
+    padding: 4px;
+    box-shadow: 0 2px 8px rgba(18, 184, 134, 0.3);
   }
 }
 
 .upload-state h3 {
-  font-size: 1.1rem;
+  font-size: 1rem;
   font-weight: 600;
   color: var(--ion-text-color);
   margin: 0;
 }
 
 .upload-state p {
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   color: var(--ion-color-medium);
   margin: 0;
 }
@@ -1078,12 +1084,13 @@ ion-fab-list[side="top"] {
 .file-preview {
   display: flex;
   align-items: center;
-  gap: 16px;
-  background: var(--ion-background-color);
-  border: 1px solid rgba(18, 184, 134, 0.3);
+  gap: 14px;
+  background: var(--ion-card-background);
+  border: 1px solid rgba(18, 184, 134, 0.2);
   border-radius: 12px;
-  padding: 20px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  padding: 16px;
+  box-shadow: 0 2px 8px rgba(18, 184, 134, 0.1);
+  position: relative;
 }
 
 .file-icon-container {
@@ -1097,14 +1104,15 @@ ion-fab-list[side="top"] {
   flex-shrink: 0;
   
   .file-icon {
-    font-size: 1.5rem;
-    color: white;
+    font-size: 1.6rem;
+    color: var(--green-dark);
   }
 }
 
 .file-info {
   flex: 1;
   text-align: left;
+  min-width: 0;
   
   h4 {
     font-size: 0.9rem;
@@ -1112,19 +1120,20 @@ ion-fab-list[side="top"] {
     color: var(--ion-text-color);
     margin: 0 0 4px 0;
     word-break: break-word;
+    line-height: 1.3;
   }
   
   .file-size {
-    font-size: 0.8rem;
+    font-size: 0.75rem;
     color: var(--ion-color-medium);
-    margin: 0 0 8px 0;
+    margin: 0 0 6px 0;
   }
 }
 
 .file-status {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 5px;
   
   .success-icon {
     font-size: 1rem;
@@ -1132,9 +1141,25 @@ ion-fab-list[side="top"] {
   }
   
   span {
-    font-size: 0.8rem;
+    font-size: 0.75rem;
     color: var(--primary-color);
     font-weight: 500;
+  }
+}
+
+.file-preview ion-button {
+  --padding-start: 8px;
+  --padding-end: 8px;
+  --padding-top: 8px;
+  --padding-bottom: 8px;
+  margin: 0;
+  flex-shrink: 0;
+  --background: rgba(18, 184, 134, 0.1);
+  border-radius: 50%;
+  
+  ion-icon {
+    font-size: 1.5rem;
+    color: var(--primary-color) !important;
   }
 }
 
@@ -1147,18 +1172,28 @@ ion-fab-list[side="top"] {
 
 .footer-buttons {
   display: flex;
-  gap: 12px;
-  padding: 16px 0;
+  gap: 10px;
+  width: 100%;
+  padding: 12px 0;
   
   ion-button {
     flex: 1;
     height: 44px;
     font-weight: 600;
+    border-radius: 10px;
     
     &:first-child {
       --background: #6c757d;
       --color: white;
-      box-shadow: 0 4px 12px rgba(108, 117, 125, 0.3);
+      box-shadow: 0 2px 8px rgba(108, 117, 125, 0.25);
+      
+      ion-icon {
+        color: white !important;
+      }
+    }
+    
+    &:last-child ion-icon[name="cloud-upload-outline"] {
+      color: white !important;
     }
   }
 }
@@ -1222,7 +1257,7 @@ ion-fab-list[side="top"] {
         background: #20c997 !important;
         
         ion-icon {
-          color: #860909 !important; 
+          color: white !important; 
         }
       }
       
@@ -1254,7 +1289,6 @@ ion-fab-list[side="top"] {
     color: #20c997 !important;
   }
 
-  /* ===== MODAL AGREGAR/EDITAR ===== */
   .modal-header {
     --background: #20c997 !important;
     
@@ -1302,7 +1336,6 @@ ion-fab-list[side="top"] {
     color: rgba(255, 255, 255, 0.6) !important;
   }
 
-  /* ===== RESULTADOS ===== */
   .btn-agregar-resultado {
     --background: #20c997 !important;
     --background-activated: #1ba87d !important;
@@ -1343,7 +1376,6 @@ ion-fab-list[side="top"] {
     }
   }
 
-  /* ===== MODAL SUBIR ARCHIVO ===== */
   .modal-header-content {
     h2 {
       color: #ffffff !important;
@@ -1364,7 +1396,7 @@ ion-fab-list[side="top"] {
   }
   
   .file-upload-zone {
-    border-color: rgba(32, 201, 151, 0.6) !important;
+    border-color: rgba(32, 201, 151, 0.5) !important;
     background: rgba(32, 201, 151, 0.05) !important;
     
     &:hover {
@@ -1374,7 +1406,7 @@ ion-fab-list[side="top"] {
     
     &.file-selected {
       border-color: #20c997 !important;
-      background: rgba(32, 201, 151, 0.05) !important;
+      background: rgba(32, 201, 151, 0.08) !important;
     }
   }
   
@@ -1390,12 +1422,12 @@ ion-fab-list[side="top"] {
   
   .upload-icon-container {
     .document-icon {
-      color: rgba(255, 255, 255, 0.8) !important;
+      color: rgba(255, 255, 255, 0.6) !important;
     }
     
     .add-icon {
-      background: #1e1e1e !important;
-      color: #20c997 !important;
+      background: #20c997 !important;
+      color: white !important;
     }
   }
   
@@ -1433,11 +1465,16 @@ ion-fab-list[side="top"] {
     }
   }
   
+  .file-preview ion-button {
+    ion-icon {
+      color: white !important;
+    }
+  }
+  
   .modal-footer {
     border-top-color: rgba(255, 255, 255, 0.1) !important;
   }
 
-  /* ===== OTROS ELEMENTOS ===== */
   .btn-cancelar {
     --background: #4a4a4a !important;
     --color: #ffffff !important;
@@ -1488,15 +1525,102 @@ ion-fab-list[side="top"] {
   .fab-option {
     --background: #20c997 !important;
   }
+  
+  .resultados-list {
+    .resultado-item {
+      background: rgba(32, 201, 151, 0.08) !important;
+      border: 2px solid rgba(32, 201, 151, 0.3) !important;
+    }
+    
+    .resultado-field {
+      ion-input {
+        background: rgba(255, 255, 255, 0.05) !important;
+        border: 1px solid rgba(32, 201, 151, 0.4) !important;
+        border-radius: 8px !important;
+        padding: 12px !important;
+        color: #ffffff !important;
+        
+        &::placeholder {
+          color: rgba(255, 255, 255, 0.5) !important;
+        }
+        
+        &:hover {
+          border-color: rgba(32, 201, 151, 0.6) !important;
+        }
+        
+        &:focus {
+          border-color: #20c997 !important;
+          box-shadow: 0 0 0 3px rgba(32, 201, 151, 0.2) !important;
+          background: rgba(255, 255, 255, 0.08) !important;
+        }
+      }
+    }
+    
+    .resultado-field .input-container {
+      background: rgba(255, 255, 255, 0.05) !important;
+      border: 1px solid rgba(32, 201, 151, 0.4) !important;
+      
+      &:hover {
+        border-color: rgba(32, 201, 151, 0.6) !important;
+      }
+      
+      &:focus-within {
+        border-color: #20c997 !important;
+        box-shadow: 0 0 0 3px rgba(32, 201, 151, 0.2) !important;
+      }
+    }
+  }
+}
+
+:host-context(body.light) {
+  .upload-header-icon ion-icon {
+    color: white !important;
+  }
+  
+  .upload-icon-container .add-icon {
+    color: white !important;
+  }
+  
+  .file-icon-container .file-icon {
+    color: white !important;
+  }
+  
+  .footer-buttons ion-button:first-child ion-icon {
+    color: white !important;
+  }
+  
+  .footer-buttons ion-button:last-child ion-icon[name="cloud-upload-outline"] {
+    color: white !important;
+  }
+  
+  .file-preview ion-button ion-icon {
+    color: white !important;
+  }
 }
 
 :host-context(body.dark) {
-  ion-content {
-    .upload-header-icon ion-icon,
-    .footer-buttons ion-button ion-icon[name="cloud-upload-outline"],
-    .file-icon {
-      color: #ffffff !important;
-    }
+  .upload-header-icon ion-icon {
+    color: white !important;
+  }
+  
+  .upload-icon-container .add-icon {
+    color: white !important;
+  }
+  
+  .file-icon-container .file-icon {
+    color: white !important;
+  }
+  
+  .footer-buttons ion-button:first-child ion-icon {
+    color: white !important;
+  }
+  
+  .footer-buttons ion-button:last-child ion-icon[name="cloud-upload-outline"] {
+    color: white !important;
+  }
+  
+  .file-preview ion-button ion-icon {
+    color: white !important;
   }
 }
 
@@ -1556,56 +1680,5 @@ ion-fab-list[side="top"] {
 :host-context(body.dark) {
   .estado-option:hover {
     --background: rgba(255, 255, 255, 0.1);
-  }
-}
-
-/* === FIX ADICIONAL: Inputs de resultados con borde verde === */
-:host-context(body.dark) {
-  
-  /* Todos los inputs dentro de la sección de resultados */
-  .resultados-list {
-    .resultado-item {
-      background: rgba(32, 201, 151, 0.08) !important;
-      border: 2px solid rgba(32, 201, 151, 0.3) !important;
-    }
-    
-    .resultado-field {
-      ion-input {
-        background: rgba(255, 255, 255, 0.05) !important;
-        border: 1px solid rgba(32, 201, 151, 0.4) !important;
-        border-radius: 8px !important;
-        padding: 12px !important;
-        color: #ffffff !important;
-        
-        &::placeholder {
-          color: rgba(255, 255, 255, 0.5) !important;
-        }
-        
-        &:hover {
-          border-color: rgba(32, 201, 151, 0.6) !important;
-        }
-        
-        &:focus {
-          border-color: #20c997 !important;
-          box-shadow: 0 0 0 3px rgba(32, 201, 151, 0.2) !important;
-          background: rgba(255, 255, 255, 0.08) !important;
-        }
-      }
-    }
-    
-    /* Input container para el selector de estado */
-    .resultado-field .input-container {
-      background: rgba(255, 255, 255, 0.05) !important;
-      border: 1px solid rgba(32, 201, 151, 0.4) !important;
-      
-      &:hover {
-        border-color: rgba(32, 201, 151, 0.6) !important;
-      }
-      
-      &:focus-within {
-        border-color: #20c997 !important;
-        box-shadow: 0 0 0 3px rgba(32, 201, 151, 0.2) !important;
-      }
-    }
   }
 }

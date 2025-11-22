@@ -1,0 +1,157 @@
+# General
+*~
+*.sw[mnpcod]
+.tmp
+*.tmp
+*.tmp.*
+UserInterfaceState.xcuserstate
+$RECYCLE.BIN/
+*.log
+log.txt
+.DS_Store
+Thumbs.db
+
+# ============================================
+# IONIC / ANGULAR
+# ============================================
+/.sourcemaps
+/.versions
+/coverage
+
+# Ionic
+/.ionic
+/www
+/platforms
+/plugins
+Ionic/node_modules/
+Ionic/dist/
+Ionic/.angular/
+Ionic/*.log
+Ionic/npm-debug.log
+Ionic/yarn-error.log
+
+# Compiled output
+/dist
+/tmp
+/out-tsc
+/bazel-out
+
+# Node
+/node_modules
+npm-debug.log
+yarn-error.log
+package-lock.json
+yarn.lock
+
+# ============================================
+# LARAVEL
+# ============================================
+Laravel/proyecto/vendor/
+Laravel/proyecto/.env
+Laravel/proyecto/.env.local
+Laravel/proyecto/.env.*.local
+Laravel/proyecto/storage/logs/*
+Laravel/proyecto/bootstrap/cache/*
+Laravel/proyecto/storage/framework/sessions/*
+Laravel/proyecto/storage/framework/views/*
+Laravel/proyecto/storage/framework/cache/*
+Laravel/proyecto/node_modules/
+Laravel/proyecto/npm-debug.log
+Laravel/proyecto/yarn-error.log
+Laravel/proyecto/.phpunit.result.cache
+Laravel/proyecto/database/database.sqlite
+Laravel/proyecto/public/storage
+Laravel/proyecto/.DS_Store
+Laravel/proyecto/composer.lock
+
+# ============================================
+# FLUTTER
+# ============================================
+Flutter/flutter_application_1/build/
+Flutter/flutter_application_1/.dart_tool/
+Flutter/flutter_application_1/.flutter-plugins
+Flutter/flutter_application_1/.flutter-plugins-dependencies
+Flutter/flutter_application_1/.packages
+Flutter/flutter_application_1/.pub-cache/
+Flutter/flutter_application_1/.pub/
+Flutter/flutter_application_1/pubspec.lock
+Flutter/flutter_application_1/coverage/
+Flutter/flutter_application_1/.idea/
+Flutter/flutter_application_1/.vscode/
+Flutter/flutter_application_1/*.iml
+Flutter/flutter_application_1/*.jks
+Flutter/flutter_application_1/*.p8
+Flutter/flutter_application_1/android/key.properties
+Flutter/flutter_application_1/ios/Runner/GeneratedPluginRegistrant.*
+Flutter/flutter_application_1/macos/Flutter/Flutter-Debug.xcconfig
+Flutter/flutter_application_1/macos/Flutter/Flutter-Release.xcconfig
+
+# ============================================
+# IDEs and Editors
+# ============================================
+.idea/
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+*.sublime-project
+*.sublime-workspace
+*.swp
+*.swo
+*.*~
+
+# Visual Studio Code
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+.history/*
+.vscode/
+
+# JetBrains
+*.iml
+*.iws
+*.ipr
+.idea/
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# OS specific
+.env.local
+.env.*.local
+.vscode-server/
+
+# Misc
+*.bak
+*.swp
+*.swo
+*~
+.cache/
+
+
+# Miscellaneous
+/.angular
+/.angular/cache
+.sass-cache/
+/.nx
+/.nx/cache
+/connect.lock
+/coverage
+/libpeerconnection.log
+testem.log
+/typings
+
+# System files
+.DS_Store
+Thumbs.db
+node_modules
