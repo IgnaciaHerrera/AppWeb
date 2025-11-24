@@ -19,7 +19,7 @@
         <a href="/fichas" class="nav-link active">Fichas Médicas</a>
         <div class="user-profile">
           <i class="bi bi-person-circle"></i>
-          <span>Dr. Carlos Mendoza</span>
+          <span>Dr. Roberto Mendoza</span>
         </div>
       </nav>
     </div>

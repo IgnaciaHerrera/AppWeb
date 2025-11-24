@@ -20,7 +20,7 @@
         <a href="/fichas" class="nav-link">Fichas Médicas</a>
         <div class="user-profile">
           <i class="bi bi-person-circle"></i>
-          <span>Dr. Carlos Mendoza</span>
+          <span>Dr. Roberto Mendoza</span>
         </div>
       </nav>
     </div>
@@ -34,47 +34,38 @@
     </section>
 
     <section class="metrics-section">
-      <div class="metrics-grid">
-        <div class="metric-card">
-          <div class="metric-icon blue">
-            <i class="bi bi-calendar-check"></i>
-          </div>
-          <div class="metric-content">
-            <h3>Consultas Hoy</h3>
-            <p class="metric-value">24</p>
-          </div>
-        </div>
-        
-        <div class="metric-card">
-          <div class="metric-icon green">
-            <i class="bi bi-people"></i>
-          </div>
-          <div class="metric-content">
-            <h3>Pacientes Activos</h3>
-            <p class="metric-value">1,247</p>
-          </div>
-        </div>
-        
-        <div class="metric-card">
-          <div class="metric-icon orange">
-            <i class="bi bi-hospital"></i>
-          </div>
-          <div class="metric-content">
-            <h3>Hospitalizaciones</h3>
-            <p class="metric-value">18</p>
-          </div>
-        </div>
-        
-        <div class="metric-card">
-          <div class="metric-icon red">
-            <i class="bi bi-scissors"></i>
-          </div>
-          <div class="metric-content">
-            <h3>Cirugías Programadas</h3>
-            <p class="metric-value">7</p>
-          </div>
-        </div>
-      </div>
+      <!-- Reemplaza el primer bloque de metric-card (Consultas Hoy) por las nuevas -->
+<div class="metrics-grid">
+  <div class="metric-card">
+    <div class="metric-icon blue">
+      <i class="bi bi-person-check"></i>
+    </div>
+    <div class="metric-content">
+      <h3>Pacientes Atendidos (30d)</h3>
+      <p class="metric-value">{{ number_format($metrics['pacientes_atendidos_30d']) }}</p>
+    </div>
+  </div>
+
+  <div class="metric-card">
+    <div class="metric-icon green">
+      <i class="bi bi-people"></i>
+    </div>
+    <div class="metric-content">
+      <h3>Pacientes Activos</h3>
+      <p class="metric-value">{{ number_format($metrics['pacientes_activos']) }}</p>
+    </div>
+  </div>
+
+  <div class="metric-card">
+    <div class="metric-icon orange">
+      <i class="bi bi-building"></i>
+    </div>
+    <div class="metric-content">
+      <h3>Hospitalizaciones Totales</h3>
+      <p class="metric-value">{{ number_format($metrics['hospitalizaciones']) }}</p>
+    </div>
+  </div>
+</div>
     </section>
 
     <section class="charts-section">
@@ -83,9 +74,6 @@
           <div class="chart-header">
             <h3>Consultas por Mes</h3>
             <div class="chart-actions">
-              <button class="action-btn">
-                <i class="bi bi-download"></i>
-              </button>
               <button class="action-btn">
                 <i class="bi bi-three-dots"></i>
               </button>
@@ -100,9 +88,6 @@
           <div class="chart-header">
             <h3>Diagnósticos Frecuentes</h3>
             <div class="chart-actions">
-              <button class="action-btn">
-                <i class="bi bi-download"></i>
-              </button>
               <button class="action-btn">
                 <i class="bi bi-three-dots"></i>
               </button>
