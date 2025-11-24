@@ -10,6 +10,7 @@
   <link rel="stylesheet" href="{{ asset('css/welcome.css') }}">
 </head>
 <body>
+
   <header>
     <div class="header-content">
       <div class="title">SISTEMA DE GESTIÓN DE FICHAS MÉDICAS</div>
@@ -19,9 +20,14 @@
         <a href="/reportes" class="nav-link">Reportes</a>
         <a href="/fichas" class="nav-link">Fichas Médicas</a>
         <div class="user-profile">
-          <i class="bi bi-person-circle"></i>
-          <span>Dr. Roberto Mendoza</span>
-        </div>
+  <i class="bi bi-person-circle"></i>
+  <form method="POST" action="{{ route('logout') }}" style="display: inline;">
+    @csrf
+    <button type="submit" class="user-name-btn">
+      Dr. Roberto Mendoza
+    </button>
+  </form>
+</div>
       </nav>
     </div>
   </header>
@@ -104,47 +110,6 @@
       <div class="activity-header">
         <h2>Actividad Reciente</h2>
         <a href="#" class="view-all">Ver todo</a>
-      </div>
-      
-      <div class="activity-list">
-        <div class="activity-card">
-          <div class="card-content">
-            <div class="icon">
-              <i class="bi bi-person-check"></i>
-            </div>
-            <div class="text">
-              <h4>Pedro Sánchez</h4>
-              <p>Consulta Finalizada - Cardiología</p>
-              <span class="time">Hace 2 horas</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="activity-card">
-          <div class="card-content">
-            <div class="icon">
-              <i class="bi bi-person-check"></i>
-            </div>
-            <div class="text">
-              <h4>Ignacia Fernandez</h4>
-              <p>Consulta Finalizada - Pediatría</p>
-              <span class="time">Hace 4 horas</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="activity-card">
-          <div class="card-content">
-            <div class="icon">
-              <i class="bi bi-person-check"></i>
-            </div>
-            <div class="text">
-              <h4>Jaime Gonzalez</h4>
-              <p>Consulta Finalizada - Medicina General</p>
-              <span class="time">Hace 6 horas</span>
-            </div>
-          </div>
-        </div>
       </div>
     </section>
   </main>
