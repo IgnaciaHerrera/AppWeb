@@ -76,7 +76,7 @@ class DashboardController extends Controller
             'metrics' => $metrics
         ]);
 
-        return view('dashboard', [
+        return view('mi-dashboard', [
             'diagnosticosFrecuentes' => $diagnosticosFrecuentes,
             'consultasPorMes' => $consultasPorMes,
             'mesesEspañol' => $mesesEspañol,
@@ -86,7 +86,7 @@ class DashboardController extends Controller
     } catch (\Throwable $e) {
         \Log::error('Error en DashboardController: ' . $e->getMessage());
 
-        return view('dashboard', [
+        return view('mi-dashboard', [
             'diagnosticosFrecuentes' => [],
             'consultasPorMes' => [],
             'mesesEspañol' => [],

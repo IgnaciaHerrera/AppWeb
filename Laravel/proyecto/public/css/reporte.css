@@ -359,6 +359,24 @@
       background: var(--primary-light);
     }
 
+    /* En tu reporte.css */
+  .download-btn {
+    background: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: background 0.2s;
+  }
+
+  .download-btn:hover {
+    background: #155a70;
+  }
     /* Responsive Design */
     @media (max-width: 1024px) {
       .content-grid {
