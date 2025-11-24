@@ -19,9 +19,14 @@
         <a href="/reportes" class="nav-link">Reportes</a>
         <a href="/fichas" class="nav-link">Fichas Médicas</a>
         <div class="user-profile">
-          <i class="bi bi-person-circle"></i>
-          <span>Dr. Roberto Mendoza</span>
-        </div>
+  <i class="bi bi-person-circle"></i>
+  <form method="POST" action="{{ route('logout') }}" style="display: inline;">
+    @csrf
+    <button type="submit" class="user-name-btn">
+      Dr. Roberto Mendoza
+    </button>
+  </form>
+</div>
       </nav>
     </div>
   </header>
