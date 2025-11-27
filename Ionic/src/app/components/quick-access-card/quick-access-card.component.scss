@@ -1,3 +1,69 @@
-ion-icon {
-  color: white;
+:host {
+  --card-padding: 14px;
+  --card-border-radius: 16px;
+}
+
+.quick-card {
+  border-radius: var(--card-border-radius);
+  overflow: hidden;
+  margin: 0;
+  border-top: 4px solid transparent;
+  
+  &.examenes {
+    box-shadow: 0 4px 16px rgba(32, 201, 151, 0.25);
+    border-top-color: #20c997;
+  }
+  
+  &.alergias {
+    box-shadow: 0 4px 16px rgba(224, 49, 49, 0.25);
+    border-top-color: #e03131;
+  }
+  
+  ion-card-content {
+    padding: var(--card-padding);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    
+    h3 {
+      font-size: 0.9rem;
+      font-weight: 600;
+      margin: 0;
+      color: var(--ion-text-color);
+    }
+    
+    p {
+      font-size: 0.75rem;
+      font-weight: 400;
+      color: var(--ion-text-color-secondary);
+      margin: 0;
+    }
+  }
+}
+
+.quick-icon {
+  width: 54px;
+  height: 54px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  flex-shrink: 0;
+  
+  ion-icon {
+    font-size: 32px;
+    color: white;
+  }
+  
+  &.examenes {
+    background: linear-gradient(135deg, #20c997, #12b886);
+  }
+  
+  &.alergias {
+    background: linear-gradient(135deg, #e03131, #c92a2a);
+  }
 }

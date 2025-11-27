@@ -6,5 +6,5 @@ export const environment = {
     examenes: '/api'
   }
   ,
-  apiGateway: 'https://05ub3vgx02.execute-api.us-east-1.amazonaws.com'
+  apiGateway: 'https://mdlwswg821.execute-api.us-east-1.amazonaws.com'
 };

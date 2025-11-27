@@ -109,7 +109,6 @@ export class ExamenesPdfService {
       console.log('Datos extraídos del PDF - Texto completo:', textoCompleto);
       console.log('Cantidad de items con posición:', itemsConPosicion.length);
       
-      // VALIDACIÓN: Verificar que hay contenido
       if (!textoCompleto || textoCompleto.trim().length < 50) {
         console.error('PDF vacío o con muy poco contenido');
         throw new Error('PDF_VACIO');
@@ -125,7 +124,6 @@ export class ExamenesPdfService {
       console.log('Examen extraído - Médico:', medico);
       console.log('Examen extraído - Resultados:', resultados);
 
-      // VALIDACIÓN: Verificar extracción mínima
       if (nombre === 'Examen de Laboratorio' && resultados.length === 0) {
         console.warn('No se pudo extraer el nombre del examen correctamente');
         console.warn('No se encontraron resultados');
@@ -156,7 +154,7 @@ export class ExamenesPdfService {
     }
   }
 
-  // Agrupar items por líneas
+
   private agruparPorLineas(items: TextoConPosicion[]): LineaAgrupada[] {
     const lineas: LineaAgrupada[] = [];
     const tolerance = 5;
@@ -187,7 +185,6 @@ export class ExamenesPdfService {
     return lineas;
   }
 
-  // Extraer nombre estructural
   private extraerNombreEstructural(items: TextoConPosicion[], textoCompleto: string): string {
     const lineas = this.agruparPorLineas(items);
     
@@ -233,7 +230,6 @@ export class ExamenesPdfService {
     return this.extraerNombreFallback(textoCompleto);
   }
 
-  // Fallback para nombre
   private extraerNombreFallback(texto: string): string {
     const patronNombre = /:\s*\d+\s+([A-ZÁÉÍÓÚÑ\s]{5,}?)\s+\d{2}\/\d{2}\/\d{4}/;
     const match = texto.match(patronNombre);
@@ -245,7 +241,6 @@ export class ExamenesPdfService {
     return "Examen de Laboratorio";
   }
 
-  // Extraer resultados estructural
   private extraerResultadosEstructural(items: TextoConPosicion[], textoCompleto: string): ResultadoExtraido[] {
     const encabezados = this.identificarEncabezados(items);
     
@@ -257,7 +252,6 @@ export class ExamenesPdfService {
     return this.emparejarResultados(nombresCol, valoresCol, unidadesCol, rangosCol);
   }
 
-  // Identificar encabezados
   private identificarEncabezados(items: TextoConPosicion[]): { [key: string]: number } {
     const encabezados: { [key: string]: number } = {};
     
@@ -282,7 +276,6 @@ export class ExamenesPdfService {
     return encabezados;
   }
 
-  // Extraer columna nombres
   private extraerColumnaNombres(items: TextoConPosicion[], textoCompleto: string): string[] {
     const lineas = this.agruparPorLineas(items);
     
@@ -322,7 +315,6 @@ export class ExamenesPdfService {
     return nombres;
   }
 
-  // Fallback nombres
   private extraerNombresFallback(textoCompleto: string): string[] {
     const nombres: string[] = [];
     const patronZona = /\d{2}\/\d{2}\/\d{4}\s+\d{2}:\d{2}\s+(.*?)\s+Tipo de Muestra/is;
@@ -342,7 +334,6 @@ export class ExamenesPdfService {
     return nombres;
   }
 
-  // Extraer valores
   private extraerColumnaValores(items: TextoConPosicion[], textoCompleto: string): string[] {
     const valores: string[] = [];
     
@@ -364,7 +355,6 @@ export class ExamenesPdfService {
     return valores;
   }
 
-  // Extraer unidades
   private extraerColumnaUnidades(items: TextoConPosicion[], textoCompleto: string): string[] {
     const unidades: string[] = [];
     
@@ -394,7 +384,6 @@ export class ExamenesPdfService {
     return unidades;
   }
 
-  // Extraer rangos
   private extraerColumnaRangos(items: TextoConPosicion[], textoCompleto: string): string[] {
     const rangos: string[] = [];
     
@@ -420,7 +409,6 @@ export class ExamenesPdfService {
     return rangos;
   }
 
-  // Emparejar resultados
   private emparejarResultados(
     nombres: string[], 
     valores: string[], 

@@ -25,7 +25,7 @@
 
     <app-counter-card
       icon="time-outline"
-      [number]="contadores.cirugiasProgramadas"
+      [number]="contadores.cirugiasProgamadas"
       label="Programadas"
       colorClass="programadas">
     </app-counter-card>
@@ -59,15 +59,15 @@
           <!-- Contenido cirugia -->
           <ion-col size="7" (click)="toggleCirugia(cirugia)">
             <ion-label>
-              <h3>{{ cirugia.nombre }}</h3>
-              <p>{{ formatFecha(cirugia.fecha) }}</p>
+              <h3>{{ cirugia.descripcion }}</h3>
+              <p>{{ formatFecha(cirugia.fechaCirugia) }}</p>
             </ion-label>
           </ion-col>
 
           <!-- Badge -->
           <ion-col size="4" class="badge-col" (click)="toggleCirugia(cirugia)">
             <ion-badge [class]="getBadgeClass(cirugia)" class="status-badge-spaced">
-              {{ cirugia.estado }}
+              {{ getStatusLabel(cirugia) }}
             </ion-badge>
           </ion-col>
 
@@ -90,7 +90,7 @@
                 </div>
                 <div class="detail-content">
                   <p class="detail-label">Fecha de Cirugía</p>
-                  <p class="detail-value">{{ formatFecha(cirugia.fecha) }}</p>
+                  <p class="detail-value">{{ formatFecha(cirugia.fechaCirugia) }}</p>
                 </div>
               </div>
 
@@ -100,7 +100,7 @@
                 </div>
                 <div class="detail-content">
                   <p class="detail-label">Cirujano</p>
-                  <p class="detail-value">{{ cirugia.medico }}</p>
+                  <p class="detail-value">{{ cirugia.cirujano }}</p>
                 </div>
               </div>
 
@@ -130,7 +130,7 @@
   <!-- Estado vacio -->
   <div *ngIf="cirugiasFiltradas.length === 0" class="empty-state">
     <ion-icon name="medical-outline" class="empty-icon"></ion-icon>
-    <h3>No hay cirugías para este período</h3>
+    <h3>No hay cirugías registadas</h3>
     <p>Prueba cambiar el filtro o añadir una nueva cirugía.</p>
   </div>
 
@@ -164,18 +164,18 @@
         <div class="form-fields">
           <!-- Formulario -->
           <div class="field-group">
-            <label class="field-label">Nombre Cirugía</label>
+            <label class="field-label">Descripción Cirugía</label>
             <div class="input-container">
               <ion-icon name="bandage-outline" class="input-icon"></ion-icon>
-              <ion-input [(ngModel)]="nuevaCirugia.nombre" placeholder="Ej. Apendicectomía"></ion-input>
+              <ion-input [(ngModel)]="nuevaCirugia.descripcion" placeholder="Ej. Apendicectomía"></ion-input>
             </div>
           </div>
 
           <div class="field-group">
-            <label class="field-label">Nombre Cirujano</label>
+            <label class="field-label">Cirujano</label>
             <div class="input-container">
               <ion-icon name="person-outline" class="input-icon"></ion-icon>
-              <ion-input [(ngModel)]="nuevaCirugia.medico" placeholder="Ej. Dr. Juan Herrera"></ion-input>
+              <ion-input [(ngModel)]="nuevaCirugia.cirujano" placeholder="Ej. Dr. Juan Herrera"></ion-input>
             </div>
           </div>
 
@@ -199,8 +199,8 @@
               <ng-template>
                 <ion-datetime
                   presentation="date"
-                  [(ngModel)]="nuevaCirugia.fecha"
-                  (ionChange)="onFechaChange($event)">
+                  [(ngModel)]="nuevaCirugia.fechaCirugia"
+                  (ionChange)="onFechaCirugiaChange($event)">
                 </ion-datetime>
               </ng-template>
             </ion-popover>
@@ -226,7 +226,7 @@
   <!-- Modal de eliminacion -->
   <app-delete-confirm-modal
     [isOpen]="modalEliminarAbierto"
-    [itemName]="cirugiaAEliminar?.nombre || ''"
+    [itemName]="cirugiaAEliminar?.descripcion || ''"
     title="Eliminar cirugía"
     message="¿Estás seguro de eliminar"
     (onCancel)="cerrarModalEliminar()"

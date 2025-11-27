@@ -11,7 +11,7 @@ export const environment = {
   }
   ,
   // URL del API Gateway (usada como fallback directo si el proxy no está aplicado)
-  apiGateway: 'https://05ub3vgx02.execute-api.us-east-1.amazonaws.com'
+  apiGateway: 'https://mdlwswg821.execute-api.us-east-1.amazonaws.com'
 };
 /*
  * For easier debugging in development mode, you can import the following file

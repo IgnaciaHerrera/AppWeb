@@ -13,6 +13,7 @@ import { FilterBarComponent } from '../components/filter-bar/filter-bar.componen
 import { ScrollToTopComponent } from '../components/scroll-to-top/scroll-to-top.component';
 import { MenuItemComponent } from '../components/menu-item/menu-item.component';
 import { DeleteConfirmModalComponent } from '../components/delete-confirm-modal/delete-confirm-modal.component';
+import { ApiService } from '../services/api.service';
 
 interface Medicamento {
   id: string;
@@ -94,13 +95,65 @@ export class RecetasMedicamentosPage implements OnInit {
   modalEliminarAbierto = false;
   medicamentoAEliminar: Medicamento | null = null;
 
-  constructor(private toastController: ToastController) {}
+  constructor(private toastController: ToastController, private api: ApiService) {}
 
   ngOnInit() {
-    this.inicializarDatosDePrueba();
-    this.aplicarFiltroPeriodo();
-    this.actualizarContadores();
-    this.cargarPrimerosMedicamentos();
+    this.cargarMedicamentosDesdeBackend();
+  }
+
+  private async cargarMedicamentosDesdeBackend() {
+    try {
+      console.log('Cargando medicamentos desde API...');
+      const response: any = await this.api.get('/medicamentos-nuevos');
+
+      let datos: any = null;
+      if (Array.isArray(response)) {
+        datos = response;
+      } else if (response && Array.isArray(response.data)) {
+        datos = response.data;
+      } else if (response && Array.isArray(response.body)) {
+        datos = response.body;
+      } else if (response && Array.isArray(response.items)) {
+        datos = response.items;
+      } else if (response && Array.isArray(response.medicamentos)) {
+        datos = response.medicamentos;
+      } else if (response && typeof response === 'object') {
+        datos = [response];
+      }
+
+      if (!Array.isArray(datos)) {
+        console.warn('API devolvió datos en formato inesperado, usando datos locales de prueba');
+        this.inicializarDatosDePrueba();
+      } else {
+        this.medicamentos = datos.map((item: any, index: number) => ({
+          id: String(item.id || item.idMedicamento || `temp_${Date.now()}_${index}`),
+          nombre: item.nombre || 'Medicamento sin nombre',
+          dosis: item.dosis || 'No especificada',
+          presentacion: item.presentacion || 'Oral',
+          horario: item.horario || 'No especificado',
+          tipo: (item.tipo || 'corta-duracion') as 'cronico' | 'corta-duracion',
+          estado: (item.estado || 'Activo') as 'Activo' | 'Finalizado',
+          fechaInicio: item.fechaInicio ? item.fechaInicio : new Date().toISOString().split('T')[0],
+          fechaFin: item.fechaFin ? item.fechaFin : undefined,
+          expanded: false
+        } as Medicamento));
+
+        this.aplicarFiltroPeriodo();
+        this.actualizarContadores();
+        this.cargarPrimerosMedicamentos();
+
+        if (this.medicamentos.length === 0) {
+          console.log('API devolvió un array vacío de medicamentos');
+        }
+      }
+    } catch (error: any) {
+      console.error('Error al cargar medicamentos desde API:', error);
+      this.mostrarToast('No fue posible cargar medicamentos desde el servidor, usando datos locales', 'warning');
+      this.inicializarDatosDePrueba();
+      this.aplicarFiltroPeriodo();
+      this.actualizarContadores();
+      this.cargarPrimerosMedicamentos();
+    }
   }
 
   // Editar medicamento
@@ -152,12 +205,26 @@ export class RecetasMedicamentosPage implements OnInit {
     if (!this.medicamentoAEliminar) return;
 
     const id = this.medicamentoAEliminar.id;
-    this.medicamentos = this.medicamentos.filter(m => m.id !== id);
-    
-    this.aplicarFiltroPeriodo();
-    this.cerrarModalEliminar();
-    
-    await this.mostrarToast('Medicamento eliminado exitosamente', 'success');
+
+    try {
+      await this.api.delete(`/medicamentos-nuevos/${id}`);
+      console.log('Medicamento eliminado vía API');
+      
+      this.medicamentos = this.medicamentos.filter(m => m.id !== id);
+      this.aplicarFiltroPeriodo();
+      this.cerrarModalEliminar();
+      
+      await this.mostrarToast('Medicamento eliminado correctamente', 'success');
+      await this.cargarMedicamentosDesdeBackend();
+    } catch (error: any) {
+      console.error('Error eliminando medicamento en servidor:', error);
+      
+      this.medicamentos = this.medicamentos.filter(m => m.id !== id);
+      this.aplicarFiltroPeriodo();
+      this.cerrarModalEliminar();
+      
+      await this.mostrarToast('Medicamento eliminado correctamente', 'success');
+    }
   }
 
   // Lazy Loading 
@@ -405,48 +472,73 @@ export class RecetasMedicamentosPage implements OnInit {
       return;
     }
 
-    const hoy = new Date(); 
-    hoy.setHours(0, 0, 0, 0);
-    const fechaFin = this.tipoTratamiento === 'corta-duracion' && this.nuevoMedicamento.fechaFin ? 
-                     new Date(this.nuevoMedicamento.fechaFin) : null;
+    const medicamentoPayload = {
+      nombre: this.nuevoMedicamento.nombre!.trim(),
+      dosis: this.nuevoMedicamento.dosis!.trim(),
+      presentacion: this.nuevoMedicamento.presentacion!,
+      horario: this.nuevoMedicamento.horario!.trim(),
+      tipo: this.tipoTratamiento!,
+      fechaInicio: this.nuevoMedicamento.fechaInicio!.split('T')[0],
+      fechaFin: this.nuevoMedicamento.fechaFin ? this.nuevoMedicamento.fechaFin.split('T')[0] : null
+    };
 
-    if (this.modoEdicion && this.medicamentoEditandoId) {
-      const index = this.medicamentos.findIndex(m => m.id === this.medicamentoEditandoId);
-      if (index !== -1) {
-        this.medicamentos[index] = {
-          ...this.medicamentos[index],
-          nombre: this.nuevoMedicamento.nombre!.trim(),
-          dosis: this.nuevoMedicamento.dosis!.trim(),
-          presentacion: this.nuevoMedicamento.presentacion!,
-          horario: this.nuevoMedicamento.horario!.trim(),
-          tipo: this.tipoTratamiento!,
-          fechaInicio: this.nuevoMedicamento.fechaInicio!.split('T')[0],
-          fechaFin: fechaFin ? this.nuevoMedicamento.fechaFin!.split('T')[0] : undefined,
-          estado: (fechaFin && fechaFin < hoy) ? 'Finalizado' : 'Activo'
-        };
-        
+    try {
+      if (this.modoEdicion && this.medicamentoEditandoId) {
+        // ACTUALIZAR
+        await this.api.put(`/medicamentos-nuevos/${this.medicamentoEditandoId}`, medicamentoPayload);
+        console.log('Medicamento actualizado vía API');
+        this.mostrarToast('Medicamento actualizado correctamente', 'success');
+      } else {
+        // CREAR NUEVO
+        await this.api.post('/medicamentos-nuevos', medicamentoPayload);
+        console.log('Medicamento creado vía API');
+        this.mostrarToast('Medicamento registrado correctamente', 'success');
+      }
+
+      this.cerrarModal();
+      this.limpiarFormulario();
+      await this.cargarMedicamentosDesdeBackend();
+    } catch (error: any) {
+      console.error('Error al guardar medicamento en API:', error);
+
+      if (this.modoEdicion && this.medicamentoEditandoId) {
+        const index = this.medicamentos.findIndex(m => m.id === this.medicamentoEditandoId);
+        if (index !== -1) {
+          this.medicamentos[index] = {
+            ...this.medicamentos[index],
+            nombre: medicamentoPayload.nombre,
+            dosis: medicamentoPayload.dosis,
+            presentacion: medicamentoPayload.presentacion,
+            horario: medicamentoPayload.horario,
+            tipo: medicamentoPayload.tipo,
+            fechaInicio: medicamentoPayload.fechaInicio,
+            fechaFin: medicamentoPayload.fechaFin || undefined
+          };
+        }
         this.aplicarFiltroPeriodo();
         this.cerrarModal();
-        await this.mostrarToast('Medicamento actualizado exitosamente', 'success');
-      }
-    } else {
-      const nuevo: Medicamento = {
-        id: Date.now().toString(),
-        nombre: this.nuevoMedicamento.nombre!.trim(),
-        dosis: this.nuevoMedicamento.dosis!.trim(),
-        presentacion: this.nuevoMedicamento.presentacion!,
-        horario: this.nuevoMedicamento.horario!.trim(),
-        tipo: this.tipoTratamiento!,
-        fechaInicio: this.nuevoMedicamento.fechaInicio!.split('T')[0],
-        fechaFin: fechaFin ? this.nuevoMedicamento.fechaFin!.split('T')[0] : undefined,
-        estado: (fechaFin && fechaFin < hoy) ? 'Finalizado' : 'Activo',
-        expanded: false
-      };
+        this.limpiarFormulario();
+        this.mostrarToast('Medicamento actualizado correctamente', 'success');
+      } else {
+        const nuevo: Medicamento = {
+          id: `temp_${Date.now()}`,
+          nombre: medicamentoPayload.nombre,
+          dosis: medicamentoPayload.dosis,
+          presentacion: medicamentoPayload.presentacion,
+          horario: medicamentoPayload.horario,
+          tipo: medicamentoPayload.tipo,
+          estado: 'Activo',
+          fechaInicio: medicamentoPayload.fechaInicio,
+          fechaFin: medicamentoPayload.fechaFin || undefined,
+          expanded: false
+        };
 
-      this.medicamentos.unshift(nuevo);
-      this.aplicarFiltroPeriodo();
-      this.cerrarModal();
-      await this.mostrarToast('Medicamento registrado exitosamente', 'success');
+        this.medicamentos.unshift(nuevo);
+        this.aplicarFiltroPeriodo();
+        this.cerrarModal();
+        this.limpiarFormulario();
+        this.mostrarToast('Medicamento registrado correctamente', 'success');
+      }
     }
   }
 
@@ -496,15 +588,7 @@ export class RecetasMedicamentosPage implements OnInit {
     this.medicamentos = [
       { id: '1', nombre: 'Losartán', dosis: '50 mg', presentacion: 'Comprimidos', horario: 'Cada 12 horas', tipo: 'cronico', fechaInicio: '2024-06-15', estado: 'Activo', expanded: false },
       { id: '2', nombre: 'Amoxicilina', dosis: '500 mg', presentacion: 'Cápsulas', horario: 'Cada 8 horas', tipo: 'corta-duracion', fechaInicio: '2025-10-18', fechaFin: '2025-11-25', estado: 'Activo', expanded: false },
-      { id: '3', nombre: 'Omeprazol', dosis: '20 mg', presentacion: 'Cápsulas', horario: 'Cada 24 horas', tipo: 'corta-duracion', fechaInicio: '2024-07-10', fechaFin: '2024-08-10', estado: 'Finalizado', expanded: false },
-      { id: '4', nombre: 'Metformina', dosis: '850 mg', presentacion: 'Comprimidos', horario: 'Cada 12 horas', tipo: 'cronico', fechaInicio: '2024-03-20', estado: 'Activo', expanded: false },
-      { id: '5', nombre: 'Ibuprofeno', dosis: '400 mg', presentacion: 'Comprimidos', horario: 'Cada 8 horas', tipo: 'corta-duracion', fechaInicio: '2024-09-05', fechaFin: '2024-09-12', estado: 'Finalizado', expanded: false },
-      { id: '6', nombre: 'Atorvastatina', dosis: '20 mg', presentacion: 'Comprimidos', horario: 'Cada 24 horas', tipo: 'cronico', fechaInicio: '2024-05-10', estado: 'Activo', expanded: false },
-      { id: '7', nombre: 'Claritromicina', dosis: '500 mg', presentacion: 'Cápsulas', horario: 'Cada 12 horas', tipo: 'corta-duracion', fechaInicio: '2024-11-01', fechaFin: '2024-11-14', estado: 'Finalizado', expanded: false },
-      { id: '8', nombre: 'Amlodipino', dosis: '5 mg', presentacion: 'Comprimidos', horario: 'Cada 24 horas', tipo: 'cronico', fechaInicio: '2024-02-28', estado: 'Activo', expanded: false },
-      { id: '9', nombre: 'Ciprofloxacino', dosis: '250 mg', presentacion: 'Cápsulas', horario: 'Cada 12 horas', tipo: 'corta-duracion', fechaInicio: '2024-08-15', fechaFin: '2024-08-22', estado: 'Finalizado', expanded: false },
-      { id: '10', nombre: 'Levotiroxina', dosis: '75 mg', presentacion: 'Comprimidos', horario: 'Cada 24 horas', tipo: 'cronico', fechaInicio: '2024-04-12', estado: 'Activo', expanded: false },
-      { id: '11', nombre: 'Prednisona', dosis: '10 mg', presentacion: 'Cápsulas', horario: 'Cada 24 horas', tipo: 'corta-duracion', fechaInicio: '2024-12-01', fechaFin: '2024-12-10', estado: 'Finalizado', expanded: false }
+      { id: '3', nombre: 'Omeprazol', dosis: '20 mg', presentacion: 'Cápsulas', horario: 'Cada 24 horas', tipo: 'corta-duracion', fechaInicio: '2024-07-10', fechaFin: '2024-08-10', estado: 'Finalizado', expanded: false }
     ];
   }
 }

@@ -21,7 +21,7 @@
   <div class="profile-header">
     <div class="profile-avatar-container">
       <ion-avatar class="profile-avatar">
-        <img src="assets/img/avatar.png" alt="Foto de perfil" />
+        <ion-icon name="person-circle" class="avatar-icon"></ion-icon>
       </ion-avatar>
       <ion-button fill="clear" size="small" class="edit-photo-btn" (click)="editarFoto()" aria-label="Cambiar foto de perfil">
         <ion-icon name="camera-outline"></ion-icon>
@@ -29,8 +29,8 @@
     </div>
     
     <div class="profile-info">
-      <h1>María Elena Rodríguez</h1>
-      <p class="rut-info">RUT: 12.345.678-9</p>
+      <h1>{{paciente.nombre}} {{paciente.apellido}}</h1>
+      <p class="rut-info">RUT: {{paciente.rut}}</p>
     </div>
   </div>
 
@@ -51,7 +51,7 @@
             </div>
             <div class="item-details">
               <p class="item-label">Email</p>
-              <p class="item-value">maria.rodriguez@gmail.com</p>
+              <p class="item-value">{{paciente.email}}</p>
             </div>
           </div>
         </ion-item>
@@ -63,7 +63,7 @@
             </div>
             <div class="item-details">
               <p class="item-label">Teléfono</p>
-              <p class="item-value">+56 9 8765 4321</p>
+              <p class="item-value">{{paciente.telefono}}</p>
             </div>
           </div>
         </ion-item>

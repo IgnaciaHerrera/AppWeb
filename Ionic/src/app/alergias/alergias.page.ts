@@ -73,7 +73,6 @@ export class AlergiasPage implements OnInit {
     alergiasSeveras: 0
   };
 
-  // Modal agregar/editar 
   modalAbierto = false;
   modoEdicion = false;
   alergiaEditandoId: string | null = null;
@@ -85,14 +84,13 @@ export class AlergiasPage implements OnInit {
     fechaRegistro: ''
   };
 
-  // Modal eliminar 
   modalEliminarAbierto = false;
   alergiaAEliminar: Alergia | null = null;
 
   constructor(private toastController: ToastController, private api: ApiService) {}
 
   ngOnInit() {
-    // Cargar desde la API; si falla, usar datos de prueba como fallback
+
     this.cargarAlergias();
   }
 
@@ -134,7 +132,6 @@ export class AlergiasPage implements OnInit {
         this.cargarPrimerasAlergias();
 
         if (this.alergias.length === 0) {
-          // Si la API devolvió un array vacío, respetarlo (no cargar datos de prueba)
           console.log('API devolvió un array vacío de alergias');
         }
       }
@@ -149,7 +146,6 @@ export class AlergiasPage implements OnInit {
   }
 
 
-  // Editar alergia 
   editarAlergia(alergia: Alergia) {
     this.modoEdicion = true;
     this.alergiaEditandoId = alergia.id;
@@ -170,7 +166,6 @@ export class AlergiasPage implements OnInit {
     this.modalAbierto = true;
   }
 
-  // Confirmar eliminar
   confirmarEliminar(alergia: Alergia) {
     this.alergiaAEliminar = alergia;
     this.modalEliminarAbierto = true;
@@ -181,29 +176,26 @@ export class AlergiasPage implements OnInit {
     this.alergiaAEliminar = null;
   }
 
-  // Eliminar alergia 
   async eliminarAlergia() {
     if (!this.alergiaAEliminar) return;
 
     const id = this.alergiaAEliminar.id;
     try {
-      // Intentar eliminar en el servidor
+
       const resultado: any = await this.api.delete(`/alergias/${id}`);
       console.log('DELETE response:', resultado);
-      // Recargar desde la API para mantener sincronía
+
       await this.cargarAlergias();
       this.cerrarModalEliminar();
       await this.mostrarToast('Alergia eliminada en servidor', 'success');
     } catch (err: any) {
       console.error('Error eliminando alergia en servidor:', err);
-      // Fallback local si falla (solo si realmente no hubo respuesta del servidor)
-      // Mostrar detalles para depuración
+
       const status = err?.status ?? 'unknown';
       const body = err?.error ?? err?.message ?? JSON.stringify(err);
       console.error('DELETE error status:', status);
       console.error('DELETE error body:', body);
 
-      // Fallback local
       this.alergias = this.alergias.filter(a => a.id !== id);
       this.aplicarFiltroPeriodo();
       this.cerrarModalEliminar();
@@ -211,13 +203,9 @@ export class AlergiasPage implements OnInit {
     }
   }
 
-  /**
-   * Eliminar directamente sin abrir modal de confirmación.
-   * Se usa desde botones que deben ejecutar la acción inmediatamente.
-   */
   async eliminarAlergiaDirecta(alergia: Alergia) {
     this.alergiaAEliminar = alergia;
-    // llamamos al mismo flujo que ya maneja la eliminación y el fallback
+
     await this.eliminarAlergia();
   }
 
@@ -429,7 +417,7 @@ export class AlergiasPage implements OnInit {
       this.mostrarToast('Por favor completa todos los campos requeridos', 'warning');
       return;
     }
-    // Construir payload común
+
     const payload: any = {
       nombre: this.nuevaAlergia.nombre!.trim(),
       descripcion: this.nuevaAlergia.descripcion!.trim(),
@@ -437,7 +425,6 @@ export class AlergiasPage implements OnInit {
       fechaRegistro: this.nuevaAlergia.fechaRegistro!.split('T')[0]
     };
 
-    // Adjuntar ids si existen en localStorage
     try {
       const idFicha = await this.obtenerIdFichaMedica();
       if (idFicha) payload.idFichaMedica = idFicha;
@@ -452,8 +439,6 @@ export class AlergiasPage implements OnInit {
     if (idPaciente) payload.idPaciente = idPaciente;
 
     try {
-      // Cuando llamamos al backend, enviamos SOLO los campos que la entidad Alergia
-      // soporta: nombre y descripcion. El resto se mantiene localmente en la UI.
       const apiPayload: any = {
         nombre: payload.nombre,
         descripcion: payload.descripcion
@@ -461,9 +446,7 @@ export class AlergiasPage implements OnInit {
       console.log('POSTing to API payload:', apiPayload);
 
       if (this.modoEdicion && this.alergiaEditandoId) {
-        // Para PUT el backend espera la entidad completa o al menos el id
         const url = `/alergias/${this.alergiaEditandoId}`;
-        // Construir payload con idAlergia (numérico) + nombre/descripcion
         const putPayload: any = {
           idAlergia: parseInt(String(this.alergiaEditandoId), 10),
           nombre: apiPayload.nombre,
@@ -473,18 +456,15 @@ export class AlergiasPage implements OnInit {
         await this.api.put(url, putPayload);
         this.mostrarToast('Alergia actualizada en servidor', 'success');
       } else {
-        // Crear nueva alergia en la API (enviar solo nombre/descripcion)
         await this.api.post('/alergias', apiPayload);
         this.mostrarToast('Alergia creada en servidor', 'success');
       }
 
       this.cerrarModal();
       this.limpiarFormulario();
-      // Recargar desde la API para sincronizar
       await this.cargarAlergias();
     } catch (error: any) {
       console.error('Error al guardar alergia en API:', error);
-      // Fallback: actualizar localmente para no romper UX
       if (this.modoEdicion && this.alergiaEditandoId) {
         const index = this.alergias.findIndex(a => a.id === this.alergiaEditandoId);
         if (index !== -1) {
@@ -575,26 +555,12 @@ export class AlergiasPage implements OnInit {
 
   inicializarDatosDePrueba() {
     this.alergias = [
-      { id: '1', nombre: 'Penicilina', descripcion: 'Antibiótico betalactámico', grado: 'severo', fechaRegistro: '2024-03-15', expanded: false },
-      { id: '2', nombre: 'Polen', descripcion: 'Polen de gramíneas y malezas', grado: 'moderado', fechaRegistro: '2024-05-22', expanded: false },
-      { id: '3', nombre: 'Mariscos', descripcion: 'Camarones y langostinos', grado: 'severo', fechaRegistro: '2024-07-10', expanded: false },
-      { id: '4', nombre: 'Ácaros del polvo', descripcion: 'Dermatophagoides pteronyssinus', grado: 'leve', fechaRegistro: '2024-08-05', expanded: false },
-      { id: '5', nombre: 'Látex', descripcion: 'Guantes y productos de látex', grado: 'moderado', fechaRegistro: '2024-09-18', expanded: false },
-      { id: '6', nombre: 'Aspirina', descripcion: 'Ácido acetilsalicílico', grado: 'severo', fechaRegistro: '2024-10-02', expanded: false },
-      { id: '7', nombre: 'Nueces', descripcion: 'Frutos secos varios', grado: 'moderado', fechaRegistro: '2024-11-14', expanded: false },
-      { id: '8', nombre: 'Pelo de gato', descripcion: 'Caspa felina', grado: 'leve', fechaRegistro: '2025-01-08', expanded: false },
-      { id: '9', nombre: 'Ibuprofeno', descripcion: 'AINE antiinflamatorio', grado: 'moderado', fechaRegistro: '2025-02-20', expanded: false },
-      { id: '10', nombre: 'Huevo', descripcion: 'Clara de huevo', grado: 'leve', fechaRegistro: '2025-03-12', expanded: false },
-      { id: '11', nombre: 'Sulfas', descripcion: 'Antibióticos sulfonamidas', grado: 'severo', fechaRegistro: '2025-04-05', expanded: false },
-      { id: '12', nombre: 'Picadura de abeja', descripcion: 'Veneno de himenópteros', grado: 'severo', fechaRegistro: '2025-05-17', expanded: false },
-      { id: '13', nombre: 'Lactosa', descripcion: 'Intolerancia a productos lácteos', grado: 'leve', fechaRegistro: '2025-06-23', expanded: false },
-      { id: '14', nombre: 'Yodo', descripcion: 'Medios de contraste yodados', grado: 'moderado', fechaRegistro: '2025-07-30', expanded: false },
-      { id: '15', nombre: 'Anestesia local', descripcion: 'Lidocaína y derivados', grado: 'moderado', fechaRegistro: '2025-08-14', expanded: false },
-      { id: '16', nombre: 'Soya', descripcion: 'Proteína de soya', grado: 'leve', fechaRegistro: '2025-09-08', expanded: false }
+      { id: '1', nombre: 'Polen', descripcion: 'Polen de gramíneas y malezas', grado: 'moderado', fechaRegistro: '2024-05-22', expanded: false },
+      { id: '2', nombre: 'Mariscos', descripcion: 'Camarones y langostinos', grado: 'severo', fechaRegistro: '2024-07-10', expanded: false },
+      { id: '3', nombre: 'Ácaros del polvo', descripcion: 'Dermatophagoides pteronyssinus', grado: 'leve', fechaRegistro: '2024-08-05', expanded: false },
     ];
   }
 
-  /** Intentar resolver id de ficha médica (o paciente) desde localStorage */
   private async obtenerIdFichaMedica(): Promise<number | null> {
     try {
       const claves = ['idFichaMedica', 'fichaId', 'idFicha', 'idPaciente', 'pacienteId'];

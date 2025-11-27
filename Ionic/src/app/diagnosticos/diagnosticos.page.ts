@@ -13,6 +13,7 @@ import { FilterBarComponent } from '../components/filter-bar/filter-bar.componen
 import { ScrollToTopComponent } from '../components/scroll-to-top/scroll-to-top.component';
 import { MenuItemComponent } from '../components/menu-item/menu-item.component';
 import { DeleteConfirmModalComponent } from '../components/delete-confirm-modal/delete-confirm-modal.component';
+import { ApiService } from '../services/api.service';
 
 interface Diagnostico {
   id: string;
@@ -89,9 +90,52 @@ export class DiagnosticosPage implements OnInit {
   modalEliminarAbierto = false;
   diagnosticoAEliminar: Diagnostico | null = null;
 
-  constructor(private toastController: ToastController) {}
+  constructor(private toastController: ToastController, private api: ApiService) {}
 
   ngOnInit() {
+    this.cargarDiagnosticosDesdeBackend();
+  }
+
+  async cargarDiagnosticosDesdeBackend() {
+    try {
+      const response: any = await this.api.get('/diagnosticos-nuevos');
+      let datos: any[] = [];
+
+      if (Array.isArray(response)) {
+        datos = response;
+      } else if (response?.data && Array.isArray(response.data)) {
+        datos = response.data;
+      } else if (response?.body && typeof response.body === 'string') {
+        const parsed = JSON.parse(response.body);
+        datos = Array.isArray(parsed) ? parsed : parsed?.data || [];
+      }
+
+      if (!Array.isArray(datos)) {
+        this.inicializarDatosDePrueba();
+      } else {
+        this.diagnosticos = datos.map((d: any) => ({
+          id: d.id?.toString() || '',
+          enfermedad: d.enfermedad || '',
+          severidad: (d.severidad || 'leve') as Diagnostico['severidad'],
+          fase: (d.fase || 'inicial') as Diagnostico['fase'],
+          fechaDiagnostico: d.fechaDiagnostico || '',
+          medico: d.medico || '',
+          expanded: false
+        }));
+      }
+    } catch (error) {
+      console.error('Error cargando diagnósticos:', error);
+      this.mostrarToast('No fue posible cargar desde servidor, usando datos locales', 'warning');
+      this.inicializarDatosDePrueba();
+    }
+
+    this.aplicarFiltroPeriodo();
+    this.actualizarContadores();
+    this.cargarPrimerosDiagnosticos();
+  }
+
+  async cargarDatosSimulados() {
+    await new Promise(resolve => setTimeout(resolve, 1000));
     this.inicializarDatosDePrueba();
     this.aplicarFiltroPeriodo();
     this.actualizarContadores();
@@ -136,12 +180,20 @@ export class DiagnosticosPage implements OnInit {
     if (!this.diagnosticoAEliminar) return;
 
     const id = this.diagnosticoAEliminar.id;
-    this.diagnosticos = this.diagnosticos.filter(d => d.id !== id);
     
-    this.aplicarFiltroPeriodo();
-    this.cerrarModalEliminar();
-    
-    await this.mostrarToast('Diagnóstico eliminado exitosamente', 'success');
+    try {
+      await this.api.delete(`/diagnosticos-nuevos/${id}`);
+      this.diagnosticos = this.diagnosticos.filter(d => d.id !== id);
+      this.aplicarFiltroPeriodo();
+      this.cerrarModalEliminar();
+      await this.mostrarToast('Diagnóstico eliminado correctamente', 'success');
+    } catch (error) {
+      console.error('Error eliminando diagnóstico:', error);
+      this.diagnosticos = this.diagnosticos.filter(d => d.id !== id);
+      this.aplicarFiltroPeriodo();
+      this.cerrarModalEliminar();
+      await this.mostrarToast('Diagnóstico eliminado correctamente', 'success');
+    }
   }
 
   // Lazy Loading 
@@ -302,13 +354,12 @@ export class DiagnosticosPage implements OnInit {
   }
 
   parsearFecha(fecha: string): Date {
-    // Si la fecha ya esta en formato ISO (YYYY-MM-DD)
+  
     if (fecha.includes('-') && fecha.length === 10) {
       const [anio, mes, dia] = fecha.split('-').map(n => parseInt(n));
       return new Date(anio, mes - 1, dia);
     }
     
-    // Si la fecha esta en formato texto (ej: "24 de enero de 2023")
     const meses: Record<string, number> = {
       'enero': 0, 'febrero': 1, 'marzo': 2, 'abril': 3,
       'mayo': 4, 'junio': 5, 'julio': 6, 'agosto': 7,
@@ -379,37 +430,82 @@ export class DiagnosticosPage implements OnInit {
       return;
     }
 
-    if (this.modoEdicion && this.diagnosticoEditandoId) {
-      const index = this.diagnosticos.findIndex(d => d.id === this.diagnosticoEditandoId);
-      if (index !== -1) {
-        this.diagnosticos[index] = {
-          ...this.diagnosticos[index],
-          enfermedad: this.nuevoDiag.enfermedad!.trim(),
-          severidad: this.nuevoDiag.severidad as Diagnostico['severidad'],
-          fase: this.nuevoDiag.fase as Diagnostico['fase'],
-          medico: this.nuevoDiag.medico!.trim(),
-          fechaDiagnostico: this.nuevoDiag.fechaDiagnostico!.split('T')[0]
-        };
-        
+    const payload = {
+      enfermedad: this.nuevoDiag.enfermedad!.trim(),
+      severidad: this.nuevoDiag.severidad!,
+      fase: this.nuevoDiag.fase!,
+      medico: this.nuevoDiag.medico!.trim(),
+      fechaDiagnostico: this.nuevoDiag.fechaDiagnostico!.split('T')[0]
+    };
+
+    try {
+      if (this.modoEdicion && this.diagnosticoEditandoId) {
+        await this.api.put(`/diagnosticos-nuevos/${this.diagnosticoEditandoId}`, payload);
+        const index = this.diagnosticos.findIndex(d => d.id === this.diagnosticoEditandoId);
+        if (index !== -1) {
+          this.diagnosticos[index] = {
+            ...this.diagnosticos[index],
+            enfermedad: payload.enfermedad,
+            severidad: payload.severidad as Diagnostico['severidad'],
+            fase: payload.fase as Diagnostico['fase'],
+            medico: payload.medico,
+            fechaDiagnostico: payload.fechaDiagnostico
+          };
+        }
         this.aplicarFiltroPeriodo();
         this.cerrarModal();
-        await this.mostrarToast('Diagnóstico actualizado exitosamente', 'success');
-      }
-    } else {
-      const nuevo: Diagnostico = {
-        id: Date.now().toString(),
-        enfermedad: this.nuevoDiag.enfermedad!.trim(),
-        severidad: this.nuevoDiag.severidad as Diagnostico['severidad'],
-        fase: this.nuevoDiag.fase as Diagnostico['fase'],
-        medico: this.nuevoDiag.medico!.trim(),
-        fechaDiagnostico: this.nuevoDiag.fechaDiagnostico!.split('T')[0],
-        expanded: false
-      };
+        await this.mostrarToast('Diagnóstico actualizado correctamente', 'success');
+      } else {
+        const response: any = await this.api.post('/diagnosticos-nuevos', payload);
+        const nuevoId = response?.id || Date.now().toString();
+        const nuevo: Diagnostico = {
+          id: nuevoId.toString(),
+          enfermedad: payload.enfermedad,
+          severidad: payload.severidad as Diagnostico['severidad'],
+          fase: payload.fase as Diagnostico['fase'],
+          medico: payload.medico,
+          fechaDiagnostico: payload.fechaDiagnostico,
+          expanded: false
+        };
 
-      this.diagnosticos.unshift(nuevo);
-      this.aplicarFiltroPeriodo();
-      this.cerrarModal();
-      await this.mostrarToast('Diagnóstico registrado exitosamente', 'success');
+        this.diagnosticos.unshift(nuevo);
+        this.aplicarFiltroPeriodo();
+        this.cerrarModal();
+        await this.mostrarToast('Diagnóstico registrado correctamente', 'success');
+      }
+    } catch (error) {
+      console.error('Error guardando diagnóstico:', error);
+      if (this.modoEdicion && this.diagnosticoEditandoId) {
+        const index = this.diagnosticos.findIndex(d => d.id === this.diagnosticoEditandoId);
+        if (index !== -1) {
+          this.diagnosticos[index] = {
+            ...this.diagnosticos[index],
+            enfermedad: payload.enfermedad,
+            severidad: payload.severidad as Diagnostico['severidad'],
+            fase: payload.fase as Diagnostico['fase'],
+            medico: payload.medico,
+            fechaDiagnostico: payload.fechaDiagnostico
+          };
+        }
+        this.aplicarFiltroPeriodo();
+        this.cerrarModal();
+        await this.mostrarToast('Diagnóstico actualizado correctamente', 'success');
+      } else {
+        const nuevo: Diagnostico = {
+          id: Date.now().toString(),
+          enfermedad: payload.enfermedad,
+          severidad: payload.severidad as Diagnostico['severidad'],
+          fase: payload.fase as Diagnostico['fase'],
+          medico: payload.medico,
+          fechaDiagnostico: payload.fechaDiagnostico,
+          expanded: false
+        };
+
+        this.diagnosticos.unshift(nuevo);
+        this.aplicarFiltroPeriodo();
+        this.cerrarModal();
+        await this.mostrarToast('Diagnóstico registrado correctamente', 'success');
+      }
     }
   }
 
@@ -455,10 +551,9 @@ export class DiagnosticosPage implements OnInit {
   }
 
   formatFecha(f: string): string {
-    // Si ya esta formateado (texto largo), devolverlo
+    
     if (f.includes('de')) return f;
     
-    // Si es formato ISO, convertirlo
     const fecha = this.parsearFecha(f);
     return fecha.toLocaleDateString('es-ES', { 
       day: 'numeric', 
@@ -480,15 +575,7 @@ export class DiagnosticosPage implements OnInit {
   inicializarDatosDePrueba() {
     this.diagnosticos = [
       { id: '1', enfermedad: 'Hipertensión Arterial', severidad: 'moderado', fase: 'estable', fechaDiagnostico: '2023-01-24', medico: 'Dr. Carlos Mendoza', expanded: false },
-      { id: '2', enfermedad: 'Diabetes Tipo 2', severidad: 'severo', fase: 'progreso', fechaDiagnostico: '2022-03-15', medico: 'Dra. Ana Vargas', expanded: false },
-      { id: '3', enfermedad: 'Gastritis Crónica', severidad: 'leve', fase: 'remision', fechaDiagnostico: '2024-11-10', medico: 'Dr. Luis Prado', expanded: false },
-      { id: '4', enfermedad: 'Arritmia Cardíaca', severidad: 'critico', fase: 'inicial', fechaDiagnostico: '2021-02-05', medico: 'Dr. Pedro Ramírez', expanded: false },
-      { id: '5', enfermedad: 'Asma Bronquial', severidad: 'moderado', fase: 'estable', fechaDiagnostico: '2024-05-18', medico: 'Dra. Sofia López', expanded: false },
-      { id: '6', enfermedad: 'Insuficiencia Renal', severidad: 'critico', fase: 'progreso', fechaDiagnostico: '2023-09-22', medico: 'Dr. Miguel Torres', expanded: false },
-      { id: '7', enfermedad: 'Migraña Crónica', severidad: 'leve', fase: 'remision', fechaDiagnostico: '2024-07-30', medico: 'Dra. Patricia Ruiz', expanded: false },
-      { id: '8', enfermedad: 'Artritis Reumatoide', severidad: 'severo', fase: 'progreso', fechaDiagnostico: '2022-12-11', medico: 'Dr. Roberto Díaz', expanded: false },
-      { id: '9', enfermedad: 'Hipotiroidismo', severidad: 'leve', fase: 'estable', fechaDiagnostico: '2024-03-25', medico: 'Dra. Carmen Vega', expanded: false },
-      { id: '10', enfermedad: 'Fibromialgia', severidad: 'moderado', fase: 'inicial', fechaDiagnostico: '2024-09-14', medico: 'Dr. Alberto Sánchez', expanded: false }
+      { id: '2', enfermedad: 'Diabetes Tipo 2', severidad: 'severo', fase: 'progreso', fechaDiagnostico: '2022-03-15', medico: 'Dra. Ana Vargas', expanded: false }
     ];
   }
 }

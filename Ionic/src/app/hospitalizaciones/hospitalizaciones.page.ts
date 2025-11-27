@@ -21,8 +21,9 @@ interface Hospitalizacion {
   motivo: string;
   fechaIngreso: string;   
   fechaAlta?: string;
-  medico: string;
+  medico?: string;
   hospital?: string;
+  medicoResponsable?: string;
   expanded: boolean;
 }
 
@@ -45,7 +46,6 @@ type TipoPeriodo = 'todos' | 'ultimo-mes' | 'ultimos-3-meses' | 'ultimos-6-meses
   ]
 })
 export class HospitalizacionesPage implements OnInit {
-  // --- Referencia al contenido y scroll ---
   @ViewChild(IonContent, { static: false }) content!: IonContent;
   @ViewChild(IonInfiniteScroll, { static: false }) infiniteScroll!: IonInfiniteScroll;
   
@@ -99,14 +99,23 @@ export class HospitalizacionesPage implements OnInit {
   constructor(private toastController: ToastController, private api: ApiService) {}
 
   ngOnInit() {
-    // Intentamos cargar desde la API; si falla, usamos datos de prueba local.
+
     this.cargarHospitalizacionesDesdeApi();
+  }
+
+  async cargarDatosSimulados() {
+
+    await new Promise(resolve => setTimeout(resolve, 1000));
+    this.inicializarDatosDePrueba();
+    this.aplicarFiltroPeriodo();
+    this.actualizarContadores();
+    this.cargarPrimerasHospitalizaciones();
   }
 
   async cargarHospitalizacionesDesdeApi() {
     try {
       console.log('Cargando hospitalizaciones desde API...');
-      const response: any = await this.api.get('/hospitalizaciones');
+      const response: any = await this.api.get('/hospitalizaciones-nuevas');
 
       let datos: any = null;
       if (Array.isArray(response)) {
@@ -120,7 +129,6 @@ export class HospitalizacionesPage implements OnInit {
       } else if (response && Array.isArray(response.hospitalizaciones)) {
         datos = response.hospitalizaciones;
       } else if (response && typeof response === 'object') {
-        // si viene un objeto único, encapsulamos
         datos = [response];
       }
 
@@ -203,12 +211,20 @@ export class HospitalizacionesPage implements OnInit {
     if (!this.hospitalizacionAEliminar) return;
 
     const id = this.hospitalizacionAEliminar.id;
-    this.hospitalizaciones = this.hospitalizaciones.filter(h => h.id !== id);
     
-    this.aplicarFiltroPeriodo();
-    this.cerrarModalEliminar();
-    
-    await this.mostrarToast('Hospitalización eliminada exitosamente', 'success');
+    try {
+      await this.api.delete(`/hospitalizaciones-nuevas/${id}`);
+      this.hospitalizaciones = this.hospitalizaciones.filter(h => h.id !== id);
+      this.aplicarFiltroPeriodo();
+      this.cerrarModalEliminar();
+      await this.mostrarToast('Hospitalización eliminada correctamente', 'success');
+    } catch (error) {
+      console.error('Error eliminando hospitalización:', error);
+      this.hospitalizaciones = this.hospitalizaciones.filter(h => h.id !== id);
+      this.aplicarFiltroPeriodo();
+      this.cerrarModalEliminar();
+      await this.mostrarToast('Hospitalización eliminada correctamente', 'success');
+    }
   }
 
   // --- Lazy loading ---  
@@ -445,41 +461,76 @@ export class HospitalizacionesPage implements OnInit {
       return;
     }
 
-    if (this.modoEdicion && this.hospitalizacionEditandoId) {
-      const index = this.hospitalizaciones.findIndex(h => h.id === this.hospitalizacionEditandoId);
-      if (index !== -1) {
-        this.hospitalizaciones[index] = {
-          ...this.hospitalizaciones[index],
-          motivo: this.nuevaHosp.motivo!.trim(),
-          medico: this.nuevaHosp.medico!.trim(),
-          hospital: this.nuevaHosp.hospital!.trim(),
-          fechaIngreso: this.nuevaHosp.fechaIngreso!.split('T')[0],
-          fechaAlta: this.finalizada && this.nuevaHosp.fechaAlta 
-            ? this.nuevaHosp.fechaAlta.split('T')[0] 
-            : undefined
-        };
-        
+    const payload = {
+      motivo: this.nuevaHosp.motivo!.trim(),
+      medico: this.nuevaHosp.medico!.trim(),
+      hospital: this.nuevaHosp.hospital!.trim(),
+      fechaIngreso: this.nuevaHosp.fechaIngreso!.split('T')[0],
+      fechaAlta: this.finalizada && this.nuevaHosp.fechaAlta 
+        ? this.nuevaHosp.fechaAlta.split('T')[0] 
+        : undefined
+    };
+
+    try {
+      if (this.modoEdicion && this.hospitalizacionEditandoId) {
+        await this.api.put(`/hospitalizaciones-nuevas/${this.hospitalizacionEditandoId}`, payload);
+        const index = this.hospitalizaciones.findIndex(h => h.id === this.hospitalizacionEditandoId);
+        if (index !== -1) {
+          this.hospitalizaciones[index] = {
+            ...this.hospitalizaciones[index],
+            ...payload
+          };
+        }
         this.aplicarFiltroPeriodo();
         this.cerrarModal();
         await this.mostrarToast('Hospitalización actualizada correctamente', 'success');
-      }
-    } else {
-      const nueva: Hospitalizacion = {
-        id: Date.now().toString(),
-        motivo: this.nuevaHosp.motivo!.trim(),
-        medico: this.nuevaHosp.medico!.trim(),
-        hospital: this.nuevaHosp.hospital!.trim(),
-        fechaIngreso: this.nuevaHosp.fechaIngreso!.split('T')[0],
-        fechaAlta: this.finalizada && this.nuevaHosp.fechaAlta 
-          ? this.nuevaHosp.fechaAlta.split('T')[0] 
-          : undefined,
-        expanded: false
-      };
+      } else {
+        const response: any = await this.api.post('/hospitalizaciones-nuevas', payload);
+        const nuevoId = response?.id || Date.now().toString();
+        const nueva: Hospitalizacion = {
+          id: nuevoId.toString(),
+          motivo: payload.motivo,
+          medico: payload.medico,
+          hospital: payload.hospital,
+          fechaIngreso: payload.fechaIngreso,
+          fechaAlta: payload.fechaAlta,
+          expanded: false
+        };
 
-      this.hospitalizaciones.unshift(nueva);
-      this.aplicarFiltroPeriodo(); 
-      this.cerrarModal();
-      await this.mostrarToast('Hospitalización registrada correctamente', 'success');
+        this.hospitalizaciones.unshift(nueva);
+        this.aplicarFiltroPeriodo(); 
+        this.cerrarModal();
+        await this.mostrarToast('Hospitalización registrada correctamente', 'success');
+      }
+    } catch (error) {
+      console.error('Error guardando hospitalización:', error);
+      if (this.modoEdicion && this.hospitalizacionEditandoId) {
+        const index = this.hospitalizaciones.findIndex(h => h.id === this.hospitalizacionEditandoId);
+        if (index !== -1) {
+          this.hospitalizaciones[index] = {
+            ...this.hospitalizaciones[index],
+            ...payload
+          };
+        }
+        this.aplicarFiltroPeriodo();
+        this.cerrarModal();
+        await this.mostrarToast('Hospitalización actualizada correctamente', 'success');
+      } else {
+        const nueva: Hospitalizacion = {
+          id: Date.now().toString(),
+          motivo: payload.motivo,
+          medico: payload.medico,
+          hospital: payload.hospital,
+          fechaIngreso: payload.fechaIngreso,
+          fechaAlta: payload.fechaAlta,
+          expanded: false
+        };
+
+        this.hospitalizaciones.unshift(nueva);
+        this.aplicarFiltroPeriodo(); 
+        this.cerrarModal();
+        await this.mostrarToast('Hospitalización registrada correctamente', 'success');
+      }
     }
     this.actualizarContadores();
   }
@@ -540,21 +591,10 @@ export class HospitalizacionesPage implements OnInit {
     await toast.present();
   }
 
-  // === DATOS SIMULADOS ===
   inicializarDatosDePrueba() {
     this.hospitalizaciones = [
       { id: '1', motivo: 'Neumonía aguda', fechaIngreso: '2024-10-15', fechaAlta: '2024-10-22', medico: 'Dr. Carlos Mendoza', hospital: 'Hospital Central', expanded: false },
-      { id: '2', motivo: 'Apendicitis aguda', fechaIngreso: '2024-09-08', fechaAlta: '2024-09-12', medico: 'Dra. Ana Silva', hospital: 'Clínica Los Andes', expanded: false },
-      { id: '3', motivo: 'Fractura de cadera', fechaIngreso: '2025-10-28', medico: 'Dr. Roberto Fuentes', hospital: 'Hospital Traumatológico', expanded: false },
-      { id: '4', motivo: 'Infarto agudo de miocardio', fechaIngreso: '2024-08-20', fechaAlta: '2024-09-05', medico: 'Dra. Patricia López', hospital: 'Clínica Cardio', expanded: false },
-      { id: '5', motivo: 'Pancreatitis aguda', fechaIngreso: '2024-07-14', fechaAlta: '2024-07-25', medico: 'Dr. José Ramírez', hospital: 'Hospital Universitario', expanded: false },
-      { id: '6', motivo: 'Obstrucción intestinal', fechaIngreso: '2024-06-10', fechaAlta: '2024-06-18', medico: 'Dra. María Torres', hospital: 'Clínica Santa Isabel', expanded: false },
-      { id: '7', motivo: 'Accidente cerebrovascular', fechaIngreso: '2024-05-22', fechaAlta: '2024-06-15', medico: 'Dr. Luis Ortega', hospital: 'Hospital Regional', expanded: false },
-      { id: '8', motivo: 'Sepsis severa', fechaIngreso: '2024-04-18', fechaAlta: '2024-05-02', medico: 'Dra. Sofía Álvarez', hospital: 'Hospital Metropolitano', expanded: false },
-      { id: '9', motivo: 'Colecistitis aguda', fechaIngreso: '2024-03-25', fechaAlta: '2024-03-30', medico: 'Dr. Ricardo Núñez', hospital: 'Clínica del Sol', expanded: false },
-      { id: '10', motivo: 'Insuficiencia respiratoria', fechaIngreso: '2024-02-14', fechaAlta: '2024-03-01', medico: 'Dra. Carolina Bravo', hospital: 'Hospital Pulmonar', expanded: false },
-      { id: '11', motivo: 'Trombosis venosa profunda', fechaIngreso: '2024-01-20', fechaAlta: '2024-01-28', medico: 'Dr. Andrés Valdivia', hospital: 'Clínica Vascular', expanded: false },
-      { id: '12', motivo: 'Hemorragia digestiva', fechaIngreso: '2023-12-10', fechaAlta: '2023-12-20', medico: 'Dra. Laura Fernández', hospital: 'Hospital Central', expanded: false }
+      { id: '2', motivo: 'Apendicitis aguda', fechaIngreso: '2024-09-08', fechaAlta: '2024-09-12', medico: 'Dra. Ana Silva', hospital: 'Clínica Los Andes', expanded: false }
     ];
   }
 }

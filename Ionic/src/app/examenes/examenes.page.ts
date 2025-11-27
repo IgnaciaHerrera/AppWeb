@@ -83,7 +83,6 @@ export class ExamenesPage implements OnInit {
   contadores: Contadores = { laboratorio: 0, imagenologia: 0 };
   totalExamenesTexto: string = '';
 
-  // Modal agregar manualmente 
   modalManualAbierto = false;
   modoEdicion = false;
   examenEditandoId: string | null = null;
@@ -122,7 +121,7 @@ export class ExamenesPage implements OnInit {
   private async cargarExamenesDesdeBackend() {
     try {
       console.log('Cargando exámenes desde API...');
-      const response: any = await this.api.get('/examenes');
+      const response: any = await this.api.get('/examenes-completos');
 
       let datos: any = null;
       if (Array.isArray(response)) {
@@ -140,7 +139,7 @@ export class ExamenesPage implements OnInit {
       }
 
       if (!Array.isArray(datos)) {
-        console.warn('API devolvió datos en formato inesperado');
+        console.warn('API devolvió datos en formato inesperado, usando datos locales de prueba');
         this.inicializarDatosDePrueba();
       } else {
         this.examenes = datos.map((item: any, index: number) => ({
@@ -168,7 +167,7 @@ export class ExamenesPage implements OnInit {
       }
     } catch (error: any) {
       console.error('Error al cargar exámenes desde API:', error);
-      await this.mostrarToast('No fue posible cargar exámenes desde el servidor', 'warning');
+      this.mostrarToast('No fue posible cargar exámenes desde el servidor, usando datos locales', 'warning');
       this.inicializarDatosDePrueba();
       this.aplicarFiltroPeriodo();
       this.calcularContadores();
@@ -187,19 +186,10 @@ export class ExamenesPage implements OnInit {
           { nombre: 'RBC', valor: '4.5', unidad: 'M/µL', estado: 'normal' }
         ],
         expanded: false
-      },
-      {
-        id: '2',
-        nombre: 'Radiografía de Pecho',
-        tipo: 'Imagenología',
-        fecha: '2025-11-14',
-        resultados: [],
-        expanded: false
       }
     ];
   }
 
-  // Gestionar resultados del examen
   agregarResultado() {
     if (!this.nuevoExamen.resultados) {
       this.nuevoExamen.resultados = [];
@@ -235,14 +225,14 @@ export class ExamenesPage implements OnInit {
     this.modoEdicion = true;
     this.examenEditandoId = examen.id;
     
-    const fechaObj = new Date(examen.fecha);
-    const fechaISO = fechaObj.toISOString();
+    const [año, mes, día] = examen.fecha.split('-').map(n => parseInt(n, 10));
+    const fechaObj = new Date(año, mes - 1, día);
     
     this.nuevoExamen = {
       nombre: examen.nombre,
       tipo: examen.tipo,
       fecha: examen.fecha,
-      fechaISO: fechaISO,
+      fechaISO: examen.fecha,
       resultados: examen.resultados ? JSON.parse(JSON.stringify(examen.resultados)) : []
     };
     
@@ -273,31 +263,26 @@ export class ExamenesPage implements OnInit {
     const id = this.examenAEliminar.id;
     
     try {
-      // Intentar eliminar en el servidor
-      try {
-        const resultado: any = await this.api.delete(`/examenes/${id}`);
-        console.log('DELETE response:', resultado);
-        this.mostrarToast('Examen eliminado en servidor', 'success');
-      } catch (err: any) {
-        console.error('Error eliminando examen en servidor:', err);
-        // Fallback local si falla
-        const status = err?.status ?? 'unknown';
-        const body = err?.error ?? err?.message ?? JSON.stringify(err);
-        console.error('DELETE error status:', status);
-        console.error('DELETE error body:', body);
 
-        // Elimina localmente sin sincronizar
-        this.examenes = this.examenes.filter(e => e.id !== id);
-        this.aplicarFiltroPeriodo();
-        await this.mostrarToast(`Examen eliminado localmente (sin conexión)`, 'warning');
-      }
+      const resultado: any = await this.api.delete(`/examenes-completos/${id}`);
+      console.log('DELETE response:', resultado);
 
-      // Recargar desde la API para mantener sincronía
       await this.cargarExamenesDesdeBackend();
       this.cerrarModalEliminar();
-    } catch (error: any) {
-      console.error('Error al eliminar examen:', error);
-      await this.mostrarToast('Error al eliminar el examen', 'danger');
+      await this.mostrarToast('Examen eliminado correctamente', 'success');
+    } catch (err: any) {
+      console.error('Error eliminando examen en servidor:', err);
+
+      const status = err?.status ?? 'unknown';
+      const body = err?.error ?? err?.message ?? JSON.stringify(err);
+      console.error('DELETE error status:', status);
+      console.error('DELETE error body:', body);
+
+      // Fallback local
+      this.examenes = this.examenes.filter(e => e.id !== id);
+      this.aplicarFiltroPeriodo();
+      this.cerrarModalEliminar();
+      await this.mostrarToast(`Examen eliminado correctamente`, 'success');
     }
   }
 
@@ -458,7 +443,6 @@ export class ExamenesPage implements OnInit {
     }
   }
 
-  // Parsear fecha en formato YYYY-MM-DD 
   parsearFecha(fecha: string): Date {
     const [anio, mes, dia] = fecha.split('-').map(n => parseInt(n));
     return new Date(anio, mes - 1, dia);
@@ -523,6 +507,8 @@ export class ExamenesPage implements OnInit {
       resultados: []
     };
     this.fechaFormateada = '';
+    this.modoEdicion = false;
+    this.examenEditandoId = null;
   }
 
   seleccionarTipo(tipo: string) {
@@ -533,6 +519,7 @@ export class ExamenesPage implements OnInit {
     if (event?.detail?.value) {
       this.nuevoExamen.fechaISO = event.detail.value;
       this.nuevoExamen.fecha = event.detail.value;
+      
       const fechaObj = new Date(event.detail.value);
       this.fechaFormateada = fechaObj.toLocaleDateString('es-ES', { 
         day: 'numeric', 
@@ -562,7 +549,6 @@ export class ExamenesPage implements OnInit {
       nombre: this.nuevoExamen.nombre!.trim(),
       tipo: this.nuevoExamen.tipo!.trim(),
       fecha: this.nuevoExamen.fecha!.split('T')[0],
-      medico: '',
       resultados: resultadosValidos.map(r => ({
         nombre: r.nombre,
         valor: r.valor,
@@ -574,56 +560,54 @@ export class ExamenesPage implements OnInit {
 
     try {
       if (this.modoEdicion && this.examenEditandoId) {
-        // EDITAR - Intentar via API primero
-        try {
-          await this.api.put(`/examenes/${this.examenEditandoId}`, examenPayload);
-          console.log('Examen actualizado vía API');
-          this.mostrarToast('Examen actualizado en servidor', 'success');
-        } catch (apiError) {
-          console.warn('Error al actualizar via API, actualizando localmente:', apiError);
-          // Fallback: actualizar localmente
-          const index = this.examenes.findIndex(e => e.id === this.examenEditandoId);
-          if (index !== -1) {
-            this.examenes[index] = {
-              ...this.examenes[index],
-              nombre: examenPayload.nombre,
-              tipo: examenPayload.tipo,
-              fecha: examenPayload.fecha,
-              resultados: examenPayload.resultados as any
-            };
-          }
-          this.aplicarFiltroPeriodo();
-          this.mostrarToast('Examen actualizado localmente (sin conexión)', 'warning');
-        }
+        // EDITAR
+        await this.api.put(`/examenes-completos/${this.examenEditandoId}`, examenPayload);
+        console.log('Examen actualizado vía API');
+        this.mostrarToast('Examen actualizado correctamente', 'success');
       } else {
-        // CREAR NUEVO - Intentar via API primero
-        try {
-          await this.api.post('/examenes', examenPayload);
-          console.log('Examen creado vía API');
-          this.mostrarToast('Examen creado en servidor', 'success');
-        } catch (apiError) {
-          console.warn('Error al crear via API, guardando localmente:', apiError);
-          // Fallback: agregar localmente con ID temporal
-          const nuevoExamen: Examen = {
-            id: `temp_${Date.now()}`,
-            nombre: examenPayload.nombre,
-            tipo: examenPayload.tipo,
-            fecha: examenPayload.fecha,
-            resultados: examenPayload.resultados as any,
-            expanded: false
-          };
-          this.examenes.push(nuevoExamen);
-          this.aplicarFiltroPeriodo();
-          this.mostrarToast('Examen creado localmente (sin conexión)', 'warning');
-        }
+        // CREAR NUEVO
+        await this.api.post('/examenes-completos', examenPayload);
+        console.log('Examen creado vía API');
+        this.mostrarToast('Examen creado correctamente', 'success');
       }
 
       this.cerrarModalManual();
-      // Recargar desde la API
+      this.limpiarFormulario();
+
       await this.cargarExamenesDesdeBackend();
     } catch (error: any) {
-      console.error('Error al guardar examen:', error);
-      await this.mostrarToast('Error al guardar el examen', 'danger');
+      console.error('Error al guardar examen en API:', error);
+
+      if (this.modoEdicion && this.examenEditandoId) {
+        const index = this.examenes.findIndex(e => e.id === this.examenEditandoId);
+        if (index !== -1) {
+          this.examenes[index] = {
+            ...this.examenes[index],
+            nombre: examenPayload.nombre,
+            tipo: examenPayload.tipo,
+            fecha: examenPayload.fecha,
+            resultados: examenPayload.resultados as any
+          };
+        }
+        this.aplicarFiltroPeriodo();
+        this.cerrarModalManual();
+        this.limpiarFormulario();
+        this.mostrarToast('Examen actualizado correctamente', 'success');
+      } else {
+        const nuevoExamen: Examen = {
+          id: `temp_${Date.now()}`,
+          nombre: examenPayload.nombre,
+          tipo: examenPayload.tipo,
+          fecha: examenPayload.fecha,
+          resultados: examenPayload.resultados as any,
+          expanded: false
+        };
+        this.examenes.push(nuevoExamen);
+        this.aplicarFiltroPeriodo();
+        this.cerrarModalManual();
+        this.limpiarFormulario();
+        this.mostrarToast('Examen creado correctamente', 'success');
+      }
     }
   }
 
@@ -748,13 +732,15 @@ export class ExamenesPage implements OnInit {
       };
 
       try {
-        // Intentar guardar via API
-        await this.api.post('/examenes', examenPayload);
+
+        await this.api.post('/examenes-completos', examenPayload);
         console.log('Examen guardado vía API');
-        await this.mostrarToast('Examen registrado en servidor', 'success');
+        await this.mostrarToast('Examen registrado correctamente', 'success');
+
+        await this.cargarExamenesDesdeBackend();
       } catch (apiError) {
         console.warn('Error al guardar via API, guardando localmente:', apiError);
-        // Fallback: agregar localmente
+
         const nuevoExamen: Examen = {
           id: `temp_${Date.now()}`,
           nombre: examenPayload.nombre,
@@ -772,7 +758,6 @@ export class ExamenesPage implements OnInit {
     } catch (error) {
       console.error('Error al procesar examen:', error);
       
-      // Mensajes de error más específicos
       if (error instanceof Error) {
         if (error.message.includes('Invalid PDF') || error.message.includes('invalid')) {
           await this.mostrarToast('El archivo no es un PDF válido o está corrupto', 'danger');

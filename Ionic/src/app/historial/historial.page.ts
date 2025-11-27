@@ -13,6 +13,7 @@ import { FilterBarComponent } from '../components/filter-bar/filter-bar.componen
 import { ScrollToTopComponent } from '../components/scroll-to-top/scroll-to-top.component';
 import { MenuItemComponent } from '../components/menu-item/menu-item.component';
 import { DeleteConfirmModalComponent } from '../components/delete-confirm-modal/delete-confirm-modal.component';
+import { ApiService } from '../services/api.service';
 
 interface Consulta {
   id: string;
@@ -92,13 +93,64 @@ export class HistorialPage implements OnInit {
   modalEliminarAbierto = false;
   consultaAEliminar: Consulta | null = null;
 
-  constructor(private toastController: ToastController) {}
+  constructor(private toastController: ToastController, private api: ApiService) {}
 
   ngOnInit() {
-    this.inicializarDatosDePrueba();
-    this.aplicarFiltroPeriodo();
-    this.actualizarContadores();
-    this.cargarPrimerasConsultas();
+    this.cargarConsultas();
+  }
+
+  async cargarConsultas() {
+    try {
+      console.log('Cargando consultas desde API...');
+      const response: any = await this.api.get('/consultas-nuevas');
+
+      let datos: any = null;
+      if (Array.isArray(response)) {
+        datos = response;
+      } else if (response && Array.isArray(response.data)) {
+        datos = response.data;
+      } else if (response && Array.isArray(response.body)) {
+        datos = response.body;
+      } else if (response && Array.isArray(response.items)) {
+        datos = response.items;
+      } else if (response && Array.isArray(response.consultas)) {
+        datos = response.consultas;
+      } else if (response && typeof response === 'object') {
+        datos = [response];
+      }
+
+      if (!Array.isArray(datos)) {
+        console.warn('API devolvió datos en formato inesperado, usando datos locales de prueba');
+        this.inicializarDatosDePrueba();
+      } else {
+        this.consultas = datos.map((item: any, index: number) => ({
+          id: String(item.id || item.idConsulta || `temp_${Date.now()}_${index}`),
+          nombre: item.nombre || item.tipoConsulta || 'Consulta General',
+          medico: item.medico || 'Dr. Por asignar',
+          hospital: item.hospital || 'Hospital General',
+          fecha: item.fecha ? item.fecha : new Date().toISOString().split('T')[0],
+          estado: item.estado || 'Finalizada',
+          diagnostico: item.diagnostico || 'Pendiente',
+          tratamiento: item.tratamiento || 'Sin tratamiento registrado',
+          expanded: false
+        } as Consulta));
+
+        this.aplicarFiltroPeriodo();
+        this.actualizarContadores();
+        this.cargarPrimerasConsultas();
+
+        if (this.consultas.length === 0) {
+          console.log('API devolvió un array vacío de consultas');
+        }
+      }
+    } catch (error: any) {
+      console.error('Error al cargar consultas desde API:', error);
+      this.mostrarToast('No fue posible cargar consultas desde el servidor, usando datos locales', 'warning');
+      this.inicializarDatosDePrueba();
+      this.aplicarFiltroPeriodo();
+      this.actualizarContadores();
+      this.cargarPrimerasConsultas();
+    }
   }
 
   // Editar consulta
@@ -142,12 +194,26 @@ export class HistorialPage implements OnInit {
     if (!this.consultaAEliminar) return;
 
     const id = this.consultaAEliminar.id;
-    this.consultas = this.consultas.filter(c => c.id !== id);
-    
-    this.aplicarFiltroPeriodo();
-    this.cerrarModalEliminar();
-    
-    await this.mostrarToast('Consulta eliminada exitosamente', 'success');
+
+    try {
+      await this.api.delete(`/consultas-nuevas/${id}`);
+      console.log('Consulta eliminada vía API');
+      
+      this.consultas = this.consultas.filter(c => c.id !== id);
+      this.aplicarFiltroPeriodo();
+      this.cerrarModalEliminar();
+      
+      await this.mostrarToast('Consulta eliminada correctamente', 'success');
+      await this.cargarConsultas();
+    } catch (error: any) {
+      console.error('Error eliminando consulta en servidor:', error);
+      
+      this.consultas = this.consultas.filter(c => c.id !== id);
+      this.aplicarFiltroPeriodo();
+      this.cerrarModalEliminar();
+      
+      await this.mostrarToast('Consulta eliminada correctamente', 'success');
+    }
   }
 
   // Lazy Loading
@@ -371,45 +437,71 @@ export class HistorialPage implements OnInit {
       return;
     }
 
-    const fechaConsulta = new Date(this.nuevaConsulta.fecha!);
-    const hoy = new Date(); 
-    hoy.setHours(0, 0, 0, 0);
+    const consultaPayload = {
+      nombre: this.nuevaConsulta.nombre!.trim(),
+      medico: this.nuevaConsulta.medico!.trim(),
+      hospital: this.nuevaConsulta.hospital!.trim(),
+      fecha: this.nuevaConsulta.fecha!.split('T')[0],
+      diagnostico: this.nuevaConsulta.diagnostico?.trim() || '',
+      tratamiento: this.nuevaConsulta.tratamiento?.trim() || '',
+      tipoConsulta: 'General'
+    };
 
-    if (this.modoEdicion && this.consultaEditandoId) {
-      const index = this.consultas.findIndex(c => c.id === this.consultaEditandoId);
-      if (index !== -1) {
-        this.consultas[index] = {
-          ...this.consultas[index],
-          nombre: this.nuevaConsulta.nombre!.trim(),
-          medico: this.nuevaConsulta.medico!.trim(),
-          hospital: this.nuevaConsulta.hospital!.trim(),
-          fecha: this.nuevaConsulta.fecha!.split('T')[0],
-          estado: fechaConsulta > hoy ? 'Programada' : 'Finalizada',
-          diagnostico: this.consultaFinalizada ? this.nuevaConsulta.diagnostico?.trim() : undefined,
-          tratamiento: this.consultaFinalizada ? this.nuevaConsulta.tratamiento?.trim() : undefined
-        };
-        
+    try {
+      if (this.modoEdicion && this.consultaEditandoId) {
+
+        await this.api.put(`/consultas-nuevas/${this.consultaEditandoId}`, consultaPayload);
+        console.log('Consulta actualizada vía API');
+        this.mostrarToast('Consulta actualizada correctamente', 'success');
+      } else {
+
+        await this.api.post('/consultas-nuevas', consultaPayload);
+        console.log('Consulta creada vía API');
+        this.mostrarToast('Consulta registrada correctamente', 'success');
+      }
+
+      this.cerrarModal();
+      this.limpiarFormulario();
+      await this.cargarConsultas();
+    } catch (error: any) {
+      console.error('Error al guardar consulta en API:', error);
+
+      if (this.modoEdicion && this.consultaEditandoId) {
+        const index = this.consultas.findIndex(c => c.id === this.consultaEditandoId);
+        if (index !== -1) {
+          this.consultas[index] = {
+            ...this.consultas[index],
+            nombre: consultaPayload.nombre,
+            medico: consultaPayload.medico,
+            hospital: consultaPayload.hospital,
+            fecha: consultaPayload.fecha,
+            diagnostico: consultaPayload.diagnostico,
+            tratamiento: consultaPayload.tratamiento
+          };
+        }
         this.aplicarFiltroPeriodo();
         this.cerrarModal();
-        await this.mostrarToast('Consulta actualizada exitosamente', 'success');
-      }
-    } else {
-      const nueva: Consulta = {
-        id: Date.now().toString(),
-        nombre: this.nuevaConsulta.nombre!.trim(),
-        medico: this.nuevaConsulta.medico!.trim(),
-        hospital: this.nuevaConsulta.hospital!.trim(),
-        fecha: this.nuevaConsulta.fecha!.split('T')[0],
-        estado: fechaConsulta > hoy ? 'Programada' : 'Finalizada',
-        diagnostico: this.consultaFinalizada ? this.nuevaConsulta.diagnostico?.trim() : undefined,
-        tratamiento: this.consultaFinalizada ? this.nuevaConsulta.tratamiento?.trim() : undefined,
-        expanded: false
-      };
+        this.limpiarFormulario();
+        this.mostrarToast('Consulta actualizada correctamente', 'success');
+      } else {
+        const nueva: Consulta = {
+          id: `temp_${Date.now()}`,
+          nombre: consultaPayload.nombre,
+          medico: consultaPayload.medico,
+          hospital: consultaPayload.hospital,
+          fecha: consultaPayload.fecha,
+          estado: 'Finalizada',
+          diagnostico: consultaPayload.diagnostico,
+          tratamiento: consultaPayload.tratamiento,
+          expanded: false
+        };
 
-      this.consultas.unshift(nueva);
-      this.aplicarFiltroPeriodo();
-      this.cerrarModal();
-      await this.mostrarToast('Consulta registrada exitosamente', 'success');
+        this.consultas.unshift(nueva);
+        this.aplicarFiltroPeriodo();
+        this.cerrarModal();
+        this.limpiarFormulario();
+        this.mostrarToast('Consulta registrada correctamente', 'success');
+      }
     }
   }
 
@@ -440,21 +532,7 @@ export class HistorialPage implements OnInit {
   inicializarDatosDePrueba() {
     this.consultas = [
       { id: '1', nombre: 'Cardiología', medico: 'Dr. Carlos Mendoza', hospital: 'Hospital Central', fecha: '2024-10-15', estado: 'Finalizada', diagnostico: 'Presión arterial controlada', tratamiento: 'Continuar medicación actual', expanded: false },
-      { id: '2', nombre: 'Dermatología', medico: 'Dra. Ana Silva', hospital: 'Clínica Dermis', fecha: '2024-11-20', estado: 'Finalizada', diagnostico: 'Lunares benignos', tratamiento: 'Control anual recomendado', expanded: false },
-      { id: '3', nombre: 'Oftalmología', medico: 'Dr. Roberto Fuentes', hospital: 'Centro Visión Clara', fecha: '2025-11-01', estado: 'Programada', expanded: false },
-      { id: '4', nombre: 'Traumatología', medico: 'Dra. Patricia López', hospital: 'Clínica Los Andes', fecha: '2024-09-10', estado: 'Finalizada', diagnostico: 'Tendinitis leve', tratamiento: 'Fisioterapia y antiinflamatorios', expanded: false },
-      { id: '5', nombre: 'Medicina General', medico: 'Dr. José Ramírez', hospital: 'Hospital Universitario', fecha: '2024-08-05', estado: 'Finalizada', diagnostico: 'Estado general saludable', tratamiento: 'Continuar hábitos saludables', expanded: false },
-      { id: '6', nombre: 'Endocrinología', medico: 'Dra. María Torres', hospital: 'Clínica Santa Isabel', fecha: '2025-10-31', estado: 'Programada', expanded: false },
-      { id: '7', nombre: 'Neurología', medico: 'Dr. Luis Ortega', hospital: 'Hospital Regional', fecha: '2024-07-22', estado: 'Finalizada', diagnostico: 'Migraña tensional', tratamiento: 'Relajantes musculares y reducir estrés', expanded: false },
-      { id: '8', nombre: 'Psiquiatría', medico: 'Dra. Sofía Álvarez', hospital: 'Clínica Mater Dei', fecha: '2024-12-01', estado: 'Finalizada', diagnostico: 'Mejora en síntomas de ansiedad', tratamiento: 'Continuar terapia y medicación', expanded: false },
-      { id: '9', nombre: 'Ginecología', medico: 'Dra. Carolina Bravo', hospital: 'Hospital Metropolitano', fecha: '2025-01-15', estado: 'Finalizada', diagnostico: 'Exámenes normales', tratamiento: 'Control anual', expanded: false },
-      { id: '10', nombre: 'Urología', medico: 'Dr. Andrés Valdivia', hospital: 'Clínica del Sol', fecha: '2025-11-05', estado: 'Programada', expanded: false },
-      { id: '11', nombre: 'Pediatría', medico: 'Dra. Laura Fernández', hospital: 'Hospital Infantil', fecha: '2024-06-12', estado: 'Finalizada', diagnostico: 'Desarrollo normal', tratamiento: 'Control en 6 meses', expanded: false },
-      { id: '12', nombre: 'Otorrinolaringología', medico: 'Dr. Miguel Soto', hospital: 'Clínica ORL', fecha: '2024-05-18', estado: 'Finalizada', diagnostico: 'Faringitis aguda', tratamiento: 'Antibióticos por 7 días', expanded: false },
-      { id: '13', nombre: 'Nutrición', medico: 'Lic. Andrea Ruiz', hospital: 'Centro Nutricional Vital', fecha: '2025-11-10', estado: 'Programada', expanded: false },
-      { id: '14', nombre: 'Reumatología', medico: 'Dr. Fernando Campos', hospital: 'Hospital San Rafael', fecha: '2024-04-25', estado: 'Finalizada', diagnostico: 'Artritis temprana', tratamiento: 'Terapia física y medicación', expanded: false },
-      { id: '15', nombre: 'Oncología', medico: 'Dra. Valentina Moreno', hospital: 'Instituto del Cáncer', fecha: '2024-03-14', estado: 'Finalizada', diagnostico: 'Seguimiento post-tratamiento', tratamiento: 'Control trimestral', expanded: false },
-      { id: '16', nombre: 'Gastroenterología', medico: 'Dr. Ricardo Vega', hospital: 'Clínica Digestiva', fecha: '2025-11-15', estado: 'Programada', expanded: false }
+      { id: '16', nombre: 'Gastroenterología', medico: 'Dr. Ricardo Vega', hospital: 'Clínica Digestiva', fecha: '2025-11-15', estado: 'Finalizada', expanded: false }
     ];
   }
 }

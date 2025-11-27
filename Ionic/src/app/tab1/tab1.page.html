@@ -42,21 +42,12 @@
 
     <div class="quick-grid">
       <app-quick-access-card
-        titulo="Medicamentos"
-        icon="medical-outline"
-        customClass="medicamentos"
-        [contador]="contadores.medicamentos"
-        unidad="activos"
-        (action)="navegarA('medicamentos')">
-      </app-quick-access-card>
-
-      <app-quick-access-card
-        titulo="Diagnósticos"
-        icon="clipboard-outline"
-        customClass="diagnosticos"
-        [contador]="contadores.diagnosticos"
-        unidad="registros"
-        (action)="navegarA('diagnosticos')">
+        titulo="Exámenes"
+        icon="document-text-outline"
+        customClass="examenes"
+        [contador]="contadores.examenes"
+        unidad="registrados"
+        (action)="navegarA('examenes')">
       </app-quick-access-card>
 
       <app-quick-access-card
@@ -67,28 +58,29 @@
         unidad="registradas"
         (action)="navegarA('alergias')">
       </app-quick-access-card>
-
-      <app-quick-access-card
-        titulo="Consultas"
-        icon="time-outline"
-        customClass="historial"
-        [contador]="contadores.historial"
-        unidad="eventos"
-        (action)="navegarA('historial')">
-      </app-quick-access-card>
     </div>
   </div>
 
-  <!-- Próximas citas -->
-  <div class="appointments-section" *ngIf="proximasCitas.length > 0">
+  <!-- Últimos exámenes -->
+  <div class="recent-section" *ngIf="ultimosExamenes.length > 0">
     <h2 class="section-title">
-      <ion-icon name="calendar-outline"></ion-icon>
-      Próximas consultas
+      <ion-icon name="document-text-outline"></ion-icon>
+      Últimos Exámenes
     </h2>
 
-    <app-cita-card
-      *ngFor="let cita of proximasCitas"
-      [cita]="cita">
-    </app-cita-card>
+    <ion-card *ngFor="let examen of ultimosExamenes" class="appointment-card exam-card" (click)="navegarA('examenes')">
+      <ion-card-content>
+        <div style="display: flex; gap: 12px; align-items: center;">
+          <div class="exam-date">
+            <div class="date-day">{{ examen.fecha | slice:8:10 }}</div>
+            <div class="date-month">{{ examen.fecha | slice:5:7 }}</div>
+          </div>
+          <div class="exam-details">
+            <h3>{{ examen.nombre }}</h3>
+            <p class="exam-type">{{ examen.tipo }}</p>
+          </div>
+        </div>
+      </ion-card-content>
+    </ion-card>
   </div>
 </ion-content>

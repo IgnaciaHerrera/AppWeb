@@ -604,3 +604,50 @@ body.dark {
     background: transparent !important;
   }
 }
+
+body.dark {
+  app-datos-personales ion-content {
+    --background: #0f0f0f !important;
+  }
+  
+  .datos-list {
+    background: #1c1c1e !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3) !important;
+  }
+}
+
+body.dark {
+  app-tab1 {
+    .exam-date,
+    .appointment-date {
+      background: linear-gradient(135deg, #0f766e, #0d5e5a) !important;
+      
+      .day,
+      .date-day {
+        color: white !important;
+      }
+      
+      .month,
+      .date-month {
+        color: rgba(255, 255, 255, 0.9) !important;
+      }
+    }
+    
+    .appointment-card,
+    .recent-list ion-item {
+      background: #1a1a1a !important;
+      border: 1px solid rgba(255, 255, 255, 0.1) !important;
+      border-left: 4px solid var(--teal-primary) !important;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3) !important;
+    }
+    
+    .appointment-info h3,
+    .appointment-details {
+      color: #ffffff !important;
+    }
+    
+    .appointment-info > p {
+      color: #a0aec0 !important;
+    }
+  }
+}

@@ -11,14 +11,54 @@ export class ApiService {
 
   constructor(private http: HttpClient) {}
 
+  private parseResponse(bodyText: string | null): any {
+    if (!bodyText) return null;
+    try {
+      const parsed = JSON.parse(bodyText);
+      
+      if (parsed.statusCode && typeof parsed.body === 'string') {
+        try {
+          return JSON.parse(parsed.body);
+        } catch {
+          return parsed.body;
+        }
+      }
+      
+      if (parsed.status && typeof parsed.body === 'string') {
+        try {
+          return JSON.parse(parsed.body);
+        } catch {
+          return parsed.body;
+        }
+      }
+      
+      if (parsed.body && typeof parsed.body === 'string') {
+        try {
+          return JSON.parse(parsed.body);
+        } catch {
+          return parsed.body;
+        }
+      }
+      
+      return parsed;
+    } catch {
+      return bodyText;
+    }
+  }
+
   async get<T>(endpoint: string): Promise<T> {
     const url = `${this.baseUrl}${endpoint}`;
     console.log('GET request to:', url);
     
     try {
-      const response = await firstValueFrom(this.http.get<T>(url));
-      console.log('GET response received:', response);
-      return response;
+      const httpResponse: any = await firstValueFrom(
+        this.http.get(url, { observe: 'response', responseType: 'text' as 'json' }) as any
+      );
+
+      console.log('GET raw response status:', httpResponse.status);
+      console.log('GET raw response body:', httpResponse.body);
+
+      return this.parseResponse(httpResponse.body);
     } catch (error: any) {
       console.error('GET error details:');
       console.error('- Full error object:', error);
@@ -27,11 +67,102 @@ export class ApiService {
       console.error('- Error message:', error.message);
       console.error('- URL:', error.url);
       
+      const bodyText = error?.error || error?.message || '';
+      if (typeof bodyText === 'string' && /Cannot\s+GET\s+\/api/i.test(bodyText)) {
+        console.warn('Detected proxy-miss HTML 404 for GET, retrying directly against API Gateway...');
+        try {
+          const directPath = endpoint.replace(/^\/api/, '');
+          const altUrl = `${environment.apiGateway}${directPath}`;
+          console.log('Retry GET direct to:', altUrl);
+          const altResp: any = await firstValueFrom(
+            this.http.get(altUrl, { observe: 'response', responseType: 'text' as 'json' }) as any
+          );
+          const altBody = altResp?.body;
+          try {
+            const parsed = JSON.parse(altBody);
+            if (parsed.statusCode && typeof parsed.body === 'string') {
+              try {
+                return JSON.parse(parsed.body);
+              } catch {
+                return parsed.body;
+              }
+            }
+            if (parsed.status && typeof parsed.body === 'string') {
+              try {
+                return JSON.parse(parsed.body);
+              } catch {
+                return parsed.body;
+              }
+            }
+            
+            if (parsed.body && typeof parsed.body === 'string') {
+              try {
+                return JSON.parse(parsed.body);
+              } catch {
+                return parsed.body;
+              }
+            }
+            return parsed;
+          } catch { 
+            return altBody;
+          }
+        } catch (altErr) {
+          console.error('Direct GET retry failed:', altErr);
+        }
+      }
+
+      
+      if (error.status === 404) {
+        console.warn('Got 404 response, trying direct API Gateway...');
+        try {
+          const directPath = endpoint.replace(/^\/api/, '');
+          const altUrl = `${environment.apiGateway}${directPath}`;
+          console.log('Retry GET direct to:', altUrl);
+          const altResp: any = await firstValueFrom(
+            this.http.get(altUrl, { observe: 'response', responseType: 'text' as 'json' }) as any
+          );
+          const altBody = altResp?.body;
+          try {
+            const parsed = JSON.parse(altBody);
+            
+            if (parsed.statusCode && typeof parsed.body === 'string') {
+              try {
+                return JSON.parse(parsed.body);
+              } catch {
+                return parsed.body;
+              }
+            }
+            
+            if (parsed.status && typeof parsed.body === 'string') {
+              try {
+                return JSON.parse(parsed.body);
+              } catch {
+                return parsed.body;
+              }
+            }
+            
+            if (parsed.body && typeof parsed.body === 'string') {
+              try {
+                return JSON.parse(parsed.body);
+              } catch {
+                return parsed.body;
+              }
+            }
+            return parsed;
+          } catch { 
+            return altBody;
+          }
+        } catch (altErr) {
+          console.error('Direct GET retry failed:', altErr);
+          throw error; 
+        }
+      }
+      
       if (error.status === 0) {
         console.error('CORS ERROR: El navegador bloqueó la petición');
         console.error('Esto significa que el servidor no tiene configurado CORS correctamente');
       }
-      
+
       throw error;
     }
   }
@@ -42,7 +173,7 @@ export class ApiService {
     console.log('POST data:', data);
     
     try {
-      // request response as text to avoid JSON parse errors if backend returns plain text/204
+     
       const httpResponse: any = await firstValueFrom(
         this.http.post(url, data, { headers: { 'Content-Type': 'application/json' }, observe: 'response', responseType: 'text' as 'json' }) as any
       );
@@ -50,13 +181,7 @@ export class ApiService {
       console.log('POST raw response status:', httpResponse.status);
       console.log('POST raw response body:', httpResponse.body);
 
-      const bodyText = httpResponse.body;
-      if (!bodyText) return null as any;
-      try {
-        return JSON.parse(bodyText);
-      } catch {
-        return bodyText;
-      }
+      return this.parseResponse(httpResponse.body);
     } catch (error: any) {
       console.error('POST error details:');
       console.error('- Full error object:', error);
@@ -65,7 +190,6 @@ export class ApiService {
       console.error('- Error message:', error.message);
       console.error('- URL:', error.url);
       
-      // Detect proxy-miss where dev server returns HTML like "Cannot POST /api/alergias"
       const bodyText = error?.error || error?.message || '';
       if (typeof bodyText === 'string' && /Cannot\s+POST\s+\/api/i.test(bodyText)) {
         console.warn('Detected proxy-miss HTML 404 for POST, retrying directly against API Gateway...');
@@ -97,7 +221,7 @@ export class ApiService {
     console.log('DELETE request to:', url);
 
     try {
-      // Use observe: 'response' and responseType: 'text' to avoid JSON parse errors
+      
       const httpResponse: any = await firstValueFrom(
         this.http.delete(url, { observe: 'response', responseType: 'text' as 'json' }) as any
       );
@@ -105,15 +229,7 @@ export class ApiService {
       console.log('DELETE raw response status:', httpResponse.status);
       console.log('DELETE raw response body:', httpResponse.body);
 
-      // Try to parse body as JSON, otherwise return raw text
-      const bodyText = httpResponse.body;
-      if (!bodyText) return null as any;
-
-      try {
-        return JSON.parse(bodyText);
-      } catch (_parseErr) {
-        return bodyText;
-      }
+      return this.parseResponse(httpResponse.body);
     } catch (error: any) {
       console.error('DELETE error details:');
       console.error('- Full error object:', error);
@@ -122,8 +238,6 @@ export class ApiService {
       console.error('- Error message:', error?.message);
       console.error('- URL:', error?.url || url);
 
-      // Detect common case where dev server handled the request (proxy not applied)
-      // and returned an HTML 404 like: "Cannot DELETE /api/alergias/2"
       const bodyText = error?.error || error?.message || '';
       if (typeof bodyText === 'string' && /Cannot\s+DELETE\s+\/api/i.test(bodyText)) {
         console.warn('Detected proxy-miss HTML 404 response, retrying directly against API Gateway...');
@@ -149,7 +263,6 @@ export class ApiService {
     }
   }
 
-  // Partial update (PATCH)
   async patch<T>(endpoint: string, data: any): Promise<T> {
     const url = `${this.baseUrl}${endpoint}`;
     console.log('PATCH request to:', url);
@@ -163,9 +276,7 @@ export class ApiService {
       console.log('PATCH raw response status:', httpResponse.status);
       console.log('PATCH raw response body:', httpResponse.body);
 
-      const bodyText = httpResponse.body;
-      if (!bodyText) return null as any;
-      try { return JSON.parse(bodyText); } catch { return bodyText; }
+      return this.parseResponse(httpResponse.body);
     } catch (error: any) {
       console.error('PATCH error details:', error);
       const bodyText = error?.error || error?.message || '';
@@ -192,7 +303,6 @@ export class ApiService {
     }
   }
 
-  // Full replace (PUT)
   async put<T>(endpoint: string, data: any): Promise<T> {
     const url = `${this.baseUrl}${endpoint}`;
     console.log('PUT request to:', url);
@@ -206,9 +316,7 @@ export class ApiService {
       console.log('PUT raw response status:', httpResponse.status);
       console.log('PUT raw response body:', httpResponse.body);
 
-      const bodyText = httpResponse.body;
-      if (!bodyText) return null as any;
-      try { return JSON.parse(bodyText); } catch { return bodyText; }
+      return this.parseResponse(httpResponse.body);
     } catch (error: any) {
       console.error('PUT error details:', error);
       const bodyText = error?.error || error?.message || '';

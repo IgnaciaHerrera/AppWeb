@@ -1,6 +1,6 @@
 {
   "/api/*": {
-    "target": "https://05ub3vgx02.execute-api.us-east-1.amazonaws.com",
+    "target": "https://mdlwswg821.execute-api.us-east-1.amazonaws.com",
     "secure": true,
     "changeOrigin": true,
     "logLevel": "debug",
